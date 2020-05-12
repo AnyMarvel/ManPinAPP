@@ -5,7 +5,7 @@
 1. 基于tensorflow生成漫画,内置300+种模板,基于人脸识别和目标识别分析等多种手段自动拼接漫画,效果如图:
 
 <figure class="half">
-    <img src="pictures/manhua.webp" width="200"/> <img src="pictures/manhua_1.webp" width="200"/> <img src="pictures/manhua_2.webp" width="200"/> <img src="pictures/manhua_3.webp" width="200"/> <img src="pictures/manhua_4.webp" width="200"/> <img src="pictures/manhua_5.webp" width="200"/>
+    <img src="pictures/manhua.webp" width="200"/><img src="pictures/manhua_1.webp" width="200"/> <img src="pictures/manhua_2.webp" width="200"/> <img src="pictures/manhua_3.webp" width="200"/> <img src="pictures/manhua_4.webp" width="200"/> <img src="pictures/manhua_5.webp" width="200"/>
 </figure>
 
 2. 小说模块(基于客户端本地爬虫对多个网站内容进行爬取,轮训多个站点,找到你喜欢的内容为目的)

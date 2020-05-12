@@ -5,32 +5,20 @@
 1. 基于tensorflow生成漫画,内置300+种模板,基于人脸识别和目标识别分析等多种手段自动拼接漫画,效果如图:
 
 <center class="half">
-    <img src="pictures/manhua.webp" width="200"/>
-    <img src="pictures/manhua_1.webp" width="200"/>
-    <img src="pictures/manhua_2.webp" width="200"/>
-    <img src="pictures/manhua_3.webp" width="200"/>
-    <img src="pictures/manhua_4.webp" width="200"/>
-    <img src="pictures/manhua_5.webp" width="200"/>
+    <img src="pictures/manhua.webp" width="200"/> <img src="pictures/manhua_1.webp" width="200"/> <img src="pictures/manhua_2.webp" width="200"/> <img src="pictures/manhua_3.webp" width="200"/> <img src="pictures/manhua_4.webp" width="200"/> <img src="pictures/manhua_5.webp" width="200"/>
 </center>
 
 2. 小说模块(基于客户端本地爬虫对多个网站内容进行爬取,轮训多个站点,找到你喜欢的内容为目的)
 
 <font color=red>ps:小说模块本站展示内容均来自网络,如有侵权请联系删除,本站只做技术学习,切勿作为商业使用</font>
 <center class="half">
-    <img src="pictures/xiaoshuo_4.jpeg" width="200" height="400"/>
-    <img src="pictures/xiaoshuo_3.jpeg" width="200" height="400"/>
-    <img src="pictures/xiaoshuo_2.jpeg" width="200" height="400"/>
-    <img src="pictures/xiaoshuo_1.jpeg" width="200" height="400"/>
+    <img src="pictures/xiaoshuo_4.jpeg" width="200" height="400"/> <img src="pictures/xiaoshuo_3.jpeg" width="200" height="400"/> <img src="pictures/xiaoshuo_2.jpeg" width="200" height="400"/> <img src="pictures/xiaoshuo_1.jpeg" width="200" height="400"/>
 </center>
 
 3. 明信片 本模块提供多种模板提供用户使用如图,效果如图
 
 <center class="half">
-    <img src="pictures/pic_template2.jpg" width="200" height="300"/>
-    <img src="pictures/pic_template3.jpg" width="200" height="300"/>
-    <img src="pictures/pic_template5.jpg" width="200" height="300"/>
-    <img src="pictures/pic_template6.jpg" width="200" height="300"/>
-    <img src="pictures/pic_template8.jpg" width="200" height="300"/>
+    <img src="pictures/pic_template2.jpg" width="200" height="300"/> <img src="pictures/pic_template3.jpg" width="200" height="300"/> <img src="pictures/pic_template5.jpg" width="200" height="300"/> <img src="pictures/pic_template6.jpg" width="200" height="300"/> <img src="pictures/pic_template8.jpg" width="200" height="300"/>
 
 </center>
 

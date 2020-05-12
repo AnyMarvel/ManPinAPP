@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="150dp"
+    android:background="@drawable/bg_round_white"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/camera_select"
+        android:layout_width="match_parent"
+        android:layout_height="74dp"
+        android:background="@drawable/bg_round_white"
+        android:gravity="center"
+        android:text="相机拍照"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/transparent_black" />
+
+    <TextView
+        android:id="@+id/album_select"
+        android:layout_width="match_parent"
+        android:layout_height="74dp"
+        android:background="@drawable/bg_round_white"
+        android:gravity="center"
+        android:text="本地相册"
+        android:textSize="16sp" />
+
+
+</LinearLayout>

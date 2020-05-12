@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="feedback_type">
+        <item>界面展示问题</item>
+        <item>BUG</item>
+        <item>其他</item>
+    </string-array>
+
+
+</resources>

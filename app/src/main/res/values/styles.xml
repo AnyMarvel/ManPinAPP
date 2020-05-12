@@ -1,0 +1,67 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="colorControlNormal">@color/blackOverlay</item>
+        <item name="colorControlActivated">@color/abc_search_url_text_normal</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+    <style name="TextAppearance.Compat.Notification.Time.Media" parent="@style/TextAppearance.Compat.Notification.Time" />
+
+    <style name="TextAppearance.Compat.Notification.Info.Media" parent="@style/TextAppearance.Compat.Notification.Info" />
+
+    <style name="TextAppearance.Compat.Notification.Title.Media" parent="@style/TextAppearance.Compat.Notification.Title" />
+
+    <style name="TextAppearance.Compat.Notification.Line2.Media" parent="@style/TextAppearance.Compat.Notification.Info.Media" />
+
+    <style name="TextAppearance.Compat.Notification.Media" parent="@style/TextAppearance.Compat.Notification" />
+
+    <style name="KeyboardIconStyle">
+        <item name="android:textSize">@dimen/edit_card_keyboard_textsize</item>
+        <item name="android:textColor">@color/liubaikeyboardColor</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_width">0.0dip</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">@dimen/edit_card_keyboard_drawable_padding</item>
+        <item name="android:layout_weight">1.0</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="CAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#ffffff</item>
+        <item name="colorPrimaryDark">#767676</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="CAppTransparentTheme" parent="CAppTheme">
+        <!-- Customize your theme here. -->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="anim_pop_checkaddshelf">
+        <item name="android:windowEnterAnimation">@anim/anim_pop_checkaddshelf_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_pop_checkaddshelf_out</item>
+    </style>
+
+    '
+
+    <style name="anim_pop_windowlight">
+        <item name="android:windowEnterAnimation">@anim/anim_pop_windowlight_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_pop_windowlight_out</item>
+    </style>
+    <style name="anim_pop_windowmenumore">
+        <item name="android:windowEnterAnimation">@anim/anim_pop_windowmenumore_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_pop_windowmenumore_out</item>
+    </style>
+</resources>

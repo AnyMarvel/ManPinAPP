@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingBottom="35dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/split_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingTop="16dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/tv_to"
+            style="@style/KeyboardIconStyle"
+            android:drawableTop="@drawable/drawable_keyboard_to"
+            android:text="@string/edit_card_keyboard_to" />
+
+        <TextView
+            android:id="@+id/tv_by"
+            style="@style/KeyboardIconStyle"
+            android:drawableTop="@drawable/drawable_keyboard_by"
+            android:text="@string/edit_card_keyboard_by" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            style="@style/KeyboardIconStyle"
+            android:drawableTop="@drawable/drawable_keyboard_date"
+            android:text="@string/edit_card_keyboard_date" />
+
+        <TextView
+            android:id="@+id/tv_picture"
+            style="@style/KeyboardIconStyle"
+            android:drawableTop="@drawable/drawable_keyboard_picture"
+            android:text="@string/edit_card_keyboard_picture" />
+
+        <TextView
+            android:id="@+id/tv_template"
+            style="@style/KeyboardIconStyle"
+            android:drawableTop="@drawable/drawable_keyboard_template"
+            android:text="@string/edit_card_keyboard_template" />
+
+    </LinearLayout>
+</LinearLayout>

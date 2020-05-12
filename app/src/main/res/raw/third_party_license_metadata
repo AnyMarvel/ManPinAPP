@@ -1,0 +1,39 @@
+40:10695 Android Annotations Support Library
+10784:11344 Android Architecture Components Core Library
+22182:11344 Android Architecture Components Lifecycle Library
+33588:11344 Android Architecture Components Lifecycle Runtime Library
+44967:10695 Android Compat Support Library
+55699:10695 Android Compatibility Library v4
+66431:10695 Android Compatibility Library v7
+77172:10694 Android Constraint Layout Support Library
+87902:10695 Android Core UI Support Library
+98636:10691 Android Core Utils Support Library
+109365:10695 Android Fragments Support Library
+120097:10695 Android Graphics Support Library
+130833:10691 Android Media Compat Support Library
+141533:11358 CCTZ
+152907:11357 Error Prone
+164279:11358 Guava JDK5
+175652:11362 Guava JDK7
+187042:11358 Mobile Filter Framework
+198415:11416 TensorFlow
+209840:11365 absl
+221218:11358 gemmlowp
+232592:16013 Android SDK
+248617:87697 Eigen 3
+336322:4155 PNG
+340489:5240 dng_sdk
+345741:4276 libjpeg
+350035:5545 libjpeg-turbo
+355591:1124 Halide
+356724:1200 tiff
+357933:2500 zlib
+360445:1602 JSR 305
+362058:1946 OpenCV
+364016:2234 OpenCVX
+366271:1732 Protocol Buffers
+368018:2570 intrinsics
+370599:2266 lapack
+372877:4535 libxsmm
+377420:680 STL
+378116:252 tz database

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/action_container"
+    style="@style/Widget.Compat.NotificationActionContainer"
+    android:layout_width="0.0dip"
+    android:layout_height="48.0dip"
+    android:layout_weight="1.0"
+    android:background="@null"
+    android:enabled="false"
+    android:orientation="horizontal"
+    android:paddingLeft="4.0dip"
+    android:paddingStart="4.0dip">
+
+    <ImageView
+        android:id="@+id/action_image"
+        android:layout_width="@dimen/notification_action_icon_size"
+        android:layout_height="@dimen/notification_action_icon_size"
+        android:layout_gravity="start|center"
+        android:alpha="0.5"
+        android:enabled="false"
+        android:scaleType="centerInside" />
+
+    <TextView
+        android:id="@+id/action_text"
+        style="@style/Widget.Compat.NotificationActionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center"
+        android:alpha="0.5"
+        android:clickable="false"
+        android:ellipsize="end"
+        android:enabled="false"
+        android:paddingLeft="4.0dip"
+        android:paddingStart="4.0dip"
+        android:singleLine="true"
+        android:textColor="#ffcccccc" />
+</LinearLayout>

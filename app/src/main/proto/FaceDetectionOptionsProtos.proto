@@ -1,0 +1,11 @@
+syntax = "proto2";
+package com.google.protos.humansensing;
+option java_outer_classname = "FaceDetectionOptionsProtos";
+message FaceDetectionOptions{
+    optional float landmarkingConfidenceThreshold=4;
+    optional float smoothness=6;
+    optional float quality=5;
+    optional float maxRollAngle=3;
+    optional uint32 minEyeDistancePixels=1;
+    optional uint32 maxEyeDistancePixels=2;
+}

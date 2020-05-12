@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Note: This file lists the set of resources (by resource reference) that
+  should be explicitly kept even when they would otherwise be removed by
+  resource shrinking. See b/34186149 and
+  https://developer.android.com/studio/build/shrink-code.html#keep-resources
+-->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="
+        @raw/third_party_license_metadata,
+        @raw/third_party_licenses" />

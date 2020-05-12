@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 一个层叠效果,通过阴影表现出立体效果 -->
+    <item><!-- 阴影效果 -->
+        <shape android:shape="rectangle">
+            <solid android:color="#CABBBBBB" /><!-- 阴影的颜色 -->
+            <corners android:radius="10dp" /><!-- 圆角 -->
+        </shape>
+    </item>
+    <item
+        android:bottom="2dp"
+        android:left="0dp"
+        android:right="0dp"
+        android:top="0dp"><!-- 距底部2dp，漏出上面那个item，使其可以显现出阴影 -->
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/white" /><!-- item颜色 -->
+            <corners android:radius="10dp" />
+        </shape>
+    </item>
+</layer-list>

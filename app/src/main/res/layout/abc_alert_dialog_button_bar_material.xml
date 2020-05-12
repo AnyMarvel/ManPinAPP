@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/buttonPanel"
+    style="?attr/buttonBarStyle"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
+
+    <android.support.v7.widget.ButtonBarLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:layoutDirection="locale"
+        android:orientation="horizontal"
+        android:paddingBottom="4.0dip"
+        android:paddingLeft="12.0dip"
+        android:paddingRight="12.0dip"
+        android:paddingTop="4.0dip">
+
+        <Button
+            android:id="@android:id/button3"
+            style="?attr/buttonBarNeutralButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <android.support.v4.widget.Space
+            android:id="@+id/spacer"
+            android:layout_width="0.0dip"
+            android:layout_height="0.0dip"
+            android:layout_weight="1.0"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@android:id/button2"
+            style="?attr/buttonBarNegativeButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@android:id/button1"
+            style="?attr/buttonBarPositiveButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.v7.widget.ButtonBarLayout>
+</ScrollView>

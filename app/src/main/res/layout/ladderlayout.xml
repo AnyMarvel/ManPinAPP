@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.mp.android.apps.LadderLayout
+        android:id="@+id/ldder1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="15dp"
+        android:clickable="true"
+        android:stateListAnimator="@drawable/anim_state_list_m01"
+        app:horizontalweigthrate="1"
+        app:leftheightrate="0.33"
+        app:rightheightrate="0.26">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/home_comic"
+            android:scaleType="centerCrop" />
+    </com.mp.android.apps.LadderLayout>
+
+    <com.mp.android.apps.LadderLayout
+        android:id="@+id/ldder2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ldder1"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="-47dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="20dp"
+        android:clickable="true"
+        android:stateListAnimator="@drawable/anim_state_list_m01"
+        app:horizontalweigthrate="1"
+        app:leftheightrate="0.21"
+        app:rightheightrate="0.28">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/storycard"
+            android:scaleType="centerCrop" />
+    </com.mp.android.apps.LadderLayout>
+
+
+    <com.mp.android.apps.LadderLayout
+        android:id="@+id/ldder3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ldder2"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="-10dp"
+        android:clickable="true"
+        android:stateListAnimator="@drawable/anim_state_list_m01"
+        app:bottomWidthrate="0.55"
+        app:leftRect="true"
+        app:topWidthrate="0.35"
+        app:verticalheightrate="0.2">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/myposecards"
+            android:scaleType="centerCrop" />
+    </com.mp.android.apps.LadderLayout>
+
+    <com.mp.android.apps.LadderLayout
+        android:id="@+id/ldder4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ldder2"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="-30dp"
+        android:layout_marginTop="-10dp"
+        android:layout_marginRight="15dp"
+        android:layout_toRightOf="@id/ldder3"
+        android:clickable="true"
+        android:stateListAnimator="@drawable/anim_state_list_m01"
+
+        app:bottomWidthrate="0.33"
+        app:rightRect="true"
+        app:topWidthrate="0.53"
+        app:verticalheightrate="0.2">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/activity_home"
+            android:scaleType="centerCrop" />
+    </com.mp.android.apps.LadderLayout>
+    <FrameLayout
+        android:id="@+id/home_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ldder4"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/home_shape_radius"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:stateListAnimator="@drawable/anim_state_list_m01">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/user_background_pic"
+        >
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1.5"
+            android:background="@drawable/userlayer" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/ic_register" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="4"
+            android:background="@drawable/center_text_background"
+            android:gravity="center"
+            android:text="品味生活"
+            android:textColor="@color/white"
+            android:textSize="25dp" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@drawable/edit_bg_adjust_saturation_press" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1.3"
+            android:background="@drawable/ic_register" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.7"
+            android:background="@drawable/home_voice" />
+
+    </LinearLayout>
+    </FrameLayout>
+</RelativeLayout>

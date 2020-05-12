@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:fitsSystemWindows="true">
+
+    <FrameLayout
+        android:id="@+id/fl_images_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:paddingBottom="32dp">
+
+        <ImageView
+            android:id="@+id/iv_logo_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="72dp"
+            android:src="@mipmap/logo_index" />
+
+        <TextView
+            android:id="@+id/tv_sentence"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_logo_login"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="拼裝鏡頭瞬間,品味簡易生活"
+            android:textColor="@color/blackOverlay"
+            android:textSize="16dp" />
+
+        <LinearLayout
+            android:id="@+id/ll_login_register"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="#00000000"
+            android:orientation="vertical">
+
+            <com.mp.android.apps.livevblank.view.IconButton
+                android:id="@+id/login_button"
+                android:layout_width="fill_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/bg_btn_login_register"
+                android:drawableLeft="@drawable/ic_login"
+                android:text="登录"
+                android:textColor="@color/blackOverlay"
+                android:textSize="16dp" />
+
+            <com.mp.android.apps.livevblank.view.IconButton
+                android:id="@+id/register_button"
+                android:layout_width="fill_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_btn_login_register"
+                android:drawableLeft="@drawable/ic_register"
+                android:text="注册"
+                android:textColor="@color/blackOverlay"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_login_register"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="用户协议"
+            android:textColor="@color/blackOverlay"
+            android:textSize="14dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ll_login_register"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="其他账号登录"
+                android:textColor="#000"
+                android:textSize="14dp" />
+
+            <include
+                layout="@layout/external_login_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
+        </LinearLayout>
+    </RelativeLayout>
+    <com.victor.loading.rotate.RotateLoading
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        app:loading_color="#ffffff"
+        app:loading_width="5dp" />
+
+</FrameLayout>

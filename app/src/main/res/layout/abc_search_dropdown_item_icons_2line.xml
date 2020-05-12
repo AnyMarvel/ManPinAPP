@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/RtlOverlay.Widget.AppCompat.Search.DropDown"
+    android:layout_width="fill_parent"
+    android:layout_height="58.0dip">
+
+    <ImageView
+        android:id="@android:id/icon1"
+        style="@style/RtlOverlay.Widget.AppCompat.Search.DropDown.Icon1"
+        android:layout_width="@dimen/abc_dropdownitem_icon_width"
+        android:layout_height="48.0dip"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:scaleType="centerInside"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/edit_query"
+        style="@style/RtlOverlay.Widget.AppCompat.Search.DropDown.Query"
+        android:layout_width="48.0dip"
+        android:layout_height="48.0dip"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:background="?selectableItemBackground"
+        android:scaleType="centerInside"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@android:id/icon2"
+        style="@style/RtlOverlay.Widget.AppCompat.Search.DropDown.Icon2"
+        android:layout_width="48.0dip"
+        android:layout_height="48.0dip"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:scaleType="centerInside"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@android:id/text2"
+        style="?android:attr/dropDownItemStyle"
+        android:layout_width="fill_parent"
+        android:layout_height="29.0dip"
+        android:layout_alignParentBottom="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:gravity="top"
+        android:paddingBottom="4.0dip"
+        android:singleLine="true"
+        android:textAppearance="?textAppearanceSearchResultSubtitle"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@android:id/text1"
+        style="?android:attr/dropDownItemStyle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@android:id/text2"
+        android:layout_centerVertical="true"
+        android:singleLine="true"
+        android:textAppearance="?textAppearanceSearchResultTitle" />
+</RelativeLayout>

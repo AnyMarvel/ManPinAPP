@@ -1,0 +1,104 @@
+syntax = "proto2";
+package com.google.protos.humansensing;
+option java_outer_classname = "FaceProtos";
+message Face {
+    optional float rollAngle = 4;
+    optional float tiltAngle = 6;
+    optional float confidence = 3;
+    optional float identityId = 9;
+    optional float panAngle = 5;
+    repeated Attribute attribute = 8;
+    optional BoundingBox boundingBox = 1;
+    repeated Embedding embedding = 7;
+    repeated Landmark landmark = 2;
+
+    message Attribute {
+        optional float confidence = 3;
+        optional string name = 2;
+        optional float value = 4;
+        enum Type {
+            TYPE_UNKNOWN = 0;
+            FREE_FORM = 1;
+            FEMALE = 2;
+            MALE = 3;
+            AGE = 5;
+            NON_HUMAN = 6;
+            GLASSES = 7;
+            DARK_GLASSES = 8;
+            HEADWEAR = 9;
+            EYES_VISIBLE = 10;
+            MOUTH_OPEN = 11;
+            FACIAL_HAIR = 12;
+            LONG_HAIR = 13;
+            FRONTAL_GAZE = 14;
+            SMILING = 15;
+        }
+        optional Type type = 1 [default = TYPE_UNKNOWN];
+
+    }
+    message BoundingBox {
+        optional float x1 = 1;
+        optional float x2 = 3;
+        optional float y1 = 2;
+        optional float y2 = 4;
+    }
+    message Embedding {
+        optional bytes value = 2;
+        optional int32 version = 1;
+    }
+    message Landmark {
+        optional float confidence = 6;
+        enum Type {
+            LEFT_EYE = 0;
+            RIGHT_EYE = 1;
+            LEFT_OF_LEFT_EYEBROW = 2;
+            RIGHT_OF_LEFT_EYEBROW = 3;
+            LEFT_OF_RIGHT_EYEBROW = 4;
+            RIGHT_OF_RIGHT_EYEBROW = 5;
+            MIDPOINT_BETWEEN_EYES = 6;
+            NOSE_TIP = 9;
+            UPPER_LIP = 10;
+            LOWER_LIP = 11;
+            MOUTH_LEFT = 12;
+            MOUTH_RIGHT = 13;
+            MOUTH_CENTER = 45;
+            NOSE_BOTTOM_RIGHT = 43;
+            NOSE_BOTTOM_LEFT = 44;
+            NOSE_BOTTOM_CENTER = 200;
+            LEFT_EYE_TOP_BOUNDARY = 220;
+            LEFT_EYE_RIGHT_CORNER = 221;
+            LEFT_EYE_BOTTOM_BOUNDARY = 222;
+            LEFT_EYE_LEFT_CORNER = 223;
+            RIGHT_EYE_TOP_BOUNDARY = 224;
+            RIGHT_EYE_RIGHT_CORNER = 225;
+            RIGHT_EYE_BOTTOM_BOUNDARY = 226;
+            RIGHT_EYE_LEFT_CORNER = 227;
+            LEFT_EYEBROW_UPPER_MIDPOINT = 300;
+            RIGHT_EYEBROW_UPPER_MIDPOINT = 302;
+            LEFT_EAR_TRAGION = 240;
+            RIGHT_EAR_TRAGION = 241;
+            LEFT_EYE_PUPIL = 304;
+            RIGHT_EYE_PUPIL = 305;
+            FOREHEAD_GLABELLA = 312;
+            CHIN_GNATHION = 314;
+            CHIN_LEFT_GONION = 315;
+            CHIN_RIGHT_GONION = 316;
+            LEFT_CHEEK_CENTER = 238;
+            RIGHT_CHEEK_CENTER = 239;
+            LANDMARK_UNKNOWN = 15000;
+        }
+        optional Type type = 4 [default = LANDMARK_UNKNOWN];
+
+        enum Visibility {
+            VISIBILITY_UNKNOWN = 0;
+            VISIBLE = 1;
+            OCCLUDED_SELF = 2;
+            OCCLUDED_OTHER = 3;
+        }
+        optional Visibility visibility = 5 [default = VISIBILITY_UNKNOWN];
+        optional float x = 1;
+        optional float y = 2;
+        optional float z = 3;
+    }
+
+}

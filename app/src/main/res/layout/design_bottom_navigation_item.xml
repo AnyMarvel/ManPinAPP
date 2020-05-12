@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="24.0dip"
+        android:layout_height="24.0dip"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/design_bottom_navigation_margin"
+        android:layout_marginTop="@dimen/design_bottom_navigation_margin"
+        android:duplicateParentState="true" />
+
+    <android.support.design.internal.BaselineLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:clipToPadding="false"
+        android:duplicateParentState="true"
+        android:paddingBottom="10.0dip">
+
+        <TextView
+            android:id="@+id/smallLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:duplicateParentState="true"
+            android:singleLine="true"
+            android:textSize="@dimen/design_bottom_navigation_text_size" />
+
+        <TextView
+            android:id="@+id/largeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:duplicateParentState="true"
+            android:paddingLeft="8.0dip"
+            android:paddingRight="8.0dip"
+            android:singleLine="true"
+            android:textSize="@dimen/design_bottom_navigation_active_text_size"
+            android:visibility="invisible" />
+    </android.support.design.internal.BaselineLayout>
+</merge>

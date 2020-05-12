@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.view.menu.ListMenuItemView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/RtlOverlay.Widget.AppCompat.PopupMenuItem"
+    android:layout_width="fill_parent"
+    android:layout_height="?dropdownListPreferredItemHeight"
+    android:minWidth="196.0dip">
+
+    <RelativeLayout
+        style="@style/RtlOverlay.Widget.AppCompat.PopupMenuItem.InternalGroup"
+        android:layout_width="0.0dip"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1.0"
+        android:duplicateParentState="true">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/RtlOverlay.Widget.AppCompat.PopupMenuItem.Text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:duplicateParentState="true"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:singleLine="true"
+            android:textAppearance="?textAppearanceLargePopupMenu" />
+
+        <TextView
+            android:id="@+id/shortcut"
+            style="@style/RtlOverlay.Widget.AppCompat.PopupMenuItem.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:duplicateParentState="true"
+            android:singleLine="true"
+            android:textAppearance="?textAppearanceSmallPopupMenu" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/submenuarrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="8.0dip"
+        android:layout_marginStart="8.0dip"
+        android:scaleType="center"
+        android:visibility="gone" />
+</android.support.v7.view.menu.ListMenuItemView>

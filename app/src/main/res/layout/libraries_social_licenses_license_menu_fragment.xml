@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
+
+    <ListView
+        android:id="@+id/license_list"
+        android:layout_width="fill_parent"
+        android:layout_height="0.0dip"
+        android:layout_weight="1.0"
+        android:cacheColorHint="@android:color/transparent"
+        android:clipToPadding="false"
+        android:drawSelectorOnTop="false"
+        android:layoutAnimation="@anim/animator_layout"
+        android:paddingLeft="16.0dip"
+        android:paddingTop="0.0dip"
+        android:paddingRight="16.0dip"
+        android:paddingBottom="0.0dip"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbarStyle="outsideOverlay" />
+</LinearLayout>

@@ -1,0 +1,34 @@
+# Android generated
+bin/
+gen/
+obj/
+
+# IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea/
+out/
+
+# Mac 
+.DS_Store
+
+# svn
+.svn
+
+# vim
+*.swp
+
+# proguard
+proguard
+
+# Gradle
+.gradle
+build
+build/
+.idea
+gradle/
+gradlew
+gradlew.bat
+release/
+local.properties

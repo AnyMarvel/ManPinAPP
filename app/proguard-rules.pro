@@ -316,3 +316,7 @@ public static java.lang.String TABLENAME;
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+# keep bean类不被混淆
+-keep class com.mp.android.apps.livevblank.bean.**{*;}
+-keep class com.mp.android.apps.login.bean.login.**{*;}
+-keep class com.mp.android.apps.explore.bean.**{*;}

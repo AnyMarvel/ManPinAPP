@@ -37,7 +37,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class GxwztvBookModelImpl extends MBaseModelImpl implements IGxwztvBookModel {
-    public static final String TAG = "http://www.gxwztv.com";
+    public static final String TAG = "http://www.wzzw.la";
 
     public static GxwztvBookModelImpl getInstance() {
         return new GxwztvBookModelImpl();

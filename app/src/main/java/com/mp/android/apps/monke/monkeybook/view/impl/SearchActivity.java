@@ -62,20 +62,24 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
     private ExplosionField explosionField;
     private RefreshRecyclerView rfRvSearchBooks;
     private SearchBookAdapter searchBookAdapter;
+
     @Override
     protected ISearchPresenter initInjector() {
         return new SearchPresenterImpl();
     }
+
     @Override
     protected void onCreateActivity() {
         setContentView(R.layout.activity_search);
     }
+
     @Override
     protected void initData() {
         explosionField = ExplosionField.attach2Window(this);
         searchHistoryAdapter = new SearchHistoryAdapter();
         searchBookAdapter = new SearchBookAdapter();
     }
+
     @Override
     protected void bindView() {
         flSearchContent = (FrameLayout) findViewById(R.id.fl_search_content);
@@ -104,6 +108,7 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
             public void clickAddShelf(View clickView, int position, SearchBookBean searchBookBean) {
                 mPresenter.addBookToShelf(searchBookBean);
             }
+
             @Override
             public void clickItem(View animView, int position, SearchBookBean searchBookBean) {
                 Intent intent = new Intent(SearchActivity.this, BookDetailActivity.class);
@@ -113,6 +118,7 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
             }
         });
     }
+
     @Override
     protected void bindEvent() {
         tvSearchHistoryClean.setOnClickListener(new View.OnClickListener() {
@@ -128,9 +134,11 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
+
             @Override
             public void afterTextChanged(Editable s) {
                 edtContent.setSelection(edtContent.length());
@@ -177,17 +185,20 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
             public void startLoadmore() {
                 mPresenter.toSearchBooks(null, false);
             }
+
             @Override
             public void loadMoreErrorTryAgain() {
                 mPresenter.toSearchBooks(null, true);
             }
         });
     }
+
     @Override
     protected void firstRequest() {
         super.firstRequest();
         mPresenter.querySearchHistory();
     }
+
     //开始搜索
     private void toSearch() {
         if (edtContent.getText().toString().trim().length() > 0) {
@@ -208,6 +219,7 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
             YoYo.with(Techniques.Shake).playOn(flSearchContent);
         }
     }
+
     private void bindKeyBoardEvent() {
         llSearchHistory.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -250,23 +262,23 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
                 }
             }
         });
-        getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(new
-                                                                                           ViewTreeObserver.OnGlobalLayoutListener() {
-                                                                                               @Override
-                                                                                               public void onGlobalLayout() {
-                                                                                                   new Handler().postDelayed(new Runnable() {
-                                                                                                       @Override
-                                                                                                       public void run() {
-                                                                                                           openKeyBoard();
-                                                                                                       }
-                                                                                                   }, 100);
-                                                                                                   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                                                                                                       getWindow().getDecorView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                                                                                                   } else
-                                                                                                       getWindow().getDecorView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                                                                                               }
-                                                                                           });
+        getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        openKeyBoard();
+                    }
+                }, 100);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    getWindow().getDecorView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                } else
+                    getWindow().getDecorView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            }
+        });
     }
+
     private void checkTvToSearch() {
         if (llSearchHistory.getVisibility() == View.VISIBLE) {
             tvTosearch.setText("搜索");
@@ -276,6 +288,7 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
             mPresenter.setInput(false);
         }
     }
+
     private void openOrCloseHistory(Boolean open) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (null != animHistory5) {
@@ -295,14 +308,17 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
                         edtContent.setCursorVisible(true);
                         checkTvToSearch();
                     }
+
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         if (rfRvSearchBooks.getVisibility() != View.VISIBLE)
                             rfRvSearchBooks.setVisibility(View.VISIBLE);
                     }
+
                     @Override
                     public void onAnimationCancel(Animator animation) {
                     }
+
                     @Override
                     public void onAnimationRepeat(Animator animation) {
                     }
@@ -319,15 +335,18 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
                     @Override
                     public void onAnimationStart(Animator animation) {
                     }
+
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         llSearchHistory.setVisibility(View.GONE);
                         edtContent.setCursorVisible(false);
                         checkTvToSearch();
                     }
+
                     @Override
                     public void onAnimationCancel(Animator animation) {
                     }
+
                     @Override
                     public void onAnimationRepeat(Animator animation) {
                     }
@@ -349,11 +368,13 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
                         edtContent.setCursorVisible(true);
                         checkTvToSearch();
                     }
+
                     @Override
                     public void onAnimationEnd(Animation animation) {
                         if (rfRvSearchBooks.getVisibility() != View.VISIBLE)
                             rfRvSearchBooks.setVisibility(View.VISIBLE);
                     }
+
                     @Override
                     public void onAnimationRepeat(Animation animation) {
                     }
@@ -367,12 +388,14 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
                     @Override
                     public void onAnimationStart(Animation animation) {
                     }
+
                     @Override
                     public void onAnimationEnd(Animation animation) {
                         llSearchHistory.setVisibility(View.GONE);
                         edtContent.setCursorVisible(false);
                         checkTvToSearch();
                     }
+
                     @Override
                     public void onAnimationRepeat(Animation animation) {
                     }
@@ -381,20 +404,24 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
             }
         }
     }
+
     private void closeKeyBoard() {
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(edtContent.getWindowToken(), 0);
     }
+
     private void openKeyBoard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         edtContent.requestFocus();
         imm.showSoftInput(edtContent, InputMethodManager.RESULT_UNCHANGED_SHOWN);
     }
+
     @Override
     public void insertSearchHistorySuccess(SearchHistoryBean searchHistoryBean) {
         //搜索历史插⼊或者修改成功
         mPresenter.querySearchHistory();
     }
+
     @Override
     public void querySearchHistorySuccess(List<SearchHistoryBean> datas) {
         searchHistoryAdapter.replaceAll(datas);
@@ -404,18 +431,22 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
             tvSearchHistoryClean.setVisibility(View.INVISIBLE);
         }
     }
+
     @Override
     public void refreshSearchBook(List<SearchBookBean> books) {
         searchBookAdapter.replaceAll(books);
     }
+
     @Override
     public void refreshFinish(Boolean isAll) {
         rfRvSearchBooks.finishRefresh(isAll, true);
     }
+
     @Override
     public void loadMoreFinish(Boolean isAll) {
         rfRvSearchBooks.finishLoadMore(isAll, true);
     }
+
     @Override
     public void searchBookError(Boolean isRefresh) {
         if (isRefresh) {
@@ -424,27 +455,33 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
             rfRvSearchBooks.loadMoreError();
         }
     }
+
     @Override
     public void loadMoreSearchBook(final List<SearchBookBean> books) {
         searchBookAdapter.addAll(books);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         explosionField.clear();
     }
+
     @Override
     public EditText getEdtContent() {
         return edtContent;
     }
+
     @Override
     public void addBookShelfFailed(int code) {
         Toast.makeText(this, NetworkUtil.getErrorTip(code), Toast.LENGTH_SHORT).show();
     }
+
     @Override
     public SearchBookAdapter getSearchBookAdapter() {
         return searchBookAdapter;
     }
+
     @Override
     public void updateSearchItem(int index) {
         if (index < searchBookAdapter.getItemcount()) {
@@ -463,6 +500,7 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
             }
         }
     }
+
     @Override
     public Boolean checkIsExist(SearchBookBean searchBookBean) {
         Boolean result = false;

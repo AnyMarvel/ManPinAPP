@@ -31,9 +31,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-import static android.content.Context.MODE_PRIVATE;
-import static com.mp.android.apps.StoryboardActivity.LOGIN_SP_STATE;
-
 
 public class LoginBaseFragment extends Fragment {
     RotateLoading rotateLoading;
@@ -62,7 +59,13 @@ public class LoginBaseFragment extends Fragment {
         view.findViewById(R.id.qq_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UMShareAPI.get(view.getContext()).getPlatformInfo(activity, SHARE_MEDIA.QQ, loginAuthListener);
+                if (UMShareAPI.get(view.getContext()).isInstall(activity, SHARE_MEDIA.QQ)) {
+
+                    UMShareAPI.get(view.getContext()).getPlatformInfo(activity, SHARE_MEDIA.QQ, loginAuthListener);
+                } else {
+                    Toast.makeText(getActivity(), "使用QQ快捷登录,请安装最新版本手机QQ客户端", Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
     }

@@ -28,6 +28,7 @@ import com.victor.loading.rotate.RotateLoading;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -225,8 +226,9 @@ public class LoginMainFragment extends LoginBaseFragment {
 
     @Override
     public boolean onBackPressed() {
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        startActivity(intent);
+        Objects.requireNonNull(getActivity()).setResult(-1);
+        getActivity().overridePendingTransition(0, 0);
+        getActivity().finish();
         return true;
     }
 }

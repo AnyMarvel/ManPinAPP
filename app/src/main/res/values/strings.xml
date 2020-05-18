@@ -79,4 +79,15 @@
     <string name="tv_searchbook_lastest">最新章节:%s</string>
     <string name="tv_pop_checkaddshelf">是否将《%s》放入书架？</string>
     <string name="tv_importbook_count">共%s个Text文件</string>
+
+
+    <string name="privacy_exit">Exit</string>
+    <string name="privacy_agree">Agree</string>
+    <string name="users_note">Users Note</string>
+    <string name="privacy_tips_key1">Terms of Use</string>
+    <string name="privacy_tips_key2">Privacy Policy</string>
+    <string name="privacy_tips">Welcome to PrivacyView! In order to protect your privacy and use security, please read our Terms of Use and Privacy Policy carefully. Do not use this app until you have confirmed your full understanding and agreement. Thank you!</string>
+    <string name="confirmed">The user note has been confirmed</string>
+    <string name="opt_terms">Terms of Use</string>
+    <string name="opt_privacy">Privacy Policy</string>
 </resources>

@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -80,7 +81,7 @@ public class ExploreSquareActivity extends StoryboardActivity {
 
     Bundle exploreBundle;
 
-
+    LinearLayout agreeclick;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -96,6 +97,17 @@ public class ExploreSquareActivity extends StoryboardActivity {
         tv_title = (TextView) findViewById(R.id.tv_title);
         tv_title.setText(toExplore);
         cb_scan = findViewById(R.id.cb_scan);
+        agreeclick=findViewById(R.id.agreeclick);
+        agreeclick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri content_url = Uri.parse("http://www.aimanpin.com/app/privacy");//此处填链接
+                intent.setData(content_url);
+                startActivity(intent);
+            }
+        });
         exploreBundle = new Bundle();
         exploreBundle.putString("toExplore", toExplore);
         cb_scan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

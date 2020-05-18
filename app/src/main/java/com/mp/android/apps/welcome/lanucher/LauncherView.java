@@ -1,4 +1,4 @@
-package com.mp.android.apps.lanucher;
+package com.mp.android.apps.welcome.lanucher;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

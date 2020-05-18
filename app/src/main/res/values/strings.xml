@@ -81,13 +81,15 @@
     <string name="tv_importbook_count">共%s个Text文件</string>
 
 
-    <string name="privacy_exit">Exit</string>
-    <string name="privacy_agree">Agree</string>
-    <string name="users_note">Users Note</string>
-    <string name="privacy_tips_key1">Terms of Use</string>
-    <string name="privacy_tips_key2">Privacy Policy</string>
-    <string name="privacy_tips">Welcome to PrivacyView! In order to protect your privacy and use security, please read our Terms of Use and Privacy Policy carefully. Do not use this app until you have confirmed your full understanding and agreement. Thank you!</string>
-    <string name="confirmed">The user note has been confirmed</string>
-    <string name="opt_terms">Terms of Use</string>
-    <string name="opt_privacy">Privacy Policy</string>
+    <string name="privacy_exit">暂不使用</string>
+    <string name="privacy_agree">同意</string>
+    <string name="users_note">服务协议和隐私政策</string>
+    <string name="privacy_tips_key1">《用户协议》</string>
+    <string name="privacy_tips_key2">《隐私政策》</string>
+    <string name="privacy_tips">欢迎使用漫品客户端！请您务必审慎阅读,充分理解"服务协议"和"隐私政策"各条款,包括但不限于:为了向你提供及时分享服务和制作漫画需要的视频资源,我们需要收集你的设备信息,操作日志,地理位置信息等。你可以在"设置"中查看,变更,删除个人信息并管理你的授权.
+        \n你可阅读《用户协议》和《隐私政策》了解详细信息。隐私政策和用户协议内容如你同意,请点击"同意"开始接受我们的服务。</string>
+
+    <string name="confirmed">用户须知已确认</string>
+    <string name="opt_terms">用户协议</string>
+    <string name="opt_privacy">隐私政策</string>
 </resources>

@@ -257,7 +257,6 @@ public class PreviewActivity extends StoryboardActivity implements View.OnClickL
                 callback.enqueue(callback1);
             }
         } else {
-            Toast.makeText(this, "您还未登录,请先登录", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             if (isShare) {
                 startActivityForResult(intent, PREVIEW_LOGIN_SHARE);

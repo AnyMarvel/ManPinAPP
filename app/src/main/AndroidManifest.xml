@@ -18,7 +18,7 @@
         tools:targetApi="m">
 
         <activity
-            android:name=".monke.monkeybook.view.impl.WelcomeActivity"
+            android:name=".welcome.WelcomeActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

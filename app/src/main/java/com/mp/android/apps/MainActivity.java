@@ -107,7 +107,6 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
                 if (LoginManager.getInstance().checkLoginInfo()) {
                     startActivity(intent);
                 } else {
-                    Toast.makeText(MainActivity.this, "您还未登录,请先登录", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivityForResult(intent, EXPLORESQUARE_LOGIN);
                 }

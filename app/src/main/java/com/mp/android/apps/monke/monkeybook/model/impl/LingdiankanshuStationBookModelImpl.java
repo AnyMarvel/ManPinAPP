@@ -1,6 +1,8 @@
 //Copyright (c) 2017. 章钦豪. All rights reserved.
 package com.mp.android.apps.monke.monkeybook.model.impl;
 
+import com.mp.android.apps.login.bean.login.LoginRootBean;
+import com.mp.android.apps.login.network.LoginAPI;
 import com.mp.android.apps.monke.monkeybook.ErrorAnalyContentManager;
 import com.mp.android.apps.monke.monkeybook.base.MBaseModelImpl;
 import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
@@ -13,6 +15,7 @@ import com.mp.android.apps.monke.monkeybook.bean.WebChapterBean;
 import com.mp.android.apps.monke.monkeybook.common.api.ILingdiankanshuApi;
 import com.mp.android.apps.monke.monkeybook.listener.OnGetChapterListListener;
 import com.mp.android.apps.monke.monkeybook.model.IStationBookModel;
+import com.mp.android.apps.networkutils.FastJsonConverterFactory;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -27,12 +30,16 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class LingdiankanshuStationBookModelImpl extends MBaseModelImpl implements IStationBookModel {
-    public static final String TAG = "http://www.lingdiankanshu.co";
+    public static final String TAG = "https://www.lingdiankanshu.co";
+    public static final String SEARCH_URL = "https://sou.xanbhx.com";
+    public static final String TAG_SEARCH = "lingdiankanshuco";
 
     public static LingdiankanshuStationBookModelImpl getInstance() {
         return new LingdiankanshuStationBookModelImpl();
@@ -40,7 +47,7 @@ public class LingdiankanshuStationBookModelImpl extends MBaseModelImpl implement
 
     @Override
     public Observable<List<SearchBookBean>> searchBook(String content, int page) {
-        return getRetrofitObject("http://zhannei.baidu.com").create(ILingdiankanshuApi.class).searchBook(content, page - 1, "16865089933227718744").flatMap(new Function<String, ObservableSource<List<SearchBookBean>>>() {
+        return getRetrofitObject(SEARCH_URL).create(ILingdiankanshuApi.class).searchBook(content, TAG_SEARCH, "920895234054625192").flatMap(new Function<String, ObservableSource<List<SearchBookBean>>>() {
             @Override
             public ObservableSource<List<SearchBookBean>> apply(String s) throws Exception {
                 return analySearchBook(s);
@@ -54,20 +61,20 @@ public class LingdiankanshuStationBookModelImpl extends MBaseModelImpl implement
             public void subscribe(ObservableEmitter<List<SearchBookBean>> e) throws Exception {
                 try {
                     Document doc = Jsoup.parse(s);
-                    Elements booksE = doc.getElementsByClass("result-list").get(0).getElementsByClass("result-item result-game-item");
+                    Elements booksE = doc.getElementsByClass("search-list").get(0).getElementsByTag("li");
                     if (null != booksE && booksE.size() > 1) {
                         List<SearchBookBean> books = new ArrayList<SearchBookBean>();
-                        for (int i = 0; i < booksE.size(); i++) {
+                        for (int i = 1; i < booksE.size(); i++) {
                             SearchBookBean item = new SearchBookBean();
                             item.setTag(TAG);
-                            item.setAuthor(booksE.get(i).getElementsByClass("result-game-item-info").get(0).getElementsByClass("result-game-item-info-tag").get(0).getElementsByTag("span").get(1).text());
-                            item.setKind(booksE.get(i).getElementsByClass("result-game-item-info").get(0).getElementsByClass("result-game-item-info-tag").get(1).getElementsByTag("span").get(1).text());
+                            item.setAuthor(booksE.get(i).getElementsByClass("s4").get(0).text());
+                            item.setKind(booksE.get(i).getElementsByClass("s1").get(0).text());
 //                            item.setState();
-                            item.setLastChapter(booksE.get(i).getElementsByClass("result-game-item-info").get(0).getElementsByClass("result-game-item-info-tag").get(3).getElementsByTag("a").get(0).text());
+                            item.setLastChapter(booksE.get(i).getElementsByClass("s3").get(0).getElementsByTag("a").get(0).text());
                             item.setOrigin("lingdiankanshu.co");
-                            item.setName(booksE.get(i).getElementsByClass("result-item-title result-game-item-title").get(0).getElementsByTag("a").get(0).text());
-                            item.setNoteUrl(booksE.get(i).getElementsByClass("result-item-title result-game-item-title").get(0).getElementsByTag("a").get(0).attr("href"));
-                            item.setCoverUrl(booksE.get(i).getElementsByTag("img").get(0).attr("src"));
+                            item.setName(booksE.get(i).getElementsByClass("s2").get(0).getElementsByTag("a").get(0).text());
+                            item.setNoteUrl(booksE.get(i).getElementsByClass("s2").get(0).getElementsByTag("a").get(0).attr("href"));
+                            item.setCoverUrl("noimage");
                             books.add(item);
                         }
                         e.onNext(books);
@@ -83,6 +90,7 @@ public class LingdiankanshuStationBookModelImpl extends MBaseModelImpl implement
         });
     }
 
+    //    获取图书内容详情,用于图书悬浮窗内容展示,BookDetailActivity调用
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public Observable<BookShelfBean> getBookInfo(final BookShelfBean bookShelfBean) {
@@ -112,7 +120,9 @@ public class LingdiankanshuStationBookModelImpl extends MBaseModelImpl implement
         bookInfoBean.setTag(TAG);
         Document doc = Jsoup.parse(s);
         Element resultE = doc.getElementsByClass("box_con").get(0);
-        bookInfoBean.setCoverUrl(resultE.getElementById("fmimg").getElementsByTag("img").get(0).attr("src"));
+
+        bookInfoBean.setCoverUrl(TAG + resultE.getElementById("fmimg").getElementsByTag("img").get(0).attr("src"));
+
         bookInfoBean.setName(resultE.getElementById("info").getElementsByTag("h1").get(0).text());
         String author = resultE.getElementById("info").getElementsByTag("p").get(0).text().toString().trim();
         author = author.replace(" ", "").replace("  ", "").replace("作者：", "");
@@ -133,10 +143,11 @@ public class LingdiankanshuStationBookModelImpl extends MBaseModelImpl implement
 
         bookInfoBean.setIntroduce(content.toString());
         bookInfoBean.setChapterUrl(novelUrl);
-        bookInfoBean.setOrigin("wzzw.la");
+        bookInfoBean.setOrigin("lingdiankanshu.co");
         return bookInfoBean;
     }
 
+    //获得图书章节目录
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void getChapterList(final BookShelfBean bookShelfBean, final OnGetChapterListListener getChapterListListener) {
@@ -197,6 +208,7 @@ public class LingdiankanshuStationBookModelImpl extends MBaseModelImpl implement
         return new WebChapterBean<List<ChapterListBean>>(chapterBeans, next);
     }
 
+    //获得图书内容
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public Observable<BookContentBean> getBookContent(final String durChapterUrl, final int durChapterIndex) {
@@ -243,6 +255,4 @@ public class LingdiankanshuStationBookModelImpl extends MBaseModelImpl implement
             }
         });
     }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

@@ -4,14 +4,24 @@ package com.mp.android.apps.monke.monkeybook.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class SearchBookBean implements Parcelable{
-
+public class SearchBookBean implements Parcelable {
+    /**
+     * 图书url详情页地址
+     */
     private String noteUrl;
-
+    /**
+     * 图书缩略图
+     */
     private String coverUrl;
 
+    /**
+     * 图书名称
+     */
     private String name;
 
+    /**
+     * 图书作者
+     */
     private String author;
 
     private long words;
@@ -30,7 +40,7 @@ public class SearchBookBean implements Parcelable{
 
     private String desc;
 
-    public SearchBookBean(){
+    public SearchBookBean() {
 
     }
 
@@ -58,7 +68,7 @@ public class SearchBookBean implements Parcelable{
         dest.writeLong(words);
         dest.writeString(state);
         dest.writeString(lastChapter);
-        dest.writeByte((byte)(isAdd?1:0));
+        dest.writeByte((byte) (isAdd ? 1 : 0));
         dest.writeString(tag);
         dest.writeString(kind);
         dest.writeString(origin);
@@ -139,7 +149,7 @@ public class SearchBookBean implements Parcelable{
     }
 
     public String getLastChapter() {
-        return lastChapter==null?"":lastChapter;
+        return lastChapter == null ? "" : lastChapter;
     }
 
     public void setLastChapter(String lastChapter) {

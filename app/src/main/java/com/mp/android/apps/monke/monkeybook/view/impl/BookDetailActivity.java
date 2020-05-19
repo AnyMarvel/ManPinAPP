@@ -87,7 +87,6 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
 
         tvIntro.setMovementMethod(ScrollingMovementMethod.getInstance());
         initView();
-
         updateView();
     }
 

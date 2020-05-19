@@ -10,7 +10,16 @@
 
 2. 小说模块(基于客户端本地爬虫对多个网站内容进行爬取,轮训多个站点,找到你喜欢的内容为目的)
 
+小说模块 Changlog 详情请点击 [漫品 小说模块 Changlog](Changlog/xiaoshuochanglog.md)
+
 <font color=red>ps:小说模块本站展示内容均来自网络,如有侵权请联系删除,本站只做技术学习,切勿作为商业使用</font>
+目前漫品客户端支持小说网站:
+
+- [零点读书](https://www.lingdiankanshu.co)
+- [梧桐中文网](http://www.wzzw.la)
+
+持续更新中
+
 <div align="center">
 <img src="pictures/xiaoshuo_4.jpeg" width="150" height="300"/> <img src="pictures/xiaoshuo_3.jpeg" width="150" height="300"/> <img src="pictures/xiaoshuo_2.jpeg" width="150" height="300"/> <img src="pictures/xiaoshuo_1.jpeg" width="150" height="300"/>
 </div>

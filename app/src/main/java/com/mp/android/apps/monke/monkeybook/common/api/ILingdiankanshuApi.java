@@ -17,13 +17,13 @@ public interface ILingdiankanshuApi {
             "Cache-Control:no-cache"})
     Observable<String> getBookInfo(@Url String url);
 
-    @GET("/cse/search")
+    @GET("/search")
     @Headers({"Accept:text/html,application/xhtml+xml,application/xml",
             "User-Agent:Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3",
             "Accept-Charset:UTF-8",
             "Connection:close",
             "Cache-Control:no-cache"})
-    Observable<String> searchBook(@Query("q") String content, @Query("p") int page, @Query("s") String time);
+    Observable<String> searchBook(@Query("q") String content, @Query("siteid") String page,@Query("t") String t);
 
     @GET
     @Headers({"Accept:text/html,application/xhtml+xml,application/xml",

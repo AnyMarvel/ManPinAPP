@@ -1,8 +1,6 @@
 //Copyright (c) 2017. 章钦豪. All rights reserved.
 package com.mp.android.apps.monke.monkeybook.model.impl;
 
-import com.mp.android.apps.login.bean.login.LoginRootBean;
-import com.mp.android.apps.login.network.LoginAPI;
 import com.mp.android.apps.monke.monkeybook.ErrorAnalyContentManager;
 import com.mp.android.apps.monke.monkeybook.base.MBaseModelImpl;
 import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
@@ -15,7 +13,6 @@ import com.mp.android.apps.monke.monkeybook.bean.WebChapterBean;
 import com.mp.android.apps.monke.monkeybook.common.api.ILingdiankanshuApi;
 import com.mp.android.apps.monke.monkeybook.listener.OnGetChapterListListener;
 import com.mp.android.apps.monke.monkeybook.model.IStationBookModel;
-import com.mp.android.apps.networkutils.FastJsonConverterFactory;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -30,12 +27,9 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-
 public class LingdiankanshuStationBookModelImpl extends MBaseModelImpl implements IStationBookModel {
     public static final String TAG = "https://www.lingdiankanshu.co";
     public static final String SEARCH_URL = "https://sou.xanbhx.com";

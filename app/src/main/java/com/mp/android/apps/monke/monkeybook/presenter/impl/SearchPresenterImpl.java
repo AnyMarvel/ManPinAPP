@@ -81,23 +81,9 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
 
         //搜索引擎初始化
         searchEngine = new ArrayList<>();
-
-        Map gxwztvMap = new HashMap();
-        gxwztvMap.put(TAG_KEY, GxwztvBookModelImpl.TAG);
-        gxwztvMap.put(HASMORE_KEY, true);
-        gxwztvMap.put(HASLOAD_KEY, false);
-        gxwztvMap.put(DURREQUESTTIME, 1);
-        gxwztvMap.put(MAXREQUESTTIME, 3);
-        searchEngine.add(gxwztvMap);
-
-        Map lingdiankanshu = new HashMap();
-        lingdiankanshu.put(TAG_KEY, LingdiankanshuStationBookModelImpl.TAG);
-        lingdiankanshu.put(HASMORE_KEY, true);
-        lingdiankanshu.put(HASLOAD_KEY, false);
-        lingdiankanshu.put(DURREQUESTTIME, 1);
-        lingdiankanshu.put(MAXREQUESTTIME, 3);
-        searchEngine.add(lingdiankanshu);
+        WebBookModelImpl.getInstance().registerSearchEngine(searchEngine);
     }
+
 
     @Override
     public Boolean getHasSearch() {
@@ -224,6 +210,7 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
                 searchEngine.get(i).put(HASMORE_KEY, true);
                 searchEngine.get(i).put(HASLOAD_KEY, false);
                 searchEngine.get(i).put(DURREQUESTTIME, 1);
+                searchEngine.get(i).put(MAXREQUESTTIME, 3);
             }
         }
         searchBook(durSearchKey, startThisSearchTime, fromError);

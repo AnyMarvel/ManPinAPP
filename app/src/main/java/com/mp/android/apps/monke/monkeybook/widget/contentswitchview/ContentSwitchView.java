@@ -15,7 +15,6 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.mp.android.apps.monke.monkeybook.ReadBookControl;
-
 import com.mp.android.apps.monke.monkeybook.utils.DensityUtil;
 
 import java.util.ArrayList;
@@ -23,14 +22,16 @@ import java.util.List;
 
 public class ContentSwitchView extends FrameLayout implements BookContentView.SetDataListener {
     private final int screenWidth = DensityUtil.getWindowWidth(getContext());
+    private final int screenHeight = DensityUtil.getWindowHeight(getContext());
     private final long animDuration = 300;
-    public final static int NONE = -1;
-    public final static int PREANDNEXT = 0;
-    public final static int ONLYPRE = 1;
-    public final static int ONLYNEXT = 2;
+    public final static int NONE = -1;//没有上一页 也没有下一页
+    public final static int PREANDNEXT = 0;//有上一页也有下一页
+    public final static int ONLYPRE = 1;//只有上一页
+    public final static int ONLYNEXT = 2;//只有下一页
     private int state = NONE;    //0是有上一页   也有下一页 ;  2是只有下一页  ；1是只有上一页;-1是没有上一页 也没有下一页；
 
     private int scrollX;
+    private int scrollY;
     private Boolean isMoving = false;
 
     private BookContentView durPageView;
@@ -69,6 +70,7 @@ public class ContentSwitchView extends FrameLayout implements BookContentView.Se
         readBookControl = ReadBookControl.getInstance();
 
         scrollX = DensityUtil.dp2px(getContext(), 30f);
+        scrollY = DensityUtil.dp2px(getContext(), 30f);
         durPageView = new BookContentView(getContext());
         durPageView.setReadBookControl(readBookControl);
 
@@ -101,104 +103,157 @@ public class ContentSwitchView extends FrameLayout implements BookContentView.Se
     }
 
     private float startX = -1;
+    private float startY = -1;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int action = event.getAction();
         if (!isMoving) {
             int durWidth = screenWidth > 1400 ? 10 : 0;  //当分辨率过大时，添加横向滑动冗余值
+            int durHeight = screenHeight > 2500 ? 10 : 0;//当分辨率过大时,添加纵向滑动冗余值
             switch (action) {
                 case MotionEvent.ACTION_DOWN:
                     startX = event.getX();
+                    startY = event.getY();
                     break;
                 case MotionEvent.ACTION_MOVE:
+
                     if (viewContents.size() > 1) {
-                        if (startX == -1)
+                        if (startX == -1) {
                             startX = event.getX();
-
-                        //处理分辨率过大，移动冗余值,当横向滑动值超过冗余值则开始滑动
-                        int durX = (int) (event.getX() - startX);
-                        if(durX>durWidth){
-                            durX = durX - durWidth;
-                        }else if(durX<-durWidth){
-                            durX = durX + durWidth;
-                        }else{
-                            durX = 0;
                         }
+                        if (startY == -1) {
+                            startY = event.getY();
+                        }
+//                        处理分辨率过大，移动冗余值,当横向滑动值超过冗余值则开始滑动
+//                        durx为横向滑动值
+//                        durx大于0则是从左向右滑动,相反小于0则是从右向左滑动
+                        float moveX = event.getX() - startX;
+                        float moveY = event.getY() - startY;
+                        boolean translateY = Math.abs(moveY) - Math.abs(moveX) > 0;
+                        if (!translateY) {
+                            int durX = (int) (event.getX() - startX);
+                            if (durX > durWidth) {
+                                durX = durX - durWidth;
+                            } else if (durX < -durWidth) {
+                                durX = durX + durWidth;
+                            } else {
+                                durX = 0;
+                            }
+                            if (durX > 0 && (state == PREANDNEXT || state == ONLYPRE)) {
+                                int tempX = durX - getWidth();
+                                if (tempX < -getWidth())
+                                    tempX = -getWidth();
+                                else if (tempX > 0)
+                                    tempX = 0;
+                                viewContents.get(0).layout(tempX, viewContents.get(0).getTop(), tempX + getWidth(), viewContents.get(0).getBottom());
 
-                        if (durX > 0 && (state == PREANDNEXT || state == ONLYPRE)) {
-                            int tempX = durX - getWidth();
-                            if (tempX < -getWidth())
-                                tempX = -getWidth();
-                            else if (tempX > 0)
-                                tempX = 0;
-                            viewContents.get(0).layout(tempX, viewContents.get(0).getTop(), tempX + getWidth(), viewContents.get(0).getBottom());
-                        } else if (durX < 0 && (state == PREANDNEXT || state == ONLYNEXT)) {
-                            int tempX = durX;
-                            if (tempX > 0)
-                                tempX = 0;
-                            else if (tempX < -getWidth())
-                                tempX = -getWidth();
-                            int tempIndex = (state == PREANDNEXT ? 1 : 0);
-                            viewContents.get(tempIndex).layout(tempX, viewContents.get(tempIndex).getTop(), tempX + getWidth(), viewContents.get(tempIndex).getBottom());
+                            } else if (durX < 0 && (state == PREANDNEXT || state == ONLYNEXT)) {
+                                int tempX = durX;
+                                if (tempX > 0)
+                                    tempX = 0;
+                                else if (tempX < -getWidth())
+                                    tempX = -getWidth();
+                                int tempIndex = (state == PREANDNEXT ? 1 : 0);
+                                viewContents.get(tempIndex).layout(tempX, viewContents.get(tempIndex).getTop(), tempX + getWidth(), viewContents.get(tempIndex).getBottom());
+                            }
                         }
                     }
                     break;
                 case MotionEvent.ACTION_CANCEL:  //小米8长按传送门会引导手势进入action_cancel
                 case MotionEvent.ACTION_UP:
+
                     if (startX == -1)
                         startX = event.getX();
-                    if (event.getX() - startX > durWidth) {
-                        if (state == PREANDNEXT || state == ONLYPRE) {
-                            //注意冗余值
-                            if (event.getX() - startX + durWidth> scrollX) {
-                                //向前翻页成功
-                                initMoveSuccessAnim(viewContents.get(0), 0);
-                            } else {
-                                initMoveFailAnim(viewContents.get(0), -getWidth());
-                            }
-                        } else {
-                            //没有上一页
-                            noPre();
-                        }
-                    } else if (event.getX() - startX < -durWidth) {
-                        if (state == PREANDNEXT || state == ONLYNEXT) {
-                            int tempIndex = (state == PREANDNEXT ? 1 : 0);
-                            //注意冗余值
-                            if (startX - event.getX() - durWidth > scrollX) {
-                                //向后翻页成功
-                                initMoveSuccessAnim(viewContents.get(tempIndex), -getWidth());
-                            } else {
-                                initMoveFailAnim(viewContents.get(tempIndex), 0);
-                            }
-                        } else {
-                            //没有下一页
-                            noNext();
-                        }
-                    } else {
-                        //点击事件
-                        if (readBookControl.getCanClickTurn() && event.getX() <= getWidth() / 3) {
-                            //点击向前翻页
+                    if (startY == -1)
+                        startY = event.getY();
+                    float moveX = event.getX() - startX;
+                    float moveY = event.getY() - startY;
+                    boolean translateY = Math.abs(moveY) - Math.abs(moveX) > 0;
+                    if (translateY) {
+                        if (event.getY() - startY > durHeight) {
                             if (state == PREANDNEXT || state == ONLYPRE) {
-                                initMoveSuccessAnim(viewContents.get(0), 0);
+                                //注意冗余值
+                                if (event.getY() - startY + durHeight > scrollY) {
+                                    //向前翻页成功
+                                    initMoveSuccessAnim(viewContents.get(0), 0);
+                                } else {
+                                    initMoveFailAnim(viewContents.get(0), -getWidth());
+                                }
                             } else {
+                                //没有上一页
                                 noPre();
                             }
-                        } else if (readBookControl.getCanClickTurn() && event.getX() >= getWidth() / 3 * 2) {
-                            //点击向后翻页
+                        } else if (event.getY() - startY < -durHeight) {
                             if (state == PREANDNEXT || state == ONLYNEXT) {
                                 int tempIndex = (state == PREANDNEXT ? 1 : 0);
-                                initMoveSuccessAnim(viewContents.get(tempIndex), -getWidth());
+                                //注意冗余值
+                                if (startY - event.getY() - durHeight > scrollX) {
+                                    //向后翻页成功
+                                    initMoveSuccessAnim(viewContents.get(tempIndex), -getWidth());
+                                } else {
+                                    initMoveFailAnim(viewContents.get(tempIndex), 0);
+                                }
                             } else {
+                                //没有下一页
+                                noNext();
+                            }
+                        }
+                        startY = -1;
+                    } else {
+                        if (event.getX() - startX > durWidth) {
+                            if (state == PREANDNEXT || state == ONLYPRE) {
+                                //注意冗余值
+                                if (event.getX() - startX + durWidth > scrollX) {
+                                    //向前翻页成功
+                                    initMoveSuccessAnim(viewContents.get(0), 0);
+                                } else {
+                                    initMoveFailAnim(viewContents.get(0), -getWidth());
+                                }
+                            } else {
+                                //没有上一页
+                                noPre();
+                            }
+                        } else if (event.getX() - startX < -durWidth) {
+                            if (state == PREANDNEXT || state == ONLYNEXT) {
+                                int tempIndex = (state == PREANDNEXT ? 1 : 0);
+                                //注意冗余值
+                                if (startX - event.getX() - durWidth > scrollX) {
+                                    //向后翻页成功
+                                    initMoveSuccessAnim(viewContents.get(tempIndex), -getWidth());
+                                } else {
+                                    initMoveFailAnim(viewContents.get(tempIndex), 0);
+                                }
+                            } else {
+                                //没有下一页
                                 noNext();
                             }
                         } else {
-                            //点击中间部位
-                            if (loadDataListener != null)
-                                loadDataListener.showMenu();
+                            //点击事件
+                            if (readBookControl.getCanClickTurn() && event.getX() <= getWidth() / 3) {
+                                //点击向前翻页
+                                if (state == PREANDNEXT || state == ONLYPRE) {
+                                    initMoveSuccessAnim(viewContents.get(0), 0);
+                                } else {
+                                    noPre();
+                                }
+                            } else if (readBookControl.getCanClickTurn() && event.getX() >= getWidth() / 3 * 2) {
+                                //点击向后翻页
+                                if (state == PREANDNEXT || state == ONLYNEXT) {
+                                    int tempIndex = (state == PREANDNEXT ? 1 : 0);
+                                    initMoveSuccessAnim(viewContents.get(tempIndex), -getWidth());
+                                } else {
+                                    noNext();
+                                }
+                            } else {
+                                //点击中间部位
+                                if (loadDataListener != null)
+                                    loadDataListener.showMenu();
+                            }
                         }
+                        startX = -1;
                     }
-                    startX = -1;
+
                     break;
                 default:
                     break;

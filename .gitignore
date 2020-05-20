@@ -27,8 +27,5 @@ proguard
 build
 build/
 .idea
-gradle/
-gradlew
-gradlew.bat
 release/
 local.properties

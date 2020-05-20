@@ -188,6 +188,6 @@ protobuf {
 
 greendao {
     schemaVersion 1
-    daoPackage 'com.mp.android.apps.monke.dao'
+    daoPackage 'com.mp.android.apps.monke.monkeybook.dao'
     targetGenDir 'src/main/java'
 }

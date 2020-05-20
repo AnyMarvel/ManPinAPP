@@ -162,7 +162,6 @@ public class ContentSwitchView extends FrameLayout implements BookContentView.Se
                     break;
                 case MotionEvent.ACTION_CANCEL:  //小米8长按传送门会引导手势进入action_cancel
                 case MotionEvent.ACTION_UP:
-
                     if (startX == -1)
                         startX = event.getX();
                     if (startY == -1)
@@ -170,7 +169,8 @@ public class ContentSwitchView extends FrameLayout implements BookContentView.Se
                     float moveX = event.getX() - startX;
                     float moveY = event.getY() - startY;
                     boolean translateY = Math.abs(moveY) - Math.abs(moveX) > 0;
-                    if (translateY) {
+
+                    if (translateY && Math.abs(event.getX() - startX + durWidth) < scrollX) {
                         if (event.getY() - startY > durHeight) {
                             if (state == PREANDNEXT || state == ONLYPRE) {
                                 //注意冗余值

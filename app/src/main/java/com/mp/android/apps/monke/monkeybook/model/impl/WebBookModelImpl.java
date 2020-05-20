@@ -8,11 +8,15 @@ import com.mp.android.apps.monke.monkeybook.listener.OnGetChapterListListener;
 import com.mp.android.apps.monke.monkeybook.model.IWebBookModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+
+import static com.mp.android.apps.monke.monkeybook.presenter.impl.SearchPresenterImpl.TAG_KEY;
 
 public class WebBookModelImpl implements IWebBookModel {
 
@@ -28,13 +32,11 @@ public class WebBookModelImpl implements IWebBookModel {
      */
     @Override
     public Observable<BookShelfBean> getBookInfo(BookShelfBean bookShelfBean) {
-        if(bookShelfBean.getTag().equals(GxwztvBookModelImpl.TAG)){
+        if (bookShelfBean.getTag().equals(GxwztvBookModelImpl.TAG)) {
             return GxwztvBookModelImpl.getInstance().getBookInfo(bookShelfBean);
-        }
-        else if(bookShelfBean.getTag().equals(LingdiankanshuStationBookModelImpl.TAG)){
+        } else if (bookShelfBean.getTag().equals(LingdiankanshuStationBookModelImpl.TAG)) {
             return LingdiankanshuStationBookModelImpl.getInstance().getBookInfo(bookShelfBean);
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -47,14 +49,12 @@ public class WebBookModelImpl implements IWebBookModel {
      */
     @Override
     public void getChapterList(final BookShelfBean bookShelfBean, OnGetChapterListListener getChapterListListener) {
-        if(bookShelfBean.getTag().equals(GxwztvBookModelImpl.TAG)){
+        if (bookShelfBean.getTag().equals(GxwztvBookModelImpl.TAG)) {
             GxwztvBookModelImpl.getInstance().getChapterList(bookShelfBean, getChapterListListener);
-        }
-        else if(bookShelfBean.getTag().equals(LingdiankanshuStationBookModelImpl.TAG)){
+        } else if (bookShelfBean.getTag().equals(LingdiankanshuStationBookModelImpl.TAG)) {
             LingdiankanshuStationBookModelImpl.getInstance().getChapterList(bookShelfBean, getChapterListListener);
-        }
-        else{
-            if(getChapterListListener!=null)
+        } else {
+            if (getChapterListListener != null)
                 getChapterListListener.success(bookShelfBean);
         }
     }
@@ -66,13 +66,11 @@ public class WebBookModelImpl implements IWebBookModel {
      */
     @Override
     public Observable<BookContentBean> getBookContent(String durChapterUrl, int durChapterIndex, String tag) {
-        if(tag.equals(GxwztvBookModelImpl.TAG)){
+        if (tag.equals(GxwztvBookModelImpl.TAG)) {
             return GxwztvBookModelImpl.getInstance().getBookContent(durChapterUrl, durChapterIndex);
-        }
-        else if(tag.equals(LingdiankanshuStationBookModelImpl.TAG)){
+        } else if (tag.equals(LingdiankanshuStationBookModelImpl.TAG)) {
             return LingdiankanshuStationBookModelImpl.getInstance().getBookContent(durChapterUrl, durChapterIndex);
-        }
-        else
+        } else
             return Observable.create(new ObservableOnSubscribe<BookContentBean>() {
                 @Override
                 public void subscribe(ObservableEmitter<BookContentBean> e) throws Exception {
@@ -86,14 +84,12 @@ public class WebBookModelImpl implements IWebBookModel {
      * 其他站点集合搜索
      */
     @Override
-    public Observable<List<SearchBookBean>> searchOtherBook(String content, int page, String tag){
-        if(tag.equals(GxwztvBookModelImpl.TAG)){
+    public Observable<List<SearchBookBean>> searchOtherBook(String content, int page, String tag) {
+        if (tag.equals(GxwztvBookModelImpl.TAG)) {
             return GxwztvBookModelImpl.getInstance().searchBook(content, page);
-        }
-        else if(tag.equals(LingdiankanshuStationBookModelImpl.TAG)){
+        } else if (tag.equals(LingdiankanshuStationBookModelImpl.TAG)) {
             return LingdiankanshuStationBookModelImpl.getInstance().searchBook(content, page);
-        }
-        else{
+        } else {
             return Observable.create(new ObservableOnSubscribe<List<SearchBookBean>>() {
                 @Override
                 public void subscribe(ObservableEmitter<List<SearchBookBean>> e) throws Exception {
@@ -103,11 +99,29 @@ public class WebBookModelImpl implements IWebBookModel {
             });
         }
     }
+
     /**
      * 获取分类书籍
      */
     @Override
     public Observable<List<SearchBookBean>> getKindBook(String url, int page) {
-        return GxwztvBookModelImpl.getInstance().getKindBook(url,page);
+        return GxwztvBookModelImpl.getInstance().getKindBook(url, page);
+    }
+
+    /**
+     * 新增jsoup分析网站需要这里进行注册
+     *
+     * @param searchEngine
+     */
+    public void registerSearchEngine(List<Map> searchEngine) {
+        //搜索引擎初始化
+        newSearchEngine(searchEngine, GxwztvBookModelImpl.TAG);
+        newSearchEngine(searchEngine, LingdiankanshuStationBookModelImpl.TAG);
+    }
+
+    private void newSearchEngine(List<Map> searchEngine, String ImplTAG) {
+        Map map = new HashMap();
+        map.put(TAG_KEY, ImplTAG);
+        searchEngine.add(map);
     }
 }

@@ -38,6 +38,8 @@ public class WebBookModelImpl implements IWebBookModel {
             return LingdiankanshuStationBookModelImpl.getInstance().getBookInfo(bookShelfBean);
         } else if (bookShelfBean.getTag().equals(ContentYb3ModelImpl.TAG)) {
             return ContentYb3ModelImpl.getInstance().getBookInfo(bookShelfBean);
+        } else if (bookShelfBean.getTag().equals(ContentWxguanModelImpl.TAG)) {
+            return ContentWxguanModelImpl.getInstance().getBookInfo(bookShelfBean);
         } else {
             return null;
         }
@@ -57,6 +59,8 @@ public class WebBookModelImpl implements IWebBookModel {
             LingdiankanshuStationBookModelImpl.getInstance().getChapterList(bookShelfBean, getChapterListListener);
         } else if (bookShelfBean.getTag().equals(ContentYb3ModelImpl.TAG)) {
             ContentYb3ModelImpl.getInstance().getChapterList(bookShelfBean, getChapterListListener);
+        } else if (bookShelfBean.getTag().equals(ContentWxguanModelImpl.TAG)) {
+            ContentWxguanModelImpl.getInstance().getChapterList(bookShelfBean, getChapterListListener);
         } else {
             if (getChapterListListener != null)
                 getChapterListListener.success(bookShelfBean);
@@ -76,6 +80,8 @@ public class WebBookModelImpl implements IWebBookModel {
             return LingdiankanshuStationBookModelImpl.getInstance().getBookContent(durChapterUrl, durChapterIndex);
         } else if (tag.equals(ContentYb3ModelImpl.TAG)) {
             return ContentYb3ModelImpl.getInstance().getBookContent(durChapterUrl, durChapterIndex);
+        } else if (tag.equals(ContentWxguanModelImpl.TAG)) {
+            return ContentWxguanModelImpl.getInstance().getBookContent(durChapterUrl, durChapterIndex);
         } else
             return Observable.create(new ObservableOnSubscribe<BookContentBean>() {
                 @Override
@@ -97,7 +103,9 @@ public class WebBookModelImpl implements IWebBookModel {
             return LingdiankanshuStationBookModelImpl.getInstance().searchBook(content, page);
         } else if (tag.equals(ContentYb3ModelImpl.TAG)) {
             return ContentYb3ModelImpl.getInstance().searchBook(content, page);
-        } else {
+        } else if (tag.equals(ContentWxguanModelImpl.TAG)) {
+            return ContentWxguanModelImpl.getInstance().searchBook(content, page);
+        }else {
             return Observable.create(new ObservableOnSubscribe<List<SearchBookBean>>() {
                 @Override
                 public void subscribe(ObservableEmitter<List<SearchBookBean>> e) throws Exception {
@@ -126,6 +134,7 @@ public class WebBookModelImpl implements IWebBookModel {
         newSearchEngine(searchEngine, GxwztvBookModelImpl.TAG);
         newSearchEngine(searchEngine, LingdiankanshuStationBookModelImpl.TAG);
         newSearchEngine(searchEngine, ContentYb3ModelImpl.TAG);
+        newSearchEngine(searchEngine, ContentWxguanModelImpl.TAG);
     }
 
     private void newSearchEngine(List<Map> searchEngine, String ImplTAG) {

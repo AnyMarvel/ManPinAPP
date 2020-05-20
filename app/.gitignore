@@ -33,4 +33,3 @@ gradlew.bat
 release/
 generated
 bugly/
-*dao*

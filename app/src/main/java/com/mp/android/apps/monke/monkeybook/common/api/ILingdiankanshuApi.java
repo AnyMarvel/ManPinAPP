@@ -23,7 +23,7 @@ public interface ILingdiankanshuApi {
             "Accept-Charset:UTF-8",
             "Connection:close",
             "Cache-Control:no-cache"})
-    Observable<String> searchBook(@Query("q") String content, @Query("siteid") String page,@Query("t") String t);
+    Observable<String> searchBook(@Query("q") String content, @Query("siteid") String siteid,@Query("t") String t);
 
     @GET
     @Headers({"Accept:text/html,application/xhtml+xml,application/xml",

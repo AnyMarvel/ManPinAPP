@@ -19,6 +19,8 @@
 - [零点读书](https://www.lingdiankanshu.co)
 - [梧桐中文网](http://www.wzzw.la)
 - [ABC小说网](https://www.yb3.cc)
+- [文学馆](https://www.xwxguan.com)
+
 持续更新中
 
 <div align="center">

@@ -48,11 +48,6 @@ public class ContentWxguanModelImpl extends MBaseModelImpl implements IStationBo
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public Observable<List<SearchBookBean>> searchBook(String content, int page) {
-//        try {
-//            content = java.net.URLEncoder.encode(content, "GBK");
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
         return getRetrofitObject(TAG_SEARCH).create(IWxguanAPI.class).searchBook("xwxguan.com", content,"utf-8").flatMap(new Function<String, ObservableSource<List<SearchBookBean>>>() {
             @Override
             public ObservableSource<List<SearchBookBean>> apply(String s) throws Exception {
@@ -78,7 +73,8 @@ public class ContentWxguanModelImpl extends MBaseModelImpl implements IStationBo
 //                            item.setState();
                             item.setOrigin(ORIGIN);
                             item.setName(booksE.get(i).getElementsByClass("s2").get(0).getElementsByTag("a").get(0).text());
-                            item.setNoteUrl(booksE.get(i).getElementsByClass("s2").get(0).getElementsByTag("a").get(0).attr("href"));
+                            String href=booksE.get(i).getElementsByClass("s2").get(0).getElementsByTag("a").get(0).attr("href");
+                            item.setNoteUrl(TAG+"/wenzhang/"+Integer.parseInt(href.substring(href.lastIndexOf("/")+1))/2+"/"+href.substring(href.lastIndexOf("/")+1));
                             item.setCoverUrl("noimage");
                             books.add(item);
                         }
@@ -128,7 +124,7 @@ public class ContentWxguanModelImpl extends MBaseModelImpl implements IStationBo
 
         bookInfoBean.setCoverUrl(TAG + resultE.getElementsByTag("img").get(0).attr("src"));
 
-        bookInfoBean.setName(resultE.getElementsByClass("img").get(0).attr("alt"));
+        bookInfoBean.setName(resultE.getElementsByTag("img").get(0).attr("alt"));
         String author = resultE.getElementsByClass("small").get(0).getElementsByTag("span").get(0).text().toString().trim();
         author = author.replace(" ", "").replace("  ", "").replace("作者：", "");
         bookInfoBean.setAuthor(author);

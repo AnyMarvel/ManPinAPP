@@ -6,3 +6,4 @@
 2020年05月20日
 增加:
 - 新增网站内容  [ABC小说网](https://www.yb3.cc)
+- 新增网站内容 [文学馆](https://www.xwxguan.com)

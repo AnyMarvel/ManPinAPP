@@ -17,9 +17,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class MBaseModelImpl {
     protected OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
-            .connectTimeout(10, TimeUnit.SECONDS)
-            .writeTimeout(10, TimeUnit.SECONDS)
-            .readTimeout(10, TimeUnit.SECONDS)
+            .connectTimeout(5, TimeUnit.SECONDS)
+            .writeTimeout(5, TimeUnit.SECONDS)
+            .readTimeout(5, TimeUnit.SECONDS)
             .addInterceptor(new ProxyInterceptor());
 
     TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {

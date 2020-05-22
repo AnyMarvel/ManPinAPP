@@ -1,6 +1,8 @@
 //Copyright (c) 2017. 章钦豪. All rights reserved.
 package com.mp.android.apps.monke.monkeybook.common.api;
 
+import java.util.LinkedHashMap;
+
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -40,4 +42,23 @@ public interface ILingdiankanshuApi {
             "Connection:close",
             "Cache-Control:no-cache"})
     Observable<String> getChapterList(@Url String url);
+
+    @GET
+    @Headers({"Accept:text/html,application/xhtml+xml,application/xml",
+            "User-Agent:Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3",
+            "Accept-Charset:UTF-8",
+            "Connection:close",
+            "Cache-Control:no-cache"})
+    Observable<String> getKindBooks(@Url String url);
+
+    @GET
+    @Headers({"Accept:text/html,application/xhtml+xml,application/xml",
+            "User-Agent:Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3",
+            "Accept-Charset:UTF-8",
+            "Connection:close",
+            "Cache-Control:no-cache"})
+    Observable<String> getBookKinds(@Url String url);
+
+
+
 }

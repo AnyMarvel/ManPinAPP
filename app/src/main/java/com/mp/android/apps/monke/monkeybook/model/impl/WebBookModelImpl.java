@@ -1,6 +1,8 @@
 //Copyright (c) 2017. 章钦豪. All rights reserved.
 package com.mp.android.apps.monke.monkeybook.model.impl;
 
+import android.net.Uri;
+
 import com.mp.android.apps.monke.monkeybook.bean.BookContentBean;
 import com.mp.android.apps.monke.monkeybook.bean.BookShelfBean;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
@@ -121,7 +123,16 @@ public class WebBookModelImpl implements IWebBookModel {
      */
     @Override
     public Observable<List<SearchBookBean>> getKindBook(String url, int page) {
-        return GxwztvBookModelImpl.getInstance().getKindBook(url, page);
+        Uri uri=Uri.parse(url);
+        String tag= uri.getScheme()+"://"+uri.getHost();
+        if (tag.equals(GxwztvBookModelImpl.TAG)) {
+            return GxwztvBookModelImpl.getInstance().getKindBook(url, page);
+        } else if (tag.equals(LingdiankanshuStationBookModelImpl.TAG)) {
+            return LingdiankanshuStationBookModelImpl.getInstance().getKindBook(url, page);
+        }else {
+            return GxwztvBookModelImpl.getInstance().getKindBook(url, page);
+        }
+
     }
 
     /**

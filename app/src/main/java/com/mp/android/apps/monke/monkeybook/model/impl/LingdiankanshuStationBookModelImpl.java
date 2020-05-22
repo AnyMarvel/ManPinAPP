@@ -12,7 +12,9 @@ import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
 import com.mp.android.apps.monke.monkeybook.bean.WebChapterBean;
 import com.mp.android.apps.monke.monkeybook.common.api.ILingdiankanshuApi;
 import com.mp.android.apps.monke.monkeybook.listener.OnGetChapterListListener;
+import com.mp.android.apps.monke.monkeybook.model.IDynamicBookModel;
 import com.mp.android.apps.monke.monkeybook.model.IStationBookModel;
+import com.mp.android.apps.utils.Logger;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,16 +23,22 @@ import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
+
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
+
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-public class LingdiankanshuStationBookModelImpl extends MBaseModelImpl implements IStationBookModel {
+
+public class LingdiankanshuStationBookModelImpl extends MBaseModelImpl implements IDynamicBookModel {
     public static final String TAG = "https://www.lingdiankanshu.co";
     public static final String SEARCH_URL = "https://sou.xanbhx.com";
     public static final String TAG_SEARCH = "lingdiankanshuco";
@@ -214,6 +222,7 @@ public class LingdiankanshuStationBookModelImpl extends MBaseModelImpl implement
         });
     }
 
+
     private Observable<BookContentBean> analyBookContent(final String s, final String durChapterUrl, final int durChapterIndex) {
         return Observable.create(new ObservableOnSubscribe<BookContentBean>() {
             @Override
@@ -249,4 +258,80 @@ public class LingdiankanshuStationBookModelImpl extends MBaseModelImpl implement
             }
         });
     }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Library展示导航索引页数据,获取
+    @Override
+    public LinkedHashMap<String, String> getBookNavs() {
+        LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
+        linkedHashMap.put("东方玄幻", "http://www.wzzw.la/xuanhuanxiaoshuo/");
+        linkedHashMap.put("西方奇幻", "http://www.wzzw.la/qihuanxiaoshuo/");
+        linkedHashMap.put("热血修真", "http://www.wzzw.la/xiuzhenxiaoshuo/");
+        linkedHashMap.put("武侠仙侠", "http://www.wzzw.la/wuxiaxiaoshuo/");
+        linkedHashMap.put("都市爽文", "http://www.wzzw.la/dushixiaoshuo/");
+        linkedHashMap.put("言情暧昧", "http://www.wzzw.la/yanqingxiaoshuo/");
+        linkedHashMap.put("灵异悬疑", "http://www.wzzw.la/lingyixiaoshuo/");
+        linkedHashMap.put("运动竞技", "http://www.wzzw.la/jingjixiaoshuo/");
+        linkedHashMap.put("历史架空", "http://www.wzzw.la/lishixiaoshuo/");
+        linkedHashMap.put("审美", "http://www.wzzw.la/danmeixiaoshuo/");
+        linkedHashMap.put("科幻迷航", "http://www.wzzw.la/kehuanxiaoshuo/");
+        linkedHashMap.put("游戏人生", "http://www.wzzw.la/youxixiaoshuo/");
+        linkedHashMap.put("军事斗争", "http://www.wzzw.la/junshixiaoshuo/");
+        linkedHashMap.put("商战人生", "http://www.wzzw.la/shangzhanxiaoshuo/");
+        linkedHashMap.put("校园爱情", "http://www.wzzw.la/xiaoyuanxiaoshuo/");
+        linkedHashMap.put("官场仕途", "http://www.wzzw.la/guanchangxiaoshuo/");
+        linkedHashMap.put("娱乐明星", "http://www.wzzw.la/zhichangxiaoshuo/");
+        linkedHashMap.put("其他", "http://www.wzzw.la/qitaxiaoshuo/");
+        return linkedHashMap;
+
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @Override
+    public Observable<List<SearchBookBean>> getKindBook(String url, int page) {
+        return getRetrofitObject(LingdiankanshuStationBookModelImpl.TAG).create(ILingdiankanshuApi.class).getKindBooks(url.replace(LingdiankanshuStationBookModelImpl.TAG, "")).flatMap(new Function<String, ObservableSource<List<SearchBookBean>>>() {
+            @Override
+            public ObservableSource<List<SearchBookBean>> apply(String s) throws Exception {
+                return analyKindBook(s);
+            }
+        });
+    }
+
+    public Observable<List<SearchBookBean>> analyKindBook(final String s) {
+        return Observable.create(new ObservableOnSubscribe<List<SearchBookBean>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<SearchBookBean>> e) throws Exception {
+                try {
+                    Document doc = Jsoup.parse(s);
+                    Elements booksE = doc.getElementById("main").getElementById("newscontent").getElementsByTag("ul").get(0).getElementsByTag("li");
+                    if (null != booksE && booksE.size() > 1) {
+                        List<SearchBookBean> books = new ArrayList<SearchBookBean>();
+                        for (int i = 1; i < booksE.size(); i++) {
+                            SearchBookBean item = new SearchBookBean();
+                            item.setTag(TAG);
+                            item.setAuthor(booksE.get(i).getElementsByClass("s4").get(0).text());
+                            item.setKind(booksE.get(i).getElementsByClass("s1").get(0).text());
+//                            item.setState();
+                            item.setLastChapter(booksE.get(i).getElementsByClass("s3").get(0).getElementsByTag("a").get(0).text());
+                            item.setOrigin("lingdiankanshu.co");
+                            item.setName(booksE.get(i).getElementsByClass("s2").get(0).getElementsByTag("a").get(0).text());
+                            item.setNoteUrl(booksE.get(i).getElementsByClass("s2").get(0).getElementsByTag("a").get(0).attr("href"));
+                            item.setCoverUrl("noimage");
+                            books.add(item);
+                        }
+                        e.onNext(books);
+                    } else {
+                        e.onNext(new ArrayList<SearchBookBean>());
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    e.onNext(new ArrayList<SearchBookBean>());
+                }
+                e.onComplete();
+            }
+        });
+    }
+
+
 }

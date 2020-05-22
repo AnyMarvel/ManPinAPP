@@ -29,6 +29,9 @@ import com.mp.android.apps.monke.monkeybook.widget.refreshview.RefreshProgressBa
 import com.mp.android.apps.monke.monkeybook.widget.refreshview.RefreshScrollView;
 
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class LibraryActivity extends MBaseActivity<ILibraryPresenter> implements ILibraryView {
@@ -79,15 +82,17 @@ public class LibraryActivity extends MBaseActivity<ILibraryPresenter> implements
         flSearch = (FrameLayout) findViewById(R.id.fl_search);
 
         kindLl = (LinearLayout) findViewById(R.id.kind_ll);
-        initKind();
+
+        refreshKind(mPresenter.getKinds());
 
         lavHotauthor = (LibraryNewBooksView) findViewById(R.id.lav_hotauthor);
         lkbvKindbooklist = (LibraryKindBookListView) findViewById(R.id.lkbv_kindbooklist);
     }
 
-    private void initKind() {
+    private void refreshKind(LinkedHashMap<String, String> linkedHashMap) {
         int columnCout = 4;
-        Iterator iterator = mPresenter.getKinds().entrySet().iterator();
+        kindLl.removeAllViews();
+        Iterator iterator = linkedHashMap.entrySet().iterator();
         int temp = 0;
         LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         LinearLayout linearLayout = null;
@@ -104,6 +109,7 @@ public class LibraryActivity extends MBaseActivity<ILibraryPresenter> implements
             TextView textView = new TextView(this);
             textView.setLayoutParams(tvLp);
             textView.setText(resultTemp.getKey());
+
             textView.setGravity(Gravity.CENTER);
             textView.setTextSize(14);
             textView.setPadding(0, DensityUtil.dp2px(this, 5), 0, DensityUtil.dp2px(this, 5));
@@ -112,14 +118,15 @@ public class LibraryActivity extends MBaseActivity<ILibraryPresenter> implements
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ChoiceBookActivity.startChoiceBookActivity(LibraryActivity.this, resultTemp.getKey(),resultTemp.getValue());
+                    ChoiceBookActivity.startChoiceBookActivity(LibraryActivity.this, resultTemp.getKey(), resultTemp.getValue());
                 }
             });
+
             linearLayout.addView(textView);
             temp++;
         }
-        int viewCount = mPresenter.getKinds().size() % columnCout == 0?0:(columnCout-mPresenter.getKinds().size() % columnCout);
-        for(int i=0;i<viewCount;i++){
+        int viewCount = mPresenter.getKinds().size() % columnCout == 0 ? 0 : (columnCout - mPresenter.getKinds().size() % columnCout);
+        for (int i = 0; i < viewCount; i++) {
             View v = new View(this);
             v.setLayoutParams(tvLp);
             linearLayout.addView(v);
@@ -215,7 +222,7 @@ public class LibraryActivity extends MBaseActivity<ILibraryPresenter> implements
         lkbvKindbooklist.updateData(library.getKindBooks(), new LibraryKindBookListView.OnItemListener() {
             @Override
             public void onClickMore(String title, String url) {
-                ChoiceBookActivity.startChoiceBookActivity(LibraryActivity.this,title,url);
+                ChoiceBookActivity.startChoiceBookActivity(LibraryActivity.this, title, url);
             }
 
             @Override
@@ -231,5 +238,10 @@ public class LibraryActivity extends MBaseActivity<ILibraryPresenter> implements
     @Override
     public void finishRefresh() {
         rscvContent.finishRefresh();
+    }
+
+    @Override
+    public void updateNav(LinkedHashMap<String, String> linkedList) {
+        refreshKind(linkedList);
     }
 }

@@ -26,8 +26,10 @@ import com.mp.android.apps.monke.monkeybook.view.ISearchView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -48,6 +50,10 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
 
     private int page = 1;
     private List<Map> searchEngine;
+    private Set faildEngine = new HashSet();//搜索失败引擎集合
+    private int firstSuccessEngine = -1;
+
+
     private long startThisSearchTime;
     private String durSearchKey;
 
@@ -205,6 +211,7 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
     public void toSearchBooks(String key, Boolean fromError) {
         if (key != null) {
             durSearchKey = key;
+            faildEngine.clear();
             this.startThisSearchTime = System.currentTimeMillis();
             for (int i = 0; i < searchEngine.size(); i++) {
                 searchEngine.get(i).put(HASMORE_KEY, true);
@@ -270,7 +277,11 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
                                                 }
                                             }
                                         }
-                                        if (page == 1 && finalSearchEngineIndex == 0) {
+                                        //增加少个成功搜索引擎id
+                                        if (firstSuccessEngine == -1) {
+                                            firstSuccessEngine = finalSearchEngineIndex;
+                                        }
+                                        if (page == 1 && finalSearchEngineIndex == firstSuccessEngine) {
                                             mView.refreshSearchBook(value);
                                         } else {
                                             if (value != null && value.size() > 0 && !mView.checkIsExist(value.get(0)))
@@ -287,9 +298,14 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
                                 public void onError(Throwable e) {
                                     e.printStackTrace();
                                     if (searchTime == startThisSearchTime) {
+                                        faildEngine.add(searchEngine.get(finalSearchEngineIndex).get(TAG_KEY));
                                         searchEngine.get(finalSearchEngineIndex).put(HASLOAD_KEY, false);
                                         searchEngine.get(finalSearchEngineIndex).put(DURREQUESTTIME, ((int) searchEngine.get(finalSearchEngineIndex).get(DURREQUESTTIME)) + 1);
-                                        mView.searchBookError(page == 1 && (finalSearchEngineIndex == 0 || (finalSearchEngineIndex > 0 && mView.getSearchBookAdapter().getItemcount() == 0)));
+                                        if (faildEngine.size() == searchEngine.size()) {
+                                            mView.searchBookError(page == 1 && (finalSearchEngineIndex == 0 || (finalSearchEngineIndex > 0 && mView.getSearchBookAdapter().getItemcount() == 0)));
+                                        } else {
+                                            searchBook(content, searchTime, false);
+                                        }
                                     }
                                 }
                             });

@@ -217,12 +217,13 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
                 searchEngine.get(i).put(HASMORE_KEY, true);
                 searchEngine.get(i).put(HASLOAD_KEY, false);
                 searchEngine.get(i).put(DURREQUESTTIME, 1);
-                searchEngine.get(i).put(MAXREQUESTTIME, 3);
+                searchEngine.get(i).put(MAXREQUESTTIME, 1);
             }
         }
         searchBook(durSearchKey, startThisSearchTime, fromError);
     }
 
+    //todo 分页加载,目前遍历搜索只会搜索第一页内容,对分页内容应该进行支持
     private void searchBook(final String content, final long searchTime, Boolean fromError) {
         if (searchTime == startThisSearchTime) {
             Boolean canLoad = false;

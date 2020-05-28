@@ -83,7 +83,7 @@ public class LibraryActivity extends MBaseActivity<ILibraryPresenter> implements
 
         kindLl = (LinearLayout) findViewById(R.id.kind_ll);
 
-        refreshKind(mPresenter.getKinds());
+        mPresenter.getKinds();
 
         lavHotauthor = (LibraryNewBooksView) findViewById(R.id.lav_hotauthor);
         lkbvKindbooklist = (LibraryKindBookListView) findViewById(R.id.lkbv_kindbooklist);
@@ -125,7 +125,7 @@ public class LibraryActivity extends MBaseActivity<ILibraryPresenter> implements
             linearLayout.addView(textView);
             temp++;
         }
-        int viewCount = mPresenter.getKinds().size() % columnCout == 0 ? 0 : (columnCout - mPresenter.getKinds().size() % columnCout);
+        int viewCount = linkedHashMap.size() % columnCout == 0 ? 0 : (columnCout - linkedHashMap.size() % columnCout);
         for (int i = 0; i < viewCount; i++) {
             View v = new View(this);
             v.setLayoutParams(tvLp);

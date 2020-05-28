@@ -26,6 +26,7 @@ import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -126,7 +127,7 @@ public class GxwztvBookModelImpl extends MBaseModelImpl implements IGxwztvBookMo
                         item.setTag(TAG);
                         item.setOrigin("wzzw.la");
                         item.setKind(kindItem.getKindName());
-                        item.setNoteUrl(TAG+otherBookEs.get(j).getElementsByTag("a").get(0).attr("href"));
+                        item.setNoteUrl(TAG + otherBookEs.get(j).getElementsByTag("a").get(0).attr("href"));
                         item.setName(otherBookEs.get(j).getElementsByTag("a").get(0).text());
                         books.add(item);
                     }
@@ -139,6 +140,31 @@ public class GxwztvBookModelImpl extends MBaseModelImpl implements IGxwztvBookMo
                 e.onComplete();
             }
         });
+    }
+
+    //Library展示导航索引页数据,获取
+    @Override
+    public LinkedHashMap<String, String> getBookNavs() {
+        LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
+        linkedHashMap.put("东方玄幻", "http://www.wzzw.la/xuanhuanxiaoshuo/");
+        linkedHashMap.put("西方奇幻", "http://www.wzzw.la/qihuanxiaoshuo/");
+        linkedHashMap.put("热血修真", "http://www.wzzw.la/xiuzhenxiaoshuo/");
+        linkedHashMap.put("武侠仙侠", "http://www.wzzw.la/wuxiaxiaoshuo/");
+        linkedHashMap.put("都市爽文", "http://www.wzzw.la/dushixiaoshuo/");
+        linkedHashMap.put("言情暧昧", "http://www.wzzw.la/yanqingxiaoshuo/");
+        linkedHashMap.put("灵异悬疑", "http://www.wzzw.la/lingyixiaoshuo/");
+        linkedHashMap.put("运动竞技", "http://www.wzzw.la/jingjixiaoshuo/");
+        linkedHashMap.put("历史架空", "http://www.wzzw.la/lishixiaoshuo/");
+        linkedHashMap.put("审美", "http://www.wzzw.la/danmeixiaoshuo/");
+        linkedHashMap.put("科幻迷航", "http://www.wzzw.la/kehuanxiaoshuo/");
+        linkedHashMap.put("游戏人生", "http://www.wzzw.la/youxixiaoshuo/");
+        linkedHashMap.put("军事斗争", "http://www.wzzw.la/junshixiaoshuo/");
+        linkedHashMap.put("商战人生", "http://www.wzzw.la/shangzhanxiaoshuo/");
+        linkedHashMap.put("校园爱情", "http://www.wzzw.la/xiaoyuanxiaoshuo/");
+        linkedHashMap.put("官场仕途", "http://www.wzzw.la/guanchangxiaoshuo/");
+        linkedHashMap.put("娱乐明星", "http://www.wzzw.la/zhichangxiaoshuo/");
+        linkedHashMap.put("其他", "http://www.wzzw.la/qitaxiaoshuo/");
+        return linkedHashMap;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////

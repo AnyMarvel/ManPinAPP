@@ -11,6 +11,8 @@ import com.mp.android.apps.monke.monkeybook.model.IWebBookModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -107,7 +109,7 @@ public class WebBookModelImpl implements IWebBookModel {
             return ContentYb3ModelImpl.getInstance().searchBook(content, page);
         } else if (tag.equals(ContentWxguanModelImpl.TAG)) {
             return ContentWxguanModelImpl.getInstance().searchBook(content, page);
-        }else {
+        } else {
             return Observable.create(new ObservableOnSubscribe<List<SearchBookBean>>() {
                 @Override
                 public void subscribe(ObservableEmitter<List<SearchBookBean>> e) throws Exception {
@@ -117,22 +119,34 @@ public class WebBookModelImpl implements IWebBookModel {
             });
         }
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * 获取分类书籍
+     * 点击事件获取分类书籍
      */
     @Override
     public Observable<List<SearchBookBean>> getKindBook(String url, int page) {
-        Uri uri=Uri.parse(url);
-        String tag= uri.getScheme()+"://"+uri.getHost();
+        Uri uri = Uri.parse(url);
+        String tag = uri.getScheme() + "://" + uri.getHost();
         if (tag.equals(GxwztvBookModelImpl.TAG)) {
             return GxwztvBookModelImpl.getInstance().getKindBook(url, page);
         } else if (tag.equals(LingdiankanshuStationBookModelImpl.TAG)) {
             return LingdiankanshuStationBookModelImpl.getInstance().getKindBook(url, page);
-        }else {
+        } else {
             return GxwztvBookModelImpl.getInstance().getKindBook(url, page);
         }
+    }
 
+    public LinkedHashMap<String, String> getBookNav(String url) {
+        Uri uri = Uri.parse(url);
+        String tag = uri.getScheme() + "://" + uri.getHost();
+        if (tag.equals(GxwztvBookModelImpl.TAG)) {
+            return GxwztvBookModelImpl.getInstance().getBookNavs();
+        } else if (tag.equals(LingdiankanshuStationBookModelImpl.TAG)) {
+            return LingdiankanshuStationBookModelImpl.getInstance().getBookNavs();
+        } else {
+            return GxwztvBookModelImpl.getInstance().getBookNavs();
+        }
     }
 
     /**

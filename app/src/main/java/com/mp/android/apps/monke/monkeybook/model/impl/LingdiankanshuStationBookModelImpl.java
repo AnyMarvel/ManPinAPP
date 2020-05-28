@@ -264,27 +264,21 @@ public class LingdiankanshuStationBookModelImpl extends MBaseModelImpl implement
     @Override
     public LinkedHashMap<String, String> getBookNavs() {
         LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
-        linkedHashMap.put("东方玄幻", "http://www.wzzw.la/xuanhuanxiaoshuo/");
-        linkedHashMap.put("西方奇幻", "http://www.wzzw.la/qihuanxiaoshuo/");
-        linkedHashMap.put("热血修真", "http://www.wzzw.la/xiuzhenxiaoshuo/");
-        linkedHashMap.put("武侠仙侠", "http://www.wzzw.la/wuxiaxiaoshuo/");
-        linkedHashMap.put("都市爽文", "http://www.wzzw.la/dushixiaoshuo/");
-        linkedHashMap.put("言情暧昧", "http://www.wzzw.la/yanqingxiaoshuo/");
-        linkedHashMap.put("灵异悬疑", "http://www.wzzw.la/lingyixiaoshuo/");
-        linkedHashMap.put("运动竞技", "http://www.wzzw.la/jingjixiaoshuo/");
-        linkedHashMap.put("历史架空", "http://www.wzzw.la/lishixiaoshuo/");
-        linkedHashMap.put("审美", "http://www.wzzw.la/danmeixiaoshuo/");
-        linkedHashMap.put("科幻迷航", "http://www.wzzw.la/kehuanxiaoshuo/");
-        linkedHashMap.put("游戏人生", "http://www.wzzw.la/youxixiaoshuo/");
-        linkedHashMap.put("军事斗争", "http://www.wzzw.la/junshixiaoshuo/");
-        linkedHashMap.put("商战人生", "http://www.wzzw.la/shangzhanxiaoshuo/");
-        linkedHashMap.put("校园爱情", "http://www.wzzw.la/xiaoyuanxiaoshuo/");
-        linkedHashMap.put("官场仕途", "http://www.wzzw.la/guanchangxiaoshuo/");
-        linkedHashMap.put("娱乐明星", "http://www.wzzw.la/zhichangxiaoshuo/");
-        linkedHashMap.put("其他", "http://www.wzzw.la/qitaxiaoshuo/");
+        linkedHashMap.put("东方玄幻", "https://www.lingdiankanshu.co/class/1_1.html");
+        linkedHashMap.put("西方奇幻", "https://www.lingdiankanshu.co/class/1_1.html");
+        linkedHashMap.put("热血修真", "https://www.lingdiankanshu.co/class/2_1.html");
+        linkedHashMap.put("武侠仙侠", "https://www.lingdiankanshu.co/class/2_1.html");
+        linkedHashMap.put("都市爽文", "https://www.lingdiankanshu.co/class/3_1.html");
+        linkedHashMap.put("言情暧昧", "https://www.lingdiankanshu.co/class/3_1.html");
+        linkedHashMap.put("灵异悬疑", "https://www.lingdiankanshu.co/class/5_1.html");
+        linkedHashMap.put("运动竞技", "https://www.lingdiankanshu.co/class/6_1.html");
+        linkedHashMap.put("历史架空", "https://www.lingdiankanshu.co/class/4_1.html");
+        linkedHashMap.put("科幻迷航", "https://www.lingdiankanshu.co/class/5_1.html");
+        linkedHashMap.put("游戏人生", "https://www.lingdiankanshu.co/class/6_1.html");
+        linkedHashMap.put("军事斗争", "https://www.lingdiankanshu.co/class/4_1.html");
+        linkedHashMap.put("校园爱情", "https://www.lingdiankanshu.co/class/3_1.html");
+        linkedHashMap.put("其他", "https://www.lingdiankanshu.co/class/1_1.html");
         return linkedHashMap;
-
-
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

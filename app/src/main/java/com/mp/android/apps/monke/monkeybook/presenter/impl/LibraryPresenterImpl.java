@@ -2,14 +2,19 @@
 package com.mp.android.apps.monke.monkeybook.presenter.impl;
 
 import android.os.Handler;
+import android.text.TextUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.mp.android.apps.monke.basemvplib.impl.BasePresenterImpl;
 
 import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
 import com.mp.android.apps.monke.monkeybook.bean.LibraryBean;
+import com.mp.android.apps.monke.monkeybook.bean.WebsiteAvailableBean;
 import com.mp.android.apps.monke.monkeybook.cache.ACache;
 import com.mp.android.apps.monke.monkeybook.model.impl.GxwztvBookModelImpl;
+import com.mp.android.apps.monke.monkeybook.model.impl.LibraryModelImpl;
 import com.mp.android.apps.monke.monkeybook.model.impl.LingdiankanshuStationBookModelImpl;
+import com.mp.android.apps.monke.monkeybook.model.impl.WebBookModelImpl;
 import com.mp.android.apps.monke.monkeybook.presenter.ILibraryPresenter;
 import com.mp.android.apps.monke.monkeybook.view.ILibraryView;
 import com.mp.android.apps.MyApplication;
@@ -27,38 +32,11 @@ import io.reactivex.schedulers.Schedulers;
 
 public class LibraryPresenterImpl extends BasePresenterImpl<ILibraryView> implements ILibraryPresenter {
     public final static String LIBRARY_CACHE_KEY = "cache_library";
+    public final static String LIBRARY_AVAILABLEWEBSITE = "cache_website";
     private ACache mCache;
     private Boolean isFirst = true;
 
-    private LinkedHashMap<String, String> kinds = new LinkedHashMap<>();
-
     public LibraryPresenterImpl() {
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                mView.updateNav(LingdiankanshuStationBookModelImpl.getInstance().getBookNavs());
-//            }
-//        }, 1000);
-
-        kinds.put("东方玄幻", "http://www.wzzw.la/xuanhuanxiaoshuo/");
-        kinds.put("西方奇幻", "http://www.wzzw.la/qihuanxiaoshuo/");
-        kinds.put("热血修真", "http://www.wzzw.la/xiuzhenxiaoshuo/");
-        kinds.put("武侠仙侠", "http://www.wzzw.la/wuxiaxiaoshuo/");
-        kinds.put("都市爽文", "http://www.wzzw.la/dushixiaoshuo/");
-        kinds.put("言情暧昧", "http://www.wzzw.la/yanqingxiaoshuo/");
-        kinds.put("灵异悬疑", "http://www.wzzw.la/lingyixiaoshuo/");
-        kinds.put("运动竞技", "http://www.wzzw.la/jingjixiaoshuo/");
-        kinds.put("历史架空", "http://www.wzzw.la/lishixiaoshuo/");
-        kinds.put("审美", "http://www.wzzw.la/danmeixiaoshuo/");
-        kinds.put("科幻迷航", "http://www.wzzw.la/kehuanxiaoshuo/");
-        kinds.put("游戏人生", "http://www.wzzw.la/youxixiaoshuo/");
-        kinds.put("军事斗争", "http://www.wzzw.la/junshixiaoshuo/");
-        kinds.put("商战人生", "http://www.wzzw.la/shangzhanxiaoshuo/");
-        kinds.put("校园爱情", "http://www.wzzw.la/xiaoyuanxiaoshuo/");
-        kinds.put("官场仕途", "http://www.wzzw.la/guanchangxiaoshuo/");
-        kinds.put("娱乐明星", "http://www.wzzw.la/zhichangxiaoshuo/");
-        kinds.put("其他", "http://www.wzzw.la/qitaxiaoshuo/");
-
         mCache = ACache.get(MyApplication.getInstance());
     }
 
@@ -130,8 +108,24 @@ public class LibraryPresenterImpl extends BasePresenterImpl<ILibraryView> implem
     }
 
     @Override
-    public LinkedHashMap<String, String> getKinds() {
-        return kinds;
+    public void getKinds() {
+        LibraryModelImpl.getInstance().getNewWebsiteAvailable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SimpleObserver<String>() {
+                    @Override
+                    public void onNext(String s) {
+                        WebsiteAvailableBean websiteAvailableBean = JSON.parseObject(s, WebsiteAvailableBean.class);
+
+
+                        mView.updateNav(WebBookModelImpl.getInstance().getBookNav(websiteAvailableBean.getData()));
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.updateNav(GxwztvBookModelImpl.getInstance().getBookNavs());
+                    }
+                });
     }
 
 }

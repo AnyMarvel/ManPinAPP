@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 
 public interface ILibraryPresenter extends IPresenter {
 
-    LinkedHashMap<String, String> getKinds();
+    void getKinds();
 
     void getLibraryData();
 }

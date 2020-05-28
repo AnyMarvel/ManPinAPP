@@ -5,6 +5,7 @@ import com.mp.android.apps.monke.monkeybook.bean.LibraryBean;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
 import com.mp.android.apps.monke.monkeybook.cache.ACache;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -22,4 +23,6 @@ public interface IGxwztvBookModel extends IStationBookModel {
      * 解析主页数据
      */
     Observable<LibraryBean> analyLibraryData(String data);
+
+    LinkedHashMap<String, String> getBookNavs();
 }

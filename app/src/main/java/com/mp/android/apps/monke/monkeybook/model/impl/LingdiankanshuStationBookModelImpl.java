@@ -282,12 +282,18 @@ public class LingdiankanshuStationBookModelImpl extends MBaseModelImpl implement
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //实现导航功能,实现导航页可动态获取
     @Override
     public Observable<List<SearchBookBean>> getKindBook(String url, int page) {
         return getRetrofitObject(LingdiankanshuStationBookModelImpl.TAG).create(ILingdiankanshuApi.class).getKindBooks(url.replace(LingdiankanshuStationBookModelImpl.TAG, "")).flatMap(new Function<String, ObservableSource<List<SearchBookBean>>>() {
             @Override
             public ObservableSource<List<SearchBookBean>> apply(String s) throws Exception {
-                return analyKindBook(s);
+                if (page > 1) {
+                    return analyKindBook("");
+                } else {
+                    return analyKindBook(s);
+                }
+
             }
         });
     }

@@ -1,5 +1,16 @@
 漫品Android客户端
 
+构建命令
+
+```shell
+./gradlew clean assembleDebug
+```
+or
+
+```shell
+./gradlew clean assembleRelease
+```
+
 主要内容为以下三个板块:
 
 1. 基于tensorflow生成漫画,内置3000+种模板,基于人脸识别和目标识别分析等多种手段自动拼接漫画,效果如图:

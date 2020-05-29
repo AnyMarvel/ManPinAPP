@@ -291,8 +291,8 @@ public static java.lang.String TABLENAME;
 -dontnote org.python.core.**
 -dontwarn com.hwangjr.rxbus.**
 
--keep class com.mp.android.apps.monke.widget.**{*;}
--keep class com.mp.android.apps.monke.bean.**{*;}
+-keep class com.mp.android.apps.monke.monkeybook.widget.**{*;}
+-keep class com.mp.android.apps.monke.monkeybook.bean.**{*;}
 -keep class android.support.**{*;}
 -keep class me.grantland.widget.**{*;}
 -keep class de.hdodenhof.circleimageview.**{*;}

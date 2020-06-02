@@ -4,21 +4,17 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.mp.android.apps.main.view.CarouselLayout
+        <com.mp.android.apps.main.cycleimage.CycleViewPager
+            android:id="@+id/cycle_view"
             android:layout_width="match_parent"
-            android:layout_height="230dp">
+            android:layout_height="230dp" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/storycard"
-                android:scaleType="centerCrop" />
-        </com.mp.android.apps.main.view.CarouselLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -77,6 +73,26 @@
                 android:layout_marginRight="16dp"
                 android:text="查看历史" />
         </RelativeLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:text="新作速递"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_gravity="right"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/search_icon" />
 
 </FrameLayout>

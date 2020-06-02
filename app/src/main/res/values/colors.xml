@@ -128,4 +128,5 @@
     <color name="colorGray">#878787</color>
     <color name="colorOrange">#FFE26C25</color>
     <color name="colorBlue">#FF036EB8</color>
+    <color name="cycle_image_bg">#44222222</color>
 </resources>

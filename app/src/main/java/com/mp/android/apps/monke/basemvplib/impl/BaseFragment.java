@@ -12,18 +12,31 @@ import com.trello.rxlifecycle2.components.RxFragment;
 public abstract class BaseFragment<T extends IPresenter> extends RxFragment implements IView {
     protected View view;
     protected Bundle savedInstanceState;
+    protected T mPresenter;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.savedInstanceState = savedInstanceState;
         initSDK();
         view = createView(inflater, container);
+        mPresenter = initInjector();
+        attachView();
         initData();
         bindView();
         bindEvent();
         firstRequest();
         return view;
     }
+
+    /**
+     * P层绑定V层
+     */
+    private void attachView() {
+        if (null != mPresenter) {
+            mPresenter.attachView(this);
+        }
+    }
+    protected abstract T initInjector();
 
     /**
      * 事件触发绑定

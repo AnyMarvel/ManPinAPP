@@ -5,16 +5,43 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.mp.android.apps.main.cycleimage.CycleViewPager
-            android:id="@+id/cycle_view"
-            android:layout_width="match_parent"
-            android:layout_height="230dp" />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.mp.android.apps.main.cycleimage.CycleViewPager
+                android:id="@+id/cycle_view"
+                android:layout_width="match_parent"
+                android:layout_height="230dp" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp">
+
+                <View
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/searc_ring_background" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:antialias="true"
+                    android:background="@drawable/search_icon" />
+
+            </FrameLayout>
+
+        </FrameLayout>
 
 
         <LinearLayout
@@ -66,60 +93,48 @@
 
         </LinearLayout>
 
-        <RelativeLayout
+<!--        <RelativeLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="20dp">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignParentLeft="true"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:text="最近在看"-->
+<!--                android:textSize="20dp"-->
+<!--                android:textStyle="bold" />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignParentRight="true"-->
+<!--                android:layout_marginRight="16dp"-->
+<!--                android:text="查看历史" />-->
+<!--        </RelativeLayout>-->
+
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentLeft="true"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:text="新作速递"-->
+<!--            android:textSize="20dp"-->
+<!--            android:textStyle="bold" />-->
+
+        <com.mp.android.apps.monke.monkeybook.widget.libraryview.LibraryKindBookListView
+            android:id="@+id/lkbv_kindbooklist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="10dp"
-                android:text="最近在看"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="16dp"
-                android:text="查看历史" />
-        </RelativeLayout>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:text="新作速递"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+            android:layout_marginTop="1dp"
+            android:background="#ffffff"
+            android:paddingBottom="10dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="60dp" />
 
     </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp">
-
-        <View
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_gravity="center"
-            android:background="@drawable/searc_ring_background" />
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:antialias="true"
-            android:background="@drawable/search_icon" />
-
-    </FrameLayout>
-
 </FrameLayout>

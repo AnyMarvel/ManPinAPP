@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mp.android.apps.R;
-import com.mp.android.apps.main.MainFragment;
+import com.mp.android.apps.main.fragment.MainFragment;
 
 import java.util.ArrayList;
 import java.util.List;

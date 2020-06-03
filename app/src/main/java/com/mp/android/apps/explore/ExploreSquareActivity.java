@@ -234,10 +234,10 @@ public class ExploreSquareActivity extends StoryboardActivity {
         }
 
     }
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(ExploreSquareActivity.this, MainActivity.class);
-        startActivity(intent);
-    }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        Intent intent = new Intent(ExploreSquareActivity.this, MainActivity.class);
+//        startActivity(intent);
+//    }
 }

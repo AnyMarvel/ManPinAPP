@@ -6,10 +6,10 @@ import android.support.annotation.Nullable;
 
 import com.mp.android.apps.R;
 import com.mp.android.apps.StoryboardActivity;
+import com.mp.android.apps.main.view.MyImageTextViewNew;
 
 public class MainActivity extends StoryboardActivity {
     MainFragment mainFragment;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

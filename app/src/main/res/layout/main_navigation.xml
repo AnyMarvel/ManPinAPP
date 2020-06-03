@@ -1,40 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:imageText="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="horizontal">
 
-    <RelativeLayout
-        android:id="@+id/shouye"
+    <com.mp.android.apps.main.view.MyImageTextViewNew
+        android:id="@+id/zhuye"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        imageText:image="@drawable/zhuye_selected"
+        imageText:text="主页"
+        imageText:textColor="@color/colorGray" />
 
-        <ImageView
-            android:id="@+id/shouye_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/zhuye_selected"
-            android:clickable="true"
-            android:scaleType="centerInside" />
-
-        <TextView
-            android:id="@+id/shouye_wenzi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/shouye_image"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:text="首页" />
-    </RelativeLayout>
-
-    <RelativeLayout
+    <com.mp.android.apps.main.view.MyImageTextViewNew
         android:id="@+id/shujia"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -42,56 +27,25 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        imageText:image="@drawable/shujia"
+        imageText:text="书架"
+        imageText:textColor="@color/colorGray" />
 
-        <ImageView
-            android:id="@+id/shujia_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/shujia"
-            android:scaleType="centerInside" />
-
-        <TextView
-            android:id="@+id/shujia_wenzi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/shujia_image"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:text="书架" />
-    </RelativeLayout>
-
-    <RelativeLayout
+    <com.mp.android.apps.main.view.MyImageTextViewNew
         android:id="@+id/quanzi"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        imageText:image="@drawable/quanzi"
+        imageText:text="圈子"
+        imageText:textColor="@color/colorGray" />
 
-        <ImageView
-            android:id="@+id/quanzi_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/quanzi"
-            android:scaleType="centerInside" />
-
-        <TextView
-            android:id="@+id/quanzi_wenzi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/quanzi_image"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:text="圈子" />
-    </RelativeLayout>
-
-    <RelativeLayout
+    <com.mp.android.apps.main.view.MyImageTextViewNew
         android:id="@+id/gerenzhongxin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -99,24 +53,10 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        imageText:image="@drawable/gerenzhongxin"
+        imageText:text="我的"
+        imageText:textColor="@color/colorGray" />
 
-        <ImageView
-            android:id="@+id/gerenzhongxin_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/gerenzhongxin"
-            android:scaleType="centerInside" />
-
-        <TextView
-            android:id="@+id/gerenzhongxin_wenzi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/gerenzhongxin_image"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:text="我的" />
-    </RelativeLayout>
 
 </LinearLayout>

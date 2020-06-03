@@ -13,13 +13,13 @@ import android.widget.TextView;
 import com.mp.android.apps.R;
 
 
-public class MyImageTextViewNew extends LinearLayout {
+public class MyImageTextView extends LinearLayout {
     private ImageView mImageView = null;
     private TextView mTextView = null;
     String text;
     int imageViewID, textColor;
 
-    public MyImageTextViewNew(Context context, @Nullable AttributeSet attrs) {
+    public MyImageTextView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.setOrientation(LinearLayout.VERTICAL);//设置垂直排序
         this.setGravity(Gravity.CENTER);//设置居中
@@ -66,7 +66,7 @@ public class MyImageTextViewNew extends LinearLayout {
         addView(mTextView);//将文字控件加入到布局中
     }
 
-    public MyImageTextViewNew(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public MyImageTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 

@@ -18,7 +18,7 @@
         tools:targetApi="m">
 
         <activity
-            android:name=".welcome.WelcomeActivity"
+            android:name=".main.MainActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -20,6 +20,7 @@
                 android:layout_height="230dp" />
 
             <FrameLayout
+                android:id="@+id/search_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -52,7 +53,7 @@
             android:orientation="horizontal">
 
 
-            <com.mp.android.apps.main.view.MyImageTextViewNew
+            <com.mp.android.apps.main.view.MyImageTextView
                 android:id="@+id/huojian"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -62,7 +63,7 @@
                 app:textColor="@color/colorGray" />
 
 
-            <com.mp.android.apps.main.view.MyImageTextViewNew
+            <com.mp.android.apps.main.view.MyImageTextView
                 android:id="@+id/jingxuan"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -72,7 +73,7 @@
                 app:textColor="@color/colorGray" />
 
 
-            <com.mp.android.apps.main.view.MyImageTextViewNew
+            <com.mp.android.apps.main.view.MyImageTextView
                 android:id="@+id/xiaoshuo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -82,8 +83,8 @@
                 app:textColor="@color/colorGray" />
 
 
-            <com.mp.android.apps.main.view.MyImageTextViewNew
-                android:id="@+id/fenlei"
+            <com.mp.android.apps.main.view.MyImageTextView
+                android:id="@+id/guangchang"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

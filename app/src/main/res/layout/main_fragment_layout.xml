@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
@@ -23,33 +24,46 @@
             android:layout_marginRight="30dp"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/huojian" />
 
-            <ImageView
+            <com.mp.android.apps.main.view.MyImageTextViewNew
+                android:id="@+id/huojian"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="@drawable/jingxuan" />
+                app:image="@drawable/huojian"
+                app:text="动漫制作"
+                app:textColor="@color/colorGray" />
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/xiaoshuo" />
 
-            <ImageView
+            <com.mp.android.apps.main.view.MyImageTextViewNew
+                android:id="@+id/jingxuan"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="@drawable/fenlei" />
+                app:image="@drawable/jingxuan"
+                app:text="明信片"
+                app:textColor="@color/colorGray" />
+
+
+            <com.mp.android.apps.main.view.MyImageTextViewNew
+                android:id="@+id/xiaoshuo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:image="@drawable/xiaoshuo"
+                app:text="小说"
+                app:textColor="@color/colorGray" />
+
+
+            <com.mp.android.apps.main.view.MyImageTextViewNew
+                android:id="@+id/fenlei"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:image="@drawable/fenlei"
+                app:text="广场"
+                app:textColor="@color/colorGray" />
+
         </LinearLayout>
 
         <RelativeLayout
@@ -86,13 +100,26 @@
 
     </LinearLayout>
 
-    <ImageView
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_gravity="right"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/search_icon" />
+        android:layout_marginRight="20dp">
+
+        <View
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:background="@drawable/searc_ring_background" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:antialias="true"
+            android:background="@drawable/search_icon" />
+
+    </FrameLayout>
 
 </FrameLayout>

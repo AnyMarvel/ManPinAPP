@@ -81,5 +81,10 @@
         <attr name="roundWidth" format="dimension" />
         <attr name="roundHeight" format="dimension" />
     </declare-styleable>
+    <declare-styleable name="imageText">
+        <attr name="image" format="reference" />
+        <attr name="text" format="string" />
+        <attr name="textColor" format="reference" />
+    </declare-styleable>
 
 </resources>

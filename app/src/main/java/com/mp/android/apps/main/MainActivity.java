@@ -111,8 +111,8 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
         int id = v.getId();
         switch (id) {
             case R.id.zhuye:
-                Intent intentzhuye = new Intent(MainActivity.this, MainActivity.class);
-                startActivity(intentzhuye);
+//                Intent intentzhuye = new Intent(MainActivity.this, MainActivity.class);
+//                startActivity(intentzhuye);
                 break;
             case R.id.shujia:
                 Intent intentBook = new Intent(MainActivity.this, BookMainActivity.class);

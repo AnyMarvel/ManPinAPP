@@ -9,4 +9,7 @@
     <dimen name="edit_card_preview_btn_size">48dp</dimen>
 
 
+    <dimen name="sp_20">20sp</dimen>
+
+
 </resources>

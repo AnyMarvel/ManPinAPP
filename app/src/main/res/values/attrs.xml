@@ -28,29 +28,15 @@
         </attr>
     </declare-styleable>
 
-    <declare-styleable name="LadderLayout">
-        <attr name="topWidthrate" format="float" />
-        <attr name="bottomWidthrate" format="float" />
-        <attr name="leftRect" format="boolean" />
-        <attr name="rightRect" format="boolean" />
-        <attr name="verticalheightrate" format="float" />
-
-
-
-        <attr name="leftheightrate" format="float" />
-        <attr name="rightheightrate" format="float" />
-        <attr name="horizontalweigthrate" format="float" />
-    </declare-styleable>
-
     <declare-styleable name="RefreshProgressBar">
-        <attr name="max_progress" format="integer"/>
-        <attr name="dur_progress" format="integer"/>
-        <attr name="second_dur_progress" format="dimension"/>
-        <attr name="second_max_progress" format="dimension"/>
-        <attr name="bg_color" format="color"/>
-        <attr name="second_color" format="color"/>
-        <attr name="font_color" format="color"/>
-        <attr name="speed" format="dimension"/>
+        <attr name="max_progress" format="integer" />
+        <attr name="dur_progress" format="integer" />
+        <attr name="second_dur_progress" format="dimension" />
+        <attr name="second_max_progress" format="dimension" />
+        <attr name="bg_color" format="color" />
+        <attr name="second_color" format="color" />
+        <attr name="font_color" format="color" />
+        <attr name="speed" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="TagFlowLayout">
@@ -64,18 +50,18 @@
     </declare-styleable>
 
     <declare-styleable name="SmoothCheckBox">
-        <attr name="duration" format="integer"/>
-        <attr name="stroke_width" format="dimension"/>
-        <attr name="color_tick" format="color"/>
-        <attr name="color_checked" format="color"/>
-        <attr name="color_unchecked" format="color"/>
-        <attr name="color_unchecked_stroke" format="color"/>
+        <attr name="duration" format="integer" />
+        <attr name="stroke_width" format="dimension" />
+        <attr name="color_tick" format="color" />
+        <attr name="color_checked" format="color" />
+        <attr name="color_unchecked" format="color" />
+        <attr name="color_unchecked_stroke" format="color" />
     </declare-styleable>
 
     <declare-styleable name="RecyclerViewBar">
-        <attr name="slider_height" format="dimension"/>
-        <attr name="slider_paddingLeft" format="dimension"/>
-        <attr name="slider_paddingRight" format="dimension"/>
+        <attr name="slider_height" format="dimension" />
+        <attr name="slider_paddingLeft" format="dimension" />
+        <attr name="slider_paddingRight" format="dimension" />
     </declare-styleable>
     <declare-styleable name="RoundAngleImageView">
         <attr name="roundWidth" format="dimension" />

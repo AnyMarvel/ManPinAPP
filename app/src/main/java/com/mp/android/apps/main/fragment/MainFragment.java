@@ -103,7 +103,7 @@ public class MainFragment extends BaseFragment<ILibraryPresenter> implements ILi
             if (mCycleViewPager.isCycle()) {
                 position = position - 1;
             }
-            Toast.makeText(getActivity(), info.getTitle() + "选择了--" + position, Toast.LENGTH_LONG).show();
+//            Toast.makeText(getActivity(), info.getTitle() + "选择了--" + position, Toast.LENGTH_LONG).show();
         }
     };
 
@@ -119,6 +119,7 @@ public class MainFragment extends BaseFragment<ILibraryPresenter> implements ILi
      */
     @Override
     protected void initData() {
+        mList.clear();
         mList.add(new BannerInfo("", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1591101217238&di=3ceb9a70573c3da62c42579d111c6319&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201401%2F04%2F114458foyo99odqb8qjzg4.jpg"));
         mList.add(new BannerInfo("", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1591101257866&di=42f88647f1fe83e9174a49a18c97c49a&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Fc2cec3fdfc03924547eae8438794a4c27d1e251a.jpg"));
         mList.add(new BannerInfo("", "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1379482854,1412074421&fm=26&gp=0.jpg"));

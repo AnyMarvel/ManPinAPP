@@ -19,8 +19,9 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mp.android.apps.MainActivity;
+
 import com.mp.android.apps.R;
+import com.mp.android.apps.main.MainActivity;
 import com.mp.android.apps.monke.basemvplib.IPresenter;
 import com.mp.android.apps.monke.monkeybook.base.MBaseActivity;
 import com.mp.android.apps.utils.SharedPreferenceUtil;

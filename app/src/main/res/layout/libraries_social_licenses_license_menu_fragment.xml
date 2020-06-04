@@ -13,7 +13,6 @@
         android:cacheColorHint="@android:color/transparent"
         android:clipToPadding="false"
         android:drawSelectorOnTop="false"
-        android:layoutAnimation="@anim/animator_layout"
         android:paddingLeft="16.0dip"
         android:paddingTop="0.0dip"
         android:paddingRight="16.0dip"

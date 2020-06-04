@@ -19,11 +19,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.mp.android.apps.MainActivity;
+
 import com.mp.android.apps.R;
-import com.mp.android.apps.explore.ExploreSquareActivity;
 import com.mp.android.apps.livevblank.view.IconButton;
-import com.victor.loading.rotate.RotateLoading;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

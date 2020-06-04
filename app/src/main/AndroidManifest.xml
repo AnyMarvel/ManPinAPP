@@ -18,14 +18,14 @@
         tools:targetApi="m">
 
         <activity
-            android:name=".main.MainActivity"
+            android:name=".welcome.WelcomeActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".main.MainActivity" />
         <activity
             android:name=".login.LoginActivity"
             android:launchMode="singleTask" />

@@ -2,6 +2,7 @@
 <resources>
     <string-array name="feedback_type">
         <item>界面展示问题</item>
+        <item>小说内容搜索不到</item>
         <item>BUG</item>
         <item>其他</item>
     </string-array>

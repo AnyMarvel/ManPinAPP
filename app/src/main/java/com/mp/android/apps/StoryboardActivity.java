@@ -80,12 +80,10 @@ public class StoryboardActivity extends AppCompatActivity {
      */
 
     public String getHandSetInfo() {
-        String handSetInfo =
-                "手机型号:" + android.os.Build.MODEL +
-                        ",SDK版本:" + android.os.Build.VERSION.SDK +
-                        ",系统版本:" + android.os.Build.VERSION.RELEASE +
-                        ",软件版本:" + getAppVersionString();
-        return handSetInfo;
+        return "手机型号:" + android.os.Build.MODEL +
+                ",SDK版本:" + android.os.Build.VERSION.SDK +
+                ",系统版本:" + android.os.Build.VERSION.RELEASE +
+                ",软件版本:" + getAppVersionString();
     }
 
     /**

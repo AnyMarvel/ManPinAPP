@@ -53,6 +53,15 @@ public class StaggeredExploreFragment extends Fragment {
         initView(view);
         return view;
     }
+    public void setToExplore(String toExplore) {
+        this.toExplore = toExplore;
+    }
+
+    public RefreshLayout getRefreshLayout() {
+        staggeredExploreSquareAdapter.getExploreData().clear();
+        staggeredExploreSquareAdapter.notifyDataSetChanged();
+        return refreshLayout;
+    }
 
     private void initView(View view) {
         recyclerView = (RecyclerView) view.findViewById(R.id.explore_list);
@@ -75,8 +84,10 @@ public class StaggeredExploreFragment extends Fragment {
         refreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));
         onLoadMoreListener();
         staggeredExploreSquareAdapter.setPageNumber(1);
-        refreshLayout.autoLoadMore();
+        refreshLayout.autoRefresh();
     }
+
+
 
     private void onLoadMoreListener() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -112,7 +123,7 @@ public class StaggeredExploreFragment extends Fragment {
                             refreshlayout.finishRefresh(/*,false*/);//传入false表示加载失败
                         } else {
                             nodata.setVisibility(View.VISIBLE);
-                            refreshlayout.finishLoadMore();
+                            refreshlayout.finishRefresh();
                         }
                     }
 
@@ -149,17 +160,15 @@ public class StaggeredExploreFragment extends Fragment {
                                 staggeredExploreSquareAdapter.setPageNumber(staggeredExploreSquareAdapter.getPageNumber() + 1);
                             }
                             refreshlayout.finishLoadMore(/*,false*/);//传入false表示加载失败
-                            nodata.setVisibility(View.GONE);
                         } else {
-                            nodata.setVisibility(View.VISIBLE);
-                            refreshlayout.finishRefresh();
+                            refreshlayout.finishLoadMore();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<JsonRootBean> call, Throwable t) {
                         refreshlayout.finishLoadMore(false/*,false*/);//传入false表示加载失败
-                        nodata.setVisibility(View.VISIBLE);
+
 
                     }
                 });

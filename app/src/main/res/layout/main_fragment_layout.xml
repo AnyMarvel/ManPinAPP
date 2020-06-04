@@ -60,6 +60,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:stateListAnimator="@drawable/anim_state_list_m01"
                 app:image="@drawable/huojian"
                 app:text="动漫制作"
                 app:textColor="@color/colorGray" />
@@ -70,6 +71,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:stateListAnimator="@drawable/anim_state_list_m01"
                 app:image="@drawable/jingxuan"
                 app:text="明信片"
                 app:textColor="@color/colorGray" />
@@ -80,6 +82,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:stateListAnimator="@drawable/anim_state_list_m01"
                 app:image="@drawable/xiaoshuo"
                 app:text="小说"
                 app:textColor="@color/colorGray" />
@@ -90,43 +93,44 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:stateListAnimator="@drawable/anim_state_list_m01"
                 app:image="@drawable/fenlei"
                 app:text="广场"
                 app:textColor="@color/colorGray" />
 
         </LinearLayout>
 
-<!--        <RelativeLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="20dp">-->
+        <!--        <RelativeLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="20dp">-->
 
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_alignParentLeft="true"-->
-<!--                android:layout_marginLeft="10dp"-->
-<!--                android:text="最近在看"-->
-<!--                android:textSize="20dp"-->
-<!--                android:textStyle="bold" />-->
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_alignParentLeft="true"-->
+        <!--                android:layout_marginLeft="10dp"-->
+        <!--                android:text="最近在看"-->
+        <!--                android:textSize="20dp"-->
+        <!--                android:textStyle="bold" />-->
 
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_alignParentRight="true"-->
-<!--                android:layout_marginRight="16dp"-->
-<!--                android:text="查看历史" />-->
-<!--        </RelativeLayout>-->
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_alignParentRight="true"-->
+        <!--                android:layout_marginRight="16dp"-->
+        <!--                android:text="查看历史" />-->
+        <!--        </RelativeLayout>-->
 
 
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_alignParentLeft="true"-->
-<!--            android:layout_marginLeft="10dp"-->
-<!--            android:text="新作速递"-->
-<!--            android:textSize="20dp"-->
-<!--            android:textStyle="bold" />-->
+        <!--        <TextView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_alignParentLeft="true"-->
+        <!--            android:layout_marginLeft="10dp"-->
+        <!--            android:text="新作速递"-->
+        <!--            android:textSize="20dp"-->
+        <!--            android:textStyle="bold" />-->
 
         <com.mp.android.apps.monke.monkeybook.widget.libraryview.LibraryKindBookListView
             android:id="@+id/lkbv_kindbooklist"
@@ -135,6 +139,7 @@
             android:layout_marginTop="1dp"
             android:background="#ffffff"
             android:paddingBottom="10dp" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="60dp" />

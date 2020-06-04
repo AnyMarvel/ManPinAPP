@@ -55,6 +55,16 @@ public class DefaultExploreFragment extends Fragment {
         return view;
     }
 
+    public void setToExplore(String toExplore) {
+        this.toExplore = toExplore;
+    }
+
+    public RefreshLayout getRefreshLayout() {
+        exploreSquareAdapter.getExploreData().clear();
+        exploreSquareAdapter.notifyDataSetChanged();
+        return refreshLayout;
+    }
+
     private void initView(View view) {
         recyclerView = (RecyclerView) view.findViewById(R.id.explore_list);
         nodata = view.findViewById(R.id.nodata);
@@ -75,7 +85,7 @@ public class DefaultExploreFragment extends Fragment {
         refreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));
         onLoadMoreListener();
         exploreSquareAdapter.setPageNumber(1);
-        refreshLayout.autoLoadMore();
+        refreshLayout.autoRefresh();
     }
 
     private void onLoadMoreListener() {
@@ -147,7 +157,6 @@ public class DefaultExploreFragment extends Fragment {
                             exploreSquareAdapter.setPageNumber(exploreSquareAdapter.getPageNumber() + 1);
                             refreshlayout.finishLoadMore(/*,false*/);//传入false表示加载失败
                         } else {
-                            nodata.setVisibility(View.VISIBLE);
                             refreshlayout.finishLoadMore();
                         }
                     }
@@ -155,7 +164,6 @@ public class DefaultExploreFragment extends Fragment {
                     @Override
                     public void onFailure(Call<JsonRootBean> call, Throwable t) {
                         refreshlayout.finishLoadMore(false/*,false*/);//传入false表示加载失败
-                        nodata.setVisibility(View.VISIBLE);
 
                     }
                 });

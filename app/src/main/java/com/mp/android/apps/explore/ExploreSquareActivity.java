@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.mp.android.apps.MainActivity;
 import com.mp.android.apps.R;
 import com.mp.android.apps.StoryboardActivity;
 import com.mp.android.apps.explore.fragment.DefaultExploreFragment;
@@ -27,6 +26,7 @@ import com.mp.android.apps.login.LoginActivity;
 import com.mp.android.apps.login.LoginBaseFragment;
 import com.mp.android.apps.login.bean.login.Data;
 import com.mp.android.apps.login.utils.LoginManager;
+import com.mp.android.apps.main.MainActivity;
 import com.mp.android.apps.utils.GPSUtils;
 import com.mp.android.apps.utils.Logger;
 import com.umeng.socialize.UMAuthListener;

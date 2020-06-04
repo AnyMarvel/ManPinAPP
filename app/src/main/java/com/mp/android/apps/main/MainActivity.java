@@ -16,6 +16,7 @@ import com.mp.android.apps.explore.ExploreSquareActivity;
 import com.mp.android.apps.login.LoginActivity;
 import com.mp.android.apps.login.utils.LoginManager;
 import com.mp.android.apps.main.fragment.MainFragment;
+import com.mp.android.apps.main.fragment.PersonFragment;
 import com.mp.android.apps.main.view.MyImageTextView;
 import com.mp.android.apps.monke.monkeybook.view.impl.BookMainActivity;
 import com.mylhyl.acp.Acp;
@@ -27,6 +28,7 @@ import java.util.List;
 
 public class MainActivity extends StoryboardActivity implements View.OnClickListener {
     MainFragment mainFragment;
+    PersonFragment personFragment;
     MyImageTextView zhuye;
     MyImageTextView shujia;
     MyImageTextView quanzi;
@@ -38,6 +40,7 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
         setContentView(R.layout.main_layout);
         LoginManager.getInstance().initSP(this).initData();
         mainFragment = new MainFragment();
+        personFragment = new PersonFragment();
         getFragmentManager().beginTransaction().replace(R.id.main_contain, mainFragment).commit();
         initViews();
     }
@@ -111,21 +114,50 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
         int id = v.getId();
         switch (id) {
             case R.id.zhuye:
-//                Intent intentzhuye = new Intent(MainActivity.this, MainActivity.class);
-//                startActivity(intentzhuye);
+                changeNavImages(R.id.zhuye);
+                getFragmentManager().beginTransaction().replace(R.id.main_contain, mainFragment).commit();
                 break;
             case R.id.shujia:
+                //todo 改造书架为fragment
+//                changeNavImages(R.id.shujia);
                 Intent intentBook = new Intent(MainActivity.this, BookMainActivity.class);
                 startActivity(intentBook);
                 break;
             case R.id.quanzi:
+                //todo  改造圈子为fragment
+//                changeNavImages(R.id.quanzi);
                 gotoExplore("广场");
                 break;
             case R.id.gerenzhongxin:
-
+                changeNavImages(R.id.gerenzhongxin);
+                getFragmentManager().beginTransaction().replace(R.id.main_contain, personFragment).commit();
                 break;
             default:
                 break;
         }
     }
+
+    private void changeNavImages(int id) {
+        zhuye.setImgResource(R.drawable.zhuye);
+        shujia.setImgResource(R.drawable.shujia);
+        quanzi.setImgResource(R.drawable.quanzi);
+        wode.setImgResource(R.drawable.gerenzhongxin);
+        switch (id) {
+            case R.id.zhuye:
+                zhuye.setImgResource(R.drawable.zhuye_selected);
+                break;
+            case R.id.shujia:
+                shujia.setImgResource(R.drawable.shujia_selected);
+                break;
+            case R.id.quanzi:
+                quanzi.setImgResource(R.drawable.quanzi_selected);
+                break;
+            case R.id.gerenzhongxin:
+                wode.setImgResource(R.drawable.gerenzhongxin_selected);
+                break;
+            default:
+                break;
+        }
+    }
+
 }

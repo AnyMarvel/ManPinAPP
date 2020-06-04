@@ -54,8 +54,6 @@ public class SettingAboutActivity extends StoryboardActivity implements View.OnC
         openSourceLicense = findViewById(R.id.open_source_license);
         iconImage = findViewById(R.id.iconImage);
         titleBackSetting = findViewById(R.id.title_back_setting);
-        sinalayout = findViewById(R.id.sinalayout);
-        maillayout = findViewById(R.id.maillayout);
         rectRoundBitmap();
     }
 
@@ -66,8 +64,8 @@ public class SettingAboutActivity extends StoryboardActivity implements View.OnC
         checkUpgrade.setOnClickListener(this);
         openSourceLicense.setOnClickListener(this);
         titleBackSetting.setOnClickListener(this);
-        sinalayout.setOnClickListener(this);
-        maillayout.setOnClickListener(this);
+//        sinalayout.setOnClickListener(this);
+//        maillayout.setOnClickListener(this);
     }
 
     @Override
@@ -83,18 +81,18 @@ public class SettingAboutActivity extends StoryboardActivity implements View.OnC
             case R.id.title_back_setting:
                 super.onBackPressed();
                 break;
-            case R.id.sinalayout:
-                Intent intent1 = new Intent("android.intent.action.VIEW");
-                intent1.setData(Uri.parse("https://weibo.com/lijuntaosky/home"));
-                startActivity(intent1);
-                break;
-            case R.id.maillayout:
-                Intent data = new Intent(Intent.ACTION_SENDTO);
-                data.setData(Uri.parse("mailto:314599558@qq.com"));
-                data.putExtra(Intent.EXTRA_SUBJECT, "漫品客户端使用问题反馈");
-                data.putExtra(Intent.EXTRA_TEXT, getHandSetInfo());
-                startActivity(data);
-                break;
+//            case R.id.sinalayout:
+//                Intent intent1 = new Intent("android.intent.action.VIEW");
+//                intent1.setData(Uri.parse("https://weibo.com/lijuntaosky/home"));
+//                startActivity(intent1);
+//                break;
+//            case R.id.maillayout:
+//                Intent data = new Intent(Intent.ACTION_SENDTO);
+//                data.setData(Uri.parse("mailto:314599558@qq.com"));
+//                data.putExtra(Intent.EXTRA_SUBJECT, "漫品客户端使用问题反馈");
+//                data.putExtra(Intent.EXTRA_TEXT, getHandSetInfo());
+//                startActivity(data);
+//                break;
             default:
                 break;
 

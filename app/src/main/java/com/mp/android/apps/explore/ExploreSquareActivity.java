@@ -22,8 +22,6 @@ import com.mp.android.apps.R;
 import com.mp.android.apps.StoryboardActivity;
 import com.mp.android.apps.explore.fragment.DefaultExploreFragment;
 import com.mp.android.apps.explore.fragment.StaggeredExploreFragment;
-import com.mp.android.apps.login.LoginActivity;
-import com.mp.android.apps.login.LoginBaseFragment;
 import com.mp.android.apps.login.bean.login.Data;
 import com.mp.android.apps.login.utils.LoginManager;
 import com.mp.android.apps.main.MainActivity;
@@ -75,13 +73,13 @@ public class ExploreSquareActivity extends StoryboardActivity {
     ImageView iv_menu;
 
     TextView tv_title;
-    String toExplore;
+    String toExplore = "广场";
 
     CheckBox cb_scan;
 
-    Bundle exploreBundle;
 
     LinearLayout agreeclick;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -90,14 +88,13 @@ public class ExploreSquareActivity extends StoryboardActivity {
         setContentView(R.layout.explore_activity);
         initActivityView();
         initFragment();
-
     }
 
     private void initActivityView() {
         tv_title = (TextView) findViewById(R.id.tv_title);
         tv_title.setText(toExplore);
         cb_scan = findViewById(R.id.cb_scan);
-        agreeclick=findViewById(R.id.agreeclick);
+        agreeclick = findViewById(R.id.agreeclick);
         agreeclick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,11 +105,12 @@ public class ExploreSquareActivity extends StoryboardActivity {
                 startActivity(intent);
             }
         });
-        exploreBundle = new Bundle();
-        exploreBundle.putString("toExplore", toExplore);
+
         cb_scan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Bundle exploreBundle = new Bundle();
+                exploreBundle.putString("toExplore", toExplore);
                 if (isChecked) {
                     staggeredExploreFragment.setArguments(exploreBundle);
                     getSupportFragmentManager().beginTransaction().replace(R.id.explore_contain, staggeredExploreFragment).commit();
@@ -122,11 +120,44 @@ public class ExploreSquareActivity extends StoryboardActivity {
                 }
             }
         });
+        gerenkongjian = findViewById(R.id.gerenkongjian);
+        gerenkongjian.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setExplore("个人中心");
+            }
+        });
+        guangchang = findViewById(R.id.guangchang);
+        guangchang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setExplore("广场");
+            }
+        });
     }
+
+    RelativeLayout guangchang;
+
+    private void setExplore(String explore) {
+        this.toExplore = explore;
+        tv_title.setText(explore);
+        exploreDrawerLayout.closeDrawer(Gravity.LEFT);
+        if (cb_scan.isChecked()) {
+            staggeredExploreFragment.setToExplore(explore);
+            staggeredExploreFragment.getRefreshLayout().autoRefresh();
+        } else {
+            defaultExloreFragment.setToExplore(explore);
+            defaultExloreFragment.getRefreshLayout().autoRefresh();
+        }
+    }
+
+    RelativeLayout gerenkongjian;
 
     private void initFragment() {
         staggeredExploreFragment = new StaggeredExploreFragment();
         defaultExloreFragment = new DefaultExploreFragment();
+        Bundle exploreBundle = new Bundle();
+        exploreBundle.putString("toExplore", toExplore);
         defaultExloreFragment.setArguments(exploreBundle);
         getSupportFragmentManager().beginTransaction().add(R.id.explore_contain, defaultExloreFragment).commit();
         initView();
@@ -158,7 +189,7 @@ public class ExploreSquareActivity extends StoryboardActivity {
                     Data data = LoginManager.getInstance().getLoginInfo();
                     if (data.getUniqueID().startsWith("manpin_")) {
                         LoginManager.getInstance().editLogoutInfo();
-                        logoutAuthListener.onComplete(null,1,null);
+                        logoutAuthListener.onComplete(null, 1, null);
                     } else if (data.getUniqueID().startsWith("QQ_")) {
                         UMShareAPI.get(getApplicationContext()).deleteOauth(ExploreSquareActivity.this, SHARE_MEDIA.QQ, logoutAuthListener);
                     } else if (data.getUniqueID().startsWith("SINA_")) {
@@ -234,10 +265,4 @@ public class ExploreSquareActivity extends StoryboardActivity {
         }
 
     }
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        Intent intent = new Intent(ExploreSquareActivity.this, MainActivity.class);
-//        startActivity(intent);
-//    }
 }

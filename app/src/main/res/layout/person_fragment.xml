@@ -9,7 +9,7 @@
         android:layout_height="230dp">
 
         <ImageView
-            android:id="@+id/personImageView"
+            android:id="@+id/person_backgroundImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
@@ -24,17 +24,19 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/person_login_statu"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@color/colorWhite"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/person_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="50dp"
-                android:text="追梦女孩" />
+                android:text="未登录" />
         </LinearLayout>
 
         <RelativeLayout

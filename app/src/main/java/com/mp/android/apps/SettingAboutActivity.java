@@ -34,7 +34,7 @@ public class SettingAboutActivity extends StoryboardActivity implements View.OnC
      * title返回按钮
      */
     private ImageView titleBackSetting;
-
+    private RelativeLayout kaiyuandizhi;
     private LinearLayout sinalayout;
     private RelativeLayout maillayout;
 
@@ -54,6 +54,7 @@ public class SettingAboutActivity extends StoryboardActivity implements View.OnC
         openSourceLicense = findViewById(R.id.open_source_license);
         iconImage = findViewById(R.id.iconImage);
         titleBackSetting = findViewById(R.id.title_back_setting);
+        kaiyuandizhi=findViewById(R.id.kaiyuandizhi);
         rectRoundBitmap();
     }
 
@@ -64,6 +65,7 @@ public class SettingAboutActivity extends StoryboardActivity implements View.OnC
         checkUpgrade.setOnClickListener(this);
         openSourceLicense.setOnClickListener(this);
         titleBackSetting.setOnClickListener(this);
+        kaiyuandizhi.setOnClickListener(this);
 //        sinalayout.setOnClickListener(this);
 //        maillayout.setOnClickListener(this);
     }
@@ -80,6 +82,11 @@ public class SettingAboutActivity extends StoryboardActivity implements View.OnC
                 break;
             case R.id.title_back_setting:
                 super.onBackPressed();
+                break;
+            case R.id.kaiyuandizhi:
+                Intent intent1 = new Intent("android.intent.action.VIEW");
+                intent1.setData(Uri.parse("https://github.com/AnyMarvel/ManPinAPP"));
+                startActivity(intent1);
                 break;
 //            case R.id.sinalayout:
 //                Intent intent1 = new Intent("android.intent.action.VIEW");

@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.mp.android.apps.FeedbackActivity;
 import com.mp.android.apps.R;
@@ -18,12 +19,20 @@ import com.mp.android.apps.login.LoginActivity;
 import com.mp.android.apps.login.bean.login.Data;
 import com.mp.android.apps.login.utils.LoginManager;
 import com.mp.android.apps.main.MainActivity;
+import com.mp.android.apps.main.cycleimage.BannerInfo;
+import com.mp.android.apps.main.model.IMainFragmentModelImpl;
 import com.mp.android.apps.monke.basemvplib.IPresenter;
 import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
+import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
 
 import org.w3c.dom.Text;
 
+import java.util.List;
+import java.util.Random;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class PersonFragment extends BaseFragment implements View.OnClickListener {
     ImageView personBackground;
@@ -42,7 +51,25 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
     @Override
     protected void bindEvent() {
         super.bindEvent();
-        Glide.with(getContext()).load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1591101217238&di=3ceb9a70573c3da62c42579d111c6319&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201401%2F04%2F114458foyo99odqb8qjzg4.jpg").into(personBackground);
+        IMainFragmentModelImpl.getInstance().getCycleImages().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleObserver<String>() {
+            @Override
+            public void onNext(String s) {
+                List<String> list = (List<String>) JSON.parseObject(s).get("data");
+                if (list != null && list.size() > 0) {
+                    Random random = new Random();
+                    int result = random.nextInt(list.size());
+                    Glide.with(PersonFragment.this.getContext()).load(list.get(result)).into(personBackground);
+
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Glide.with(PersonFragment.this.getContext()).load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1591101217238&di=3ceb9a70573c3da62c42579d111c6319&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201401%2F04%2F114458foyo99odqb8qjzg4.jpg").into(personBackground);
+            }
+        });
+
+
         if (LoginManager.getInstance().checkLoginInfo()) {
             Data loginInfo = LoginManager.getInstance().getLoginInfo();
             Glide.with(getContext()).load(loginInfo.getUsericon()).into(mUserLogo);

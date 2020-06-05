@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.google.android.apps.photolab.storyboard.activity.ComicSplash;
 import com.mp.android.apps.R;
@@ -24,8 +25,10 @@ import com.mp.android.apps.login.utils.LoginManager;
 import com.mp.android.apps.main.MainActivity;
 import com.mp.android.apps.main.cycleimage.BannerInfo;
 import com.mp.android.apps.main.cycleimage.CycleViewPager;
+import com.mp.android.apps.main.model.IMainFragmentModelImpl;
 import com.mp.android.apps.main.view.MyImageTextView;
 import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
+import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
 import com.mp.android.apps.monke.monkeybook.bean.LibraryBean;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
 import com.mp.android.apps.monke.monkeybook.presenter.ILibraryPresenter;
@@ -45,6 +48,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 public class MainFragment extends BaseFragment<ILibraryPresenter> implements ILibraryView, View.OnClickListener {
     /**
      * 模拟请求后得到的数据
@@ -60,6 +66,7 @@ public class MainFragment extends BaseFragment<ILibraryPresenter> implements ILi
     private MyImageTextView xiaoshuo;
     private MyImageTextView guangchang;
     private FrameLayout searchImage;
+
     @Override
     protected ILibraryPresenter initInjector() {
         return new LibraryPresenterImpl();
@@ -88,7 +95,7 @@ public class MainFragment extends BaseFragment<ILibraryPresenter> implements ILi
         xiaoshuo.setOnClickListener(this);
         guangchang = view.findViewById(R.id.guangchang);
         guangchang.setOnClickListener(this);
-        searchImage=view.findViewById(R.id.search_image);
+        searchImage = view.findViewById(R.id.search_image);
         searchImage.setOnClickListener(this);
     }
 
@@ -121,9 +128,25 @@ public class MainFragment extends BaseFragment<ILibraryPresenter> implements ILi
     protected void initData() {
         mList.clear();
         mList.add(new BannerInfo("", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1591101217238&di=3ceb9a70573c3da62c42579d111c6319&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201401%2F04%2F114458foyo99odqb8qjzg4.jpg"));
-        mList.add(new BannerInfo("", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1591101257866&di=42f88647f1fe83e9174a49a18c97c49a&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Fc2cec3fdfc03924547eae8438794a4c27d1e251a.jpg"));
-        mList.add(new BannerInfo("", "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1379482854,1412074421&fm=26&gp=0.jpg"));
-        mList.add(new BannerInfo("", "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3201077998,3110241921&fm=26&gp=0.jpg"));
+        IMainFragmentModelImpl.getInstance().getCycleImages().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleObserver<String>() {
+            @Override
+            public void onNext(String s) {
+                List<String> list = (List<String>) JSON.parseObject(s).get("data");
+                if (list != null && list.size() > 0) {
+                    mList.clear();
+                    for (int i = 0; i < list.size(); i++) {
+                        mList.add(new BannerInfo("", list.get(i)));
+                    }
+                    mCycleViewPager.setData(mList, mAdCycleViewListener);
+                    mCycleViewPager.refreshData();
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
 
     }
 
@@ -216,7 +239,7 @@ public class MainFragment extends BaseFragment<ILibraryPresenter> implements ILi
                 startActivity(intentBook);
                 break;
             case R.id.guangchang:
-                ((MainActivity)getActivity()).gotoExplore("广场");
+                ((MainActivity) getActivity()).gotoExplore("广场");
                 break;
             case R.id.search_image:
                 Intent searchIntent = new Intent(getActivity(), SearchActivity.class);
@@ -226,7 +249,6 @@ public class MainFragment extends BaseFragment<ILibraryPresenter> implements ILi
                 break;
         }
     }
-
 
 
 }

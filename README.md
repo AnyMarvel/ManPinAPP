@@ -10,6 +10,10 @@ or
 ```shell
 ./gradlew clean assembleRelease
 ```
+github下载最新版本:https://github.com/AnyMarvel/ManPinAPP/releases
+
+国内下载地址: https://www.pgyer.com/manpin
+
 
 主要内容为以下三个板块:
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:fitsSystemWindows="true"
     android:layout_height="fill_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -41,8 +41,8 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:text="欢迎您提出宝贵的意见和建议，您的建议对我们改善服务非常有帮助。"
             android:textColor="#706F6D"
             android:textSize="19dp"></TextView>
@@ -91,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/feedback_content"
-                android:hint="请输入您联系方式(电话or微信)" />
+                android:hint="请输入您联系方式(电话or邮箱)" />
 
             <Button
                 android:id="@+id/feedback_submit"

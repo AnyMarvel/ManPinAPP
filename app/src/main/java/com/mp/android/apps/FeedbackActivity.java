@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
+import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.mp.android.apps.utils.PhoneFormatCheckUtils;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -68,7 +71,10 @@ public class FeedbackActivity extends StoryboardActivity {
                 String feedbackContentStr = feedbackContent.getText().toString();
                 String contact_informationStr = contact_information.getText().toString();
                 String errorType = feedback_type_spinner.getSelectedItem().toString();
-
+                if (!PhoneFormatCheckUtils.isPhoneLegal(contact_informationStr) && !PhoneFormatCheckUtils.checkEmailFormat(contact_informationStr)) {
+                    Toast.makeText(getApplicationContext(), "请确认电话号码或邮箱格式正确", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 FormBody formBody = new FormBody.Builder().add("contactStr", contact_informationStr)
                         .add("contentStr", feedbackContentStr)
@@ -81,7 +87,7 @@ public class FeedbackActivity extends StoryboardActivity {
                     @Override
                     public void run() {
                         new OkHttpClient().newCall(
-                                new Request.Builder().url("http://211.159.162.223/manpin/feedback")
+                                new Request.Builder().url("http://aimanpin.com/appview/feedback")
                                         .post(formBody).build()).enqueue(new Callback() {
                             @Override
                             public void onFailure(Call call, IOException e) {
@@ -109,7 +115,9 @@ public class FeedbackActivity extends StoryboardActivity {
                         });
                     }
                 }
-                ).start();
+                ).
+
+                        start();
 
             }
         });

@@ -54,6 +54,7 @@ public class DownloadService extends Service {
     private Boolean isInit = false;
     public static final String CHANNEL_ID_STRING = "service_01";
     private Notification notification;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -71,7 +72,9 @@ public class DownloadService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        RxBus.get().unregister(this);
+        if (RxBus.get() != null) {
+            RxBus.get().unregister(this);
+        }
         isInit = true;
     }
 

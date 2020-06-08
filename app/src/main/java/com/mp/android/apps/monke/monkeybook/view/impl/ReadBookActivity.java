@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.hwangjr.rxbus.RxBus;
 import com.mp.android.apps.monke.basemvplib.AppActivityManager;
 import com.mp.android.apps.R;
+import com.mp.android.apps.monke.monkeybook.ReadBookControl;
 import com.mp.android.apps.monke.monkeybook.base.MBaseActivity;
 import com.mp.android.apps.monke.monkeybook.bean.DownloadChapterBean;
 import com.mp.android.apps.monke.monkeybook.bean.DownloadChapterListBean;
@@ -34,7 +35,7 @@ import com.mp.android.apps.monke.monkeybook.utils.DensityUtil;
 import com.mp.android.apps.monke.monkeybook.utils.PremissionCheck;
 import com.mp.android.apps.monke.monkeybook.view.IBookReadView;
 import com.mp.android.apps.monke.monkeybook.view.popupwindow.CheckAddShelfPop;
-import com.mp.android.apps.monke.monkeybook.view.popupwindow.FontPop;
+
 import com.mp.android.apps.monke.monkeybook.view.popupwindow.MoreSettingPop;
 import com.mp.android.apps.monke.monkeybook.view.popupwindow.ReadBookMenuMorePop;
 import com.mp.android.apps.monke.monkeybook.view.popupwindow.WindowLightPop;
@@ -81,10 +82,15 @@ public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implemen
     private ChapterListView chapterListView;
     private WindowLightPop windowLightPop;
     private ReadBookMenuMorePop readBookMenuMorePop;
-    private FontPop fontPop;
+
     private MoreSettingPop moreSettingPop;
 
     private MoProgressHUD moProgressHUD;
+
+    private TextView ll_scene_text;
+
+    private final String dayMessage = "白天";
+    private final String nightMessage = "夜间";
 
     @Override
     protected IBookReadPresenter initInjector() {
@@ -165,6 +171,14 @@ public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implemen
         llCatalog = (LinearLayout) findViewById(R.id.ll_catalog);
         llLight = (LinearLayout) findViewById(R.id.ll_light);
         llFont = (LinearLayout) findViewById(R.id.ll_font);
+        ll_scene_text = findViewById(R.id.ll_scene_text);
+
+        if (ReadBookControl.getInstance().getTextDrawableIndex() == 3) {
+            ll_scene_text.setText(dayMessage);
+        } else {
+            ll_scene_text.setText(nightMessage);
+        }
+
         llSetting = (LinearLayout) findViewById(R.id.ll_setting);
 
         chapterListView = (ChapterListView) findViewById(R.id.clp_chapterlist);
@@ -208,18 +222,6 @@ public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implemen
         windowLightPop = new WindowLightPop(this);
         windowLightPop.initLight();
 
-        fontPop = new FontPop(this, new FontPop.OnChangeProListener() {
-            @Override
-            public void textChange(int index) {
-                csvBook.changeTextSize();
-            }
-
-            @Override
-            public void bgChange(int index) {
-                csvBook.changeBg();
-            }
-        });
-
         readBookMenuMorePop = new ReadBookMenuMorePop(this);
         readBookMenuMorePop.setOnClickDownload(new View.OnClickListener() {
             @Override
@@ -262,7 +264,29 @@ public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implemen
             }
         });
 
-        moreSettingPop = new MoreSettingPop(this);
+        moreSettingPop = new MoreSettingPop(this, new MoreSettingPop.OnChangeProListener() {
+            @Override
+            public void textChange(int index) {
+                csvBook.changeTextSize();
+            }
+
+            @Override
+            public void bgChange(int index) {
+                csvBook.changeBg();
+            }
+
+            @Override
+            public void isDay(boolean isDay) {
+                if (isDay) {
+                    ll_scene_text.setText(nightMessage);
+                } else {
+                    ll_scene_text.setText(dayMessage);
+                }
+
+            }
+
+
+        });
     }
 
     @Override
@@ -403,14 +427,18 @@ public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implemen
         llFont.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                llMenuTop.startAnimation(menuTopOut);
-                llMenuBottom.startAnimation(menuBottomOut);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        fontPop.showAtLocation(flContent, Gravity.BOTTOM, 0, 0);
-                    }
-                }, menuTopOut.getDuration());
+                if (ll_scene_text.getText().equals(dayMessage)) {
+                    ll_scene_text.setText(nightMessage);
+                    ReadBookControl.getInstance().setTextDrawableIndex(ReadBookControl.getInstance().getDayColorIndex());
+                    moreSettingPop.updateBg(ReadBookControl.getInstance().getDayColorIndex());
+                    csvBook.changeBg();
+                } else {
+                    ll_scene_text.setText(dayMessage);
+                    ReadBookControl.getInstance().setTextDrawableIndex(3);
+                    moreSettingPop.updateBg(3);
+                    csvBook.changeBg();
+                }
+
             }
         });
 

@@ -4,6 +4,7 @@ package com.mp.android.apps.monke.monkeybook;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 
+import com.mp.android.apps.main.fragment.PersonFragment;
 import com.mp.android.apps.monke.monkeybook.utils.DensityUtil;
 import com.mp.android.apps.MyApplication;
 import com.mp.android.apps.R;
@@ -17,8 +18,8 @@ public class ReadBookControl {
     public static final int DEFAULT_TEXT = 2;
     public static final int DEFAULT_BG = 1;
 
-    private static List<Map<String,Integer>> textKind;
-    private static List<Map<String,Integer>> textDrawable;
+    private static List<Map<String, Integer>> textKind;
+    private static List<Map<String, Integer>> textDrawable;
 
     private int textSize;
     private int textExtra;
@@ -35,76 +36,77 @@ public class ReadBookControl {
 
     private static ReadBookControl readBookControl;
 
-    public static ReadBookControl getInstance(){
-        if(readBookControl == null){
-            synchronized (ReadBookControl.class){
-                if(readBookControl == null){
+    public static ReadBookControl getInstance() {
+        if (readBookControl == null) {
+            synchronized (ReadBookControl.class) {
+                if (readBookControl == null) {
                     readBookControl = new ReadBookControl();
                 }
             }
         }
         return readBookControl;
     }
-    private ReadBookControl(){
-        if(null == textKind){
+
+    private ReadBookControl() {
+        if (null == textKind) {
             textKind = new ArrayList<>();
-            Map<String,Integer> temp1 = new HashMap<>();
+            Map<String, Integer> temp1 = new HashMap<>();
             temp1.put("textSize", 14);
-            temp1.put("textExtra", DensityUtil.dp2px(MyApplication.getInstance(),6.5f));
+            temp1.put("textExtra", DensityUtil.dp2px(MyApplication.getInstance(), 6.5f));
             textKind.add(temp1);
 
-            Map<String,Integer> temp2 = new HashMap<>();
+            Map<String, Integer> temp2 = new HashMap<>();
             temp2.put("textSize", 16);
-            temp2.put("textExtra", DensityUtil.dp2px(MyApplication.getInstance(),8));
+            temp2.put("textExtra", DensityUtil.dp2px(MyApplication.getInstance(), 8));
             textKind.add(temp2);
 
-            Map<String,Integer> temp3 = new HashMap<>();
+            Map<String, Integer> temp3 = new HashMap<>();
             temp3.put("textSize", 17);
-            temp3.put("textExtra", DensityUtil.dp2px(MyApplication.getInstance(),9));
+            temp3.put("textExtra", DensityUtil.dp2px(MyApplication.getInstance(), 9));
             textKind.add(temp3);
 
-            Map<String,Integer> temp4 = new HashMap<>();
+            Map<String, Integer> temp4 = new HashMap<>();
             temp4.put("textSize", 20);
-            temp4.put("textExtra", DensityUtil.dp2px(MyApplication.getInstance(),11));
+            temp4.put("textExtra", DensityUtil.dp2px(MyApplication.getInstance(), 11));
             textKind.add(temp4);
 
-            Map<String,Integer> temp5 = new HashMap<>();
+            Map<String, Integer> temp5 = new HashMap<>();
             temp5.put("textSize", 22);
-            temp5.put("textExtra", DensityUtil.dp2px(MyApplication.getInstance(),13));
+            temp5.put("textExtra", DensityUtil.dp2px(MyApplication.getInstance(), 13));
             textKind.add(temp5);
         }
-        if(null == textDrawable){
+        if (null == textDrawable) {
             textDrawable = new ArrayList<>();
-            Map<String,Integer> temp1 = new HashMap<>();
-            temp1.put("textColor",Color.parseColor("#3E3D3B"));
-            temp1.put("textBackground",R.drawable.shape_bg_readbook_white);
+            Map<String, Integer> temp1 = new HashMap<>();
+            temp1.put("textColor", Color.parseColor("#3E3D3B"));
+            temp1.put("textBackground", R.drawable.shape_bg_readbook_white);
             textDrawable.add(temp1);
 
-            Map<String,Integer> temp2 = new HashMap<>();
-            temp2.put("textColor",Color.parseColor("#5E432E"));
+            Map<String, Integer> temp2 = new HashMap<>();
+            temp2.put("textColor", Color.parseColor("#5E432E"));
             temp2.put("textBackground", R.drawable.bg_readbook_yellow);
             textDrawable.add(temp2);
 
-            Map<String,Integer> temp3 = new HashMap<>();
-            temp3.put("textColor",Color.parseColor("#22482C"));
-            temp3.put("textBackground",R.drawable.bg_readbook_green);
+            Map<String, Integer> temp3 = new HashMap<>();
+            temp3.put("textColor", Color.parseColor("#22482C"));
+            temp3.put("textBackground", R.drawable.bg_readbook_green);
             textDrawable.add(temp3);
 
-            Map<String,Integer> temp4 = new HashMap<>();
-            temp4.put("textColor",Color.parseColor("#808080"));
-            temp4.put("textBackground",R.drawable.bg_readbook_black);
+            Map<String, Integer> temp4 = new HashMap<>();
+            temp4.put("textColor", Color.parseColor("#808080"));
+            temp4.put("textBackground", R.drawable.bg_readbook_black);
             textDrawable.add(temp4);
         }
         preference = MyApplication.getInstance().getSharedPreferences("CONFIG", 0);
-        this.textKindIndex = preference.getInt("textKindIndex",DEFAULT_TEXT);
+        this.textKindIndex = preference.getInt("textKindIndex", DEFAULT_TEXT);
         this.textSize = textKind.get(textKindIndex).get("textSize");
         this.textExtra = textKind.get(textKindIndex).get("textExtra");
-        this.textDrawableIndex = preference.getInt("textDrawableIndex",DEFAULT_BG);
+        this.textDrawableIndex = preference.getInt("textDrawableIndex", DEFAULT_BG);
         this.textColor = textDrawable.get(textDrawableIndex).get("textColor");
         this.textBackground = textDrawable.get(textDrawableIndex).get("textBackground");
 
-        this.canClickTurn = preference.getBoolean("canClickTurn",true);
-        this.canKeyTurn = preference.getBoolean("canClickTurn",true);
+        this.canClickTurn = preference.getBoolean("canClickTurn", true);
+        this.canKeyTurn = preference.getBoolean("canClickTurn", true);
     }
 
     public int getTextSize() {
@@ -130,7 +132,7 @@ public class ReadBookControl {
     public void setTextKindIndex(int textKindIndex) {
         this.textKindIndex = textKindIndex;
         SharedPreferences.Editor editor = preference.edit();
-        editor.putInt("textKindIndex",textKindIndex);
+        editor.putInt("textKindIndex", textKindIndex);
         editor.commit();
         this.textSize = textKind.get(textKindIndex).get("textSize");
         this.textExtra = textKind.get(textKindIndex).get("textExtra");
@@ -143,7 +145,7 @@ public class ReadBookControl {
     public void setTextDrawableIndex(int textDrawableIndex) {
         this.textDrawableIndex = textDrawableIndex;
         SharedPreferences.Editor editor = preference.edit();
-        editor.putInt("textDrawableIndex",textDrawableIndex);
+        editor.putInt("textDrawableIndex", textDrawableIndex);
         editor.commit();
         this.textColor = textDrawable.get(textDrawableIndex).get("textColor");
         this.textBackground = textDrawable.get(textDrawableIndex).get("textBackground");
@@ -164,7 +166,7 @@ public class ReadBookControl {
     public void setCanKeyTurn(Boolean canKeyTurn) {
         this.canKeyTurn = canKeyTurn;
         SharedPreferences.Editor editor = preference.edit();
-        editor.putBoolean("canKeyTurn",canKeyTurn);
+        editor.putBoolean("canKeyTurn", canKeyTurn);
         editor.commit();
     }
 
@@ -175,7 +177,16 @@ public class ReadBookControl {
     public void setCanClickTurn(Boolean canClickTurn) {
         this.canClickTurn = canClickTurn;
         SharedPreferences.Editor editor = preference.edit();
-        editor.putBoolean("canClickTurn",canClickTurn);
+        editor.putBoolean("canClickTurn", canClickTurn);
         editor.commit();
+    }
+
+    public int getDayColorIndex() {
+        return preference.getInt("dayColorIndex", 1);
+    }
+
+    public void setDayColorIndex(int dayColorIndex) {
+        preference.edit().putInt("dayColorIndex", dayColorIndex).apply();
+
     }
 }

@@ -137,6 +137,13 @@ public class ContentYb3ModelImpl extends MBaseModelImpl implements IStationBookM
         bookInfoBean.setIntroduce(content.toString());
         bookInfoBean.setChapterUrl(novelUrl);
         bookInfoBean.setOrigin("yb3.cc");
+
+        try {
+            String lastChapter = resultE.getElementById("info").getElementsByTag("p").get(3).getElementsByTag("a").get(0).text();
+            ObtainBookInfoImpl.getInstance().senMessageManpin(bookInfoBean, "", lastChapter);
+        } catch (Exception e) {
+
+        }
         return bookInfoBean;
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////

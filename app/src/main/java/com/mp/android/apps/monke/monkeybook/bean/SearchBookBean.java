@@ -27,7 +27,9 @@ public class SearchBookBean implements Parcelable {
     private long words;
 
     private String state;
-
+    /**
+     * 最新章节
+     */
     private String lastChapter;
 
     private Boolean isAdd = false;
@@ -35,7 +37,9 @@ public class SearchBookBean implements Parcelable {
     private String tag;
 
     private String kind;
-
+    /**
+     * 来源
+     */
     private String origin;
 
     private String desc;

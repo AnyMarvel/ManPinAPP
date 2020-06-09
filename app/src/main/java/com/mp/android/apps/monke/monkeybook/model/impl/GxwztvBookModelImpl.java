@@ -14,6 +14,7 @@ import com.mp.android.apps.monke.monkeybook.bean.LibraryNewBookBean;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
 import com.mp.android.apps.monke.monkeybook.bean.WebChapterBean;
 import com.mp.android.apps.monke.monkeybook.cache.ACache;
+import com.mp.android.apps.monke.monkeybook.common.api.IBookInfoApi;
 import com.mp.android.apps.monke.monkeybook.common.api.IGxwztvApi;
 import com.mp.android.apps.monke.monkeybook.listener.OnGetChapterListListener;
 import com.mp.android.apps.monke.monkeybook.model.IGxwztvBookModel;
@@ -254,6 +255,12 @@ public class GxwztvBookModelImpl extends MBaseModelImpl implements IGxwztvBookMo
         bookInfoBean.setIntroduce("\u3000\u3000" + introduce);
         bookInfoBean.setChapterUrl(TAG + resultE.getElementsByClass("list-group-item tac").get(0).getElementsByTag("a").get(0).attr("href"));
         bookInfoBean.setOrigin("wzzw.la");
+
+        String kind = resultE.getElementsByClass("col-xs-4 list-group-item no-border").get(0).getElementsByTag("a").get(0).text();
+        String lastChapter = resultE.getElementsByClass("col-xs-12 list-group-item no-border").get(1).getElementsByTag("a").get(0).text();
+//
+        ObtainBookInfoImpl.getInstance().senMessageManpin(bookInfoBean, kind, lastChapter);
+
         return bookInfoBean;
     }
 

@@ -36,7 +36,8 @@ import io.reactivex.schedulers.Schedulers;
 public class ContentWxguanModelImpl extends MBaseModelImpl implements IStationBookModel {
     public static final String TAG = "http://www.wxguan.com";
     public static final String TAG_SEARCH = "https://so.biqusoso.com";
-    public static final String ORIGIN="wxguan.com";
+    public static final String ORIGIN = "wxguan.com";
+
     public static ContentWxguanModelImpl getInstance() {
         return new ContentWxguanModelImpl();
     }
@@ -48,13 +49,14 @@ public class ContentWxguanModelImpl extends MBaseModelImpl implements IStationBo
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public Observable<List<SearchBookBean>> searchBook(String content, int page) {
-        return getRetrofitObject(TAG_SEARCH).create(IWxguanAPI.class).searchBook("xwxguan.com", content,"utf-8").flatMap(new Function<String, ObservableSource<List<SearchBookBean>>>() {
+        return getRetrofitObject(TAG_SEARCH).create(IWxguanAPI.class).searchBook("xwxguan.com", content, "utf-8").flatMap(new Function<String, ObservableSource<List<SearchBookBean>>>() {
             @Override
             public ObservableSource<List<SearchBookBean>> apply(String s) throws Exception {
                 return analySearchBook(s);
             }
         });
     }
+
     //todo 修改搜索后跳转详情问题
     public Observable<List<SearchBookBean>> analySearchBook(final String s) {
         return Observable.create(new ObservableOnSubscribe<List<SearchBookBean>>() {
@@ -73,8 +75,8 @@ public class ContentWxguanModelImpl extends MBaseModelImpl implements IStationBo
 //                            item.setState();
                             item.setOrigin(ORIGIN);
                             item.setName(booksE.get(i).getElementsByClass("s2").get(0).getElementsByTag("a").get(0).text());
-                            String href=booksE.get(i).getElementsByClass("s2").get(0).getElementsByTag("a").get(0).attr("href");
-                            item.setNoteUrl(TAG+"/wenzhang/"+Integer.parseInt(href.substring(href.lastIndexOf("/")+1))/2+"/"+href.substring(href.lastIndexOf("/")+1));
+                            String href = booksE.get(i).getElementsByClass("s2").get(0).getElementsByTag("a").get(0).attr("href");
+                            item.setNoteUrl(TAG + "/wenzhang/" + Integer.parseInt(href.substring(href.lastIndexOf("/") + 1)) / 2 + "/" + href.substring(href.lastIndexOf("/") + 1));
                             item.setCoverUrl("noimage");
                             books.add(item);
                         }
@@ -145,6 +147,13 @@ public class ContentWxguanModelImpl extends MBaseModelImpl implements IStationBo
         bookInfoBean.setIntroduce(content.toString());
         bookInfoBean.setChapterUrl(novelUrl);
         bookInfoBean.setOrigin(ORIGIN);
+        try {
+            String kind = resultE.getElementsByClass("small").get(0).getElementsByTag("span").get(1).text().replace("分类：", "");
+            String lastChapter = resultE.getElementsByClass("small").get(0).getElementsByTag("span").get(5).getElementsByTag("a").text();
+            ObtainBookInfoImpl.getInstance().senMessageManpin(bookInfoBean, kind, lastChapter);
+        } catch (Exception e) {
+
+        }
         return bookInfoBean;
     }
 
@@ -208,7 +217,8 @@ public class ContentWxguanModelImpl extends MBaseModelImpl implements IStationBo
         Boolean next = false;
         return new WebChapterBean<List<ChapterListBean>>(chapterBeans, next);
     }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public Observable<BookContentBean> getBookContent(String durChapterUrl, int durChapterIndex) {
         return getRetrofitObject(TAG).create(IWxguanAPI.class).getBookContent(durChapterUrl.replace(TAG, "")).flatMap(new Function<String, ObservableSource<BookContentBean>>() {

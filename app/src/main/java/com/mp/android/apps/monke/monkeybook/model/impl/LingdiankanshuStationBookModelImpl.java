@@ -146,6 +146,13 @@ public class LingdiankanshuStationBookModelImpl extends MBaseModelImpl implement
         bookInfoBean.setIntroduce(content.toString());
         bookInfoBean.setChapterUrl(novelUrl);
         bookInfoBean.setOrigin("lingdiankanshu.co");
+
+        try {
+            String lastChapter = resultE.getElementById("info").getElementsByTag("p").get(3).getElementsByTag("a").get(0).text();
+            ObtainBookInfoImpl.getInstance().senMessageManpin(bookInfoBean, "", lastChapter);
+        } catch (Exception e) {
+
+        }
         return bookInfoBean;
     }
 

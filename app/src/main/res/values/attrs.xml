@@ -73,4 +73,18 @@
         <attr name="textColor" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="FlikerProgressBar">
+        <attr name="textSize" format="dimension"/>
+
+        <attr name="loadingColor" format="color"/>
+
+        <attr name="stopColor" format="color"/>
+
+        <attr name="radius" format="dimension"/>
+
+        <attr name="borderWidth" format="dimension"/>
+
+    </declare-styleable>
+
+
 </resources>

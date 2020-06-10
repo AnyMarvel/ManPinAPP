@@ -151,6 +151,13 @@ public class MainFragment extends BaseFragment<ILibraryPresenter> implements ILi
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mCycleViewPager.setData(mList, mAdCycleViewListener);
+        mCycleViewPager.refreshData();
+    }
+
+    @Override
     protected View createView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.main_fragment_layout, container, false);
     }

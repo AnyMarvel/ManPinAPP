@@ -97,6 +97,27 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.7" />
 
+    <com.google.android.apps.photolab.storyboard.views.FlikerProgressBar
+        android:id="@+id/round_flikerbar"
+        android:layout_width="0.0dip"
+        android:layout_height="0.0dip"
+        android:fontFamily="sans-serif-condensed"
+        android:letterSpacing="0.15"
+        android:stateListAnimator="@null"
+        android:text="@string/instruction_load_video"
+        android:textSize="16.0sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_button_guideline"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/left_button_guideline"
+        app:layout_constraintRight_toRightOf="@+id/right_button_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/top_button_guideline"
+        app:layout_constraintVertical_bias="1.0"
+        app:loadingColor="#40c4ff"
+        app:radius="20dp"
+        app:stopColor="#ff9800"
+        app:textSize="12sp" />
+
     <Button
         android:id="@+id/load_button"
         android:layout_width="0.0dip"
@@ -113,7 +134,9 @@
         app:layout_constraintLeft_toLeftOf="@+id/left_button_guideline"
         app:layout_constraintRight_toRightOf="@+id/right_button_guideline"
         app:layout_constraintTop_toBottomOf="@+id/top_button_guideline"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        android:visibility="gone"
+        />
 
 
 </android.support.constraint.ConstraintLayout>

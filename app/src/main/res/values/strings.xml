@@ -92,4 +92,6 @@
     <string name="confirmed">用户须知已确认</string>
     <string name="opt_terms">用户协议</string>
     <string name="opt_privacy">隐私政策</string>
+    <string name="so_load_check_str">视频转漫画基于3D神经网络转换,首次使用需要下载必要组件,大小为30M左右,是否确认下载?</string>
+    <string name="so_load_faid">必要组件下载或安装失败,请点击重试.如有问题请清空缓存后重试</string>
 </resources>

@@ -58,7 +58,7 @@ public class ApiHelper {
         }
     }};
 
-    public Retrofit getRetrofitObject(String url, String cookie) {
+    public Retrofit getRetrofitObject(String url) {
         clientBuilder.hostnameVerifier(new HostnameVerifier() {
             @Override
             public boolean verify(String hostname, SSLSession session) {
@@ -76,7 +76,6 @@ public class ApiHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        clientBuilder.addInterceptor(new AddCookiesInterceptor(cookie));
         return new Retrofit.Builder().baseUrl(url)
                 //增加返回值为字符串的支持(以实体类返回)
                 .addConverterFactory(ScalarsConverterFactory.create())

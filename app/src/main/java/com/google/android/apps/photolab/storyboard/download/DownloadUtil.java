@@ -33,10 +33,10 @@ public class DownloadUtil extends MBaseModelImpl {
     private Thread mThread;
     private String mVideoPath; //下载到本地的视频路径
 
-    public DownloadUtil(String host, String cookie) {
+    public DownloadUtil(String host) {
         if (mApi == null) {
             //初始化网络请求接口
-            mApi = ApiHelper.getInstance().getRetrofitObject(host, cookie)
+            mApi = ApiHelper.getInstance().getRetrofitObject(host)
                     .create(ApiInterface.class);
         }
     }

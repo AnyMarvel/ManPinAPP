@@ -35,6 +35,10 @@ import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -135,7 +139,7 @@ public class ComicSplash extends StoryboardActivity implements OnClickListener {
                         if (!TextUtils.isEmpty(path1) && !TextUtils.isEmpty(path2)) {
                             selectVideo();
                         } else {
-                            reloadSoFile(zipfilePath,false);
+                            reloadSoFile(zipfilePath, false);
                         }
                     }
 
@@ -162,9 +166,11 @@ public class ComicSplash extends StoryboardActivity implements OnClickListener {
                 .subscribe(new SimpleObserver<String>() {
                     @Override
                     public void onNext(String s) {
-                        Uri uri = Uri.parse(s);
+                        Document doc = Jsoup.parse(s);
+                        String downloadUrl = doc.getElementsByClass("directDownload").get(0).getElementsByTag("a").attr("href");
+                        Uri uri = Uri.parse(downloadUrl);
                         String host = uri.getScheme() + "://" + uri.getHost();
-                        String path = s.replace(host, "");
+                        String path = downloadUrl.replace(host, "");
                         Logger.d("hostname", host);
                         Logger.d("path", path);
 
@@ -196,7 +202,7 @@ public class ComicSplash extends StoryboardActivity implements OnClickListener {
                             @Override
                             public void onFinish(String localPath) {
                                 Logger.d("******************************" + "localPath" + localPath);
-                                reloadSoFile(localPath,true);
+                                reloadSoFile(localPath, true);
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {

@@ -2,6 +2,7 @@ package com.google.android.apps.photolab.storyboard.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -11,10 +12,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.android.apps.photolab.storyboard.download.DownloadListener;
 import com.google.android.apps.photolab.storyboard.download.DownloadUtil;
 import com.google.android.apps.photolab.storyboard.download.FileUtils;
 import com.google.android.apps.photolab.storyboard.download.ZipUtils;
+import com.google.android.apps.photolab.storyboard.module.ComicSplashModuleImpl;
 import com.google.android.apps.photolab.storyboard.pipeline.ComicIO;
 import com.google.android.apps.photolab.storyboard.pipeline.MediaManager;
 
@@ -24,12 +28,17 @@ import com.google.android.apps.photolab.storyboard.views.FlikerProgressBar;
 import com.google.android.apps.photolab.storyboard.views.StoryAlterDialog;
 import com.mp.android.apps.StoryboardActivity;
 import com.mp.android.apps.R;
+import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
 import com.mp.android.apps.utils.Logger;
 import com.google.android.apps.photolab.storyboard.download.MD5Utils;
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
+
 import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Activity启动页面
@@ -128,8 +137,6 @@ public class ComicSplash extends StoryboardActivity implements OnClickListener {
                         } else {
                             reloadSoFile(zipfilePath);
                         }
-
-
                     }
 
                     @Override
@@ -149,63 +156,85 @@ public class ComicSplash extends StoryboardActivity implements OnClickListener {
     private final String solibs = DownloadUtil.PATH_CHALLENGE_VIDEO + "/libs";
 
     private void requestNativeSo() {
-        new DownloadUtil().downloadFile("/manpin_war/appview/downloadMPNative", downloadFileName, new DownloadListener() {
-            @Override
-            public void onStart() {
-                runOnUiThread(new Runnable() {
+        ComicSplashModuleImpl.getInstance().getDownloadUrl()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SimpleObserver<String>() {
                     @Override
-                    public void run() {
-                        flikerProgressBar.setVisibility(View.VISIBLE);
-                        button.setVisibility(View.GONE);
+                    public void onNext(String s) {
+                        JSONObject jsonObject = JSON.parseObject(s);
+                        String urlPath = jsonObject.getString("urlPath");
+                        String cookies = jsonObject.getString("cookies");
+                        Uri uri = Uri.parse(urlPath);
+                        String host = uri.getScheme() + "://" + uri.getHost();
+                        String path = urlPath.replace(host, "");
+                        Logger.d("hostname", host);
+                        Logger.d("path", path);
+                        Logger.d("cookies", cookies);
+                        new DownloadUtil(host, cookies).downloadFile(path, downloadFileName, new DownloadListener() {
+                            @Override
+                            public void onStart() {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        flikerProgressBar.setVisibility(View.VISIBLE);
+                                        button.setVisibility(View.GONE);
+                                    }
+                                });
+                                Logger.d("******************************" + "onStart");
+                            }
+
+                            @Override
+                            public void onProgress(int currentLength) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        flikerProgressBar.setProgress(currentLength);
+                                    }
+                                });
+
+                                Logger.d("******************************" + "onProgress:" + currentLength);
+                            }
+
+                            @Override
+                            public void onFinish(String localPath) {
+                                Logger.d("******************************" + "localPath" + localPath);
+                                reloadSoFile(localPath);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        flikerProgressBar.finishLoad();
+                                        flikerProgressBar.setVisibility(View.GONE);
+                                        button.setVisibility(View.VISIBLE);
+                                    }
+                                });
+
+
+                            }
+
+                            @Override
+                            public void onFailure() {
+                                Logger.d("******************************" + "onFailure");
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "加载组件失败,请点击重试", Toast.LENGTH_SHORT).show();
+                                        flikerProgressBar.finishLoad();
+                                        flikerProgressBar.setVisibility(View.GONE);
+                                        button.setVisibility(View.VISIBLE);
+                                    }
+                                });
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
                     }
                 });
-                Logger.d("******************************" + "onStart");
 
-            }
-
-            @Override
-            public void onProgress(int currentLength) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        flikerProgressBar.setProgress(currentLength);
-                    }
-                });
-
-                Logger.d("******************************" + "onProgress:" + currentLength);
-            }
-
-            @Override
-            public void onFinish(String localPath) {
-                Logger.d("******************************" + "localPath" + localPath);
-                reloadSoFile(localPath);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        flikerProgressBar.finishLoad();
-                        flikerProgressBar.setVisibility(View.GONE);
-                        button.setVisibility(View.VISIBLE);
-                    }
-                });
-
-
-            }
-
-            @Override
-            public void onFailure() {
-                Logger.d("******************************" + "onFailure");
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "加载组件失败,请点击重试", Toast.LENGTH_SHORT).show();
-                        flikerProgressBar.finishLoad();
-                        flikerProgressBar.setVisibility(View.GONE);
-                        button.setVisibility(View.VISIBLE);
-                    }
-                });
-
-            }
-        });
 
     }
 

@@ -15,23 +15,41 @@ public class SoFileUtils {
 
     /**
      * 加载 so 文件
+     *
      * @param context
      * @param fromPath 下载到得sdcard目录
      */
     public static void loadSoFile(Context context, String fromPath) {
         try {
-        File dirs = context.getDir("libs", Context.MODE_PRIVATE);
-        if (!isLoadSoFiles("libfacedetector_native.so", dirs) || !isLoadSoFiles("libobjectdetector_native.so", dirs)) {
-            copyFile(fromPath, dirs.getAbsolutePath());
-        }
-        LoadLibraryUtil.installNativeLibraryPath(context.getApplicationContext().getClassLoader(), dirs);
+            File dirs = context.getDir("libs", Context.MODE_PRIVATE);
+            if (!isLoadSoFiles("libfacedetector_native.so", dirs) || !isLoadSoFiles("libobjectdetector_native.so", dirs)) {
+                copyFile(fromPath, dirs.getAbsolutePath());
+            }
+            LoadLibraryUtil.installNativeLibraryPath(context.getApplicationContext().getClassLoader(), dirs);
         } catch (Throwable throwable) {
             Logger.e("loadSoFile", "loadSoFile error " + throwable.getMessage());
         }
     }
 
+    public static boolean hasLoadSofile(Context context) {
+        File dirs = context.getDir("libs", Context.MODE_PRIVATE);
+        if (isLoadSoFiles("libobjectdetector_native.so", dirs) &&
+                isLoadSoFiles("libobjectdetector_native.so", dirs)
+        ) {
+            try {
+                LoadLibraryUtil.installNativeLibraryPath(context.getApplicationContext().getClassLoader(), dirs);
+            } catch (Throwable throwable) {
+                Logger.e("loadSoFile", "loadSoFile error " + throwable.getMessage());
+            }
+            return true;
+        }
+        return false;
+
+    }
+
     /**
      * 判断immqy so 文件是否存在
+     *
      * @param name "libimmqy" so库
      * @return boolean
      */
@@ -53,8 +71,9 @@ public class SoFileUtils {
 
     /**
      * 要复制的目录下的所有非子目录(文件夹)文件拷贝
+     *
      * @param fromFiles 指定的下载目录
-     * @param toFile 应用的包路径
+     * @param toFile    应用的包路径
      * @return int
      */
     private static int copySdcardFile(String fromFiles, String toFile) {
@@ -63,7 +82,7 @@ public class SoFileUtils {
             FileInputStream fileInput = new FileInputStream(fromFiles);
             FileOutputStream fileOutput = new FileOutputStream(toFile);
             ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024*1];
+            byte[] buffer = new byte[1024 * 1];
             int len = -1;
             while ((len = fileInput.read(buffer)) != -1) {
                 byteOut.write(buffer, 0, len);
@@ -81,11 +100,9 @@ public class SoFileUtils {
     }
 
 
-
     /**
-     *
      * @param fromFiles 指定的下载目录
-     * @param toFile 应用的包路径
+     * @param toFile    应用的包路径
      * @return int
      */
     private static int copyFile(String fromFiles, String toFile) {
@@ -99,7 +116,7 @@ public class SoFileUtils {
         //如果存在则获取当前目录下的全部文件 填充数组
         currentFiles = root.listFiles();
         if (currentFiles == null) {
-            Log.d("soFile---","未获取到文件");
+            Log.d("soFile---", "未获取到文件");
             return -1;
         }
         //目标目录

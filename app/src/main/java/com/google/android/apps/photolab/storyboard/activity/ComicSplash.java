@@ -239,8 +239,9 @@ public class ComicSplash extends StoryboardActivity implements OnClickListener {
     }
 
     private void reloadSoFile(String localPath) {
-
-        if (MD5Utils.checkFileMd5(localPath, "d7bc16e438bc4f9aeeeb96add8640522")) {
+        if (SoFileUtils.hasLoadSofile(this)) {
+            selectVideo();
+        } else if (MD5Utils.checkFileMd5(localPath, "d7bc16e438bc4f9aeeeb96add8640522")) {
             if (FileUtils.existsDir(solibs) && MD5Utils.checkFileMd5(solibs + "/libfacedetector_native.so", "c261e13774360980e194fa40c02016f8")
                     && MD5Utils.checkFileMd5(solibs + "/libobjectdetector_native.so", "90c8085b4ac37a743d1530f0c1b29ebc")
             ) {
@@ -253,6 +254,7 @@ public class ComicSplash extends StoryboardActivity implements OnClickListener {
                     e.printStackTrace();
                 }
             }
+            selectVideo();
         } else {
             initStoryDialog();
         }

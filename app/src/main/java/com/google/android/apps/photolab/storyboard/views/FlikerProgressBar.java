@@ -354,7 +354,7 @@ public class FlikerProgressBar extends View implements Runnable {
                 text = "继续";
             }
         } else {
-            text = "下载完成";
+            text = "下载完成,加载中...";
         }
 
         return text;

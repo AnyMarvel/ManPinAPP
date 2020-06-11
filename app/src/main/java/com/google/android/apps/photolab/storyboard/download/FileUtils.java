@@ -5,7 +5,6 @@ import java.io.IOException;
 
 /**
  * Description：
- * Created by kang on 2018/3/9.
  */
 
 public class FileUtils {

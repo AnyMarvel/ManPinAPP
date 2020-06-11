@@ -20,7 +20,6 @@ import retrofit2.Response;
 
 /**
  * Description：下载文件工具类
- * Created by kang on 2018/3/9.
  */
 
 public class DownloadUtil {

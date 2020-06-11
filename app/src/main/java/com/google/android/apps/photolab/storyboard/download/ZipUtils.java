@@ -16,7 +16,7 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 /**
- * Created by YuShuangPing on 2018/11/11.
+ * Zip文件压缩解压工具类
  */
 public class ZipUtils {
     public static final String TAG = "ZipUtils";

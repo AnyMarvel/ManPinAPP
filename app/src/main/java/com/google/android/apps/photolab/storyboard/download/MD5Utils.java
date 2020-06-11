@@ -12,6 +12,9 @@ import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * MD5工具类
+ */
 public class MD5Utils {
     /**
      * 获取单个文件的MD5值！

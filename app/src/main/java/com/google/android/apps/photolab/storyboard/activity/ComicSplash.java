@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +19,7 @@ import com.google.android.apps.photolab.storyboard.pipeline.ComicIO;
 import com.google.android.apps.photolab.storyboard.pipeline.MediaManager;
 
 import com.google.android.apps.photolab.storyboard.soloader.SoFileUtils;
+import com.google.android.apps.photolab.storyboard.soloader.SoStatus;
 import com.google.android.apps.photolab.storyboard.views.FlikerProgressBar;
 import com.google.android.apps.photolab.storyboard.views.StoryAlterDialog;
 import com.mp.android.apps.StoryboardActivity;
@@ -27,9 +29,6 @@ import com.google.android.apps.photolab.storyboard.download.MD5Utils;
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
-import com.xinlan.imageeditlibrary.editimage.utils.FileUtil;
-
-import java.io.File;
 import java.util.List;
 
 /**
@@ -122,7 +121,14 @@ public class ComicSplash extends StoryboardActivity implements OnClickListener {
                     @Override
                     public void onGranted() {
                         String zipfilePath = DownloadUtil.PATH_CHALLENGE_VIDEO + "/" + downloadFileName;
-                        reloadSoFile(zipfilePath);
+                        String path1 = SoStatus.findNativeLibraryPath(ComicSplash.this, "objectdetector_native");
+                        String path2 = SoStatus.findNativeLibraryPath(ComicSplash.this, "facedetector_native");
+                        if (!TextUtils.isEmpty(path1) && !TextUtils.isEmpty(path2)) {
+                            selectVideo();
+                        } else {
+                            reloadSoFile(zipfilePath);
+                        }
+
 
                     }
 
@@ -204,6 +210,7 @@ public class ComicSplash extends StoryboardActivity implements OnClickListener {
     }
 
     private void reloadSoFile(String localPath) {
+
         if (MD5Utils.checkFileMd5(localPath, "d7bc16e438bc4f9aeeeb96add8640522")) {
             if (FileUtils.existsDir(solibs) && MD5Utils.checkFileMd5(solibs + "/libfacedetector_native.so", "c261e13774360980e194fa40c02016f8")
                     && MD5Utils.checkFileMd5(solibs + "/libobjectdetector_native.so", "90c8085b4ac37a743d1530f0c1b29ebc")
@@ -217,7 +224,6 @@ public class ComicSplash extends StoryboardActivity implements OnClickListener {
                     e.printStackTrace();
                 }
             }
-            selectVideo();
         } else {
             initStoryDialog();
         }

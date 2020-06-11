@@ -4,7 +4,6 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.google.android.apps.photolab.storyboard.module.ComicSplashModuleImpl;
 import com.mp.android.apps.monke.monkeybook.base.MBaseModelImpl;
 import com.mp.android.apps.utils.Logger;
 

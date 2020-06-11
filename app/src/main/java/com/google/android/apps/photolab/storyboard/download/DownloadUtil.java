@@ -4,6 +4,8 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.google.android.apps.photolab.storyboard.module.ComicSplashModuleImpl;
+import com.mp.android.apps.monke.monkeybook.base.MBaseModelImpl;
 import com.mp.android.apps.utils.Logger;
 
 import java.io.File;
@@ -22,9 +24,8 @@ import retrofit2.Response;
  * Description：下载文件工具类
  */
 
-public class DownloadUtil {
+public class DownloadUtil extends MBaseModelImpl {
     private static final String TAG = "DownloadUtil";
-    private static final String AiManPin = "http://10.12.176.59:8080";
     public static final String PATH_CHALLENGE_VIDEO = Environment.getExternalStorageDirectory() + "/ManPinDownloadFile";
     //视频下载相关
     protected ApiInterface mApi;
@@ -33,11 +34,11 @@ public class DownloadUtil {
     private Thread mThread;
     private String mVideoPath; //下载到本地的视频路径
 
-    public DownloadUtil() {
+    public DownloadUtil(String host, String cookie) {
         if (mApi == null) {
             //初始化网络请求接口
-            mApi = ApiHelper.getInstance().buildRetrofit(AiManPin)
-                    .createService(ApiInterface.class);
+            mApi = ApiHelper.getInstance().getRetrofitObject(host, cookie)
+                    .create(ApiInterface.class);
         }
     }
 

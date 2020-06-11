@@ -14,8 +14,8 @@ public class ComicSplashModuleImpl extends MBaseModelImpl {
     }
 
     public Observable<String> getDownloadUrl() {
-        return getRetrofitObject("http://aimanpin.com")
-                .create(IComicSplasApi.class).downloadFile("/appview/downloadMPNative");
+        return getRetrofitObject("https://asytech.cn")
+                .create(IComicSplasApi.class).downloadFile("/cloud/index.php/s/3RYFEAZNWNAzRzZ");
     }
 
     public interface IComicSplasApi {

@@ -135,7 +135,7 @@ public class ComicSplash extends StoryboardActivity implements OnClickListener {
                         if (!TextUtils.isEmpty(path1) && !TextUtils.isEmpty(path2)) {
                             selectVideo();
                         } else {
-                            reloadSoFile(zipfilePath);
+                            reloadSoFile(zipfilePath,false);
                         }
                     }
 
@@ -162,16 +162,13 @@ public class ComicSplash extends StoryboardActivity implements OnClickListener {
                 .subscribe(new SimpleObserver<String>() {
                     @Override
                     public void onNext(String s) {
-                        JSONObject jsonObject = JSON.parseObject(s);
-                        String urlPath = jsonObject.getString("urlPath");
-                        String cookies = jsonObject.getString("cookies");
-                        Uri uri = Uri.parse(urlPath);
+                        Uri uri = Uri.parse(s);
                         String host = uri.getScheme() + "://" + uri.getHost();
-                        String path = urlPath.replace(host, "");
+                        String path = s.replace(host, "");
                         Logger.d("hostname", host);
                         Logger.d("path", path);
-                        Logger.d("cookies", cookies);
-                        new DownloadUtil(host, cookies).downloadFile(path, downloadFileName, new DownloadListener() {
+
+                        new DownloadUtil(host).downloadFile(path, downloadFileName, new DownloadListener() {
                             @Override
                             public void onStart() {
                                 runOnUiThread(new Runnable() {
@@ -199,7 +196,7 @@ public class ComicSplash extends StoryboardActivity implements OnClickListener {
                             @Override
                             public void onFinish(String localPath) {
                                 Logger.d("******************************" + "localPath" + localPath);
-                                reloadSoFile(localPath);
+                                reloadSoFile(localPath,true);
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -238,24 +235,28 @@ public class ComicSplash extends StoryboardActivity implements OnClickListener {
 
     }
 
-    private void reloadSoFile(String localPath) {
+    private void reloadSoFile(String localPath, boolean download) {
         if (SoFileUtils.hasLoadSofile(this)) {
+            //APP data/data/***/aap_libs中存在要使用的两个so文件,直接修改native加载内存映射
+            selectVideo();
+        } else if (MD5Utils.checkFileMd5(solibs + "/libfacedetector_native.so", "c261e13774360980e194fa40c02016f8")
+                && MD5Utils.checkFileMd5(solibs + "/libobjectdetector_native.so", "90c8085b4ac37a743d1530f0c1b29ebc")) {
+            //APP data/data/***/aap_libs中 不存在要使用的两个so文件, sdk卡存在,则先复制,后修改native加载内存映射
+            SoFileUtils.loadSoFile(getApplicationContext(), solibs);
             selectVideo();
         } else if (MD5Utils.checkFileMd5(localPath, "d7bc16e438bc4f9aeeeb96add8640522")) {
-            if (FileUtils.existsDir(solibs) && MD5Utils.checkFileMd5(solibs + "/libfacedetector_native.so", "c261e13774360980e194fa40c02016f8")
-                    && MD5Utils.checkFileMd5(solibs + "/libobjectdetector_native.so", "90c8085b4ac37a743d1530f0c1b29ebc")
-            ) {
+            // sdk不存在解压后的libs目录则解压md5校验通过的zip文件,复制到app_libs目录再进行加载
+            try {
+                ZipUtils.UnZipFolder(localPath, solibs);
                 SoFileUtils.loadSoFile(getApplicationContext(), solibs);
-            } else {
-                try {
-                    ZipUtils.UnZipFolder(localPath, solibs);
-                    SoFileUtils.loadSoFile(getApplicationContext(), solibs);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            selectVideo();
+            if (!download) {
+                selectVideo();
+            }
         } else {
+            //首次加载(sdk卡未获取到指定文件,网络请求下载)
             initStoryDialog();
         }
     }

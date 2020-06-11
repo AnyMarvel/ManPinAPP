@@ -237,18 +237,20 @@ public class CycleViewPager extends FrameLayout implements ViewPager.OnPageChang
      * @param selectedPosition 默认指示器位置
      */
     private void setIndicator(int selectedPosition) {
-        setText(mTitle, infos.get(selectedPosition).getTitle());
-        try {
+        if (selectedPosition<infos.size()){
+            setText(mTitle, infos.get(selectedPosition).getTitle());
+            try {
 
-            for (int i = 0; i < mIndicators.length; i++) {
-                mIndicators[i]
-                        .setBackgroundResource(mIndicatorUnselected);
+                for (int i = 0; i < mIndicators.length; i++) {
+                    mIndicators[i]
+                            .setBackgroundResource(mIndicatorUnselected);
+                }
+                if (mIndicators.length > selectedPosition)
+                    mIndicators[selectedPosition]
+                            .setBackgroundResource(mIndicatorSelected);
+            } catch (Exception e) {
+                Log.i(TAG, "指示器路径不正确");
             }
-            if (mIndicators.length > selectedPosition)
-                mIndicators[selectedPosition]
-                        .setBackgroundResource(mIndicatorSelected);
-        } catch (Exception e) {
-            Log.i(TAG, "指示器路径不正确");
         }
     }
 

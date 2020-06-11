@@ -8,7 +8,7 @@ import retrofit2.http.Url;
 
 public interface ApiInterface {
     /**
-     * 下载视频
+     * 下载文件
      *
      * @param fileUrl
      * @return

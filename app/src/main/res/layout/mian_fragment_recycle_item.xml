@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:imageText="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="10dp">
 
         <TextView
             android:id="@+id/cardTitle"
@@ -29,38 +29,41 @@
             android:layout_marginRight="20dp">
 
             <View
+                android:id="@+id/cardBackground"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:layout_marginTop="20dp"
                 android:background="#e6f0fb" />
 
             <TextView
+                android:id="@+id/cardBookName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="85dp"
                 android:layout_marginTop="30dp"
-                android:textColor="@color/black"
                 android:text="都市绝品神医"
-                android:textSize="16dp"
-                 />
+                android:textColor="@color/black"
+                android:textSize="16dp" />
 
             <TextView
+                android:id="@+id/cardBookbref"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="85dp"
                 android:layout_marginTop="55dp"
                 android:layout_marginRight="10dp"
-                android:textColor="#636161"
-                android:textSize="14dp"
                 android:ellipsize="end"
-                android:maxLines="2"
                 android:lineSpacingExtra="5dp"
-                android:text="都市绝品神医都市绝品神医都市绝品神医都市绝品神医都市绝品神医都市绝品神医都市绝品神医都市绝品神医都市绝品神医都市绝品神医都市绝品神医都市绝品神医都市绝品神医都市绝品神医" />
+                android:maxLines="2"
+                android:text="都市绝品神医都市绝品神医都市绝品神医都市绝品神医都市绝品神医都市绝品神医都市绝品神医都市绝品神医都市绝品神医都市绝品神医都市绝品神医都市绝品神医都市绝品神医都市绝品神医"
+                android:textColor="#636161"
+                android:textSize="14dp" />
 
             <ImageView
+                android:id="@+id/cardTitleImage"
                 android:layout_width="75dp"
                 android:layout_height="100dp"
-                android:background="@drawable/ceshi" />
+                android:background="@drawable/img_cover_default_circle_1" />
 
         </FrameLayout>
     </FrameLayout>
@@ -80,18 +83,20 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/cardFristImage"
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
-                android:background="@drawable/ceshi" />
+                android:background="@drawable/img_cover_default_circle_1" />
 
             <TextView
+                android:id="@+id/cardFristText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text="女神的第一高手"
-                android:textSize="14dp"
+                android:textSize="12dp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -103,18 +108,20 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/cardTowImage"
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
-                android:background="@drawable/ceshi" />
+                android:background="@drawable/img_cover_default_circle_1" />
 
             <TextView
+                android:id="@+id/cardTowText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text="女神的第一高手"
-                android:textSize="14dp"
+                android:textSize="12dp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -127,18 +134,21 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/cardThreeImage"
+
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
-                android:background="@drawable/ceshi" />
+                android:background="@drawable/img_cover_default_circle_1" />
 
             <TextView
+                android:id="@+id/cardThreeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text="女神的第一高手"
-                android:textSize="14dp"
+                android:textSize="12dp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -151,21 +161,23 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/cardFourImage"
+
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
-                android:background="@drawable/ceshi" />
+                android:background="@drawable/img_cover_default_circle_1" />
 
             <TextView
+                android:id="@+id/cardFourText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text="女神的第一高手"
-                android:textSize="14dp"
+                android:textSize="12dp"
                 android:textStyle="bold" />
         </LinearLayout>
-
 
     </LinearLayout>
 </LinearLayout>

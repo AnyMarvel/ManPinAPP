@@ -10,6 +10,6 @@ public class TestMainactivity extends StoryboardActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.manfragment_recycle_item);
+        setContentView(R.layout.mian_fragment_recycle_item);
     }
 }

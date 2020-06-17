@@ -4,7 +4,6 @@ package com.mp.android.apps.monke.monkeybook;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 
-import com.mp.android.apps.main.fragment.PersonFragment;
 import com.mp.android.apps.monke.monkeybook.utils.DensityUtil;
 import com.mp.android.apps.MyApplication;
 import com.mp.android.apps.R;

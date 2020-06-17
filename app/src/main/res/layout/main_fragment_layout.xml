@@ -100,45 +100,11 @@
 
         </LinearLayout>
 
-        <!--        <RelativeLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="20dp">-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_alignParentLeft="true"-->
-        <!--                android:layout_marginLeft="10dp"-->
-        <!--                android:text="最近在看"-->
-        <!--                android:textSize="20dp"-->
-        <!--                android:textStyle="bold" />-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_alignParentRight="true"-->
-        <!--                android:layout_marginRight="16dp"-->
-        <!--                android:text="查看历史" />-->
-        <!--        </RelativeLayout>-->
-
-
-        <!--        <TextView-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_alignParentLeft="true"-->
-        <!--            android:layout_marginLeft="10dp"-->
-        <!--            android:text="新作速递"-->
-        <!--            android:textSize="20dp"-->
-        <!--            android:textStyle="bold" />-->
-
-        <com.mp.android.apps.monke.monkeybook.widget.libraryview.LibraryKindBookListView
-            android:id="@+id/lkbv_kindbooklist"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/homeRecycleView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:background="#ffffff"
-            android:paddingBottom="10dp" />
+            android:layout_height="wrap_content" />
+
 
         <View
             android:layout_width="match_parent"

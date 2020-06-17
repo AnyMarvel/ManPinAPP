@@ -1,4 +1,4 @@
-package com.mp.android.apps.main.fragment;
+package com.mp.android.apps.main.view.impl;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -19,13 +19,10 @@ import com.mp.android.apps.login.LoginActivity;
 import com.mp.android.apps.login.bean.login.Data;
 import com.mp.android.apps.login.utils.LoginManager;
 import com.mp.android.apps.main.MainActivity;
-import com.mp.android.apps.main.cycleimage.BannerInfo;
 import com.mp.android.apps.main.model.IMainFragmentModelImpl;
 import com.mp.android.apps.monke.basemvplib.IPresenter;
 import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
 import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 import java.util.Random;

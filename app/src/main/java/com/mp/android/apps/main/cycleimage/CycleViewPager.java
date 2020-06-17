@@ -13,10 +13,12 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.mp.android.apps.R;
-import com.mp.android.apps.main.fragment.MainFragment;
+import com.mp.android.apps.main.view.impl.MainFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -223,12 +225,23 @@ public class CycleViewPager extends FrameLayout implements ViewPager.OnPageChang
 
     /**
      * 获取轮播图View
+     * 需要填充 inflate轮播图布局
      *
      * @param context
      * @param url
      */
     private View getImageView(Context context, String url) {
-        return MainFragment.getImageView(context, url);
+        RelativeLayout rl = new RelativeLayout(context);
+        //添加一个ImageView，并加载图片
+        View view = LayoutInflater.from(context).inflate(R.layout.main_layout_carousel_item, null, false);
+        ImageView imageView = view.findViewById(R.id.carouselImageView);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.MATCH_PARENT);
+        //使用Picasso来加载图片
+        Glide.with(context).load(url).into(imageView);
+        rl.addView(view);
+        return rl;
     }
 
     /**
@@ -237,7 +250,7 @@ public class CycleViewPager extends FrameLayout implements ViewPager.OnPageChang
      * @param selectedPosition 默认指示器位置
      */
     private void setIndicator(int selectedPosition) {
-        if (selectedPosition<infos.size()){
+        if (selectedPosition < infos.size()) {
             setText(mTitle, infos.get(selectedPosition).getTitle());
             try {
 
@@ -253,8 +266,6 @@ public class CycleViewPager extends FrameLayout implements ViewPager.OnPageChang
             }
         }
     }
-
-
 
 
     /**
@@ -412,6 +423,7 @@ public class CycleViewPager extends FrameLayout implements ViewPager.OnPageChang
 
     /**
      * 设置轮播暂停时间,单位毫秒（默认4000毫秒）
+     *
      * @param delay
      */
     public void setDelay(int delay) {

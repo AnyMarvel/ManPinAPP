@@ -16,9 +16,18 @@ public class IMainFragmentModelImpl extends MBaseModelImpl {
         return getRetrofitObject(TAG).create(IMainFragmentAPI.class).getCycleImages();
     }
 
+    public Observable<String> getHomeDatas() {
+        return getRetrofitObject(TAG).create(IMainFragmentAPI.class).getHomeDatasApi();
+    }
+
+
     interface IMainFragmentAPI {
         @GET("/appview/carouselImages")
         Observable<String> getCycleImages();
+
+        @GET("/appview/homeViewData")
+        Observable<String> getHomeDatasApi();
+
     }
 
 }

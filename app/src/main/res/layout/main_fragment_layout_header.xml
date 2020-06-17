@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.mp.android.apps.main.cycleimage.CycleViewPager
+                android:id="@+id/cycle_view"
+                android:layout_width="match_parent"
+                android:layout_height="230dp" />
+
+            <FrameLayout
+                android:id="@+id/search_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp">
+
+                <View
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/searc_ring_background" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:antialias="true"
+                    android:background="@drawable/search_icon" />
+
+            </FrameLayout>
+
+        </FrameLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="100dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:orientation="horizontal">
+
+
+            <com.mp.android.apps.main.view.MyImageTextView
+                android:id="@+id/huojian"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:stateListAnimator="@drawable/anim_state_list_m01"
+                app:image="@drawable/huojian"
+                app:text="动漫制作"
+                app:textColor="@color/colorGray" />
+
+
+            <com.mp.android.apps.main.view.MyImageTextView
+                android:id="@+id/jingxuan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:stateListAnimator="@drawable/anim_state_list_m01"
+                app:image="@drawable/jingxuan"
+                app:text="明信片"
+                app:textColor="@color/colorGray" />
+
+
+            <com.mp.android.apps.main.view.MyImageTextView
+                android:id="@+id/xiaoshuo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:stateListAnimator="@drawable/anim_state_list_m01"
+                app:image="@drawable/xiaoshuo"
+                app:text="小说"
+                app:textColor="@color/colorGray" />
+
+
+            <com.mp.android.apps.main.view.MyImageTextView
+                android:id="@+id/guangchang"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:stateListAnimator="@drawable/anim_state_list_m01"
+                app:image="@drawable/fenlei"
+                app:text="广场"
+                app:textColor="@color/colorGray" />
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

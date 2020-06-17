@@ -3,6 +3,9 @@ package com.mp.android.apps.main.view.impl;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +14,17 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.google.android.apps.photolab.storyboard.activity.ComicSplash;
 import com.mp.android.apps.R;
+import com.mp.android.apps.explore.adapter.ExploreSquareAdapter;
+import com.mp.android.apps.explore.utils.SpacesItemDecoration;
 import com.mp.android.apps.livevblank.ChoiceItemActivity;
 import com.mp.android.apps.main.MainActivity;
+import com.mp.android.apps.main.adapter.MainFragmentRecycleAdapter;
+import com.mp.android.apps.main.adapter.OnHomeAdapterClickListener;
+import com.mp.android.apps.main.bean.HomeDesignBean;
 import com.mp.android.apps.main.cycleimage.BannerInfo;
 import com.mp.android.apps.main.cycleimage.CycleViewPager;
 import com.mp.android.apps.main.presenter.impl.MainFragmentPresenterImpl;
@@ -31,18 +40,12 @@ import com.mylhyl.acp.AcpOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implements IMainfragmentView, View.OnClickListener {
+public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implements IMainfragmentView, OnHomeAdapterClickListener {
 
-    /**
-     * 轮播图
-     */
-    public CycleViewPager mCycleViewPager;
-    private MyImageTextView dongman;
-    private MyImageTextView mingxinpian;
-    private MyImageTextView xiaoshuo;
-    private MyImageTextView guangchang;
-    private FrameLayout searchImage;
+
     private RecyclerView recyclerView;
+
+    private MainFragmentRecycleAdapter mainFragmentRecycleAdapter;
 
     @Override
     protected MainFragmentPresenterImpl initInjector() {
@@ -55,24 +58,25 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
     @Override
     protected void bindView() {
         super.bindView();
-        mCycleViewPager = (CycleViewPager) view.findViewById(R.id.cycle_view);
-        //导航设置点击事件
-        dongman = view.findViewById(R.id.huojian);
-        dongman.setOnClickListener(this);
-        mingxinpian = view.findViewById(R.id.jingxuan);
-        mingxinpian.setOnClickListener(this);
-        xiaoshuo = view.findViewById(R.id.xiaoshuo);
-        xiaoshuo.setOnClickListener(this);
-        guangchang = view.findViewById(R.id.guangchang);
-        guangchang.setOnClickListener(this);
-        searchImage = view.findViewById(R.id.search_image);
-        searchImage.setOnClickListener(this);
+        recyclerView = view.findViewById(R.id.homeRecycleView);
+
     }
 
 
     @Override
     protected void bindEvent() {
         super.bindEvent();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        //设置布局管理器
+        recyclerView.setLayoutManager(layoutManager);
+        //设置为垂直布局，这也是默认的
+        layoutManager.setOrientation(OrientationHelper.VERTICAL);
+        //设置分隔线
+//        recyclerView.addItemDecoration(new SpacesItemDecoration(15));
+        //设置增加或删除条目的动画
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+
     }
 
     /**
@@ -80,10 +84,7 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
      */
     @Override
     protected void initData() {
-        mPresenter.initmCycleViewPager(mCycleViewPager);
-
         mPresenter.initHomeData();
-
     }
 
     @Override
@@ -97,10 +98,18 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
     }
 
 
+    @Override
+    public void notifyRecyclerView(List<HomeDesignBean> list, List<String> carouselImages) {
+        mainFragmentRecycleAdapter = new MainFragmentRecycleAdapter(getContext(), list, this, carouselImages);
+        //设置Adapter
+        recyclerView.setAdapter(mainFragmentRecycleAdapter);
+        recyclerView.setItemViewCacheSize(10);
+    }
+
 
     @Override
-    public void onClick(View v) {
-        int id = v.getId();
+    public void onItemClickListener(View view) {
+        int id = view.getId();
         switch (id) {
             case R.id.huojian:
                 Acp.getInstance(getActivity()).request(new AcpOptions.Builder()
@@ -135,41 +144,8 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
             default:
                 break;
         }
+
     }
 
-
-    /**
-     * 处理首页轮播图逻辑,轮播图基于下发
-     *
-     * @param carouselImages 轮播图数据源
-     */
-    @Override
-    public void updatemCycleViewPager(List<String> carouselImages) {
-        List<BannerInfo> mList = new ArrayList<>();
-        if (carouselImages != null && carouselImages.size() > 0) {
-            mList.clear();
-            for (int i = 0; i < carouselImages.size(); i++) {
-                mList.add(new BannerInfo("", carouselImages.get(i)));
-            }
-        } else {
-            mList.clear();
-            //兜底数据源
-            mList.add(new BannerInfo("", "http://inews.gtimg.com/newsapp_bt/0/7749546706/1000/0"));
-        }
-        //设置选中和未选中时的图片
-        assert mCycleViewPager != null;
-        mCycleViewPager.setIndicators(R.mipmap.ad_select, R.mipmap.ad_unselect);
-        mCycleViewPager.setDelay(2000);
-        mCycleViewPager.setData(mList, new CycleViewPager.ImageCycleViewListener() {
-            @Override
-            public void onImageClick(BannerInfo info, int position, View imageView) {
-
-                if (mCycleViewPager.isCycle()) {
-                    position = position - 1;
-                }
-            }
-        });
-        mCycleViewPager.refreshData();
-    }
 
 }

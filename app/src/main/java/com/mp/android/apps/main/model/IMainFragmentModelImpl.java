@@ -6,7 +6,7 @@ import io.reactivex.Observable;
 import retrofit2.http.GET;
 
 public class IMainFragmentModelImpl extends MBaseModelImpl {
-    private final String TAG = "http://aimanpin.com";
+    private final String TAG = "http://10.12.176.59:8080";
 
     public static IMainFragmentModelImpl getInstance() {
         return new IMainFragmentModelImpl();
@@ -25,7 +25,7 @@ public class IMainFragmentModelImpl extends MBaseModelImpl {
         @GET("/appview/carouselImages")
         Observable<String> getCycleImages();
 
-        @GET("/appview/homeViewData")
+        @GET("/manpin_war/appview/homeViewData")
         Observable<String> getHomeDatasApi();
 
     }

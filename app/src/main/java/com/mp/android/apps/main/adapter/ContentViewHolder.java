@@ -3,7 +3,9 @@ package com.mp.android.apps.main.adapter;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mp.android.apps.R;
@@ -25,6 +27,12 @@ public class ContentViewHolder extends RecyclerView.ViewHolder {
     public TextView cardThreeText;
     public TextView cardFourText;
 
+    public FrameLayout cardLayout;
+    public LinearLayout FirstLayout;
+    public LinearLayout TowLayout;
+    public LinearLayout ThreeLayout;
+    public LinearLayout FourLayout;
+
     public ContentViewHolder(@NonNull View itemView) {
         super(itemView);
         cardTitleImage = itemView.findViewById(R.id.cardTitleImage);
@@ -40,6 +48,11 @@ public class ContentViewHolder extends RecyclerView.ViewHolder {
         cardTowText = itemView.findViewById(R.id.cardTowText);
         cardThreeText = itemView.findViewById(R.id.cardThreeText);
         cardFourText = itemView.findViewById(R.id.cardFourText);
+        cardLayout = itemView.findViewById(R.id.cardLayout);
+        FirstLayout = itemView.findViewById(R.id.FirstLayout);
+        TowLayout = itemView.findViewById(R.id.TowLayout);
+        ThreeLayout = itemView.findViewById(R.id.ThreeLayout);
+        FourLayout = itemView.findViewById(R.id.FourLayout);
     }
 
 }

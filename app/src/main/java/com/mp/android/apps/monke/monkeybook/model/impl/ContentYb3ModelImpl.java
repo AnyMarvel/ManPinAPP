@@ -34,7 +34,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class ContentYb3ModelImpl extends MBaseModelImpl implements IStationBookModel {
-    public static final String TAG = "http://www.yb3.cc";
+    public static final String TAG = "https://www.yb3.cc";
 
     public static ContentYb3ModelImpl getInstance() {
         return new ContentYb3ModelImpl();

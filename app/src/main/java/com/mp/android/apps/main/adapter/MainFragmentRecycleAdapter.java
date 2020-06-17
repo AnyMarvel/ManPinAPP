@@ -1,11 +1,15 @@
 package com.mp.android.apps.main.adapter;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Outline;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,6 +22,7 @@ import com.mp.android.apps.main.bean.SourceListContent;
 import com.mp.android.apps.main.cycleimage.BannerInfo;
 import com.mp.android.apps.main.cycleimage.CycleViewPager;
 import com.mp.android.apps.utils.Logger;
+import com.mp.android.apps.utils.RadiusUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,27 +118,61 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter implements 
                 List<SourceListContent> sourceContents = homeDesignBean.getSourceListContent();
 
                 Glide.with(context).load(sourceContents.get(0).getCoverUrl())
-                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(20))).into(((ContentViewHolder) holder).cardTitleImage);
+                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(((ContentViewHolder) holder).cardTitleImage);
                 ((ContentViewHolder) holder).cardTitle.setText(homeDesignBean.getKind());
                 ((ContentViewHolder) holder).cardBookName.setText(sourceContents.get(0).getName());
                 ((ContentViewHolder) holder).cardBookbref.setText(sourceContents.get(0).getBookdesc());
+                RadiusUtils.setClipViewCornerRadius(((ContentViewHolder) holder).cardBackground, 10);
+                ((ContentViewHolder) holder).cardLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onLayoutClickListener(v,sourceContents.get(0));
+                    }
+                });
+
 
                 ((ContentViewHolder) holder).cardFristText.setText(sourceContents.get(1).getName());
                 Glide.with(context).load(sourceContents.get(1).getCoverUrl())
-                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(20))).into(((ContentViewHolder) holder).cardFristImage);
+                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(((ContentViewHolder) holder).cardFristImage);
+                ((ContentViewHolder) holder).FirstLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onLayoutClickListener(v,sourceContents.get(1));
+                    }
+                });
+
 
                 ((ContentViewHolder) holder).cardTowText.setText(sourceContents.get(2).getName());
                 Glide.with(context).load(sourceContents.get(2).getCoverUrl())
-                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(20))).into(((ContentViewHolder) holder).cardTowImage);
+                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(((ContentViewHolder) holder).cardTowImage);
+                ((ContentViewHolder) holder).TowLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onLayoutClickListener(v,sourceContents.get(2));
+                    }
+                });
 
 
                 ((ContentViewHolder) holder).cardThreeText.setText(sourceContents.get(3).getName());
                 Glide.with(context).load(sourceContents.get(3).getCoverUrl())
-                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(20))).into(((ContentViewHolder) holder).cardThreeImage);
+                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(((ContentViewHolder) holder).cardThreeImage);
+                ((ContentViewHolder) holder).ThreeLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onLayoutClickListener(v,sourceContents.get(3));
+                    }
+                });
 
                 ((ContentViewHolder) holder).cardFourText.setText(sourceContents.get(4).getName());
                 Glide.with(context).load(sourceContents.get(4).getCoverUrl())
-                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(20))).into(((ContentViewHolder) holder).cardFourImage);
+                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(((ContentViewHolder) holder).cardFourImage);
+                ((ContentViewHolder) holder).FourLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onLayoutClickListener(v,sourceContents.get(4));
+                    }
+                });
+
             }
         } else {
 
@@ -143,7 +182,7 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter implements 
 
     @Override
     public int getItemCount() {
-        return list.size()+mHeaderCount+mBottomCount;
+        return list.size() + mHeaderCount + mBottomCount;
     }
 
     public void setData(List<HomeDesignBean> list) {
@@ -177,4 +216,6 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter implements 
             }
         });
     }
+
+
 }

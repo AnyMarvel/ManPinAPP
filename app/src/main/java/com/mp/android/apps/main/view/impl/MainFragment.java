@@ -1,6 +1,7 @@
 package com.mp.android.apps.main.view.impl;
 
 import android.Manifest;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -25,12 +26,16 @@ import com.mp.android.apps.main.MainActivity;
 import com.mp.android.apps.main.adapter.MainFragmentRecycleAdapter;
 import com.mp.android.apps.main.adapter.OnHomeAdapterClickListener;
 import com.mp.android.apps.main.bean.HomeDesignBean;
+import com.mp.android.apps.main.bean.SourceListContent;
 import com.mp.android.apps.main.cycleimage.BannerInfo;
 import com.mp.android.apps.main.cycleimage.CycleViewPager;
 import com.mp.android.apps.main.presenter.impl.MainFragmentPresenterImpl;
 import com.mp.android.apps.main.view.IMainfragmentView;
 import com.mp.android.apps.main.view.MyImageTextView;
 import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
+import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
+import com.mp.android.apps.monke.monkeybook.presenter.impl.BookDetailPresenterImpl;
+import com.mp.android.apps.monke.monkeybook.view.impl.BookDetailActivity;
 import com.mp.android.apps.monke.monkeybook.view.impl.BookMainActivity;
 import com.mp.android.apps.monke.monkeybook.view.impl.SearchActivity;
 import com.mylhyl.acp.Acp;
@@ -145,6 +150,26 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
                 break;
         }
 
+    }
+
+    @Override
+    public void onLayoutClickListener(View view, SourceListContent sourceListContent) {
+        SearchBookBean searchBookBean = new SearchBookBean();
+        searchBookBean.setCoverUrl(sourceListContent.getCoverUrl());
+        searchBookBean.setNoteUrl(sourceListContent.getNoteUrl());
+        searchBookBean.setAuthor(sourceListContent.getAuthor());
+        searchBookBean.setDesc(sourceListContent.getBookdesc());
+        searchBookBean.setOrigin(sourceListContent.getOrigin());
+        searchBookBean.setKind(sourceListContent.getKind());
+        searchBookBean.setTag(sourceListContent.getTag());
+        searchBookBean.setAdd(false);
+        searchBookBean.setWords(0);
+
+        Intent intent = new Intent(getActivity(), BookDetailActivity.class);
+        intent.putExtra("from", BookDetailPresenterImpl.FROM_SEARCH);
+        intent.putExtra("data", searchBookBean);
+        intent.putExtra("start_with_share_ele", true);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity(), view, "img_cover").toBundle());
     }
 
 

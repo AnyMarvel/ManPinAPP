@@ -34,7 +34,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class ContentWxguanModelImpl extends MBaseModelImpl implements IStationBookModel {
-    public static final String TAG = "http://www.wxguan.com";
+    public static final String TAG = "https://www.wxguan.com";
     public static final String TAG_SEARCH = "https://so.biqusoso.com";
     public static final String ORIGIN = "wxguan.com";
 

@@ -155,6 +155,7 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
     @Override
     public void onLayoutClickListener(View view, SourceListContent sourceListContent) {
         SearchBookBean searchBookBean = new SearchBookBean();
+        searchBookBean.setName(sourceListContent.getName());
         searchBookBean.setCoverUrl(sourceListContent.getCoverUrl());
         searchBookBean.setNoteUrl(sourceListContent.getNoteUrl());
         searchBookBean.setAuthor(sourceListContent.getAuthor());

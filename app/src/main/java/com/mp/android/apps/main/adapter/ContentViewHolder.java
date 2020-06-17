@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mp.android.apps.R;
+import com.xinlan.imageeditlibrary.editimage.view.imagezoom.easing.Linear;
 
 public class ContentViewHolder extends RecyclerView.ViewHolder {
     public ImageView cardTitleImage;
@@ -32,6 +33,7 @@ public class ContentViewHolder extends RecyclerView.ViewHolder {
     public LinearLayout TowLayout;
     public LinearLayout ThreeLayout;
     public LinearLayout FourLayout;
+    public LinearLayout mBookInfoLayout;
 
     public ContentViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -40,7 +42,8 @@ public class ContentViewHolder extends RecyclerView.ViewHolder {
         cardTowImage = itemView.findViewById(R.id.cardTowImage);
         cardThreeImage = itemView.findViewById(R.id.cardThreeImage);
         cardFourImage = itemView.findViewById(R.id.cardFourImage);
-        cardBackground = itemView.findViewById(R.id.cardBackground);
+        mBookInfoLayout = itemView.findViewById(R.id.mp_book_info_container);
+        //cardBackground = itemView.findViewById(R.id.cardBackground);
         cardTitle = itemView.findViewById(R.id.cardTitle);
         cardBookName = itemView.findViewById(R.id.cardBookName);
         cardBookbref = itemView.findViewById(R.id.cardBookbref);
@@ -48,7 +51,7 @@ public class ContentViewHolder extends RecyclerView.ViewHolder {
         cardTowText = itemView.findViewById(R.id.cardTowText);
         cardThreeText = itemView.findViewById(R.id.cardThreeText);
         cardFourText = itemView.findViewById(R.id.cardFourText);
-        cardLayout = itemView.findViewById(R.id.cardLayout);
+        cardLayout = itemView.findViewById(R.id.mz_book_head_container);
         FirstLayout = itemView.findViewById(R.id.FirstLayout);
         TowLayout = itemView.findViewById(R.id.TowLayout);
         ThreeLayout = itemView.findViewById(R.id.ThreeLayout);

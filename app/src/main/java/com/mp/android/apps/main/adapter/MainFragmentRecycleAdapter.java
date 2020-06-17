@@ -122,7 +122,7 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter implements 
                 ((ContentViewHolder) holder).cardTitle.setText(homeDesignBean.getKind());
                 ((ContentViewHolder) holder).cardBookName.setText(sourceContents.get(0).getName());
                 ((ContentViewHolder) holder).cardBookbref.setText(sourceContents.get(0).getBookdesc());
-                RadiusUtils.setClipViewCornerRadius(((ContentViewHolder) holder).cardBackground, 10);
+                RadiusUtils.setClipViewCornerRadius(((ContentViewHolder) holder).mBookInfoLayout, 10);
                 ((ContentViewHolder) holder).cardLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

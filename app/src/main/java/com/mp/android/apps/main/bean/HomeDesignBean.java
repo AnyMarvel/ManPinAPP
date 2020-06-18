@@ -13,6 +13,18 @@ public class HomeDesignBean {
     private List<SourceListContent> sourceListContent;
     private String kind;
 
+    public String getCardColor() {
+        return cardColor;
+    }
+
+    public void setCardColor(String cardColor) {
+        this.cardColor = cardColor;
+    }
+
+    private String cardColor;
+
+
+
     public void setSourceListContent(List<SourceListContent> sourceListContent) {
         this.sourceListContent = sourceListContent;
     }

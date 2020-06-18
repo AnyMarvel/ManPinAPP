@@ -1,12 +1,20 @@
 package com.mp.android.apps.main.adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.mp.android.apps.R;
+import com.mp.android.apps.main.bean.HomeDesignBean;
+import com.mp.android.apps.main.bean.SourceListContent;
+
+import java.util.List;
 
 public class ClassicRecommendHolder extends RecyclerView.ViewHolder {
     /**
@@ -35,7 +43,21 @@ public class ClassicRecommendHolder extends RecyclerView.ViewHolder {
         recommendFirstText = itemView.findViewById(R.id.mp_home_recommend_fristText);
         recommendTowText = itemView.findViewById(R.id.mp_home_recommend_towText);
         recommendThreeText = itemView.findViewById(R.id.mp_home_recommend_threeText);
+    }
 
+    public void handleClassicRecommendEvent(Context context, List<HomeDesignBean> listContent, int mContentPosition, OnHomeAdapterClickListener listener){
+        HomeDesignBean homeDesignBean = listContent.get(0);
+        List<SourceListContent> sourceContents = homeDesignBean.getSourceListContent();
 
+        Glide.with(context).load(sourceContents.get(0).getCoverUrl())
+                .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(recommendFirstImage);
+        Glide.with(context).load(sourceContents.get(1).getCoverUrl())
+                .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(recommendTowImage);
+        Glide.with(context).load(sourceContents.get(2).getCoverUrl())
+                .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(recommendThreeImage);
+
+        recommendFirstText.setText(sourceContents.get(0).getName());
+        recommendTowText.setText(sourceContents.get(1).getName());
+        recommendThreeText.setText(sourceContents.get(2).getName());
     }
 }

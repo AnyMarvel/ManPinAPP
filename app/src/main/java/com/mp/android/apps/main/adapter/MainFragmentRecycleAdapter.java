@@ -27,25 +27,26 @@ import com.mp.android.apps.utils.RadiusUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFragmentRecycleAdapter extends RecyclerView.Adapter implements View.OnClickListener {
+public class MainFragmentRecycleAdapter extends RecyclerView.Adapter{
     private int mHeaderCount = 1;// 头部的数量
     private int mBottomCount = 1;// 底部的数量
     private int mRecommendCount = 1;//经典推荐的数量
 
     // 首先定义几个常量标记item的类型
-    public static final int ITEM_TYPE_HEADER = 0;
-    public static final int ITEM_TYPE_CONTENT = 1;
-    public static final int ITEM_TYPE_BOTTOM = 2;
-    public static final int ITEM_TYPE_RECOMMEND = 3;
+    private static final int ITEM_TYPE_HEADER = 0;
+    private static final int ITEM_TYPE_CONTENT = 1;
+    private static final int ITEM_TYPE_BOTTOM = 2;
+    private static final int ITEM_TYPE_RECOMMEND = 3;
 
     private Context context;
     private List<HomeDesignBean> listContent;
     //中间内容位置信息
-    int mContentPosition;
+    private int mContentPosition;
     //底部view位置信息
-    int mBottomPosition;
-    OnHomeAdapterClickListener listener;
-    List<String> carouselImages;
+    private int mBottomPosition;
+    private OnHomeAdapterClickListener listener;
+    //轮播图数据源
+    private List<String> carouselImages;
 
     public MainFragmentRecycleAdapter(Context context, List<HomeDesignBean> listContent
             , OnHomeAdapterClickListener listener, List<String> carouselImages) {
@@ -56,22 +57,22 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter implements 
     }
 
     // 中间内容长度
-    public int getContentItemCount() {
+    private int getContentItemCount() {
         return listContent.size();
     }
 
     // 判断当前item是否是头部（根据position来判断）
-    public boolean isHeaderView(int position) {
+    private boolean isHeaderView(int position) {
         return mHeaderCount != 0 && position < mHeaderCount;
     }
 
     // 判断当前item是否是底部
-    public boolean isBottomView(int position) {
+    private boolean isBottomView(int position) {
         return mBottomCount != 0 && position >= (mHeaderCount + mRecommendCount + getContentItemCount());
     }
 
     // 判断当前item是否为经典推荐位
-    public boolean isRecommendView(int position) {
+    private boolean isRecommendView(int position) {
         return mRecommendCount != 0 && position == 1;
     }
 
@@ -117,91 +118,11 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter implements 
         mContentPosition = position - mHeaderCount - mRecommendCount;
         mBottomPosition = position - mHeaderCount - -mRecommendCount - getContentItemCount();
         if (holder instanceof HeaderViewHolder) {
-            ((HeaderViewHolder) holder).dongman.setOnClickListener(this);
-            ((HeaderViewHolder) holder).mingxinpian.setOnClickListener(this);
-            ((HeaderViewHolder) holder).xiaoshuo.setOnClickListener(this);
-            ((HeaderViewHolder) holder).guangchang.setOnClickListener(this);
-            ((HeaderViewHolder) holder).searchImage.setOnClickListener(this);
-            updatemCycleViewPager(((HeaderViewHolder) holder).mCycleViewPager);
-
+            ((HeaderViewHolder) holder).handleClassicRecommendEvent(carouselImages, listener);
         } else if (holder instanceof ClassicRecommendHolder) {
-            HomeDesignBean homeDesignBean = listContent.get(0);
-            List<SourceListContent> sourceContents = homeDesignBean.getSourceListContent();
-
-            Glide.with(context).load(sourceContents.get(0).getCoverUrl())
-                    .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(((ClassicRecommendHolder) holder).recommendFirstImage);
-            Glide.with(context).load(sourceContents.get(1).getCoverUrl())
-                    .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(((ClassicRecommendHolder) holder).recommendTowImage);
-            Glide.with(context).load(sourceContents.get(2).getCoverUrl())
-                    .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(((ClassicRecommendHolder) holder).recommendThreeImage);
-
-            ((ClassicRecommendHolder) holder).recommendFirstText.setText(sourceContents.get(0).getName());
-            ((ClassicRecommendHolder) holder).recommendTowText.setText(sourceContents.get(1).getName());
-            ((ClassicRecommendHolder) holder).recommendThreeText.setText(sourceContents.get(2).getName());
-
-
+            ((ClassicRecommendHolder) holder).handleClassicRecommendEvent(context, listContent, mContentPosition, listener);
         } else if (holder instanceof ContentViewHolder) {
-            if (listContent.size() > mContentPosition) {
-                HomeDesignBean homeDesignBean = listContent.get(mContentPosition);
-                List<SourceListContent> sourceContents = homeDesignBean.getSourceListContent();
-
-                Glide.with(context).load(sourceContents.get(0).getCoverUrl())
-                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(((ContentViewHolder) holder).cardTitleImage);
-                ((ContentViewHolder) holder).cardTitle.setText(homeDesignBean.getKind());
-                ((ContentViewHolder) holder).cardBookName.setText(sourceContents.get(0).getName());
-                ((ContentViewHolder) holder).cardBookbref.setText(sourceContents.get(0).getBookdesc());
-                RadiusUtils.setClipViewCornerRadius(((ContentViewHolder) holder).mBookInfoLayout, 10);
-                ((ContentViewHolder) holder).cardLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        listener.onLayoutClickListener(v, sourceContents.get(0));
-                    }
-                });
-
-
-                ((ContentViewHolder) holder).cardFristText.setText(sourceContents.get(1).getName());
-                Glide.with(context).load(sourceContents.get(1).getCoverUrl())
-                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(((ContentViewHolder) holder).cardFristImage);
-                ((ContentViewHolder) holder).FirstLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        listener.onLayoutClickListener(v, sourceContents.get(1));
-                    }
-                });
-
-
-                ((ContentViewHolder) holder).cardTowText.setText(sourceContents.get(2).getName());
-                Glide.with(context).load(sourceContents.get(2).getCoverUrl())
-                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(((ContentViewHolder) holder).cardTowImage);
-                ((ContentViewHolder) holder).TowLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        listener.onLayoutClickListener(v, sourceContents.get(2));
-                    }
-                });
-
-
-                ((ContentViewHolder) holder).cardThreeText.setText(sourceContents.get(3).getName());
-                Glide.with(context).load(sourceContents.get(3).getCoverUrl())
-                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(((ContentViewHolder) holder).cardThreeImage);
-                ((ContentViewHolder) holder).ThreeLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        listener.onLayoutClickListener(v, sourceContents.get(3));
-                    }
-                });
-
-                ((ContentViewHolder) holder).cardFourText.setText(sourceContents.get(4).getName());
-                Glide.with(context).load(sourceContents.get(4).getCoverUrl())
-                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(((ContentViewHolder) holder).cardFourImage);
-                ((ContentViewHolder) holder).FourLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        listener.onLayoutClickListener(v, sourceContents.get(4));
-                    }
-                });
-
-            }
+            ((ContentViewHolder) holder).handleContentEvent(context, listContent, mContentPosition, listener);
         } else {
 
         }
@@ -210,36 +131,7 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter implements 
 
     @Override
     public int getItemCount() {
-        return listContent.size() + mHeaderCount +mRecommendCount+ mBottomCount;
+        return listContent.size() + mHeaderCount + mRecommendCount + mBottomCount;
     }
-
-    @Override
-    public void onClick(View v) {
-        listener.onItemClickListener(v);
-    }
-
-
-    public void updatemCycleViewPager(CycleViewPager mCycleViewPager) {
-        List<BannerInfo> mList = new ArrayList<>();
-
-        for (int i = 0; i < carouselImages.size(); i++) {
-            mList.add(new BannerInfo("", carouselImages.get(i)));
-        }
-
-        //设置选中和未选中时的图片
-        assert mCycleViewPager != null;
-        mCycleViewPager.setIndicators(R.mipmap.ad_select, R.mipmap.ad_unselect);
-        mCycleViewPager.setDelay(2000);
-        mCycleViewPager.setData(mList, new CycleViewPager.ImageCycleViewListener() {
-            @Override
-            public void onImageClick(BannerInfo info, int position, View imageView) {
-
-                if (mCycleViewPager.isCycle()) {
-                    position = position - 1;
-                }
-            }
-        });
-    }
-
 
 }

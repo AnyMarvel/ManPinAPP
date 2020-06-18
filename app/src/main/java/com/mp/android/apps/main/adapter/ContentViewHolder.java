@@ -1,5 +1,6 @@
 package com.mp.android.apps.main.adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,8 +9,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.mp.android.apps.R;
+import com.mp.android.apps.main.bean.HomeDesignBean;
+import com.mp.android.apps.main.bean.SourceListContent;
+import com.mp.android.apps.utils.RadiusUtils;
 import com.xinlan.imageeditlibrary.editimage.view.imagezoom.easing.Linear;
+
+import java.util.List;
 
 public class ContentViewHolder extends RecyclerView.ViewHolder {
     public ImageView cardTitleImage;
@@ -56,6 +65,71 @@ public class ContentViewHolder extends RecyclerView.ViewHolder {
         TowLayout = itemView.findViewById(R.id.TowLayout);
         ThreeLayout = itemView.findViewById(R.id.ThreeLayout);
         FourLayout = itemView.findViewById(R.id.FourLayout);
+    }
+
+    public void handleContentEvent(Context context, List<HomeDesignBean> listContent, int mContentPosition, OnHomeAdapterClickListener listener) {
+        if (listContent.size() > mContentPosition) {
+            HomeDesignBean homeDesignBean = listContent.get(mContentPosition);
+            List<SourceListContent> sourceContents = homeDesignBean.getSourceListContent();
+
+            Glide.with(context).load(sourceContents.get(0).getCoverUrl())
+                    .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(cardTitleImage);
+            cardTitle.setText(homeDesignBean.getKind());
+            cardBookName.setText(sourceContents.get(0).getName());
+            cardBookbref.setText(sourceContents.get(0).getBookdesc());
+            RadiusUtils.setClipViewCornerRadius(mBookInfoLayout, 10);
+            cardLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onLayoutClickListener(v, sourceContents.get(0));
+                }
+            });
+
+
+            cardFristText.setText(sourceContents.get(1).getName());
+            Glide.with(context).load(sourceContents.get(1).getCoverUrl())
+                    .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(cardFristImage);
+            FirstLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onLayoutClickListener(v, sourceContents.get(1));
+                }
+            });
+
+
+            cardTowText.setText(sourceContents.get(2).getName());
+            Glide.with(context).load(sourceContents.get(2).getCoverUrl())
+                    .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(cardTowImage);
+            TowLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onLayoutClickListener(v, sourceContents.get(2));
+                }
+            });
+
+
+            cardThreeText.setText(sourceContents.get(3).getName());
+            Glide.with(context).load(sourceContents.get(3).getCoverUrl())
+                    .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(cardThreeImage);
+            ThreeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onLayoutClickListener(v, sourceContents.get(3));
+                }
+            });
+
+            cardFourText.setText(sourceContents.get(4).getName());
+            Glide.with(context).load(sourceContents.get(4).getCoverUrl())
+                    .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(cardFourImage);
+            FourLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onLayoutClickListener(v, sourceContents.get(4));
+                }
+            });
+
+        }
+
     }
 
 }

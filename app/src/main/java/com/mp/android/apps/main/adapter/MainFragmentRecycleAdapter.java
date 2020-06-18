@@ -30,14 +30,16 @@ import java.util.List;
 public class MainFragmentRecycleAdapter extends RecyclerView.Adapter implements View.OnClickListener {
     private int mHeaderCount = 1;// 头部的数量
     private int mBottomCount = 1;// 底部的数量
+    private int mRecommendCount = 1;//经典推荐的数量
 
     // 首先定义几个常量标记item的类型
     public static final int ITEM_TYPE_HEADER = 0;
     public static final int ITEM_TYPE_CONTENT = 1;
     public static final int ITEM_TYPE_BOTTOM = 2;
+    public static final int ITEM_TYPE_RECOMMEND = 3;
 
     private Context context;
-    private List<HomeDesignBean> list;
+    private List<HomeDesignBean> listContent;
     //中间内容位置信息
     int mContentPosition;
     //底部view位置信息
@@ -45,17 +47,17 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter implements 
     OnHomeAdapterClickListener listener;
     List<String> carouselImages;
 
-    public MainFragmentRecycleAdapter(Context context, List<HomeDesignBean> list
+    public MainFragmentRecycleAdapter(Context context, List<HomeDesignBean> listContent
             , OnHomeAdapterClickListener listener, List<String> carouselImages) {
         this.context = context;
-        this.list = list;
+        this.listContent = listContent;
         this.listener = listener;
         this.carouselImages = carouselImages;
     }
 
     // 中间内容长度
     public int getContentItemCount() {
-        return list.size();
+        return listContent.size();
     }
 
     // 判断当前item是否是头部（根据position来判断）
@@ -65,7 +67,12 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter implements 
 
     // 判断当前item是否是底部
     public boolean isBottomView(int position) {
-        return mBottomCount != 0 && position >= (mHeaderCount + getContentItemCount());
+        return mBottomCount != 0 && position >= (mHeaderCount + mRecommendCount + getContentItemCount());
+    }
+
+    // 判断当前item是否为经典推荐位
+    public boolean isRecommendView(int position) {
+        return mRecommendCount != 0 && position == 1;
     }
 
     @NonNull
@@ -75,6 +82,9 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter implements 
         if (viewType == ITEM_TYPE_HEADER) {
             view = LayoutInflater.from(context).inflate(R.layout.main_fragment_layout_header, parent, false);
             return new HeaderViewHolder(view);
+        } else if (viewType == ITEM_TYPE_RECOMMEND) {
+            view = LayoutInflater.from(context).inflate(R.layout.main_fragment_recycle_item_recommend, parent, false);
+            return new ClassicRecommendHolder(view);
         } else if (viewType == ITEM_TYPE_CONTENT) {
             view = LayoutInflater.from(context).inflate(R.layout.mian_fragment_recycle_item, parent, false);
             return new ContentViewHolder(view);
@@ -93,6 +103,8 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter implements 
         } else if (isBottomView(position)) {
             // 底部View
             return ITEM_TYPE_BOTTOM;
+        } else if (isRecommendView(position)) {
+            return ITEM_TYPE_RECOMMEND;
         } else {
             // 内容View
             return ITEM_TYPE_CONTENT;
@@ -102,8 +114,8 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter implements 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        mContentPosition = position - mHeaderCount;
-        mBottomPosition = position - mHeaderCount - getContentItemCount();
+        mContentPosition = position - mHeaderCount - mRecommendCount;
+        mBottomPosition = position - mHeaderCount - -mRecommendCount - getContentItemCount();
         if (holder instanceof HeaderViewHolder) {
             ((HeaderViewHolder) holder).dongman.setOnClickListener(this);
             ((HeaderViewHolder) holder).mingxinpian.setOnClickListener(this);
@@ -112,9 +124,25 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter implements 
             ((HeaderViewHolder) holder).searchImage.setOnClickListener(this);
             updatemCycleViewPager(((HeaderViewHolder) holder).mCycleViewPager);
 
+        } else if (holder instanceof ClassicRecommendHolder) {
+            HomeDesignBean homeDesignBean = listContent.get(0);
+            List<SourceListContent> sourceContents = homeDesignBean.getSourceListContent();
+
+            Glide.with(context).load(sourceContents.get(0).getCoverUrl())
+                    .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(((ClassicRecommendHolder) holder).recommendFirstImage);
+            Glide.with(context).load(sourceContents.get(1).getCoverUrl())
+                    .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(((ClassicRecommendHolder) holder).recommendTowImage);
+            Glide.with(context).load(sourceContents.get(2).getCoverUrl())
+                    .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(((ClassicRecommendHolder) holder).recommendThreeImage);
+
+            ((ClassicRecommendHolder) holder).recommendFirstText.setText(sourceContents.get(0).getName());
+            ((ClassicRecommendHolder) holder).recommendTowText.setText(sourceContents.get(1).getName());
+            ((ClassicRecommendHolder) holder).recommendThreeText.setText(sourceContents.get(2).getName());
+
+
         } else if (holder instanceof ContentViewHolder) {
-            if (list.size() > mContentPosition) {
-                HomeDesignBean homeDesignBean = list.get(mContentPosition);
+            if (listContent.size() > mContentPosition) {
+                HomeDesignBean homeDesignBean = listContent.get(mContentPosition);
                 List<SourceListContent> sourceContents = homeDesignBean.getSourceListContent();
 
                 Glide.with(context).load(sourceContents.get(0).getCoverUrl())
@@ -126,7 +154,7 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter implements 
                 ((ContentViewHolder) holder).cardLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.onLayoutClickListener(v,sourceContents.get(0));
+                        listener.onLayoutClickListener(v, sourceContents.get(0));
                     }
                 });
 
@@ -137,7 +165,7 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter implements 
                 ((ContentViewHolder) holder).FirstLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.onLayoutClickListener(v,sourceContents.get(1));
+                        listener.onLayoutClickListener(v, sourceContents.get(1));
                     }
                 });
 
@@ -148,7 +176,7 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter implements 
                 ((ContentViewHolder) holder).TowLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.onLayoutClickListener(v,sourceContents.get(2));
+                        listener.onLayoutClickListener(v, sourceContents.get(2));
                     }
                 });
 
@@ -159,7 +187,7 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter implements 
                 ((ContentViewHolder) holder).ThreeLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.onLayoutClickListener(v,sourceContents.get(3));
+                        listener.onLayoutClickListener(v, sourceContents.get(3));
                     }
                 });
 
@@ -169,7 +197,7 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter implements 
                 ((ContentViewHolder) holder).FourLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.onLayoutClickListener(v,sourceContents.get(4));
+                        listener.onLayoutClickListener(v, sourceContents.get(4));
                     }
                 });
 
@@ -182,11 +210,7 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter implements 
 
     @Override
     public int getItemCount() {
-        return list.size() + mHeaderCount + mBottomCount;
-    }
-
-    public void setData(List<HomeDesignBean> list) {
-        this.list = list;
+        return listContent.size() + mHeaderCount +mRecommendCount+ mBottomCount;
     }
 
     @Override

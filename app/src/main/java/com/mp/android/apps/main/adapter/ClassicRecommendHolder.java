@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -34,6 +35,11 @@ public class ClassicRecommendHolder extends RecyclerView.ViewHolder {
     TextView recommendTowText;
     TextView recommendThreeText;
 
+
+    LinearLayout recommendFirstLayout;
+    LinearLayout recommendTowLayout;
+    LinearLayout recommendThreeLayout;
+
     public ClassicRecommendHolder(@NonNull View itemView) {
         super(itemView);
         recommendFirstImage = itemView.findViewById(R.id.mp_home_recommend_firstImage);
@@ -43,9 +49,13 @@ public class ClassicRecommendHolder extends RecyclerView.ViewHolder {
         recommendFirstText = itemView.findViewById(R.id.mp_home_recommend_fristText);
         recommendTowText = itemView.findViewById(R.id.mp_home_recommend_towText);
         recommendThreeText = itemView.findViewById(R.id.mp_home_recommend_threeText);
+
+        recommendFirstLayout = itemView.findViewById(R.id.FirstLayout);
+        recommendTowLayout = itemView.findViewById(R.id.TowLayout);
+        recommendThreeLayout = itemView.findViewById(R.id.ThreeLayout);
     }
 
-    public void handleClassicRecommendEvent(Context context, List<HomeDesignBean> listContent, int mContentPosition, OnHomeAdapterClickListener listener){
+    public void handleClassicRecommendEvent(Context context, List<HomeDesignBean> listContent, int mContentPosition, OnHomeAdapterClickListener listener) {
         HomeDesignBean homeDesignBean = listContent.get(0);
         List<SourceListContent> sourceContents = homeDesignBean.getSourceListContent();
 
@@ -59,5 +69,26 @@ public class ClassicRecommendHolder extends RecyclerView.ViewHolder {
         recommendFirstText.setText(sourceContents.get(0).getName());
         recommendTowText.setText(sourceContents.get(1).getName());
         recommendThreeText.setText(sourceContents.get(2).getName());
+
+        recommendFirstLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onLayoutClickListener(v,sourceContents.get(0));
+            }
+        });
+        recommendTowLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onLayoutClickListener(v,sourceContents.get(1));
+            }
+        });
+        recommendThreeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onLayoutClickListener(v, sourceContents.get(2));
+            }
+        });
+
+
     }
 }

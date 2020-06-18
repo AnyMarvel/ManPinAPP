@@ -85,7 +85,7 @@
 
             <ImageView
                 android:id="@+id/mp_home_recommend_firstImage"
-                android:layout_width="105dp"
+                android:layout_width="108dp"
                 android:layout_height="140dp"
                 android:background="@drawable/img_cover_default_circle_1"
                 android:scaleType="fitXY" />
@@ -112,7 +112,7 @@
 
             <ImageView
                 android:id="@+id/mp_home_recommend_towImage"
-                android:layout_width="105dp"
+                android:layout_width="108dp"
                 android:layout_height="140dp"
                 android:background="@drawable/img_cover_default_circle_1"
                 android:scaleType="fitXY" />
@@ -140,7 +140,7 @@
 
             <ImageView
                 android:id="@+id/mp_home_recommend_threeImage"
-                android:layout_width="105dp"
+                android:layout_width="108dp"
                 android:layout_height="140dp"
                 android:background="@drawable/img_cover_default_circle_1"
                 android:scaleType="fitXY" />

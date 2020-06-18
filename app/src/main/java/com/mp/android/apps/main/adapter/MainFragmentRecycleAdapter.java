@@ -27,7 +27,7 @@ import com.mp.android.apps.utils.RadiusUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFragmentRecycleAdapter extends RecyclerView.Adapter{
+public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
     private int mHeaderCount = 1;// 头部的数量
     private int mBottomCount = 1;// 底部的数量
     private int mRecommendCount = 1;//经典推荐的数量
@@ -47,13 +47,16 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter{
     private OnHomeAdapterClickListener listener;
     //轮播图数据源
     private List<String> carouselImages;
+    //推荐位数据源
+    private List<SourceListContent> recommendList;
 
     public MainFragmentRecycleAdapter(Context context, List<HomeDesignBean> listContent
-            , OnHomeAdapterClickListener listener, List<String> carouselImages) {
+            , OnHomeAdapterClickListener listener, List<String> carouselImages, List<SourceListContent> recommendList) {
         this.context = context;
         this.listContent = listContent;
         this.listener = listener;
         this.carouselImages = carouselImages;
+        this.recommendList = recommendList;
     }
 
     // 中间内容长度
@@ -120,7 +123,7 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter{
         if (holder instanceof HeaderViewHolder) {
             ((HeaderViewHolder) holder).handleClassicRecommendEvent(carouselImages, listener);
         } else if (holder instanceof ClassicRecommendHolder) {
-            ((ClassicRecommendHolder) holder).handleClassicRecommendEvent(context, listContent, mContentPosition, listener);
+            ((ClassicRecommendHolder) holder).handleClassicRecommendEvent(context, recommendList, mContentPosition, listener);
         } else if (holder instanceof ContentViewHolder) {
             ((ContentViewHolder) holder).handleContentEvent(context, listContent, mContentPosition, listener);
         } else {

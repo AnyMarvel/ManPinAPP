@@ -1,6 +1,7 @@
 package com.mp.android.apps.main.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -78,6 +79,7 @@ public class ContentViewHolder extends RecyclerView.ViewHolder {
             cardBookName.setText(sourceContents.get(0).getName());
             cardBookbref.setText(sourceContents.get(0).getBookdesc());
             RadiusUtils.setClipViewCornerRadius(mBookInfoLayout, 10);
+            mBookInfoLayout.setBackgroundColor(Color.parseColor(homeDesignBean.getCardColor()));
             cardLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

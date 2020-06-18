@@ -40,7 +40,7 @@ public class MainFragmentPresenterImpl extends BasePresenterImpl<IMainfragmentVi
                         List<HomeDesignBean> list = JSON.parseArray(homebookJson, HomeDesignBean.class);
                         List<SourceListContent> recommendList = JSON.parseArray(recommendJson, SourceListContent.class);
                         if (list != null && list.size() > 0) {
-                            mView.notifyRecyclerView(list, carouselImages,recommendList);
+                            mView.notifyRecyclerView(list, carouselImages, recommendList);
                         }
 
                     }
@@ -49,7 +49,7 @@ public class MainFragmentPresenterImpl extends BasePresenterImpl<IMainfragmentVi
 
             @Override
             public void onError(Throwable e) {
-
+                initHomeData();
             }
         });
     }

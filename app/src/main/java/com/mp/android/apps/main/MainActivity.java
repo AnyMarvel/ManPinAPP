@@ -5,6 +5,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -41,7 +42,7 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
         LoginManager.getInstance().initSP(this).initData();
         mainFragment = new MainFragment();
         personFragment = new PersonFragment();
-        getFragmentManager().beginTransaction().replace(R.id.main_contain, mainFragment).commit();
+        getFragmentManager().beginTransaction().add(R.id.main_contain, mainFragment).commit();
         initViews();
     }
 
@@ -115,7 +116,9 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
         switch (id) {
             case R.id.zhuye:
                 changeNavImages(R.id.zhuye);
-                getFragmentManager().beginTransaction().replace(R.id.main_contain, mainFragment).commit();
+                if (mainFragment.isAdded()) {
+                    getFragmentManager().beginTransaction().hide(personFragment).show(mainFragment).commit();
+                }
                 break;
             case R.id.shujia:
                 //todo 改造书架为fragment
@@ -130,7 +133,12 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
                 break;
             case R.id.gerenzhongxin:
                 changeNavImages(R.id.gerenzhongxin);
-                getFragmentManager().beginTransaction().replace(R.id.main_contain, personFragment).commit();
+                if (personFragment.isAdded()) {
+                    getFragmentManager().beginTransaction().hide(mainFragment).show(personFragment).commit();
+                } else {
+                    getFragmentManager().beginTransaction().hide(mainFragment).add(R.id.main_contain, personFragment).commit();
+                }
+
                 break;
             default:
                 break;

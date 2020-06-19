@@ -1,6 +1,6 @@
 package com.mp.android.apps.monke.basemvplib;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public interface IPresenter {
     /**

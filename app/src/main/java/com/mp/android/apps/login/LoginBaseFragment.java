@@ -1,16 +1,13 @@
 package com.mp.android.apps.login;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v4.app.Fragment;
+
+import androidx.fragment.app.Fragment;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.mp.android.apps.R;
-import com.mp.android.apps.explore.ExploreSquareActivity;
 import com.mp.android.apps.login.bean.login.Data;
 import com.mp.android.apps.login.bean.login.LoginRootBean;
 import com.mp.android.apps.login.network.LoginAPI;

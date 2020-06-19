@@ -6,7 +6,7 @@ import android.content.Intent;
 
 
 import android.os.Build;
-import android.support.multidex.MultiDex;
+import androidx.multidex.MultiDex;
 
 import com.mp.android.apps.monke.monkeybook.ProxyManager;
 import com.mp.android.apps.monke.monkeybook.service.DownloadService;

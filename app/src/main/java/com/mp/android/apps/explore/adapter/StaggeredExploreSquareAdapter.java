@@ -3,15 +3,14 @@ package com.mp.android.apps.explore.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -20,10 +19,8 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.mp.android.apps.R;
 import com.mp.android.apps.explore.bean.Data;
-import com.mp.android.apps.explore.utils.FormatCurrentData;
 import com.mp.android.apps.explore.views.RoundAngleImageView;
 import com.mp.android.apps.livevblank.bean.ImageDesBean;
-import com.mp.android.apps.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.List;

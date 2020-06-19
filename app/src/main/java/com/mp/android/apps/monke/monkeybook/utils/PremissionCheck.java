@@ -7,7 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.content.PermissionChecker;
+import androidx.core.content.PermissionChecker;
 
 public class PremissionCheck {
     public static Boolean checkPremission(Context context,String permission){

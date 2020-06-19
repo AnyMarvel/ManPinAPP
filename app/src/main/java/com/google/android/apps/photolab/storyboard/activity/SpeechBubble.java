@@ -4,10 +4,9 @@ import android.content.Context;
 import android.graphics.Paint.Align;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.support.v4.view.ViewCompat;
+import androidx.core.view.ViewCompat;
 import android.text.TextPaint;
 import android.widget.TextView;
-import com.google.android.apps.photolab.storyboard.activity.IComicMoveable.ComicMoveableKind;
 
 public class SpeechBubble implements IComicMoveable {
     private static TextPaint textPaint;

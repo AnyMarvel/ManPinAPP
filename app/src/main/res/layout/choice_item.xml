@@ -11,11 +11,11 @@
     android:layerType="software"
     android:orientation="vertical">
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:overScrollMode="never"
-        android:clipChildren="false"></android.support.v4.view.ViewPager>
+        android:clipChildren="false"></androidx.viewpager.widget.ViewPager>
 </LinearLayout>

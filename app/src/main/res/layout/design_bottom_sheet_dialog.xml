@@ -6,7 +6,7 @@
     android:layout_height="fill_parent"
     android:fitsSystemWindows="false">
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -26,5 +26,5 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|top"
             app:layout_behavior="@string/bottom_sheet_behavior" />
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </FrameLayout>

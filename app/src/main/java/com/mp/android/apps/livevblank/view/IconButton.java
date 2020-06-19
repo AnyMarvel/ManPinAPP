@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 
 
 
-public class IconButton extends android.support.v7.widget.AppCompatButton {
+public class IconButton extends androidx.appcompat.widget.AppCompatButton {
 
     public IconButton(Context context) {
         super(context);

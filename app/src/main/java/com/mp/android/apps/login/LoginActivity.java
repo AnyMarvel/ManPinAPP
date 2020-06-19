@@ -1,26 +1,16 @@
 package com.mp.android.apps.login;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.mp.android.apps.R;
 import com.mp.android.apps.StoryboardActivity;
-import com.mp.android.apps.explore.ExploreSquareActivity;
-import com.mylhyl.acp.Acp;
-import com.mylhyl.acp.AcpListener;
-import com.mylhyl.acp.AcpOptions;
 import com.umeng.socialize.UMShareAPI;
 
 import java.util.List;
-
-
-import static com.google.android.apps.photolab.storyboard.activity.ComicActivity.getActivity;
 
 public class LoginActivity extends StoryboardActivity {
 

@@ -35,7 +35,7 @@
             android:background="@drawable/bg_ib_pre"
             android:onClick="onClickMoreKind"/>
     </LinearLayout>
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_booklist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

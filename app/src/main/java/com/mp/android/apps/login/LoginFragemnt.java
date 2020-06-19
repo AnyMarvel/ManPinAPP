@@ -1,10 +1,8 @@
 package com.mp.android.apps.login;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mp.android.apps.R;
-import com.mp.android.apps.explore.ExploreSquareActivity;
 import com.mp.android.apps.login.bean.login.Data;
 import com.mp.android.apps.login.bean.login.LoginRootBean;
 import com.mp.android.apps.login.network.LoginAPI;

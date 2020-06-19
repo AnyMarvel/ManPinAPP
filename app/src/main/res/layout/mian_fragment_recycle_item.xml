@@ -52,13 +52,30 @@
             android:paddingRight="10dp"
             android:paddingBottom="10dp">
 
-            <TextView
-                android:id="@+id/cardBookName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="都市绝品神医"
-                android:textColor="@color/black"
-                android:textSize="16dp" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/cardBookName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="都市绝品神医"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
+
+                <RatingBar
+                    android:id="@+id/mp_content_card_ratingbar"
+                    style="?attr/ratingBarStyleSmall"
+                    android:theme="@style/RatingBar_CustomColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center"
+                    android:isIndicator="true"
+                    android:rating="4.5"
+                    android:stepSize="0.01" />
+
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/cardBookbref"

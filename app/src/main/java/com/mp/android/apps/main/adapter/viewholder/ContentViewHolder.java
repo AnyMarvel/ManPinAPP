@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -47,6 +48,10 @@ public class ContentViewHolder extends RecyclerView.ViewHolder {
     private LinearLayout ThreeLayout;
     private LinearLayout FourLayout;
     private LinearLayout mBookInfoLayout;
+    /**
+     * 首页Content布局中评分元素增加
+     */
+    private RatingBar ratingBar;
 
     public ContentViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -70,6 +75,7 @@ public class ContentViewHolder extends RecyclerView.ViewHolder {
         TowLayout = itemView.findViewById(R.id.TowLayout);
         ThreeLayout = itemView.findViewById(R.id.ThreeLayout);
         FourLayout = itemView.findViewById(R.id.FourLayout);
+        ratingBar = itemView.findViewById(R.id.mp_content_card_ratingbar);
     }
 
     public void handleContentEvent(Context context, List<HomeDesignBean> listContent, int mContentPosition, OnHomeAdapterClickListener listener) {
@@ -80,7 +86,7 @@ public class ContentViewHolder extends RecyclerView.ViewHolder {
             contentChange.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onContentChangeClickListener(mContentPosition,homeDesignBean.getKind());
+                    listener.onContentChangeClickListener(mContentPosition, homeDesignBean.getKind());
                 }
             });
             Glide.with(context).load(sourceContents.get(0).getCoverUrl())

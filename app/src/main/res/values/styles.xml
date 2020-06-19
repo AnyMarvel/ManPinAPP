@@ -83,5 +83,12 @@
         <!--显示区域以外是否使用黑色半透明背景-->
         <item name="android:backgroundDimEnabled">true</item>
     </style>
+    <!--自定义RatingBar Color-->
+    <style name="RatingBar_CustomColor" parent="@android:style/Widget.Holo.RatingBar.Indicator">
+        <!--Background Color-->
+        <item name="colorControlNormal">#D7D7D7</item>
+        <!--Progress Color-->
+        <item name="colorControlActivated">#F1AD3E</item>
+    </style>
 
 </resources>

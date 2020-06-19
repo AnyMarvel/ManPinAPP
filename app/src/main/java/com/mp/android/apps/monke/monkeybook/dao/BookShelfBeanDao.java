@@ -22,14 +22,14 @@ public class BookShelfBeanDao extends AbstractDao<BookShelfBean, String> {
     /**
      * Properties of entity BookShelfBean.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-    */
+     */
     public static class Properties {
         public final static Property NoteUrl = new Property(0, String.class, "noteUrl", true, "NOTE_URL");
         public final static Property DurChapter = new Property(1, int.class, "durChapter", false, "DUR_CHAPTER");
         public final static Property DurChapterPage = new Property(2, int.class, "durChapterPage", false, "DUR_CHAPTER_PAGE");
         public final static Property FinalDate = new Property(3, long.class, "finalDate", false, "FINAL_DATE");
         public final static Property Tag = new Property(4, String.class, "tag", false, "TAG");
-    };
+    }
 
 
     public BookShelfBeanDao(DaoConfig config) {
@@ -131,6 +131,11 @@ public class BookShelfBeanDao extends AbstractDao<BookShelfBean, String> {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public boolean hasKey(BookShelfBean entity) {
+        return entity.getNoteUrl() != null;
     }
 
     @Override

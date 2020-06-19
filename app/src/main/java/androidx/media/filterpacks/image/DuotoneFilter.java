@@ -1,8 +1,8 @@
 package androidx.media.filterpacks.image;
 
 import android.graphics.Color;
-import android.support.v4.internal.view.SupportMenu;
-import android.support.v4.view.InputDeviceCompat;
+import androidx.core.internal.view.SupportMenu;
+import androidx.core.view.InputDeviceCompat;
 import androidx.media.filterfw.Filter;
 import androidx.media.filterfw.FrameImage2D;
 import androidx.media.filterfw.FrameType;

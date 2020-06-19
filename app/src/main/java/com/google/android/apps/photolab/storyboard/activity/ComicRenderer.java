@@ -2,7 +2,6 @@ package com.google.android.apps.photolab.storyboard.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
@@ -11,9 +10,9 @@ import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.graphics.Region.Op;
 import android.os.Build;
-import android.support.v4.internal.view.SupportMenu;
-import android.support.v4.view.InputDeviceCompat;
-import android.support.v4.view.ViewCompat;
+import androidx.core.internal.view.SupportMenu;
+import androidx.core.view.InputDeviceCompat;
+import androidx.core.view.ViewCompat;
 import android.util.Log;
 
 import com.google.android.apps.photolab.storyboard.pipeline.MediaManager;

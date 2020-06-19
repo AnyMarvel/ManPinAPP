@@ -3,10 +3,9 @@ package com.google.android.apps.photolab.storyboard.activity;
 import android.content.Context;
 import android.graphics.Paint.Align;
 import android.graphics.Typeface;
-import android.support.v4.view.ViewCompat;
+import androidx.core.view.ViewCompat;
 import android.text.TextPaint;
 import android.widget.TextView;
-import com.google.android.apps.photolab.storyboard.activity.IComicMoveable.ComicMoveableKind;
 
 public class Caption implements IComicMoveable {
     private String text;

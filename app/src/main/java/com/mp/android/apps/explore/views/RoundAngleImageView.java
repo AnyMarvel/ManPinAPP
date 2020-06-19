@@ -20,7 +20,7 @@ import com.mp.android.apps.R;
  *
  * @author Administrator
  */
-public class RoundAngleImageView extends android.support.v7.widget.AppCompatImageView {
+public class RoundAngleImageView extends androidx.appcompat.widget.AppCompatImageView {
 
     private Paint paint;
     /**

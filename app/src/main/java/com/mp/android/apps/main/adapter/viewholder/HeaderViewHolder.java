@@ -1,14 +1,12 @@
 package com.mp.android.apps.main.adapter.viewholder;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.mp.android.apps.R;
 import com.mp.android.apps.main.adapter.OnHomeAdapterClickListener;
-import com.mp.android.apps.main.bean.HomeDesignBean;
 import com.mp.android.apps.main.cycleimage.BannerInfo;
 import com.mp.android.apps.main.cycleimage.CycleViewPager;
 import com.mp.android.apps.main.view.MyImageTextView;

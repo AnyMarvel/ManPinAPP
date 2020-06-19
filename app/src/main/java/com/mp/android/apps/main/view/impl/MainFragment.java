@@ -2,36 +2,25 @@ package com.mp.android.apps.main.view.impl;
 
 import android.Manifest;
 import android.app.ActivityOptions;
-import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.OrientationHelper;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
-import com.alibaba.fastjson.JSONObject;
-import com.bumptech.glide.Glide;
 import com.google.android.apps.photolab.storyboard.activity.ComicSplash;
 import com.mp.android.apps.R;
-import com.mp.android.apps.explore.adapter.ExploreSquareAdapter;
-import com.mp.android.apps.explore.utils.SpacesItemDecoration;
 import com.mp.android.apps.livevblank.ChoiceItemActivity;
 import com.mp.android.apps.main.MainActivity;
 import com.mp.android.apps.main.adapter.MainFragmentRecycleAdapter;
 import com.mp.android.apps.main.adapter.OnHomeAdapterClickListener;
 import com.mp.android.apps.main.bean.HomeDesignBean;
 import com.mp.android.apps.main.bean.SourceListContent;
-import com.mp.android.apps.main.cycleimage.BannerInfo;
-import com.mp.android.apps.main.cycleimage.CycleViewPager;
 import com.mp.android.apps.main.presenter.impl.MainFragmentPresenterImpl;
 import com.mp.android.apps.main.view.IMainfragmentView;
-import com.mp.android.apps.main.view.MyImageTextView;
 import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
 import com.mp.android.apps.monke.monkeybook.presenter.impl.BookDetailPresenterImpl;
@@ -42,7 +31,6 @@ import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implements IMainfragmentView, OnHomeAdapterClickListener {

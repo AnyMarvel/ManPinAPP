@@ -1,8 +1,8 @@
 package com.mp.android.apps.livevblank.ViewPager;
 
 import android.graphics.Camera;
-import android.graphics.Matrix;
-import android.support.v4.view.ViewPager;
+
+import androidx.viewpager.widget.ViewPager;
 import android.view.View;
 
 /**

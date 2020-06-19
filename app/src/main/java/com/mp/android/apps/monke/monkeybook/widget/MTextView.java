@@ -11,7 +11,7 @@ import android.util.AttributeSet;
  * Created by ZQH on 2017/4/10.
  */
 
-public class MTextView extends android.support.v7.widget.AppCompatTextView {
+public class MTextView extends androidx.appcompat.widget.AppCompatTextView {
 
     public MTextView(Context context, AttributeSet attrs) {
         super(context, attrs);

@@ -5,21 +5,14 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 //import com.google.android.apps.photolab.storyboard.telemetry.Telemetry;
 //import com.google.firebase.analytics.FirebaseAnalytics.Event;
-import com.umeng.socialize.UMAuthListener;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-
-import java.util.Map;
-import java.util.UUID;
 
 
 public class StoryboardActivity extends AppCompatActivity {

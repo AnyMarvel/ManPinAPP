@@ -8,7 +8,7 @@ import retrofit2.http.Query;
 import retrofit2.http.QueryName;
 
 public class IMainFragmentModelImpl extends MBaseModelImpl {
-    private final String TAG = "http://10.12.176.59:8080";
+    private final String TAG = "http://aimanpin.com";
 
     public static IMainFragmentModelImpl getInstance() {
         return new IMainFragmentModelImpl();

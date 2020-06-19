@@ -71,7 +71,7 @@ public class ReadBookPresenterImpl extends BasePresenterImpl<IBookReadView> impl
         if (open_from == OPEN_FROM_APP) {
             String key = intent.getStringExtra("data_key");
             bookShelf = (BookShelfBean) BitIntentDataManager.getInstance().getData(key);
-            if (!bookShelf.getTag().equals(BookShelfBean.LOCAL_TAG)) {
+            if (bookShelf != null && !bookShelf.getTag().equals(BookShelfBean.LOCAL_TAG)) {
                 mView.showDownloadMenu();
             }
             BitIntentDataManager.getInstance().cleanData(key);

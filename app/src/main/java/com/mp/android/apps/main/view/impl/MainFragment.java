@@ -105,7 +105,7 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
 
     @Override
     public void notifyRecyclerView(List<HomeDesignBean> list, List<String> carouselImages, List<SourceListContent> listContents) {
-        mainFragmentRecycleAdapter = new MainFragmentRecycleAdapter(getContext(), list, this, carouselImages,listContents);
+        mainFragmentRecycleAdapter = new MainFragmentRecycleAdapter(getContext(), list, this, carouselImages, listContents);
         //设置Adapter
         recyclerView.setAdapter(mainFragmentRecycleAdapter);
         recyclerView.setItemViewCacheSize(10);
@@ -174,5 +174,14 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity(), view, "img_cover").toBundle());
     }
 
+    @Override
+    public void onContentChangeClickListener(int mContentPosition, String kinds) {
+        mPresenter.getContentPostion(mContentPosition, kinds);
+    }
+
+    @Override
+    public void notifyContentItemUpdate(int position, List<SourceListContent> sourceListContents) {
+        mainFragmentRecycleAdapter.updateContentByPosition(position, sourceListContents);
+    }
 
 }

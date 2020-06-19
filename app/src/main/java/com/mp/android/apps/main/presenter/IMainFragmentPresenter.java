@@ -8,4 +8,6 @@ public interface IMainFragmentPresenter extends IPresenter {
 
 
     void initHomeData();
+
+    void getContentPostion(int mContentPosition,String kinds);
 }

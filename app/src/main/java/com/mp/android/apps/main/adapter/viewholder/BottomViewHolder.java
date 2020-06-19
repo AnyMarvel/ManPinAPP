@@ -1,4 +1,4 @@
-package com.mp.android.apps.main.adapter;
+package com.mp.android.apps.main.adapter.viewholder;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

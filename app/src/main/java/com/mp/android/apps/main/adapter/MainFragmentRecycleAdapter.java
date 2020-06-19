@@ -1,30 +1,20 @@
 package com.mp.android.apps.main.adapter;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Outline;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewOutlineProvider;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
 import com.mp.android.apps.R;
+import com.mp.android.apps.main.adapter.viewholder.BottomViewHolder;
+import com.mp.android.apps.main.adapter.viewholder.ClassicRecommendHolder;
+import com.mp.android.apps.main.adapter.viewholder.ContentViewHolder;
+import com.mp.android.apps.main.adapter.viewholder.HeaderViewHolder;
 import com.mp.android.apps.main.bean.HomeDesignBean;
 import com.mp.android.apps.main.bean.SourceListContent;
-import com.mp.android.apps.main.cycleimage.BannerInfo;
-import com.mp.android.apps.main.cycleimage.CycleViewPager;
-import com.mp.android.apps.utils.Logger;
-import com.mp.android.apps.utils.RadiusUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
@@ -44,6 +34,7 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
     private int mContentPosition;
     //底部view位置信息
     private int mBottomPosition;
+    //各种点击时间接口,实现在fragment中
     private OnHomeAdapterClickListener listener;
     //轮播图数据源
     private List<String> carouselImages;
@@ -137,4 +128,17 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
         return listContent.size() + mHeaderCount + mRecommendCount + mBottomCount;
     }
 
+    /**
+     * 基于position修改数据源,刷新单个item
+     *
+     * @param mContentPosition   mContentPosition位置,比list postion大小小两位
+     * @param sourceListContents content内部一个item的数据内容
+     */
+    public void updateContentByPosition(int mContentPosition, List<SourceListContent> sourceListContents) {
+        if (mContentPosition >= 0 && sourceListContents != null) {
+            listContent.get(mContentPosition).setSourceListContent(sourceListContents);
+            notifyItemChanged(mContentPosition + 2);
+        }
+
+    }
 }

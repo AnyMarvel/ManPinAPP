@@ -10,4 +10,6 @@ import java.util.List;
 
 public interface IMainfragmentView extends IView {
     void notifyRecyclerView(List<HomeDesignBean> list, List<String> carouselImages, List<SourceListContent> listContents);
+
+    void notifyContentItemUpdate(int position, List<SourceListContent> sourceListContents);
 }

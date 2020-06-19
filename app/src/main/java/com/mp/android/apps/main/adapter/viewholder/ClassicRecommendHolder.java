@@ -1,4 +1,4 @@
-package com.mp.android.apps.main.adapter;
+package com.mp.android.apps.main.adapter.viewholder;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.mp.android.apps.R;
+import com.mp.android.apps.main.adapter.OnHomeAdapterClickListener;
 import com.mp.android.apps.main.bean.HomeDesignBean;
 import com.mp.android.apps.main.bean.SourceListContent;
 
@@ -21,24 +22,24 @@ public class ClassicRecommendHolder extends RecyclerView.ViewHolder {
     /**
      * 经典推荐第一个图片
      */
-    ImageView recommendFirstImage;
+    private ImageView recommendFirstImage;
     /**
      * 经典推荐第二个图片
      */
-    ImageView recommendTowImage;
+    private ImageView recommendTowImage;
     /**
      * 经典推荐第三个图片
      */
-    ImageView recommendThreeImage;
+    private ImageView recommendThreeImage;
 
-    TextView recommendFirstText;
-    TextView recommendTowText;
-    TextView recommendThreeText;
+    private TextView recommendFirstText;
+    private TextView recommendTowText;
+    private TextView recommendThreeText;
 
 
-    LinearLayout recommendFirstLayout;
-    LinearLayout recommendTowLayout;
-    LinearLayout recommendThreeLayout;
+    private LinearLayout recommendFirstLayout;
+    private LinearLayout recommendTowLayout;
+    private LinearLayout recommendThreeLayout;
 
     public ClassicRecommendHolder(@NonNull View itemView) {
         super(itemView);

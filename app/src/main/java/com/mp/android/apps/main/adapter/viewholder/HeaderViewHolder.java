@@ -1,4 +1,4 @@
-package com.mp.android.apps.main.adapter;
+package com.mp.android.apps.main.adapter.viewholder;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.mp.android.apps.R;
+import com.mp.android.apps.main.adapter.OnHomeAdapterClickListener;
 import com.mp.android.apps.main.bean.HomeDesignBean;
 import com.mp.android.apps.main.cycleimage.BannerInfo;
 import com.mp.android.apps.main.cycleimage.CycleViewPager;
@@ -19,12 +20,12 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder implements View.On
     /**
      * 轮播图
      */
-    public CycleViewPager mCycleViewPager;
-    public MyImageTextView dongman;
-    public MyImageTextView mingxinpian;
-    public MyImageTextView xiaoshuo;
-    public MyImageTextView guangchang;
-    public FrameLayout searchImage;
+    private CycleViewPager mCycleViewPager;
+    private MyImageTextView dongman;
+    private MyImageTextView mingxinpian;
+    private MyImageTextView xiaoshuo;
+    private MyImageTextView guangchang;
+    private FrameLayout searchImage;
     OnHomeAdapterClickListener listener;
 
     public HeaderViewHolder(@NonNull View itemView) {

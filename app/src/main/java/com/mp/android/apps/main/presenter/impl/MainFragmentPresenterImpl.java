@@ -25,6 +25,9 @@ public class MainFragmentPresenterImpl extends BasePresenterImpl<IMainfragmentVi
 
     }
 
+    /**
+     * 初始化首页数据
+     */
     @Override
     public void initHomeData() {
         IMainFragmentModelImpl.getInstance().getHomeDatas().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleObserver<String>() {
@@ -53,4 +56,35 @@ public class MainFragmentPresenterImpl extends BasePresenterImpl<IMainfragmentVi
             }
         });
     }
+
+    /**
+     * 点击首页Content内容换一换按钮,单个刷新item
+     *
+     * @param mContentPosition
+     * @param kinds
+     */
+    @Override
+    public void getContentPostion(int mContentPosition, String kinds) {
+        IMainFragmentModelImpl.getInstance().getContentItemData(kinds).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleObserver<String>() {
+            @Override
+            public void onNext(String s) {
+                JSONObject jsonObject = JSON.parseObject(s);
+                JSONObject data = (JSONObject) jsonObject.get("data");
+                if (data != null) {
+                    String sourceListContent = JSON.toJSONString(data.get("sourceListContent"));
+                    if (!TextUtils.isEmpty(sourceListContent)) {
+                        List<SourceListContent> sourceListContents = JSON.parseArray(sourceListContent, SourceListContent.class);
+                        mView.notifyContentItemUpdate(mContentPosition, sourceListContents);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+
 }

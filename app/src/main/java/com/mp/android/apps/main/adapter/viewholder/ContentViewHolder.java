@@ -1,4 +1,4 @@
-package com.mp.android.apps.main.adapter;
+package com.mp.android.apps.main.adapter.viewholder;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -14,36 +14,39 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.mp.android.apps.R;
+import com.mp.android.apps.main.adapter.OnHomeAdapterClickListener;
 import com.mp.android.apps.main.bean.HomeDesignBean;
 import com.mp.android.apps.main.bean.SourceListContent;
 import com.mp.android.apps.utils.RadiusUtils;
-import com.xinlan.imageeditlibrary.editimage.view.imagezoom.easing.Linear;
 
 import java.util.List;
 
 public class ContentViewHolder extends RecyclerView.ViewHolder {
-    public ImageView cardTitleImage;
-    public ImageView cardFristImage;
-    public ImageView cardTowImage;
-    public ImageView cardThreeImage;
-    public ImageView cardFourImage;
+    private ImageView cardTitleImage;
+    private ImageView cardFristImage;
+    private ImageView cardTowImage;
+    private ImageView cardThreeImage;
+    private ImageView cardFourImage;
+    /**
+     * 换一换图标
+     */
+    private ImageView contentChange;
 
-    public View cardBackground;
 
-    public TextView cardTitle;
-    public TextView cardBookName;
-    public TextView cardBookbref;
-    public TextView cardFristText;
-    public TextView cardTowText;
-    public TextView cardThreeText;
-    public TextView cardFourText;
+    private TextView cardTitle;
+    private TextView cardBookName;
+    private TextView cardBookbref;
+    private TextView cardFristText;
+    private TextView cardTowText;
+    private TextView cardThreeText;
+    private TextView cardFourText;
 
-    public FrameLayout cardLayout;
-    public LinearLayout FirstLayout;
-    public LinearLayout TowLayout;
-    public LinearLayout ThreeLayout;
-    public LinearLayout FourLayout;
-    public LinearLayout mBookInfoLayout;
+    private FrameLayout cardLayout;
+    private LinearLayout FirstLayout;
+    private LinearLayout TowLayout;
+    private LinearLayout ThreeLayout;
+    private LinearLayout FourLayout;
+    private LinearLayout mBookInfoLayout;
 
     public ContentViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -52,6 +55,7 @@ public class ContentViewHolder extends RecyclerView.ViewHolder {
         cardTowImage = itemView.findViewById(R.id.cardTowImage);
         cardThreeImage = itemView.findViewById(R.id.cardThreeImage);
         cardFourImage = itemView.findViewById(R.id.cardFourImage);
+        contentChange = itemView.findViewById(R.id.mp_content_change);
         mBookInfoLayout = itemView.findViewById(R.id.mp_book_info_container);
         //cardBackground = itemView.findViewById(R.id.cardBackground);
         cardTitle = itemView.findViewById(R.id.cardTitle);
@@ -73,6 +77,12 @@ public class ContentViewHolder extends RecyclerView.ViewHolder {
             HomeDesignBean homeDesignBean = listContent.get(mContentPosition);
             List<SourceListContent> sourceContents = homeDesignBean.getSourceListContent();
 
+            contentChange.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onContentChangeClickListener(mContentPosition,homeDesignBean.getKind());
+                }
+            });
             Glide.with(context).load(sourceContents.get(0).getCoverUrl())
                     .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(cardTitleImage);
             cardTitle.setText(homeDesignBean.getKind());
@@ -86,7 +96,6 @@ public class ContentViewHolder extends RecyclerView.ViewHolder {
                     listener.onLayoutClickListener(v, sourceContents.get(0));
                 }
             });
-
 
             cardFristText.setText(sourceContents.get(1).getName());
             Glide.with(context).load(sourceContents.get(1).getCoverUrl())

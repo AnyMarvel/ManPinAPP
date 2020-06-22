@@ -38,6 +38,19 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
     private OnHomeAdapterClickListener listener;
     //轮播图数据源
     private List<String> carouselImages;
+
+    public void setListContent(List<HomeDesignBean> listContent) {
+        this.listContent = listContent;
+    }
+
+    public void setCarouselImages(List<String> carouselImages) {
+        this.carouselImages = carouselImages;
+    }
+
+    public void setRecommendList(List<SourceListContent> recommendList) {
+        this.recommendList = recommendList;
+    }
+
     //推荐位数据源
     private List<SourceListContent> recommendList;
 

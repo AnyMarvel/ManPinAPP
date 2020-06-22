@@ -3,10 +3,12 @@ package com.mp.android.apps.main.view.impl;
 import android.Manifest;
 import android.app.ActivityOptions;
 import android.content.Intent;
+
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,24 +54,22 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
     protected void bindView() {
         super.bindView();
         recyclerView = view.findViewById(R.id.homeRecycleView);
-
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        //设置布局管理器
+        recyclerView.setLayoutManager(layoutManager);
+        //设置为垂直布局，这也是默认的
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        //设置分隔线
+//        recyclerView.addItemDecoration(new SpacesItemDecoration(15));
+        //设置增加或删除条目的动画
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
 
     @Override
     protected void bindEvent() {
         super.bindEvent();
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        //设置布局管理器
-        recyclerView.setLayoutManager(layoutManager);
-        //设置为垂直布局，这也是默认的
-        layoutManager.setOrientation(OrientationHelper.VERTICAL);
-        //设置分隔线
-//        recyclerView.addItemDecoration(new SpacesItemDecoration(15));
-        //设置增加或删除条目的动画
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-
+        mPresenter.initHomeData();
     }
 
     /**
@@ -77,7 +77,7 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
      */
     @Override
     protected void initData() {
-        mPresenter.initHomeData();
+
     }
 
     @Override
@@ -90,14 +90,28 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
         return inflater.inflate(R.layout.main_fragment_layout, container, false);
     }
 
-
+    /**
+     * 主页列表适配器设置
+     *
+     * @param list           列表主体内容(包含分类和具体详情)
+     * @param carouselImages 主页轮播图的数据
+     * @param listContents   主页推荐位数据
+     * @param useCache       是否使用缓存更新主页
+     */
     @Override
-    public void notifyRecyclerView(List<HomeDesignBean> list, List<String> carouselImages, List<SourceListContent> listContents) {
-        mainFragmentRecycleAdapter = new MainFragmentRecycleAdapter(getContext(), list, this, carouselImages, listContents);
-        //设置Adapter
-        recyclerView.setAdapter(mainFragmentRecycleAdapter);
-        recyclerView.setItemViewCacheSize(10);
-        mainFragmentRecycleAdapter.notifyDataSetChanged();
+    public void notifyRecyclerView(List<HomeDesignBean> list, List<String> carouselImages, List<SourceListContent> listContents, boolean useCache) {
+        if (useCache || mainFragmentRecycleAdapter == null) {
+            mainFragmentRecycleAdapter = new MainFragmentRecycleAdapter(getContext(), list, this, carouselImages, listContents);
+            //设置Adapter
+            recyclerView.setAdapter(mainFragmentRecycleAdapter);
+            recyclerView.setItemViewCacheSize(10);
+        } else {
+            mainFragmentRecycleAdapter.setCarouselImages(carouselImages);
+            mainFragmentRecycleAdapter.setListContent(list);
+            mainFragmentRecycleAdapter.setRecommendList(listContents);
+            mainFragmentRecycleAdapter.notifyDataSetChanged();
+        }
+
     }
 
 

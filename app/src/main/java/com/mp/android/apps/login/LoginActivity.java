@@ -8,23 +8,23 @@ import android.view.WindowManager;
 
 import com.mp.android.apps.R;
 import com.mp.android.apps.StoryboardActivity;
+import com.mp.android.apps.login.fragment.LoginDailogFragment;
 import com.umeng.socialize.UMShareAPI;
-
 import java.util.List;
 
 public class LoginActivity extends StoryboardActivity {
 
     private LoginMainFragment loginMainFragment;
 
-
+    private LoginDailogFragment loginDailogFragment;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity_main);
-        loginMainFragment = new LoginMainFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.login_container, loginMainFragment).commitNow();
-    }
+        loginDailogFragment = new LoginDailogFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.login_container, loginDailogFragment).commitNow();
+   }
 
 
     @Override

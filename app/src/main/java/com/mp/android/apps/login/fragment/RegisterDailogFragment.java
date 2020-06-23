@@ -28,6 +28,7 @@ import java.util.Objects;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,7 +58,7 @@ public class RegisterDailogFragment extends LoginBaseFragment implements View.On
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.login_dialog_register, null);
         initView(view);
-        loginDailogFragment=new LoginDailogFragment();
+        loginDailogFragment = new LoginDailogFragment();
         return view;
     }
 
@@ -69,7 +70,7 @@ public class RegisterDailogFragment extends LoginBaseFragment implements View.On
         registerNickname = view.findViewById(R.id.register_nickname);
         registerBtn = view.findViewById(R.id.btn_register);
         img_hiddenPwd = view.findViewById(R.id.register_hidden_pwd);
-        radioGroup=view.findViewById(R.id.sex_group);
+        radioGroup = view.findViewById(R.id.sex_group);
         registerBtn.setOnClickListener(this);
         img_hiddenPwd.setOnClickListener(this);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -134,14 +135,14 @@ public class RegisterDailogFragment extends LoginBaseFragment implements View.On
                 break;
             case R.id.register_hidden_pwd:
                 if (isHideFirst) {
-                    img_hiddenPwd.setImageResource(R.mipmap.pwd_visible);
+                    img_hiddenPwd.setBackground(getResources().getDrawable(R.mipmap.pwd_visible));
                     //密文
                     HideReturnsTransformationMethod method1 = HideReturnsTransformationMethod.getInstance();
                     registerPassword.setTransformationMethod(method1);
                     registerPassword.setSelection(registerPassword.getText().length());
                     isHideFirst = false;
                 } else {
-                    img_hiddenPwd.setImageResource(R.mipmap.pwd_invisible);
+                    img_hiddenPwd.setBackground(getResources().getDrawable(R.mipmap.pwd_invisible));
                     //密文
                     TransformationMethod method = PasswordTransformationMethod.getInstance();
                     registerPassword.setTransformationMethod(method);

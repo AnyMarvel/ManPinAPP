@@ -1,9 +1,5 @@
 package com.mp.android.apps.login.fragment;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -20,7 +16,6 @@ import android.widget.Toast;
 import com.mp.android.apps.R;
 import com.mp.android.apps.login.LoginActivity;
 import com.mp.android.apps.login.LoginBaseFragment;
-import com.mp.android.apps.login.RegisterFragment;
 import com.mp.android.apps.login.bean.login.Data;
 import com.mp.android.apps.login.bean.login.LoginRootBean;
 import com.mp.android.apps.login.network.LoginAPI;
@@ -55,28 +50,14 @@ public class RegisterDailogFragment extends LoginBaseFragment implements View.On
     private String sexChoise;
 
     private boolean isHideFirst = true;// 输入框密码是否是隐藏的，默认为true
-
-    public static final String RESPONSE = "response";
-
-
-    public interface LoginInputListener {
-        void onLoginInputComplete(String userName, String password);
-    }
-
-
-//    @Nullable
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        //设置背景透明
-//        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//        return super.onCreateView(inflater, container, savedInstanceState);
-//    }
+    private LoginDailogFragment loginDailogFragment;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.login_dialog_register, null);
         initView(view);
+        loginDailogFragment=new LoginDailogFragment();
         return view;
     }
 
@@ -103,24 +84,6 @@ public class RegisterDailogFragment extends LoginBaseFragment implements View.On
         });
 
     }
-//
-//    @NonNull
-//    @Override
-//    public Dialog onCreateDialog(Bundle savedInstanceState) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//        View view= LayoutInflater.from(getActivity()).inflate(R.layout.login_dialog_register, null);
-//        registerHeader= view.findViewById(R.id.register_header);
-//        registerUserName= view.findViewById(R.id.register_userName);
-//        registerPassword= view.findViewById(R.id.register_password);
-//        registerNickname= view.findViewById(R.id.register_nickname);
-//        registerBtn= view.findViewById(R.id.register_button);
-//        img_hiddenPwd=view.findViewById(R.id.register_hidden_pwd);
-//        registerBtn.setOnClickListener(this);
-//        img_hiddenPwd.setOnClickListener(this);
-//        builder.setView(view);
-//        return builder.create();
-//    }
-
 
     @Override
     public void onClick(View v) {
@@ -192,9 +155,7 @@ public class RegisterDailogFragment extends LoginBaseFragment implements View.On
 
     @Override
     public boolean onBackPressed() {
-        Objects.requireNonNull(getActivity()).setResult(-1);
-        getActivity().overridePendingTransition(0, 0);
-        getActivity().finish();
+        replaceLoginFragment(loginDailogFragment);
         return true;
     }
 }

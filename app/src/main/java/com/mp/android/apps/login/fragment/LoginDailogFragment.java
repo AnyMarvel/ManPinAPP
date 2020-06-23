@@ -23,8 +23,6 @@ import com.mp.android.apps.login.utils.LoginManager;
 import com.mp.android.apps.networkutils.FastJsonConverterFactory;
 
 import java.util.Objects;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -48,7 +46,6 @@ public class LoginDailogFragment extends LoginBaseFragment implements View.OnCli
 
     private boolean isHideFirst = true;// 输入框密码是否是隐藏的，默认为true
 
-    boolean canFinish = false;
 
     private RegisterDailogFragment registerDailogFragment;
 

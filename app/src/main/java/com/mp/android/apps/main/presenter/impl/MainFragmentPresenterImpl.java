@@ -14,6 +14,7 @@ import com.mp.android.apps.main.view.IMainfragmentView;
 import com.mp.android.apps.monke.basemvplib.impl.BasePresenterImpl;
 import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
 import com.mp.android.apps.monke.monkeybook.cache.ACache;
+import com.mp.android.apps.utils.AssertFileUtils;
 
 import java.util.List;
 
@@ -53,6 +54,10 @@ public class MainFragmentPresenterImpl extends BasePresenterImpl<IMainfragmentVi
 
             @Override
             public void onError(Throwable e) {
+                if (TextUtils.isEmpty(mainCacheJson)){
+                    String localData = AssertFileUtils.getJson(mView.getContext(), "localhome.json");
+                    notifyRecyclerViewRefresh(localData, false);
+                }
             }
         });
     }
@@ -74,8 +79,14 @@ public class MainFragmentPresenterImpl extends BasePresenterImpl<IMainfragmentVi
                 List<String> carouselImages = JSON.parseArray(carouselJson, String.class);
                 List<HomeDesignBean> list = JSON.parseArray(homebookJson, HomeDesignBean.class);
                 List<SourceListContent> recommendList = JSON.parseArray(recommendJson, SourceListContent.class);
-                if (list != null && list.size() > 0) {
+                if (list != null && list.size() > 0
+                        && carouselImages != null && carouselImages.size() > 0
+                        && recommendList != null && recommendList.size() == 3
+                ) {
                     mView.notifyRecyclerView(list, carouselImages, recommendList, useCache);
+                } else {
+                    String localData = AssertFileUtils.getJson(mView.getContext(), "localhome.json");
+                    notifyRecyclerViewRefresh(localData, false);
                 }
             }
         }

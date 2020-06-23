@@ -83,7 +83,7 @@ public class RegisterDailogFragment extends LoginBaseFragment implements View.On
                 }
             }
         });
-
+        OnClickListener(view,getActivity());
     }
 
     @Override

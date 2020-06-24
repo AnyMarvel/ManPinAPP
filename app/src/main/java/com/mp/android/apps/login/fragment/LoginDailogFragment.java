@@ -20,10 +20,13 @@ import com.mp.android.apps.login.bean.login.Data;
 import com.mp.android.apps.login.bean.login.LoginRootBean;
 import com.mp.android.apps.login.network.LoginAPI;
 import com.mp.android.apps.login.utils.LoginManager;
+import com.mp.android.apps.login.utils.LoginUtils;
 import com.mp.android.apps.networkutils.FastJsonConverterFactory;
 
 import java.util.Objects;
+
 import androidx.annotation.Nullable;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,10 +64,6 @@ public class LoginDailogFragment extends LoginBaseFragment implements View.OnCli
         return dailogFragment;
     }
 
-    public interface LoginInputListener {
-        void onLoginInputComplete(String userName, String password);
-    }
-
 
     @Nullable
     @Override
@@ -99,11 +98,14 @@ public class LoginDailogFragment extends LoginBaseFragment implements View.OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.load_button:
-                LoginInputListener listener = (LoginInputListener) getActivity();
-                listener.onLoginInputComplete(loginUserName.getText().toString(), loginPassword.getText().toString());
-                break;
             case R.id.login_btn:
+                if (!LoginUtils.isValidUsername(loginUserName.getText().toString())) {
+                    Toast.makeText(getActivity(), "用户名长度不能小于3个字符且不能包含空格", Toast.LENGTH_LONG).show();
+                    return;
+                } else if (!LoginUtils.isValidPassword(loginPassword.getText().toString())) {
+                    Toast.makeText(getActivity(), "密码不合法,请更换密码(不能包含空格中文)", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl("http://aimanpin.com/")
                         .addConverterFactory(FastJsonConverterFactory.create())

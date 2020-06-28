@@ -2,6 +2,7 @@
 package com.mp.android.apps.monke.monkeybook.presenter.impl;
 
 import android.content.Intent;
+
 import androidx.annotation.NonNull;
 
 import com.hwangjr.rxbus.RxBus;
@@ -25,6 +26,7 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -89,7 +91,7 @@ public class ChoiceBookPresenterImpl extends BasePresenterImpl<IChoiceBookView> 
     private void searchBook(final long searchTime) {
         WebBookModelImpl.getInstance().getKindBook(url, page)
                 .subscribeOn(Schedulers.io())
-                .compose(((BaseActivity)mView.getContext()).<List<SearchBookBean>>bindUntilEvent(ActivityEvent.DESTROY))
+                .compose(((BaseActivity) mView.getContext()).<List<SearchBookBean>>bindUntilEvent(ActivityEvent.DESTROY))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SimpleObserver<List<SearchBookBean>>() {
                     @Override
@@ -105,10 +107,10 @@ public class ChoiceBookPresenterImpl extends BasePresenterImpl<IChoiceBookView> 
                             }
                             if (page == 1) {
                                 mView.refreshSearchBook(value);
-                                mView.refreshFinish(value.size()<=0?true:false);
+                                mView.refreshFinish(value.size() <= 0 ? true : false);
                             } else {
                                 mView.loadMoreSearchBook(value);
-                                mView.loadMoreFinish(value.size()<=0?true:false);
+                                mView.loadMoreFinish(value.size() <= 0 ? true : false);
                             }
                             page++;
                         }
@@ -131,10 +133,10 @@ public class ChoiceBookPresenterImpl extends BasePresenterImpl<IChoiceBookView> 
         bookShelfResult.setDurChapter(0);
         bookShelfResult.setDurChapterPage(0);
         bookShelfResult.setTag(searchBookBean.getTag());
-        WebBookModelImpl.getInstance().getBookInfo(bookShelfResult)
+        Objects.requireNonNull(WebBookModelImpl.getInstance().getBookInfo(bookShelfResult))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(((BaseActivity)mView.getContext()).<BookShelfBean>bindUntilEvent(ActivityEvent.DESTROY))
+                .compose(((BaseActivity) mView.getContext()).<BookShelfBean>bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(new SimpleObserver<BookShelfBean>() {
                     @Override
                     public void onNext(BookShelfBean value) {
@@ -163,7 +165,7 @@ public class ChoiceBookPresenterImpl extends BasePresenterImpl<IChoiceBookView> 
         return title;
     }
 
-    private void saveBookToShelf(final BookShelfBean bookShelfBean){
+    private void saveBookToShelf(final BookShelfBean bookShelfBean) {
         Observable.create(new ObservableOnSubscribe<BookShelfBean>() {
             @Override
             public void subscribe(ObservableEmitter<BookShelfBean> e) throws Exception {
@@ -176,7 +178,7 @@ public class ChoiceBookPresenterImpl extends BasePresenterImpl<IChoiceBookView> 
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(((BaseActivity)mView.getContext()).<BookShelfBean>bindUntilEvent(ActivityEvent.DESTROY))
+                .compose(((BaseActivity) mView.getContext()).<BookShelfBean>bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(new SimpleObserver<BookShelfBean>() {
                     @Override
                     public void onNext(BookShelfBean value) {
@@ -228,9 +230,9 @@ public class ChoiceBookPresenterImpl extends BasePresenterImpl<IChoiceBookView> 
             }
     )
     public void hadRemoveBook(BookShelfBean bookShelfBean) {
-        if(bookShelfs!=null){
-            for(int i=0;i<bookShelfs.size();i++){
-                if(bookShelfs.get(i).getNoteUrl().equals(bookShelfBean.getNoteUrl())){
+        if (bookShelfs != null) {
+            for (int i = 0; i < bookShelfs.size(); i++) {
+                if (bookShelfs.get(i).getNoteUrl().equals(bookShelfBean.getNoteUrl())) {
                     bookShelfs.remove(i);
                     break;
                 }

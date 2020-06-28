@@ -24,6 +24,7 @@ import com.monke.mprogressbar.OnProgressListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import me.grantland.widget.AutofitTextView;
 
@@ -262,7 +263,7 @@ public class BookShelfAdapter extends RefreshRecyclerViewAdapter {
             }
             holder.llDurcursor.setVisibility(View.VISIBLE);
             holder.mpbDurprogress.setVisibility(View.VISIBLE);
-            holder.mpbDurprogress.setMaxProgress(books.get(index).getBookInfoBean().getChapterlist().size());
+            holder.mpbDurprogress.setMaxProgress(Objects.requireNonNull(books.get(index).getBookInfoBean().getChapterlist()).size());
             float speed = books.get(index).getBookInfoBean().getChapterlist().size()*1.0f/100;
 
             holder.mpbDurprogress.setSpeed(speed<=0?1:speed);

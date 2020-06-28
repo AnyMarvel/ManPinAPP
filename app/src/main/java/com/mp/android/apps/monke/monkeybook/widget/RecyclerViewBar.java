@@ -21,6 +21,10 @@ import android.widget.LinearLayout;
 import com.mp.android.apps.R;
 import com.mp.android.apps.monke.monkeybook.utils.DensityUtil;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
+
 public class RecyclerViewBar extends LinearLayout {
     public static long SLIDE_ANIM_TIME = 800;
 
@@ -123,8 +127,8 @@ public class RecyclerViewBar extends LinearLayout {
             finalMarginTop = getHeight() - sliderHeight;
         }
         if (recyclerView != null) {
-            int position = Math.round(finalMarginTop / (getHeight() - sliderHeight) * (recyclerView.getAdapter().getItemCount() - 1));
-            ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(position, 0);
+            int position = Math.round(finalMarginTop / (getHeight() - sliderHeight) * (Objects.requireNonNull(recyclerView.getAdapter()).getItemCount() - 1));
+            ((LinearLayoutManager) Objects.requireNonNull(recyclerView.getLayoutManager())).scrollToPositionWithOffset(position, 0);
         }
 
         l.topMargin = Math.round(finalMarginTop);
@@ -136,7 +140,7 @@ public class RecyclerViewBar extends LinearLayout {
         if (this.recyclerView != null) {
             this.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
-                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                public void onScrollStateChanged(@NotNull RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
                     if (newState != 0) {
                         showSlide();
@@ -147,16 +151,16 @@ public class RecyclerViewBar extends LinearLayout {
                 }
 
                 @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                public void onScrolled(@NotNull RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
-                    scrollToPositionWithOffset(((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition());
+                    scrollToPositionWithOffset(((LinearLayoutManager) Objects.requireNonNull(recyclerView.getLayoutManager())).findFirstVisibleItemPosition());
                 }
             });
         }
     }
 
     public void scrollToPositionWithOffset(int position) {
-        if (recyclerView != null && position < recyclerView.getAdapter().getItemCount()) {
+        if (recyclerView != null && position < Objects.requireNonNull(recyclerView.getAdapter()).getItemCount()) {
             float temp = position * 1.0f / recyclerView.getAdapter().getItemCount();
             LayoutParams l = (LayoutParams) ivSlider.getLayoutParams();
             l.topMargin = Math.round(((getHeight() - sliderHeight) * temp));

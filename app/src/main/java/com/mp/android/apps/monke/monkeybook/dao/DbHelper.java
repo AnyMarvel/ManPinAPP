@@ -12,7 +12,7 @@ public class DbHelper {
     private DaoMaster mDaoMaster;
     private DaoSession mDaoSession;
 
-    private DbHelper(){
+    private DbHelper() {
         mHelper = new DaoMaster.DevOpenHelper(MyApplication.getInstance(), "monkebook_db", null);
         db = mHelper.getWritableDatabase();
         // 注意：该数据库连接属于 DaoMaster，所以多个 Session 指的是相同的数据库连接。
@@ -22,10 +22,10 @@ public class DbHelper {
 
     private static DbHelper instance;
 
-    public static DbHelper getInstance(){
-        if(null == instance){
-            synchronized (DbHelper.class){
-                if(null == instance){
+    public static DbHelper getInstance() {
+        if (null == instance) {
+            synchronized (DbHelper.class) {
+                if (null == instance) {
                     instance = new DbHelper();
                 }
             }
@@ -34,10 +34,16 @@ public class DbHelper {
     }
 
     public DaoSession getmDaoSession() {
+        if (mDaoSession == null) {
+            mDaoSession = mDaoMaster.newSession();
+        }
         return mDaoSession;
     }
 
     public SQLiteDatabase getDb() {
+        if (db == null) {
+            db = mHelper.getWritableDatabase();
+        }
         return db;
     }
 }

@@ -154,7 +154,7 @@ public class LoginDailogFragment extends LoginBaseFragment implements View.OnCli
                 break;
 
             case R.id.tv_register:
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.login_container, registerDailogFragment).commitNow();
+                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.login_container, registerDailogFragment).commitNow();
                 break;
 
         }
@@ -168,8 +168,8 @@ public class LoginDailogFragment extends LoginBaseFragment implements View.OnCli
     @Override
     public boolean onBackPressed() {
         Objects.requireNonNull(getActivity()).setResult(-1);
-        getActivity().overridePendingTransition(0, 0);
-        getActivity().finish();
+        Objects.requireNonNull(getActivity()).overridePendingTransition(0, 0);
+        Objects.requireNonNull(getActivity()).finish();
         return true;
     }
 

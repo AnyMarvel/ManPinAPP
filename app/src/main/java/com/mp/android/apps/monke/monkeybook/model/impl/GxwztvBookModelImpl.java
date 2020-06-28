@@ -29,6 +29,7 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -250,7 +251,7 @@ public class GxwztvBookModelImpl extends MBaseModelImpl implements IGxwztvBookMo
         if (introduceE.getElementById("all") != null) {
             introduce = introduceE.getElementById("all").text().replace("[收起]", "");
         } else {
-            introduce = introduceE.getElementById("shot").text();
+            introduce = Objects.requireNonNull(introduceE.getElementById("shot")).text();
         }
         bookInfoBean.setIntroduce("\u3000\u3000" + introduce);
         bookInfoBean.setChapterUrl(TAG + resultE.getElementsByClass("list-group-item tac").get(0).getElementsByTag("a").get(0).attr("href"));

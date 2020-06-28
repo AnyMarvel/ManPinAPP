@@ -13,12 +13,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.content.PermissionChecker;
+
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -374,22 +376,27 @@ public class EditCardActivity extends StoryboardActivity implements View.OnClick
                 public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                     String filePath = ManBitmapUtils.saveBitmap(getApplicationContext(), resource);
                     File outputFile = FileUtils.genEditFile();
-                    EditImageActivity.start(EditCardActivity.this, filePath, outputFile.getAbsolutePath(), LIVEBLANK_REQUEST_EDIT_BITMAP);
+                    if (outputFile != null) {
+                        EditImageActivity.start(EditCardActivity.this, filePath, outputFile.getAbsolutePath(), LIVEBLANK_REQUEST_EDIT_BITMAP);
+                    }
                     rotateloading.stop();
                 }
             });
 
         } else if (requestCode == LIVEBLANK_REQUEST_ALBUM && resultCode == RESULT_OK) {
-            String filepath = data.getStringExtra("imgPath");
-            path = filepath;
+            assert data != null;
+            path = data.getStringExtra("imgPath");
             File outputFile = FileUtils.genEditFile();
             EditImageActivity.start(this, path, outputFile.getAbsolutePath(), LIVEBLANK_REQUEST_EDIT_BITMAP);
         } else if (requestCode == LIVEBLANK_REQUEST_EDIT_BITMAP && resultCode == RESULT_OK) {
+            assert data != null;
             handleEditorImage(data);
         } else if (requestCode == LIVEBLANK_REQUEST_SEARCH_TO && resultCode == RESULT_OK) {
+            assert data != null;
             String peopleName = data.getStringExtra("peopleName");
             toPeople.setText(peopleName);
         } else if (requestCode == LIVEBLANK_REQUEST_SEARCH_By && resultCode == RESULT_OK) {
+            assert data != null;
             String bypeople = data.getStringExtra("peopleName");
             byPeople.setText(bypeople);
         }

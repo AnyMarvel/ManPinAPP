@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import io.reactivex.Observable;
@@ -332,7 +333,7 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
         bookShelfResult.setDurChapter(0);
         bookShelfResult.setDurChapterPage(0);
         bookShelfResult.setTag(searchBookBean.getTag());
-        WebBookModelImpl.getInstance().getBookInfo(bookShelfResult)
+        Objects.requireNonNull(WebBookModelImpl.getInstance().getBookInfo(bookShelfResult))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SimpleObserver<BookShelfBean>() {

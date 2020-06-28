@@ -129,6 +129,7 @@ public class LibraryActivity extends MBaseActivity<ILibraryPresenter> implements
         for (int i = 0; i < viewCount; i++) {
             View v = new View(this);
             v.setLayoutParams(tvLp);
+            if (linearLayout!=null)
             linearLayout.addView(v);
         }
     }

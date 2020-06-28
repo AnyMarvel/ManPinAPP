@@ -32,6 +32,7 @@ import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.Map;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -187,12 +188,12 @@ public class ExploreSquareActivity extends StoryboardActivity {
             public void onClick(View view) {
                 if (LoginManager.getInstance().checkLoginInfo()) {
                     Data data = LoginManager.getInstance().getLoginInfo();
-                    if (data.getUniqueID().startsWith("manpin_")) {
+                    if (Objects.requireNonNull(data.getUniqueID()).startsWith("manpin_")) {
                         LoginManager.getInstance().editLogoutInfo();
                         logoutAuthListener.onComplete(null, 1, null);
-                    } else if (data.getUniqueID().startsWith("QQ_")) {
+                    } else if (Objects.requireNonNull(data.getUniqueID()).startsWith("QQ_")) {
                         UMShareAPI.get(getApplicationContext()).deleteOauth(ExploreSquareActivity.this, SHARE_MEDIA.QQ, logoutAuthListener);
-                    } else if (data.getUniqueID().startsWith("SINA_")) {
+                    } else if (Objects.requireNonNull(data.getUniqueID()).startsWith("SINA_")) {
                         UMShareAPI.get(getApplicationContext()).deleteOauth(ExploreSquareActivity.this, SHARE_MEDIA.SINA, logoutAuthListener);
                     }
                 }

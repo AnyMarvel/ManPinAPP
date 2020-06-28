@@ -48,8 +48,6 @@ public class LoginActivity extends StoryboardActivity {
     private AnimatorHandler mHandler;
     private int mIndex;
 
-    private LoginMainFragment loginMainFragment;
-
     private LoginDailogFragment loginDailogFragment;
     private ImageView iv_back;
 

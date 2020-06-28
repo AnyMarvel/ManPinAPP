@@ -36,16 +36,17 @@ public class WebBookModelImpl implements IWebBookModel {
      */
     @Override
     public Observable<BookShelfBean> getBookInfo(BookShelfBean bookShelfBean) {
-        if (bookShelfBean.getTag().equals(GxwztvBookModelImpl.TAG)) {
-            return GxwztvBookModelImpl.getInstance().getBookInfo(bookShelfBean);
-        } else if (bookShelfBean.getTag().equals(LingdiankanshuStationBookModelImpl.TAG)) {
-            return LingdiankanshuStationBookModelImpl.getInstance().getBookInfo(bookShelfBean);
-        } else if (bookShelfBean.getTag().equals(ContentYb3ModelImpl.TAG)) {
-            return ContentYb3ModelImpl.getInstance().getBookInfo(bookShelfBean);
-        } else if (bookShelfBean.getTag().equals(ContentWxguanModelImpl.TAG)) {
-            return ContentWxguanModelImpl.getInstance().getBookInfo(bookShelfBean);
-        } else {
-            return null;
+        switch (bookShelfBean.getTag()) {
+            case GxwztvBookModelImpl.TAG:
+                return GxwztvBookModelImpl.getInstance().getBookInfo(bookShelfBean);
+            case LingdiankanshuStationBookModelImpl.TAG:
+                return LingdiankanshuStationBookModelImpl.getInstance().getBookInfo(bookShelfBean);
+            case ContentYb3ModelImpl.TAG:
+                return ContentYb3ModelImpl.getInstance().getBookInfo(bookShelfBean);
+            case ContentWxguanModelImpl.TAG:
+                return ContentWxguanModelImpl.getInstance().getBookInfo(bookShelfBean);
+            default:
+                return null;
         }
     }
 

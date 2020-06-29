@@ -19,12 +19,14 @@ public class AssertFileUtils {
         StringBuilder sb = new StringBuilder();
         AssetManager am = mContext.getAssets();
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    am.open(fileName)));
+            InputStreamReader inputStreamReader = new InputStreamReader(am.open(fileName));
+            BufferedReader br = new BufferedReader(inputStreamReader);
             String next = "";
             while (null != (next = br.readLine())) {
                 sb.append(next);
             }
+            br.close();
+            inputStreamReader.close();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

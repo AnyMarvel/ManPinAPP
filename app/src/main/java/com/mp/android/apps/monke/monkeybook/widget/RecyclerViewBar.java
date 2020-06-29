@@ -7,9 +7,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.CountDownTimer;
+
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -161,7 +163,7 @@ public class RecyclerViewBar extends LinearLayout {
 
     public void scrollToPositionWithOffset(int position) {
         if (recyclerView != null && position < Objects.requireNonNull(recyclerView.getAdapter()).getItemCount()) {
-            float temp = position * 1.0f / recyclerView.getAdapter().getItemCount();
+            float temp = position * 1.0f / Objects.requireNonNull(recyclerView.getAdapter()).getItemCount();
             LayoutParams l = (LayoutParams) ivSlider.getLayoutParams();
             l.topMargin = Math.round(((getHeight() - sliderHeight) * temp));
             ivSlider.setLayoutParams(l);
@@ -225,14 +227,14 @@ public class RecyclerViewBar extends LinearLayout {
     private ViewTreeObserver.OnGlobalLayoutListener layoutInitListener = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
         public void onGlobalLayout() {
-            if(getHeight()>0){
+            if (getHeight() > 0) {
                 if (height == 0) {
                     height = getHeight();
                 } else {
-                    int diff = height -  getHeight();
+                    int diff = height - getHeight();
                     if (diff != 0) {
                         LayoutParams l = (LayoutParams) ivSlider.getLayoutParams();
-                        l.topMargin = (int) ((l.topMargin*1.0f/(height-sliderHeight))*(getHeight()-sliderHeight));
+                        l.topMargin = (int) ((l.topMargin * 1.0f / (height - sliderHeight)) * (getHeight() - sliderHeight));
                         ivSlider.setLayoutParams(l);
                         height = getHeight();
                     }

@@ -29,6 +29,7 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -301,7 +302,7 @@ public class BookDetailPresenterImpl extends BasePresenterImpl<IBookDetailView> 
         bookShelfResult.setDurChapter(0);
         bookShelfResult.setDurChapterPage(0);
         bookShelfResult.setTag("http://www.wzzw.la");
-        WebBookModelImpl.getInstance().getBookInfo(bookShelfResult).subscribe(new Observer<BookShelfBean>() {
+        Objects.requireNonNull(WebBookModelImpl.getInstance().getBookInfo(bookShelfResult)).subscribe(new Observer<BookShelfBean>() {
             @Override
             public void onSubscribe(Disposable d) {
                 System.out.println("-------------subscribe");

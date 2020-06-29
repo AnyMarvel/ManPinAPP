@@ -387,7 +387,8 @@ public class EditCardActivity extends StoryboardActivity implements View.OnClick
             assert data != null;
             path = data.getStringExtra("imgPath");
             File outputFile = FileUtils.genEditFile();
-            EditImageActivity.start(this, path, outputFile.getAbsolutePath(), LIVEBLANK_REQUEST_EDIT_BITMAP);
+            if (outputFile != null)
+                EditImageActivity.start(this, path, outputFile.getAbsolutePath(), LIVEBLANK_REQUEST_EDIT_BITMAP);
         } else if (requestCode == LIVEBLANK_REQUEST_EDIT_BITMAP && resultCode == RESULT_OK) {
             assert data != null;
             handleEditorImage(data);

@@ -264,7 +264,7 @@ public class BookShelfAdapter extends RefreshRecyclerViewAdapter {
             holder.llDurcursor.setVisibility(View.VISIBLE);
             holder.mpbDurprogress.setVisibility(View.VISIBLE);
             holder.mpbDurprogress.setMaxProgress(Objects.requireNonNull(books.get(index).getBookInfoBean().getChapterlist()).size());
-            float speed = books.get(index).getBookInfoBean().getChapterlist().size()*1.0f/100;
+            float speed = Objects.requireNonNull(books.get(index).getBookInfoBean().getChapterlist()).size()*1.0f/100;
 
             holder.mpbDurprogress.setSpeed(speed<=0?1:speed);
             holder.mpbDurprogress.setProgressListener(new OnProgressListener() {

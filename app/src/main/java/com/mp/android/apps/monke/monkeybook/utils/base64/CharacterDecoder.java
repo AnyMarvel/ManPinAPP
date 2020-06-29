@@ -34,13 +34,13 @@ public abstract class CharacterDecoder {
     }
 
     protected int readFully(InputStream var1, byte[] var2, int var3, int var4) throws IOException {
-        for(int var5 = 0; var5 < var4; ++var5) {
+        for (int var5 = 0; var5 < var4; ++var5) {
             int var6 = var1.read();
             if (var6 == -1) {
                 return var5 == 0 ? -1 : var5;
             }
 
-            var2[var5 + var3] = (byte)var6;
+            var2[var5 + var3] = (byte) var6;
         }
 
         return var4;
@@ -51,12 +51,12 @@ public abstract class CharacterDecoder {
         PushbackInputStream var5 = new PushbackInputStream(var1);
         this.decodeBufferPrefix(var5, var2);
 
-        while(true) {
+        while (true) {
             try {
                 int var6 = this.decodeLinePrefix(var5, var2);
 
                 int var3;
-                for(var3 = 0; var3 + this.bytesPerAtom() < var6; var3 += this.bytesPerAtom()) {
+                for (var3 = 0; var3 + this.bytesPerAtom() < var6; var3 += this.bytesPerAtom()) {
                     this.decodeAtom(var5, var2, this.bytesPerAtom());
                     var4 += this.bytesPerAtom();
                 }
@@ -72,6 +72,7 @@ public abstract class CharacterDecoder {
                 this.decodeLineSuffix(var5, var2);
             } catch (CEStreamExhausted var8) {
                 this.decodeBufferSuffix(var5, var2);
+                var5.close();
                 return;
             }
         }

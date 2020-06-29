@@ -1,4 +1,4 @@
-//Copyright (c) 2017. 章钦豪. All rights reserved.
+
 package com.mp.android.apps.monke.monkeybook.view.adapter;
 
 import android.graphics.Color;

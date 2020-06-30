@@ -12,7 +12,6 @@
 
 
         <LinearLayout
-            android:id="@+id/login_linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -28,7 +27,6 @@
                 android:layout_marginTop="40dp">
 
                 <ImageView
-                    android:id="@+id/iv_userIconName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -62,7 +60,6 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rl_userPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp">

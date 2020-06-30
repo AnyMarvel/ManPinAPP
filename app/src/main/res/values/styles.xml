@@ -79,12 +79,6 @@
     </style>
 
     <!--Toolbar的Theme的设置，都是针对popup的设置-->
-    <style name="ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:colorBackground">@color/colorPrimary</item><!--设置背景颜色的-->
-        <item name="android:textColorPrimary">@android:color/white</item><!--设置文字颜色的-->
-        <item name="android:textSize">@dimen/sp_20</item><!--设置文字大小的-->
-
-    </style>
 
 
 </resources>

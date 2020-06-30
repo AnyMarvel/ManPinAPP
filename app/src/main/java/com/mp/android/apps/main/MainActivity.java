@@ -2,9 +2,12 @@ package com.mp.android.apps.main;
 
 
 import android.Manifest;
+
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,10 +19,11 @@ import com.mp.android.apps.StoryboardActivity;
 import com.mp.android.apps.explore.ExploreSquareActivity;
 import com.mp.android.apps.login.LoginActivity;
 import com.mp.android.apps.login.utils.LoginManager;
-import com.mp.android.apps.main.view.impl.MainFragment;
-import com.mp.android.apps.main.view.impl.PersonFragment;
-import com.mp.android.apps.main.view.MyImageTextView;
-import com.mp.android.apps.monke.monkeybook.view.impl.BookMainActivity;
+import com.mp.android.apps.main.bookR.view.impl.BookRFragment;
+import com.mp.android.apps.main.home.view.impl.MainFragment;
+import com.mp.android.apps.main.personal.PersonFragment;
+import com.mp.android.apps.main.home.view.MyImageTextView;
+import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
@@ -30,10 +34,37 @@ import java.util.List;
 public class MainActivity extends StoryboardActivity implements View.OnClickListener {
     MainFragment mainFragment;
     PersonFragment personFragment;
+    BookRFragment bookRFragment;
     MyImageTextView zhuye;
     MyImageTextView shujia;
     MyImageTextView quanzi;
     MyImageTextView wode;
+
+    private void hidenFragment(FragmentTransaction transaction) {
+        if (mainFragment != null) {
+            transaction.hide(mainFragment);
+        }
+        if (personFragment != null) {
+            transaction.hide(personFragment);
+        }
+        if (bookRFragment != null) {
+            transaction.hide(bookRFragment);
+        }
+    }
+
+    private void showFragment(BaseFragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        hidenFragment(transaction);
+        if (fragment != null) {
+            if (fragment.isAdded()) {
+                transaction.show(fragment);
+            } else {
+                transaction.add(R.id.main_contain, fragment).show(fragment);
+            }
+            transaction.commit();
+        }
+
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +73,8 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
         LoginManager.getInstance().initSP(this).initData();
         mainFragment = new MainFragment();
         personFragment = new PersonFragment();
-        getFragmentManager().beginTransaction().add(R.id.main_contain, mainFragment).commit();
+        bookRFragment = new BookRFragment();
+        showFragment(mainFragment);
         initViews();
     }
 
@@ -116,15 +148,14 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
         switch (id) {
             case R.id.zhuye:
                 changeNavImages(R.id.zhuye);
-                if (mainFragment.isAdded()) {
-                    getFragmentManager().beginTransaction().hide(personFragment).show(mainFragment).commit();
-                }
+                showFragment(mainFragment);
                 break;
             case R.id.shujia:
                 //todo 改造书架为fragment
-//                changeNavImages(R.id.shujia);
-                Intent intentBook = new Intent(MainActivity.this, BookMainActivity.class);
-                startActivity(intentBook);
+                changeNavImages(R.id.shujia);
+//                Intent intentBook = new Intent(MainActivity.this, BookMainActivity.class);
+//                startActivity(intentBook);
+                showFragment(bookRFragment);
                 break;
             case R.id.quanzi:
                 //todo  改造圈子为fragment
@@ -133,12 +164,7 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
                 break;
             case R.id.gerenzhongxin:
                 changeNavImages(R.id.gerenzhongxin);
-                if (personFragment.isAdded()) {
-                    getFragmentManager().beginTransaction().hide(mainFragment).show(personFragment).commit();
-                } else {
-                    getFragmentManager().beginTransaction().hide(mainFragment).add(R.id.main_contain, personFragment).commit();
-                }
-
+                showFragment(personFragment);
                 break;
             default:
                 break;

@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:orientation="horizontal">
 
-    <com.mp.android.apps.main.view.MyImageTextView
+    <com.mp.android.apps.main.home.view.MyImageTextView
         android:id="@+id/zhuye"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
         imageText:text="主页"
         imageText:textColor="@color/colorGray" />
 
-    <com.mp.android.apps.main.view.MyImageTextView
+    <com.mp.android.apps.main.home.view.MyImageTextView
         android:id="@+id/shujia"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -29,10 +29,10 @@
         android:layout_marginBottom="10dp"
         android:layout_weight="1"
         imageText:image="@drawable/shujia"
-        imageText:text="书架"
+        imageText:text="书城"
         imageText:textColor="@color/colorGray" />
 
-    <com.mp.android.apps.main.view.MyImageTextView
+    <com.mp.android.apps.main.home.view.MyImageTextView
         android:id="@+id/quanzi"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         imageText:text="圈子"
         imageText:textColor="@color/colorGray" />
 
-    <com.mp.android.apps.main.view.MyImageTextView
+    <com.mp.android.apps.main.home.view.MyImageTextView
         android:id="@+id/gerenzhongxin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

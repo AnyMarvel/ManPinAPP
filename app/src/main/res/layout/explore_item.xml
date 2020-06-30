@@ -46,6 +46,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:text="- 李俊涛"
+                    android:textColor="@color/black"
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
@@ -58,6 +59,7 @@
                 android:layout_below="@id/user_info"
                 android:layout_marginLeft="60dp"
                 android:text="童年的纸飞机,\n什么时间能再回到我的手里"
+                android:textColor="@color/black"
                 android:textSize="15dp" />
 
             <LinearLayout
@@ -74,71 +76,73 @@
                     android:id="@+id/current_position"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="甘肃 兰州" />
+                    android:text="甘肃 兰州"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/current_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1小时前" />
+                    android:text="1小时前"
+                    android:textColor="@color/black" />
             </LinearLayout>
         </RelativeLayout>
 
-<!--        <View-->
-<!--            android:id="@+id/enline"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="0.5dp"-->
-<!--            android:layout_below="@id/pic_information"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:background="@color/materialcolorpicker__black" />-->
+        <!--        <View-->
+        <!--            android:id="@+id/enline"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="0.5dp"-->
+        <!--            android:layout_below="@id/pic_information"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            android:background="@color/materialcolorpicker__black" />-->
 
-<!--        <LinearLayout-->
-<!--            android:id="@+id/interactive"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="40dp"-->
-<!--            android:layout_below="@id/enline"-->
-<!--            android:gravity="center"-->
-<!--            android:orientation="horizontal">-->
+        <!--        <LinearLayout-->
+        <!--            android:id="@+id/interactive"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="40dp"-->
+        <!--            android:layout_below="@id/enline"-->
+        <!--            android:gravity="center"-->
+        <!--            android:orientation="horizontal">-->
 
-<!--            <com.mp.android.apps.explore.views.DrawableCenterTextView-->
-<!--                android:id="@+id/leavingMessage"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:drawableLeft="@drawable/shai_dan_comment_iv"-->
-<!--                android:text="留言" />-->
+        <!--            <com.mp.android.apps.explore.views.DrawableCenterTextView-->
+        <!--                android:id="@+id/leavingMessage"-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:drawableLeft="@drawable/shai_dan_comment_iv"-->
+        <!--                android:text="留言" />-->
 
-<!--            <View-->
-<!--                android:layout_width="0.5dp"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_marginTop="2dp"-->
-<!--                android:layout_marginBottom="2dp"-->
-<!--                android:background="@color/materialcolorpicker__black" />-->
+        <!--            <View-->
+        <!--                android:layout_width="0.5dp"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:layout_marginTop="2dp"-->
+        <!--                android:layout_marginBottom="2dp"-->
+        <!--                android:background="@color/materialcolorpicker__black" />-->
 
-<!--            <com.mp.android.apps.explore.views.DrawableCenterTextView-->
-<!--                android:id="@+id/parise"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:lay   out_weight="1"-->
-<!--                android:drawableLeft="@drawable/shai_dan_unlike_icon"-->
-<!--                android:text="点赞" />-->
+        <!--            <com.mp.android.apps.explore.views.DrawableCenterTextView-->
+        <!--                android:id="@+id/parise"-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:lay   out_weight="1"-->
+        <!--                android:drawableLeft="@drawable/shai_dan_unlike_icon"-->
+        <!--                android:text="点赞" />-->
 
-<!--            <View-->
-<!--                android:layout_width="0.5dp"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_marginTop="2dp"-->
-<!--                android:layout_marginBottom="2dp"-->
-<!--                android:background="@color/materialcolorpicker__black" />-->
+        <!--            <View-->
+        <!--                android:layout_width="0.5dp"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:layout_marginTop="2dp"-->
+        <!--                android:layout_marginBottom="2dp"-->
+        <!--                android:background="@color/materialcolorpicker__black" />-->
 
-<!--            <com.mp.android.apps.explore.views.DrawableCenterTextView-->
-<!--                android:id="@+id/forward"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:drawableLeft="@drawable/common_sign_forward_normal"-->
-<!--                android:includeFontPadding="false"-->
-<!--                android:text="转发" />-->
+        <!--            <com.mp.android.apps.explore.views.DrawableCenterTextView-->
+        <!--                android:id="@+id/forward"-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:drawableLeft="@drawable/common_sign_forward_normal"-->
+        <!--                android:includeFontPadding="false"-->
+        <!--                android:text="转发" />-->
 
-<!--        </LinearLayout>-->
+        <!--        </LinearLayout>-->
     </RelativeLayout>
 </FrameLayout>

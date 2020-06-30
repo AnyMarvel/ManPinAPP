@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="74dp"
         android:background="@drawable/bg_round_white"
+        android:textColor="@color/black"
         android:gravity="center"
         android:text="相机拍照"
         android:textSize="16sp" />
@@ -24,6 +25,7 @@
         android:id="@+id/album_select"
         android:layout_width="match_parent"
         android:layout_height="74dp"
+        android:textColor="@color/black"
         android:background="@drawable/bg_round_white"
         android:gravity="center"
         android:text="本地相册"

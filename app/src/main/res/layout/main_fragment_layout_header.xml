@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <com.mp.android.apps.main.cycleimage.CycleViewPager
+            <com.mp.android.apps.main.home.cycleimage.CycleViewPager
                 android:id="@+id/cycle_view"
                 android:layout_width="match_parent"
                 android:layout_height="230dp" />
@@ -55,7 +55,7 @@
             android:orientation="horizontal">
 
 
-            <com.mp.android.apps.main.view.MyImageTextView
+            <com.mp.android.apps.main.home.view.MyImageTextView
                 android:id="@+id/huojian"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
                 app:textColor="@color/colorGray" />
 
 
-            <com.mp.android.apps.main.view.MyImageTextView
+            <com.mp.android.apps.main.home.view.MyImageTextView
                 android:id="@+id/jingxuan"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
                 app:textColor="@color/colorGray" />
 
 
-            <com.mp.android.apps.main.view.MyImageTextView
+            <com.mp.android.apps.main.home.view.MyImageTextView
                 android:id="@+id/xiaoshuo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
                 app:textColor="@color/colorGray" />
 
 
-            <com.mp.android.apps.main.view.MyImageTextView
+            <com.mp.android.apps.main.home.view.MyImageTextView
                 android:id="@+id/guangchang"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

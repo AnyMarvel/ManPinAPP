@@ -2,14 +2,15 @@ package com.mp.android.apps.monke.basemvplib.impl;
 
 import android.os.Bundle;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.mp.android.apps.monke.basemvplib.IPresenter;
 import com.mp.android.apps.monke.basemvplib.IView;
-import com.trello.rxlifecycle2.components.RxFragment;
 
-public abstract class BaseFragment<T extends IPresenter> extends RxFragment implements IView {
+public abstract class BaseFragment<T extends IPresenter> extends Fragment implements IView {
     protected View view;
     protected Bundle savedInstanceState;
     protected T mPresenter;

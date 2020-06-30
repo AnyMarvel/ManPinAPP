@@ -11,7 +11,6 @@
         android:paddingTop="150dp">
 
         <LinearLayout
-            android:id="@+id/register_linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -168,7 +167,6 @@
                         android:text="女:" />
 
                     <RadioButton
-                        android:id="@+id/sex_girl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -203,14 +201,12 @@
                     android:orientation="horizontal">
 
                     <View
-                        android:id="@+id/login_line"
                         android:layout_width="match_parent"
                         android:layout_height="1px"
                         android:layout_weight="1"
                         android:background="#000000" />
 
                     <TextView
-                        android:id="@+id/login_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

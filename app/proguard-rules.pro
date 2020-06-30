@@ -54,6 +54,9 @@
 -dontwarn androidx.media.**
 -dontnote androidx.media.**
 
+-keep class android.support.design.widget.** {*; }
+-dontwarn android.support.design.widget.**
+
 -keep class androidx.core.graphics.drawable.IconCompatParcelizer{*;}
 -dontwarn androidx.core.graphics.drawable.IconCompatParcelizer
 -dontnote androidx.core.graphics.drawable.IconCompatParcelizer

@@ -24,6 +24,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.apps.photolab.storyboard.pipeline.AssetLoader;
 import com.google.android.apps.photolab.storyboard.pipeline.ComicCache;
@@ -398,7 +399,8 @@ public class ComicActivity extends StoryboardActivity implements OnItemClickList
                 case REFRESH_SWIPE:
                     if (!this.comicPresenter.hasRefreshed) {
                         showedOneInstruction = true;
-                        Snackbar.make(this.root, getString(R.string.toast_pull_down), 0).show();
+//                        Snackbar.make(this.root, getString(R.string.toast_pull_down), Snackbar.LENGTH_LONG).show();
+                        Toast.makeText(getContext(),getString(R.string.toast_pull_down),Toast.LENGTH_SHORT).show();
                         if (!this.comicPresenter.hasOpenedMenu) {
                             break;
                         }
@@ -409,7 +411,8 @@ public class ComicActivity extends StoryboardActivity implements OnItemClickList
                 case MENU_TAP:
                     if (!this.comicPresenter.hasOpenedMenu) {
                         showedOneInstruction = true;
-                        Snackbar.make(this.root, getString(R.string.toast_tap), 0).show();
+//                        Snackbar.make(this.root, getString(R.string.toast_tap), Snackbar.LENGTH_LONG).show();
+                        Toast.makeText(getContext(),getString(R.string.toast_tap),Toast.LENGTH_SHORT).show();
                         break;
                     }
                     break;

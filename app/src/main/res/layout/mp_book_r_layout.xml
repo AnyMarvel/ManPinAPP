@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -50,6 +51,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textSize="26dp"
             android:layout_weight="1" />
 
         <ImageView
@@ -64,9 +66,35 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="40dp">
+
+        <com.lwj.widget.viewpagerindicator.ViewPagerIndicator
+            android:id="@+id/indicator_circle_line"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="3"
+            android:background="@color/white"
+            app:vpi_default_color="@color/white"
+            app:vpi_distance="85dp"
+            app:vpi_distanceType="BY_DISTANCE"
+            app:vpi_indicatorType="SPRING"
+            app:vpi_radius="15dp"
+            app:vpi_selected_color="#FF23F57E" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/mp_bookr_viewpager"
         android:layout_width="match_parent"
-        android:overScrollMode="never"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:overScrollMode="never" />
 </LinearLayout>

@@ -9,9 +9,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="18dp"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="18dp">
 
         <TextView
             android:id="@+id/mp_bookr_layout_recommend"
@@ -69,8 +69,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="40dp">
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="48dp">
 
         <com.lwj.widget.viewpagerindicator.ViewPagerIndicator
             android:id="@+id/indicator_circle_line"

@@ -1,4 +1,4 @@
-package com.mp.android.apps.main.home.viewholder;
+package com.mp.android.apps.main.home.adapter.viewholder;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;

@@ -8,10 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mp.android.apps.R;
-import com.mp.android.apps.main.home.viewholder.BottomViewHolder;
-import com.mp.android.apps.main.home.viewholder.ClassicRecommendHolder;
-import com.mp.android.apps.main.home.viewholder.ContentViewHolder;
-import com.mp.android.apps.main.home.viewholder.HeaderViewHolder;
+import com.mp.android.apps.main.home.adapter.viewholder.BottomViewHolder;
+import com.mp.android.apps.main.home.adapter.viewholder.ClassicRecommendHolder;
+import com.mp.android.apps.main.home.adapter.viewholder.ContentViewHolder;
+import com.mp.android.apps.main.home.adapter.viewholder.HeaderViewHolder;
 import com.mp.android.apps.main.home.bean.HomeDesignBean;
 import com.mp.android.apps.main.home.bean.SourceListContent;
 

@@ -1,12 +1,13 @@
-package com.mp.android.apps.main.home.viewholder;
+package com.mp.android.apps.main.bookR.adapter.recommendholder;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -35,10 +36,15 @@ public class ClassicRecommendHolder extends RecyclerView.ViewHolder {
     private TextView recommendTowText;
     private TextView recommendThreeText;
 
+    /**
+     * Title内容显示
+     */
+    private TextView cardTitle;
 
     private LinearLayout recommendFirstLayout;
     private LinearLayout recommendTowLayout;
     private LinearLayout recommendThreeLayout;
+
 
     public ClassicRecommendHolder(@NonNull View itemView) {
         super(itemView);
@@ -50,13 +56,16 @@ public class ClassicRecommendHolder extends RecyclerView.ViewHolder {
         recommendTowText = itemView.findViewById(R.id.mp_home_recommend_towText);
         recommendThreeText = itemView.findViewById(R.id.mp_home_recommend_threeText);
 
+        cardTitle = itemView.findViewById(R.id.cardTitle);
+
         recommendFirstLayout = itemView.findViewById(R.id.FirstLayout);
         recommendTowLayout = itemView.findViewById(R.id.TowLayout);
         recommendThreeLayout = itemView.findViewById(R.id.ThreeLayout);
     }
 
-    public void handleClassicRecommendEvent(Context context, List<SourceListContent> recommendList, int mContentPosition, OnHomeAdapterClickListener listener) {
+    public void handleClassicRecommendEvent(Context context, List<SourceListContent> recommendList, BookRRecommendListener listener) {
 
+        cardTitle.setText("随机推荐");
 
         Glide.with(context).load(recommendList.get(0).getCoverUrl())
                 .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(recommendFirstImage);

@@ -1,4 +1,4 @@
-package com.mp.android.apps.main.home.viewholder;
+package com.mp.android.apps.main.home.adapter.viewholder;
 
 import android.content.Context;
 import android.graphics.Color;

@@ -28,7 +28,6 @@ public class BookRRecommendFPresenterImpl extends BasePresenterImpl<IBookRRecomm
 
     public BookRRecommendFPresenterImpl() {
         this.mCache = ACache.get(MyApplication.getInstance());
-        ;
     }
 
     @Override

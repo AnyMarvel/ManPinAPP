@@ -8,11 +8,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mp.android.apps.R;
+import com.mp.android.apps.main.home.adapter.OnHomeAdapterClickListener;
 
 public class HeaderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private LinearLayout categoryLayout;
     private LinearLayout rankingLayout;
-    private BookRRecommendListener listener;
+    private OnHomeAdapterClickListener listener;
 
     public HeaderViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -22,12 +23,12 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder implements View.On
         rankingLayout.setOnClickListener(this);
     }
 
-    public void handleHeaderView(BookRRecommendListener listener) {
+    public void handleHeaderView(OnHomeAdapterClickListener listener) {
         this.listener = listener;
     }
 
     @Override
     public void onClick(View v) {
-        listener.onItemClick(v);
+        listener.onItemClickListener(v);
     }
 }

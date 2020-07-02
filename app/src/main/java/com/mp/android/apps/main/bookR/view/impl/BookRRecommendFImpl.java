@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mp.android.apps.R;
 import com.mp.android.apps.main.bookR.adapter.BookRRecommendFRecyclerAdapter;
-import com.mp.android.apps.main.bookR.adapter.recommendholder.BookRRecommendListener;
 import com.mp.android.apps.main.bookR.presenter.IBookRRecommendFPresenter;
 import com.mp.android.apps.main.bookR.presenter.impl.BookRRecommendFPresenterImpl;
 import com.mp.android.apps.main.bookR.view.IBookRRecommendFView;
+import com.mp.android.apps.main.home.adapter.OnHomeAdapterClickListener;
 import com.mp.android.apps.main.home.bean.SourceListContent;
 import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
@@ -28,8 +28,9 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 
 import java.util.List;
+import java.util.Objects;
 
-public class BookRRecommendFImpl extends BaseFragment<IBookRRecommendFPresenter> implements IBookRRecommendFView, BookRRecommendListener {
+public class BookRRecommendFImpl extends BaseFragment<IBookRRecommendFPresenter> implements IBookRRecommendFView, OnHomeAdapterClickListener {
     RecyclerView recommendRecyclerView;
     BookRRecommendFRecyclerAdapter recommendRecyclerAdapter;
     SmartRefreshLayout bookRrefreshLayout;
@@ -44,7 +45,7 @@ public class BookRRecommendFImpl extends BaseFragment<IBookRRecommendFPresenter>
         super.bindView();
         recommendRecyclerView = view.findViewById(R.id.mp_bookr_recommend_recyclerview);
         bookRrefreshLayout = view.findViewById(R.id.bookr_recommend_refreshLayout);
-        bookRrefreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));
+        bookRrefreshLayout.setRefreshFooter(new ClassicsFooter(Objects.requireNonNull(getContext())));
     }
 
     @Override
@@ -55,6 +56,7 @@ public class BookRRecommendFImpl extends BaseFragment<IBookRRecommendFPresenter>
         recommendRecyclerView.setLayoutManager(layoutManager);
         recommendRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mPresenter.initBookRRcommendData();
+        bookRrefreshLayout.finishRefresh();
         bookRrefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
@@ -74,7 +76,7 @@ public class BookRRecommendFImpl extends BaseFragment<IBookRRecommendFPresenter>
     }
 
     @Override
-    public void onItemClick(View view) {
+    public void onItemClickListener(View view) {
 
     }
 
@@ -99,6 +101,11 @@ public class BookRRecommendFImpl extends BaseFragment<IBookRRecommendFPresenter>
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity(), view, "img_cover").toBundle());
     }
 
+    @Override
+    public void onContentChangeClickListener(int mContentPosition, String kinds) {
+
+    }
+
 
     @Override
     public void notifyRecyclerView(List<SourceListContent> recommendList, List<SourceListContent> hotRankingList, List<SourceListContent> contentList, boolean useCache) {
@@ -116,10 +123,10 @@ public class BookRRecommendFImpl extends BaseFragment<IBookRRecommendFPresenter>
 
     @Override
     public void notifyMoreRecommendList(List<SourceListContent> recommendList) {
-        if (recommendRecyclerAdapter!=null){
+        if (recommendRecyclerAdapter != null && recommendList != null) {
             recommendRecyclerAdapter.addRecommendList(recommendList);
-            bookRrefreshLayout.finishLoadMore();
         }
+        bookRrefreshLayout.finishLoadMore();
     }
 
 

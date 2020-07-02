@@ -55,7 +55,7 @@ public class ClassicRecommendHolder extends RecyclerView.ViewHolder {
         recommendThreeLayout = itemView.findViewById(R.id.ThreeLayout);
     }
 
-    public void handleClassicRecommendEvent(Context context, List<SourceListContent> recommendList, int mContentPosition, OnHomeAdapterClickListener listener) {
+    public void handleClassicRecommendEvent(Context context, List<SourceListContent> recommendList, OnHomeAdapterClickListener listener) {
 
 
         Glide.with(context).load(recommendList.get(0).getCoverUrl())

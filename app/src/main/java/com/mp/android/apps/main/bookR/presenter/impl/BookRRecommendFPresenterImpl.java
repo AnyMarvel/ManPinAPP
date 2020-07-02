@@ -60,28 +60,29 @@ public class BookRRecommendFPresenterImpl extends BasePresenterImpl<IBookRRecomm
         });
     }
 
+    @Override
+    public void getNextPageContent() {
+        IBookRFragmentModelImpl.getInstance().getMoreRecommendList().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleObserver<String>() {
+            @Override
+            public void onNext(String s) {
 
-//    public List<SourceListContent> getNextPageContent() {
-//        IBookRFragmentModelImpl.getInstance().getMoreRecommendList().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleObserver<String>() {
-//            @Override
-//            public void onNext(String s) {
-//
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                String localData = AssertFileUtils.getJson(mView.getContext(), "bookRMoreRecommend.json");
-//                JSONObject jsonObject = JSON.parseObject(localData);
-//                JSONObject data = (JSONObject) jsonObject.get("data");
-//                if (data != null) {
-//                    String moreRecommendJson = JSON.toJSONString(data.get("moreRecommendList"));
-//                    List<SourceListContent> moreRecommendList = JSON.parseArray(moreRecommendJson, SourceListContent.class);
-//                }
-//
-//            }
-//        });
-//
-//    }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                String localData = AssertFileUtils.getJson(mView.getContext(), "bookRMoreRecommend.json");
+                JSONObject jsonObject = JSON.parseObject(localData);
+                JSONObject data = (JSONObject) jsonObject.get("data");
+                if (data != null) {
+                    String moreRecommendJson = JSON.toJSONString(data.get("moreRecommendList"));
+                    List<SourceListContent> moreRecommendList = JSON.parseArray(moreRecommendJson, SourceListContent.class);
+                    mView.notifyMoreRecommendList(moreRecommendList);
+                }
+
+            }
+        });
+
+    }
 
 
     /**

@@ -19,21 +19,18 @@ import java.util.List;
 
 public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
     private int mHeaderCount = 1;// 头部的数量
-    private int mBottomCount = 1;// 底部的数量
     private int mRecommendCount = 1;//经典推荐的数量
 
     // 首先定义几个常量标记item的类型
     private static final int ITEM_TYPE_HEADER = 0;
     private static final int ITEM_TYPE_CONTENT = 1;
-    private static final int ITEM_TYPE_BOTTOM = 2;
-    private static final int ITEM_TYPE_RECOMMEND = 3;
+    private static final int ITEM_TYPE_RECOMMEND = 2;
 
     private Context context;
     private List<HomeDesignBean> listContent;
     //中间内容位置信息
     private int mContentPosition;
-    //底部view位置信息
-    private int mBottomPosition;
+
     //各种点击时间接口,实现在fragment中
     private OnHomeAdapterClickListener listener;
     //轮播图数据源
@@ -73,10 +70,7 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
         return mHeaderCount != 0 && position < mHeaderCount;
     }
 
-    // 判断当前item是否是底部
-    private boolean isBottomView(int position) {
-        return mBottomCount != 0 && position >= (mHeaderCount + mRecommendCount + getContentItemCount());
-    }
+
 
     // 判断当前item是否为经典推荐位
     private boolean isRecommendView(int position) {
@@ -93,12 +87,9 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
         } else if (viewType == ITEM_TYPE_RECOMMEND) {
             view = LayoutInflater.from(context).inflate(R.layout.main_fragment_recycle_item_recommend, parent, false);
             return new ClassicRecommendHolder(view);
-        } else if (viewType == ITEM_TYPE_CONTENT) {
+        } else{
             view = LayoutInflater.from(context).inflate(R.layout.mian_fragment_recycle_item, parent, false);
             return new ContentViewHolder(view);
-        } else {
-            view = LayoutInflater.from(context).inflate(R.layout.main_fragment_layout_footer, parent, false);
-            return new BottomViewHolder(view);
         }
     }
 
@@ -108,10 +99,7 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
         if (isHeaderView(position)) {
             // 头部View
             return ITEM_TYPE_HEADER;
-        } else if (isBottomView(position)) {
-            // 底部View
-            return ITEM_TYPE_BOTTOM;
-        } else if (isRecommendView(position)) {
+        }  else if (isRecommendView(position)) {
             return ITEM_TYPE_RECOMMEND;
         } else {
             // 内容View
@@ -123,7 +111,6 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         mContentPosition = position - mHeaderCount - mRecommendCount;
-        mBottomPosition = position - mHeaderCount - -mRecommendCount - getContentItemCount();
         if (holder instanceof HeaderViewHolder) {
             ((HeaderViewHolder) holder).handleClassicRecommendEvent(carouselImages, listener);
         } else if (holder instanceof ClassicRecommendHolder) {
@@ -138,7 +125,7 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return listContent.size() + mHeaderCount + mRecommendCount + mBottomCount;
+        return listContent.size() + mHeaderCount + mRecommendCount;
     }
 
     /**

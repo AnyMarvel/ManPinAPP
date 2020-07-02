@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface IBookRRecommendFView extends IView {
     void notifyRecyclerView(List<SourceListContent> recommendList, List<SourceListContent> hotRankingList, List<SourceListContent> contentList, boolean useCache);
+
+    void notifyMoreRecommendList(List<SourceListContent> recommendList);
 }

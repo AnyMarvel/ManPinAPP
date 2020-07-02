@@ -3,9 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingLeft="18dp"
+    android:paddingLeft="9dp"
     android:paddingRight="18dp"
-    android:paddingTop="18dp"
+    android:paddingTop="9dp"
+    android:paddingBottom="9dp"
     >
 
     <LinearLayout

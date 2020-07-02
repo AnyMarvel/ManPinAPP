@@ -5,10 +5,15 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mp_bookr_recommend_recyclerview"
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/bookr_recommend_refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:overScrollMode="never"
-        />
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mp_bookr_recommend_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never" />
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 </FrameLayout>

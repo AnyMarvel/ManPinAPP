@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,12 +22,17 @@ import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
 import com.mp.android.apps.monke.monkeybook.presenter.impl.BookDetailPresenterImpl;
 import com.mp.android.apps.monke.monkeybook.view.impl.BookDetailActivity;
+import com.scwang.smart.refresh.footer.ClassicsFooter;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 
 import java.util.List;
 
 public class BookRRecommendFImpl extends BaseFragment<IBookRRecommendFPresenter> implements IBookRRecommendFView, BookRRecommendListener {
     RecyclerView recommendRecyclerView;
     BookRRecommendFRecyclerAdapter recommendRecyclerAdapter;
+    SmartRefreshLayout bookRrefreshLayout;
 
     @Override
     protected void initData() {
@@ -37,6 +43,8 @@ public class BookRRecommendFImpl extends BaseFragment<IBookRRecommendFPresenter>
     protected void bindView() {
         super.bindView();
         recommendRecyclerView = view.findViewById(R.id.mp_bookr_recommend_recyclerview);
+        bookRrefreshLayout = view.findViewById(R.id.bookr_recommend_refreshLayout);
+        bookRrefreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));
     }
 
     @Override
@@ -47,6 +55,12 @@ public class BookRRecommendFImpl extends BaseFragment<IBookRRecommendFPresenter>
         recommendRecyclerView.setLayoutManager(layoutManager);
         recommendRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mPresenter.initBookRRcommendData();
+        bookRrefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                mPresenter.getNextPageContent();
+            }
+        });
     }
 
     @Override
@@ -97,6 +111,14 @@ public class BookRRecommendFImpl extends BaseFragment<IBookRRecommendFPresenter>
             recommendRecyclerAdapter.setHotRankingList(hotRankingList);
             recommendRecyclerAdapter.setContentList(contentList);
             recommendRecyclerAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void notifyMoreRecommendList(List<SourceListContent> recommendList) {
+        if (recommendRecyclerAdapter!=null){
+            recommendRecyclerAdapter.addRecommendList(recommendList);
+            bookRrefreshLayout.finishLoadMore();
         }
     }
 

@@ -20,13 +20,17 @@ public class BookRRecommendFRecyclerAdapter extends RecyclerView.Adapter {
     private static final int ITEM_TYPE_HEADER = 0;
     private static final int ITEM_TYPE_RECOMMEND = 1;
     private static final int ITEM_TYPE_HOT_SEARCH = 2;
-    private static final int ITEM_TYPE_CONTENT = 4;
     private static final int ITEM_TYPE_CONTENT_TITLE = 3;
+    private static final int ITEM_TYPE_CONTENT = 4;
 
 
     private Context context;
 
     private BookRRecommendListener listener;
+
+    public List<SourceListContent> getContentList() {
+        return contentList;
+    }
 
     /**
      * 随机推荐数据为3条数据
@@ -52,6 +56,11 @@ public class BookRRecommendFRecyclerAdapter extends RecyclerView.Adapter {
 
     public void setRecommendList(List<SourceListContent> recommendList) {
         this.recommendList = recommendList;
+    }
+
+    public void addRecommendList(List<SourceListContent> recommendList) {
+        getContentList().addAll(recommendList);
+        notifyDataSetChanged();
     }
 
     public void setHotRankingList(List<SourceListContent> hotRankingList) {
@@ -99,7 +108,7 @@ public class BookRRecommendFRecyclerAdapter extends RecyclerView.Adapter {
             view = LayoutInflater.from(context).inflate(R.layout.mp_bookr_recommend_list_text, parent, false);
             return new BottomViewHolder(view);
         } else {
-            view = LayoutInflater.from(context).inflate(R.layout.mp_bookr_recommend_list_item, parent,false);
+            view = LayoutInflater.from(context).inflate(R.layout.mp_bookr_recommend_list_item, parent, false);
             return new BookRRecommendListHolder(view);
         }
     }
@@ -112,8 +121,6 @@ public class BookRRecommendFRecyclerAdapter extends RecyclerView.Adapter {
             ((ClassicRecommendHolder) holder).handleClassicRecommendEvent(context, recommendList, listener);
         } else if (holder instanceof BookrHotRankingHolder) {
             ((BookrHotRankingHolder) holder).handleBookRHotRanking(context, hotRankingList, listener);
-        } else if (holder instanceof BottomViewHolder) {
-
         } else if (holder instanceof BookRRecommendListHolder) {
             ((BookRRecommendListHolder) holder).handleBookRRecommendContent(context, contentList, listener, position - 4);
         }
@@ -121,6 +128,7 @@ public class BookRRecommendFRecyclerAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 5+contentList.size();
+
+        return 5 + contentList.size();
     }
 }

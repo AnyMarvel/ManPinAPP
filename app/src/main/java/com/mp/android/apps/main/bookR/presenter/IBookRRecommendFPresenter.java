@@ -8,5 +8,5 @@ import java.util.List;
 public interface IBookRRecommendFPresenter extends IPresenter {
     void initBookRRcommendData();
 
-
+    void getNextPageContent();
 }

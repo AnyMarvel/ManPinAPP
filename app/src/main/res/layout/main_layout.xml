@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:fitsSystemWindows="true">
 
-        <FrameLayout
-            android:id="@+id/main_contain"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
     <LinearLayout
+        android:id="@+id/homeNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
         <View
@@ -25,7 +21,12 @@
             layout="@layout/main_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
     </LinearLayout>
 
-</FrameLayout>
+    <FrameLayout
+        android:id="@+id/main_contain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/homeNav" />
+
+</RelativeLayout>

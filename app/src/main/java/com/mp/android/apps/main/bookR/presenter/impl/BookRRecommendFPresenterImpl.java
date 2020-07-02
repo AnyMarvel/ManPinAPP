@@ -65,19 +65,20 @@ public class BookRRecommendFPresenterImpl extends BasePresenterImpl<IBookRRecomm
         IBookRFragmentModelImpl.getInstance().getMoreRecommendList().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleObserver<String>() {
             @Override
             public void onNext(String s) {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                String localData = AssertFileUtils.getJson(mView.getContext(), "bookRMoreRecommend.json");
-                JSONObject jsonObject = JSON.parseObject(localData);
+                JSONObject jsonObject = JSON.parseObject(s);
                 JSONObject data = (JSONObject) jsonObject.get("data");
                 if (data != null) {
                     String moreRecommendJson = JSON.toJSONString(data.get("moreRecommendList"));
                     List<SourceListContent> moreRecommendList = JSON.parseArray(moreRecommendJson, SourceListContent.class);
                     mView.notifyMoreRecommendList(moreRecommendList);
+                }else {
+                    mView.notifyMoreRecommendList(null);
                 }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mView.notifyMoreRecommendList(null);
 
             }
         });

@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.mp.android.apps.R;
-import com.mp.android.apps.main.bookR.adapter.recommendholder.BookRRecommendListener;
+import com.mp.android.apps.main.home.adapter.OnHomeAdapterClickListener;
 import com.mp.android.apps.main.home.bean.SourceListContent;
 
 import java.util.List;
@@ -38,7 +38,7 @@ public class BookRRecommendListHolder extends RecyclerView.ViewHolder {
     }
 
     public void handleBookRRecommendContent(Context context, List<SourceListContent> contentList
-            , BookRRecommendListener listener, int position) {
+            , OnHomeAdapterClickListener listener, int position) {
         if (contentList.size() > 0 && contentList.size() > position && contentList.get(position) != null) {
             Glide.with(context).load(contentList.get(position).getCoverUrl())
                     .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(itemImage);

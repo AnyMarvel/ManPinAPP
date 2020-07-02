@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    android:text="女神的第一高手"
+                    android:text="图书名称"
                     android:textColor="@color/black"
                     android:textSize="16dp"
                     android:textStyle="bold" />
@@ -90,8 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center"
                     android:layout_marginTop="5dp"
-                    android:text="另一"
-                    android:background="@drawable/mp_text_frame"
+                    android:text="分类"
                     android:textColor="@color/black"
                     android:textSize="12dp" />
             </FrameLayout>

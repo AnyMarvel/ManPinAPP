@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mp.android.apps.R;
 import com.mp.android.apps.main.bookR.adapter.recommendholder.*;
+import com.mp.android.apps.main.home.adapter.OnHomeAdapterClickListener;
 import com.mp.android.apps.main.home.adapter.viewholder.BottomViewHolder;
+import com.mp.android.apps.main.home.adapter.viewholder.ClassicRecommendHolder;
 import com.mp.android.apps.main.home.bean.SourceListContent;
 
 import java.util.List;
@@ -26,7 +28,7 @@ public class BookRRecommendFRecyclerAdapter extends RecyclerView.Adapter {
 
     private Context context;
 
-    private BookRRecommendListener listener;
+    private OnHomeAdapterClickListener listener;
 
     public List<SourceListContent> getContentList() {
         return contentList;
@@ -43,7 +45,7 @@ public class BookRRecommendFRecyclerAdapter extends RecyclerView.Adapter {
 
     private List<SourceListContent> contentList;
 
-    public BookRRecommendFRecyclerAdapter(Context context, BookRRecommendListener listener,
+    public BookRRecommendFRecyclerAdapter(Context context, OnHomeAdapterClickListener listener,
                                           List<SourceListContent> recommendList,
                                           List<SourceListContent> hotRankingList,
                                           List<SourceListContent> contentList) {
@@ -59,7 +61,7 @@ public class BookRRecommendFRecyclerAdapter extends RecyclerView.Adapter {
     }
 
     public void addRecommendList(List<SourceListContent> recommendList) {
-        getContentList().addAll(recommendList);
+        this.contentList.addAll(recommendList);
         notifyDataSetChanged();
     }
 

@@ -114,7 +114,7 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
         if (holder instanceof HeaderViewHolder) {
             ((HeaderViewHolder) holder).handleClassicRecommendEvent(carouselImages, listener);
         } else if (holder instanceof ClassicRecommendHolder) {
-            ((ClassicRecommendHolder) holder).handleClassicRecommendEvent(context, recommendList, mContentPosition, listener);
+            ((ClassicRecommendHolder) holder).handleClassicRecommendEvent(context, recommendList, listener);
         } else if (holder instanceof ContentViewHolder) {
             ((ContentViewHolder) holder).handleContentEvent(context, listContent, mContentPosition, listener);
         } else {

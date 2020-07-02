@@ -12,16 +12,10 @@ import com.mp.android.apps.main.bookR.view.IBookRManFView;
 import com.mp.android.apps.main.bookR.view.IBookRWomanFView;
 import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
 
-public class BookRWomanFImpl extends BaseFragment<IBookRWomanFPresenter> implements IBookRWomanFView {
-
-
-    @Override
-    protected IBookRWomanFPresenter initInjector() {
-        return new BookRWomanFPresenterImpl();
-    }
+public class BookRWomanFImpl extends BookRManFImpl {
 
     @Override
-    protected View createView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.mp_book_r_woman_layout, container, false);
+    public void initLocalData() {
+        mPresenter.initWoManData();
     }
 }

@@ -55,6 +55,7 @@
             android:layout_weight="1" />
 
         <ImageView
+            android:id="@+id/bookr_fragment_search"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center"

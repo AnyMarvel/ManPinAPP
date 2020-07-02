@@ -1,8 +1,11 @@
 package com.mp.android.apps.main.bookR.view.impl;
 
+import android.content.Intent;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.viewpager.widget.ViewPager;
@@ -14,6 +17,7 @@ import com.mp.android.apps.main.bookR.presenter.IBookRFragmentPresenter;
 import com.mp.android.apps.main.bookR.presenter.impl.BookRFragmentPresenterImpl;
 import com.mp.android.apps.main.bookR.view.IBookRFragmentView;
 import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
+import com.mp.android.apps.monke.monkeybook.view.impl.SearchActivity;
 import com.mp.android.apps.monke.monkeybook.widget.refreshview.BaseRefreshListener;
 
 import java.util.ArrayList;
@@ -25,6 +29,8 @@ public class BookRFragment extends BaseFragment<IBookRFragmentPresenter> impleme
     public TextView layoutWomen;
     private ViewPager viewPager;
     private List<BaseFragment> sourceList;
+    private ImageView searchImage;
+
     ViewPagerIndicator viewPagerIndicator;
     /**
      * 推荐fragment
@@ -65,7 +71,7 @@ public class BookRFragment extends BaseFragment<IBookRFragmentPresenter> impleme
         layoutWomen.setOnClickListener(this);
         viewPager = view.findViewById(R.id.mp_bookr_viewpager);
         viewPagerIndicator = view.findViewById(R.id.indicator_circle_line);
-
+        searchImage=view.findViewById(R.id.bookr_fragment_search);
 
     }
 
@@ -79,6 +85,13 @@ public class BookRFragment extends BaseFragment<IBookRFragmentPresenter> impleme
         viewPager.setOffscreenPageLimit(3);
         viewPager.addOnPageChangeListener(new MybookViewPageChangeListener());
         viewPagerIndicator.setViewPager(viewPager, sourceList.size());
+        searchImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent searchIntent = new Intent(getActivity(), SearchActivity.class);
+                startActivity(searchIntent);
+            }
+        });
     }
 
     @Override

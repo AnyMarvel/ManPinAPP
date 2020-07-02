@@ -85,6 +85,7 @@ public class BookRRecommendFImpl extends BaseFragment<IBookRRecommendFPresenter>
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity(), view, "img_cover").toBundle());
     }
 
+
     @Override
     public void notifyRecyclerView(List<SourceListContent> recommendList, List<SourceListContent> hotRankingList, List<SourceListContent> contentList, boolean useCache) {
 
@@ -98,4 +99,6 @@ public class BookRRecommendFImpl extends BaseFragment<IBookRRecommendFPresenter>
             recommendRecyclerAdapter.notifyDataSetChanged();
         }
     }
+
+
 }

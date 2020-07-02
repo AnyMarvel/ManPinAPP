@@ -4,8 +4,9 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:paddingLeft="18dp"
+    android:paddingRight="18dp"
     android:paddingTop="18dp"
-    android:paddingRight="18dp">
+    >
 
     <LinearLayout
         android:id="@+id/mp_bookr_recommend_list_item_layout"

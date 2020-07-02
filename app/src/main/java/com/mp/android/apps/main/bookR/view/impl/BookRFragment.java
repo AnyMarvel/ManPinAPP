@@ -76,6 +76,7 @@ public class BookRFragment extends BaseFragment<IBookRFragmentPresenter> impleme
         sourceList.add(manFragment);
         sourceList.add(womanFragmen);
         viewPager.setAdapter(new MybookViewPagerAdapter(getFragmentManager(), sourceList));
+        viewPager.setOffscreenPageLimit(3);
         viewPager.addOnPageChangeListener(new MybookViewPageChangeListener());
         viewPagerIndicator.setViewPager(viewPager, sourceList.size());
     }

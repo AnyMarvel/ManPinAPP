@@ -95,6 +95,6 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/mp_bookr_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:overScrollMode="never" />
 </LinearLayout>

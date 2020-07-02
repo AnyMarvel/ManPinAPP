@@ -20,8 +20,9 @@ public class BookRRecommendFRecyclerAdapter extends RecyclerView.Adapter {
     private static final int ITEM_TYPE_HEADER = 0;
     private static final int ITEM_TYPE_RECOMMEND = 1;
     private static final int ITEM_TYPE_HOT_SEARCH = 2;
-    private static final int ITEM_TYPE_CONTENT = 3;
-    private static final int ITEM_TYPE_BOTTOM = 4;
+    private static final int ITEM_TYPE_CONTENT = 4;
+    private static final int ITEM_TYPE_CONTENT_TITLE = 3;
+
 
     private Context context;
 
@@ -74,8 +75,8 @@ public class BookRRecommendFRecyclerAdapter extends RecyclerView.Adapter {
             return ITEM_TYPE_RECOMMEND;
         } else if (position == 2) {
             return ITEM_TYPE_HOT_SEARCH;
-        } else if (position == 4) {
-            return ITEM_TYPE_BOTTOM;
+        } else if (position == 3) {
+            return ITEM_TYPE_CONTENT_TITLE;
         } else {
             return ITEM_TYPE_CONTENT;
         }
@@ -94,11 +95,11 @@ public class BookRRecommendFRecyclerAdapter extends RecyclerView.Adapter {
         } else if (viewType == ITEM_TYPE_HOT_SEARCH) {
             view = LayoutInflater.from(context).inflate(R.layout.mp_bookr_hot_ranking, parent, false);
             return new BookrHotRankingHolder(view);
-        } else if (viewType == ITEM_TYPE_BOTTOM) {
-            view = LayoutInflater.from(context).inflate(R.layout.main_fragment_layout_footer, parent, false);
+        } else if (viewType == ITEM_TYPE_CONTENT_TITLE) {
+            view = LayoutInflater.from(context).inflate(R.layout.mp_bookr_recommend_list_text, parent, false);
             return new BottomViewHolder(view);
         } else {
-            view = LayoutInflater.from(context).inflate(R.layout.mp_bookr_recommend_list, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.mp_bookr_recommend_list_item, parent,false);
             return new BookRRecommendListHolder(view);
         }
     }
@@ -113,14 +114,13 @@ public class BookRRecommendFRecyclerAdapter extends RecyclerView.Adapter {
             ((BookrHotRankingHolder) holder).handleBookRHotRanking(context, hotRankingList, listener);
         } else if (holder instanceof BottomViewHolder) {
 
-        }
-        else if (holder instanceof BookRRecommendListHolder) {
-            ((BookRRecommendListHolder) holder).handleClassicRecommendEvent(context, contentList, listener);
+        } else if (holder instanceof BookRRecommendListHolder) {
+            ((BookRRecommendListHolder) holder).handleBookRRecommendContent(context, contentList, listener, position - 4);
         }
     }
 
     @Override
     public int getItemCount() {
-        return 4;
+        return 5+contentList.size();
     }
 }

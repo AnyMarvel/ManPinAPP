@@ -39,7 +39,6 @@ public class BookRRecommendListHolder extends RecyclerView.ViewHolder {
 
     public void handleBookRRecommendContent(Context context, List<SourceListContent> contentList
             , BookRRecommendListener listener, int position) {
-        System.out.println("ssssssssssssssssss:" + position);
         if (contentList.size() > 0 && contentList.size() > position && contentList.get(position) != null) {
             Glide.with(context).load(contentList.get(position).getCoverUrl())
                     .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(itemImage);

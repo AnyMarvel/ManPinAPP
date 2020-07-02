@@ -1,8 +1,10 @@
 package com.mp.android.apps.main.home.adapter;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +73,6 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
     }
 
 
-
     // 判断当前item是否为经典推荐位
     private boolean isRecommendView(int position) {
         return mRecommendCount != 0 && position == 1;
@@ -87,7 +88,7 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
         } else if (viewType == ITEM_TYPE_RECOMMEND) {
             view = LayoutInflater.from(context).inflate(R.layout.main_fragment_recycle_item_recommend, parent, false);
             return new ClassicRecommendHolder(view);
-        } else{
+        } else {
             view = LayoutInflater.from(context).inflate(R.layout.mian_fragment_recycle_item, parent, false);
             return new ContentViewHolder(view);
         }
@@ -99,7 +100,7 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
         if (isHeaderView(position)) {
             // 头部View
             return ITEM_TYPE_HEADER;
-        }  else if (isRecommendView(position)) {
+        } else if (isRecommendView(position)) {
             return ITEM_TYPE_RECOMMEND;
         } else {
             // 内容View
@@ -114,7 +115,7 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
         if (holder instanceof HeaderViewHolder) {
             ((HeaderViewHolder) holder).handleClassicRecommendEvent(carouselImages, listener);
         } else if (holder instanceof ClassicRecommendHolder) {
-            ((ClassicRecommendHolder) holder).handleClassicRecommendEvent(context, recommendList, listener);
+            ((ClassicRecommendHolder) holder).handleClassicRecommendEvent(context, recommendList, null, listener);
         } else if (holder instanceof ContentViewHolder) {
             ((ContentViewHolder) holder).handleContentEvent(context, listContent, mContentPosition, listener);
         } else {

@@ -31,9 +31,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class BookRRecommendFImpl extends BaseFragment<IBookRRecommendFPresenter> implements IBookRRecommendFView, OnHomeAdapterClickListener {
-    RecyclerView recommendRecyclerView;
-    BookRRecommendFRecyclerAdapter recommendRecyclerAdapter;
-    SmartRefreshLayout bookRrefreshLayout;
+    private RecyclerView recommendRecyclerView;
+    private BookRRecommendFRecyclerAdapter recommendRecyclerAdapter;
+    private SmartRefreshLayout bookRrefreshLayout;
 
     @Override
     protected void initData() {

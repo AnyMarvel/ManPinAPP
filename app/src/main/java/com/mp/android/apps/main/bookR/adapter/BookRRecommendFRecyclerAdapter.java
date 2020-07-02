@@ -120,7 +120,7 @@ public class BookRRecommendFRecyclerAdapter extends RecyclerView.Adapter {
         if (holder instanceof HeaderViewHolder) {
             ((HeaderViewHolder) holder).handleHeaderView(listener);
         } else if (holder instanceof ClassicRecommendHolder) {
-            ((ClassicRecommendHolder) holder).handleClassicRecommendEvent(context, recommendList, listener);
+            ((ClassicRecommendHolder) holder).handleClassicRecommendEvent(context, recommendList,"随机推荐", listener);
         } else if (holder instanceof BookrHotRankingHolder) {
             ((BookrHotRankingHolder) holder).handleBookRHotRanking(context, hotRankingList, listener);
         } else if (holder instanceof BookRRecommendListHolder) {

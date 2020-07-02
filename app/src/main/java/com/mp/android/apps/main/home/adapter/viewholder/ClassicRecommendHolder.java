@@ -1,8 +1,11 @@
 package com.mp.android.apps.main.home.adapter.viewholder;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,6 +43,8 @@ public class ClassicRecommendHolder extends RecyclerView.ViewHolder {
     private LinearLayout recommendTowLayout;
     private LinearLayout recommendThreeLayout;
 
+    private TextView layoutTitle;
+
     public ClassicRecommendHolder(@NonNull View itemView) {
         super(itemView);
         recommendFirstImage = itemView.findViewById(R.id.mp_home_recommend_firstImage);
@@ -53,10 +58,13 @@ public class ClassicRecommendHolder extends RecyclerView.ViewHolder {
         recommendFirstLayout = itemView.findViewById(R.id.FirstLayout);
         recommendTowLayout = itemView.findViewById(R.id.TowLayout);
         recommendThreeLayout = itemView.findViewById(R.id.ThreeLayout);
+        layoutTitle = itemView.findViewById(R.id.cardTitle);
     }
 
-    public void handleClassicRecommendEvent(Context context, List<SourceListContent> recommendList, OnHomeAdapterClickListener listener) {
-
+    public void handleClassicRecommendEvent(Context context, List<SourceListContent> recommendList, String title, OnHomeAdapterClickListener listener) {
+        if (!TextUtils.isEmpty(title)) {
+            layoutTitle.setText(title);
+        }
 
         Glide.with(context).load(recommendList.get(0).getCoverUrl())
                 .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(recommendFirstImage);

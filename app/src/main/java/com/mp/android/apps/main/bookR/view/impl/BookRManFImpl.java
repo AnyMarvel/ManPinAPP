@@ -38,14 +38,20 @@ import java.util.Objects;
 public class BookRManFImpl extends BaseFragment<IBookRManFPresenter> implements IBookRManFView, OnHomeAdapterClickListener {
     private RecyclerView recommendRecyclerView;
     private BookManFAdapter recommendRecyclerAdapter;
+
     @Override
     protected IBookRManFPresenter initInjector() {
         return new BookRManFPresenterImpl();
     }
+
     @Override
     protected void bindView() {
         super.bindView();
         recommendRecyclerView = view.findViewById(R.id.mp_bookr_man_recyclerview);
+    }
+
+    public void initLocalData() {
+        mPresenter.initManData();
     }
 
     @Override
@@ -55,8 +61,9 @@ public class BookRManFImpl extends BaseFragment<IBookRManFPresenter> implements 
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         recommendRecyclerView.setLayoutManager(layoutManager);
         recommendRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mPresenter.initManData();
+        initLocalData();
     }
+
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.mp_book_r_man_layout, container, false);

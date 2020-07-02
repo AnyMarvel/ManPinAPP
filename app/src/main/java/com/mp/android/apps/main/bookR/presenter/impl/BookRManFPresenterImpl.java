@@ -22,8 +22,14 @@ import io.reactivex.schedulers.Schedulers;
 
 public class BookRManFPresenterImpl extends BasePresenterImpl<IBookRManFView> implements IBookRManFPresenter {
     private ACache mCache;
-
-    public static final String BOOKRMANDATA = "book_fragment_man_cache";
+    /**
+     * 男生推荐缓存
+     */
+    private static final String BOOKRMANDATA = "book_fragment_man_cache";
+    /**
+     * 女生推荐缓存
+     */
+    private static final String BOOKRWOMANDATA = "book_fragment_woman_cache";
 
     public BookRManFPresenterImpl() {
         this.mCache = ACache.get(MyApplication.getInstance());
@@ -59,6 +65,31 @@ public class BookRManFPresenterImpl extends BasePresenterImpl<IBookRManFView> im
         });
     }
 
+    @Override
+    public void initWoManData() {
+        String recommendCacheJson = mCache.getAsString(BOOKRWOMANDATA);
+        if (!TextUtils.isEmpty(recommendCacheJson)) {
+            notifyRecyclerViewRefresh(recommendCacheJson, true);
+        }
+
+        IBookRFragmentModelImpl.getInstance().getBookWomanHomeData().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleObserver<String>() {
+            @Override
+            public void onNext(String s) {
+                notifyRecyclerViewRefresh(s, false);
+                mCache.put(BOOKRWOMANDATA, s);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                if (TextUtils.isEmpty(recommendCacheJson)) {
+                    String localData = AssertFileUtils.getJson(mView.getContext(), "bookWomanfragment.json");
+                    notifyRecyclerViewRefresh(localData, false);
+                }
+
+            }
+        });
+    }
+
     private void notifyRecyclerViewRefresh(String s, boolean useCache) {
         JSONObject jsonObject = JSON.parseObject(s);
         JSONObject data = (JSONObject) jsonObject.get("data");
@@ -70,7 +101,7 @@ public class BookRManFPresenterImpl extends BasePresenterImpl<IBookRManFView> im
 
                 List<SourceListContent> recommendList = JSON.parseArray(recommendJson, SourceListContent.class);
                 List<SourceListContent> hotRankingList = JSON.parseArray(hotRankingJson, SourceListContent.class);
-                List<HomeDesignBean>  contentList = JSON.parseArray(contentListJson, HomeDesignBean.class);
+                List<HomeDesignBean> contentList = JSON.parseArray(contentListJson, HomeDesignBean.class);
                 if (recommendList != null && recommendList.size() == 3
                         && hotRankingList != null && hotRankingList.size() == 6
                         && contentList != null && contentList.size() > 0

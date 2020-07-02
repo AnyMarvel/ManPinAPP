@@ -128,6 +128,8 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text="女神的第一高手"
+                android:textColor="@color/black"
+
                 android:textSize="13dp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -155,6 +157,8 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text="女神的第一高手"
+                android:textColor="@color/black"
+
                 android:textSize="13dp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -183,6 +187,8 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text="女神的第一高手"
+                android:textColor="@color/black"
+
                 android:textSize="13dp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -210,6 +216,8 @@
                 android:layout_marginTop="10dp"
                 android:ellipsize="end"
                 android:maxLines="2"
+                android:textColor="@color/black"
+
                 android:text="女神的第一高手"
                 android:textSize="13dp"
                 android:textStyle="bold" />

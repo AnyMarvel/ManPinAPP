@@ -23,6 +23,7 @@ import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
 import com.mp.android.apps.monke.monkeybook.presenter.impl.BookDetailPresenterImpl;
 import com.mp.android.apps.monke.monkeybook.view.impl.BookDetailActivity;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
+import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
@@ -46,6 +47,7 @@ public class BookRRecommendFImpl extends BaseFragment<IBookRRecommendFPresenter>
         recommendRecyclerView = view.findViewById(R.id.mp_bookr_recommend_recyclerview);
         bookRrefreshLayout = view.findViewById(R.id.bookr_recommend_refreshLayout);
         bookRrefreshLayout.setRefreshFooter(new ClassicsFooter(Objects.requireNonNull(getContext())));
+        bookRrefreshLayout.setRefreshHeader(new ClassicsHeader(Objects.requireNonNull(getContext())));
     }
 
     @Override
@@ -56,13 +58,14 @@ public class BookRRecommendFImpl extends BaseFragment<IBookRRecommendFPresenter>
         recommendRecyclerView.setLayoutManager(layoutManager);
         recommendRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mPresenter.initBookRRcommendData();
-        bookRrefreshLayout.finishRefresh();
+
         bookRrefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 mPresenter.getNextPageContent();
             }
         });
+        bookRrefreshLayout.finishRefresh();
     }
 
     @Override
@@ -126,6 +129,7 @@ public class BookRRecommendFImpl extends BaseFragment<IBookRRecommendFPresenter>
         if (recommendRecyclerAdapter != null && recommendList != null) {
             recommendRecyclerAdapter.addRecommendList(recommendList);
         }
+
         bookRrefreshLayout.finishLoadMore();
     }
 

@@ -72,6 +72,7 @@ public class BookRFragment extends BaseFragment<IBookRFragmentPresenter> impleme
         viewPager = view.findViewById(R.id.mp_bookr_viewpager);
         viewPagerIndicator = view.findViewById(R.id.indicator_circle_line);
         searchImage=view.findViewById(R.id.bookr_fragment_search);
+        searchImage.setOnClickListener(this);
 
     }
 
@@ -85,13 +86,6 @@ public class BookRFragment extends BaseFragment<IBookRFragmentPresenter> impleme
         viewPager.setOffscreenPageLimit(3);
         viewPager.addOnPageChangeListener(new MybookViewPageChangeListener());
         viewPagerIndicator.setViewPager(viewPager, sourceList.size());
-        searchImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent searchIntent = new Intent(getActivity(), SearchActivity.class);
-                startActivity(searchIntent);
-            }
-        });
     }
 
     @Override
@@ -116,6 +110,10 @@ public class BookRFragment extends BaseFragment<IBookRFragmentPresenter> impleme
                 break;
             case R.id.mp_bookr_layout_women:
                 viewPager.setCurrentItem(WOMANFRAGMENT);
+                break;
+            case R.id.bookr_fragment_search:
+                Intent searchIntent = new Intent(getActivity(), SearchActivity.class);
+                startActivity(searchIntent);
                 break;
             default:
                 break;

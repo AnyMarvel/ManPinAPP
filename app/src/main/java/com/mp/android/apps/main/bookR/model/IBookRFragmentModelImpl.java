@@ -46,16 +46,16 @@ public class IBookRFragmentModelImpl extends MBaseModelImpl {
         return getRetrofitObject(TAG).create(IBookRFragmentAPI.class).getBookWoManFragmentdata();
     }
     interface IBookRFragmentAPI {
-        @GET("/mpsc/recommendHome")
+        @GET("/appview/recommendHome")
         Observable<String> getBookRHomeData();
 
-        @GET("/mpsc/getMoreRecommend")
+        @GET("/appview/getMoreRecommend")
         Observable<String> getMoreRecommendList();
 
-        @GET("/mpsc/getManData")
+        @GET("/appview/recommendManData")
         Observable<String> getBookManFragmentdata();
 
-        @GET("/mpsc/getWomanData")
+        @GET("/appview/recommendWomanData")
         Observable<String> getBookWoManFragmentdata();
     }
 

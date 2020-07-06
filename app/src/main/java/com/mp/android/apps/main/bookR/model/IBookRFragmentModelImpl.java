@@ -4,9 +4,10 @@ import com.mp.android.apps.monke.monkeybook.base.MBaseModelImpl;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 public class IBookRFragmentModelImpl extends MBaseModelImpl {
-    private final String TAG = "http://aimanpin.com";
+    private final String TAG = "http://10.12.176.59:8080";
 
     public static IBookRFragmentModelImpl getInstance() {
         return new IBookRFragmentModelImpl();
@@ -26,8 +27,8 @@ public class IBookRFragmentModelImpl extends MBaseModelImpl {
      *
      * @return
      */
-    public Observable<String> getMoreRecommendList() {
-        return getRetrofitObject(TAG).create(IBookRFragmentAPI.class).getMoreRecommendList();
+    public Observable<String> getMoreRecommendList(int page) {
+        return getRetrofitObject(TAG).create(IBookRFragmentAPI.class).getMoreRecommendList(page);
     }
 
     /**
@@ -49,8 +50,8 @@ public class IBookRFragmentModelImpl extends MBaseModelImpl {
         @GET("/appview/recommendHome")
         Observable<String> getBookRHomeData();
 
-        @GET("/appview/getMoreRecommend")
-        Observable<String> getMoreRecommendList();
+        @GET("/appview/recommendPagData")
+        Observable<String> getMoreRecommendList(@Query("page")int page);
 
         @GET("/appview/recommendManData")
         Observable<String> getBookManFragmentdata();

@@ -59,8 +59,8 @@ public class BookRRecommendFPresenterImpl extends BasePresenterImpl<IBookRRecomm
     }
 
     @Override
-    public void getNextPageContent() {
-        IBookRFragmentModelImpl.getInstance().getMoreRecommendList().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleObserver<String>() {
+    public void getNextPageContent(int page) {
+        IBookRFragmentModelImpl.getInstance().getMoreRecommendList(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleObserver<String>() {
             @Override
             public void onNext(String s) {
                 JSONObject jsonObject = JSON.parseObject(s);

@@ -44,6 +44,15 @@ public class BookRRecommendFRecyclerAdapter extends RecyclerView.Adapter {
     private List<SourceListContent> hotRankingList;
 
     private List<SourceListContent> contentList;
+    /**
+     * 记录当前推荐list页数
+     */
+    private int mContentListPage = 0;
+
+    public int getmContentListPage() {
+        return mContentListPage;
+    }
+
 
     public BookRRecommendFRecyclerAdapter(Context context, OnHomeAdapterClickListener listener,
                                           List<SourceListContent> recommendList,
@@ -58,10 +67,12 @@ public class BookRRecommendFRecyclerAdapter extends RecyclerView.Adapter {
 
     public void setRecommendList(List<SourceListContent> recommendList) {
         this.recommendList = recommendList;
+        this.mContentListPage = 1;
     }
 
     public void addRecommendList(List<SourceListContent> recommendList) {
         this.contentList.addAll(recommendList);
+        this.mContentListPage += 1;
         notifyDataSetChanged();
     }
 
@@ -120,7 +131,7 @@ public class BookRRecommendFRecyclerAdapter extends RecyclerView.Adapter {
         if (holder instanceof HeaderViewHolder) {
             ((HeaderViewHolder) holder).handleHeaderView(listener);
         } else if (holder instanceof ClassicRecommendHolder) {
-            ((ClassicRecommendHolder) holder).handleClassicRecommendEvent(context, recommendList,"随机推荐", listener);
+            ((ClassicRecommendHolder) holder).handleClassicRecommendEvent(context, recommendList, "随机推荐", listener);
         } else if (holder instanceof BookrHotRankingHolder) {
             ((BookrHotRankingHolder) holder).handleBookRHotRanking(context, hotRankingList, listener);
         } else if (holder instanceof BookRRecommendListHolder) {
@@ -131,6 +142,6 @@ public class BookRRecommendFRecyclerAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
 
-        return 5 + contentList.size();
+        return 4 + contentList.size();
     }
 }

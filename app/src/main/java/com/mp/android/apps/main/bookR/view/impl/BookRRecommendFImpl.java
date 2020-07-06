@@ -27,6 +27,7 @@ import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
 import java.util.Objects;
@@ -58,14 +59,6 @@ public class BookRRecommendFImpl extends BaseFragment<IBookRRecommendFPresenter>
         recommendRecyclerView.setLayoutManager(layoutManager);
         recommendRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mPresenter.initBookRRcommendData();
-
-        bookRrefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                mPresenter.getNextPageContent();
-            }
-        });
-        bookRrefreshLayout.finishRefresh();
     }
 
     @Override
@@ -122,6 +115,19 @@ public class BookRRecommendFImpl extends BaseFragment<IBookRRecommendFPresenter>
             recommendRecyclerAdapter.setContentList(contentList);
             recommendRecyclerAdapter.notifyDataSetChanged();
         }
+        bookRrefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                mPresenter.getNextPageContent(recommendRecyclerAdapter.getmContentListPage() + 1);
+            }
+        });
+        bookRrefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mPresenter.initBookRRcommendData();
+            }
+        });
+        bookRrefreshLayout.finishRefresh();
     }
 
     @Override

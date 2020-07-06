@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface IBookRManFView extends IView {
     void notifyRecyclerView(List<SourceListContent> recommendList, List<SourceListContent> hotRankingList, List<HomeDesignBean> listContent, boolean useCache);
+    void notifyContentItemUpdate(int position, List<SourceListContent> sourceListContents);
 
 }

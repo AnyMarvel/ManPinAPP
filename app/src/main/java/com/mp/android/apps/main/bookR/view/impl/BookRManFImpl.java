@@ -62,11 +62,16 @@ public class BookRManFImpl extends BaseFragment<IBookRManFPresenter> implements 
         recommendRecyclerView.setLayoutManager(layoutManager);
         recommendRecyclerView.setItemAnimator(new DefaultItemAnimator());
         initLocalData();
+        setClassicRecommendTitle("男生推荐");
     }
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.mp_book_r_man_layout, container, false);
+    }
+
+    public void setClassicRecommendTitle(String title) {
+        recommendRecyclerAdapter.setRecommendTitle(title);
     }
 
     @Override
@@ -81,6 +86,8 @@ public class BookRManFImpl extends BaseFragment<IBookRManFPresenter> implements 
             recommendRecyclerAdapter.notifyDataSetChanged();
         }
     }
+
+
 
     @Override
     public void onItemClickListener(View view) {
@@ -110,6 +117,10 @@ public class BookRManFImpl extends BaseFragment<IBookRManFPresenter> implements 
 
     @Override
     public void onContentChangeClickListener(int mContentPosition, String kinds) {
-
+        mPresenter.getBookCardData(mContentPosition,  kinds);
+    }
+    @Override
+    public void notifyContentItemUpdate(int position, List<SourceListContent> sourceListContents) {
+        recommendRecyclerAdapter.updateContentByPosition(position, sourceListContents);
     }
 }

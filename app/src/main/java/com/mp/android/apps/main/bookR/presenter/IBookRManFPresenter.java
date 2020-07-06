@@ -6,4 +6,6 @@ public interface IBookRManFPresenter extends IPresenter {
     void initManData();
 
     void initWoManData();
+
+    void getBookCardData(int mContentPosition, String kinds);
 }

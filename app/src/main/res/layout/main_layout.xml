@@ -23,10 +23,40 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
+
     <FrameLayout
         android:id="@+id/main_contain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/homeNav" />
+
+    <FrameLayout
+        android:id="@+id/main_fl_warn"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_above="@+id/homeNav"
+        android:layout_gravity="bottom"
+        android:background="#70000000"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="所有小说来源均来自各个网站，本APP仅提供转载服务"
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/main_iv_warn_close"
+            android:layout_width="35dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical|right"
+            android:paddingLeft="13dp"
+            android:paddingRight="8dp"
+            android:src="@drawable/icon_close" />
+    </FrameLayout>
 
 </RelativeLayout>

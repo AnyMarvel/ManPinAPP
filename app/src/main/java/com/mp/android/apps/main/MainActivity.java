@@ -11,6 +11,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mp.android.apps.R;
@@ -39,6 +41,8 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
     MyImageTextView shujia;
     MyImageTextView quanzi;
     MyImageTextView wode;
+    private FrameLayout flWarn;
+    private ImageView flWarnClose;
 
     private void hidenFragment(FragmentTransaction transaction) {
         if (mainFragment != null) {
@@ -87,6 +91,15 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
         quanzi.setOnClickListener(this);
         wode = findViewById(R.id.gerenzhongxin);
         wode.setOnClickListener(this);
+        flWarn = findViewById(R.id.main_fl_warn);
+        flWarnClose = findViewById(R.id.main_iv_warn_close);
+        flWarnClose.setOnClickListener(this);
+        flWarnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flWarn.setVisibility(View.GONE);
+            }
+        });
     }
 
     private static final int EXPLORESQUARE_LOGIN = 1005;

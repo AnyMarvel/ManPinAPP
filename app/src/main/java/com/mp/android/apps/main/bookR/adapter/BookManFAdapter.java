@@ -26,7 +26,7 @@ public class BookManFAdapter extends RecyclerView.Adapter {
     private static final int ITEM_TYPE_HOT_SEARCH = 2;
     private static final int ITEM_TYPE_CONTENT = 3;
 
-
+    private String recommendTitle = "男生推荐";
     private Context context;
 
     private OnHomeAdapterClickListener listener;
@@ -97,12 +97,20 @@ public class BookManFAdapter extends RecyclerView.Adapter {
         this.listContent = listContent;
     }
 
+    public String getRecommendTitle() {
+        return recommendTitle;
+    }
+
+    public void setRecommendTitle(String recommendTitle) {
+        this.recommendTitle = recommendTitle;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof HeaderViewHolder) {
             ((HeaderViewHolder) holder).handleHeaderView(listener);
         } else if (holder instanceof ClassicRecommendHolder) {
-            ((ClassicRecommendHolder) holder).handleClassicRecommendEvent(context, recommendList, "男生推荐", listener);
+            ((ClassicRecommendHolder) holder).handleClassicRecommendEvent(context, recommendList, recommendTitle, listener);
         } else if (holder instanceof BookrHotRankingHolder) {
             ((BookrHotRankingHolder) holder).handleBookRHotRanking(context, hotRankingList, listener);
         } else if (holder instanceof BookManContentHolder) {
@@ -113,5 +121,19 @@ public class BookManFAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         return 3 + listContent.size();
+    }
+
+    /**
+     * 基于position修改数据源,刷新单个item
+     *
+     * @param mContentPosition   mContentPosition位置,比list postion大小小两位
+     * @param sourceListContents content内部一个item的数据内容
+     */
+    public void updateContentByPosition(int mContentPosition, List<SourceListContent> sourceListContents) {
+        if (mContentPosition >= 0 && sourceListContents != null) {
+            listContent.get(mContentPosition).setSourceListContent(sourceListContents);
+            notifyItemChanged(mContentPosition + 3);
+        }
+
     }
 }

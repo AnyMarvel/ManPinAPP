@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public class IBookRFragmentModelImpl extends MBaseModelImpl {
-    private final String TAG = "http://10.12.176.59:8080";
+    private final String TAG = "http://aimanpin.com";
 
     public static IBookRFragmentModelImpl getInstance() {
         return new IBookRFragmentModelImpl();
@@ -33,6 +33,7 @@ public class IBookRFragmentModelImpl extends MBaseModelImpl {
 
     /**
      * 获取书城男生推荐主页数据
+     *
      * @return
      */
     public Observable<String> getBookManHomeData() {
@@ -41,23 +42,32 @@ public class IBookRFragmentModelImpl extends MBaseModelImpl {
 
     /**
      * 获取书城女生推荐主页数据
+     *
      * @return
      */
     public Observable<String> getBookWomanHomeData() {
         return getRetrofitObject(TAG).create(IBookRFragmentAPI.class).getBookWoManFragmentdata();
     }
+
+    public Observable<String> getContentItemData(String kind) {
+        return getRetrofitObject(TAG).create(IBookRFragmentAPI.class).getContentItemData(kind, 9);
+    }
+
     interface IBookRFragmentAPI {
         @GET("/appview/recommendHome")
         Observable<String> getBookRHomeData();
 
         @GET("/appview/recommendPagData")
-        Observable<String> getMoreRecommendList(@Query("page")int page);
+        Observable<String> getMoreRecommendList(@Query("page") int page);
 
         @GET("/appview/recommendManData")
         Observable<String> getBookManFragmentdata();
 
         @GET("/appview/recommendWomanData")
         Observable<String> getBookWoManFragmentdata();
+
+        @GET("/appview/changByBookKind")
+        Observable<String> getContentItemData(@Query("kinds") String kinds, @Query("bookNumber") int number);
     }
 
 }

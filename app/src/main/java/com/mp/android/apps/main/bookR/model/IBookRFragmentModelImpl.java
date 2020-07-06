@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public class IBookRFragmentModelImpl extends MBaseModelImpl {
-    private final String TAG = "http://aimanpin.com";
+    private final String TAG = "http://10.12.176.59:8080";
 
     public static IBookRFragmentModelImpl getInstance() {
         return new IBookRFragmentModelImpl();

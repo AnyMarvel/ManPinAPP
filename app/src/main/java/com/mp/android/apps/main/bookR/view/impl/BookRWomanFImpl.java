@@ -18,4 +18,9 @@ public class BookRWomanFImpl extends BookRManFImpl {
     public void initLocalData() {
         mPresenter.initWoManData();
     }
+
+    @Override
+    public void setClassicRecommendTitle(String title) {
+        super.setClassicRecommendTitle("女生推荐");
+    }
 }

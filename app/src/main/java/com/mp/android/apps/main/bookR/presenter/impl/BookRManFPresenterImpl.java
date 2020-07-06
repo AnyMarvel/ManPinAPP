@@ -90,6 +90,30 @@ public class BookRManFPresenterImpl extends BasePresenterImpl<IBookRManFView> im
         });
     }
 
+    @Override
+    public void getBookCardData(int mContentPosition, String kinds) {
+        IBookRFragmentModelImpl.getInstance().getContentItemData(kinds).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleObserver<String>() {
+            @Override
+            public void onNext(String s) {
+
+                JSONObject jsonObject = JSON.parseObject(s);
+                JSONObject data = (JSONObject) jsonObject.get("data");
+                if (data != null) {
+                    String sourceListContent = JSON.toJSONString(data.get("sourceListContent"));
+                    if (!TextUtils.isEmpty(sourceListContent)) {
+                        List<SourceListContent> sourceListContents = JSON.parseArray(sourceListContent, SourceListContent.class);
+                        mView.notifyContentItemUpdate(mContentPosition, sourceListContents);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
     private void notifyRecyclerViewRefresh(String s, boolean useCache) {
         JSONObject jsonObject = JSON.parseObject(s);
         JSONObject data = (JSONObject) jsonObject.get("data");

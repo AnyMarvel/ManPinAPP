@@ -42,7 +42,7 @@ public class LoginDailogFragment extends LoginBaseFragment implements View.OnCli
     private EditText loginUserName;
     private EditText loginPassword;
     private Button loginBtn;
-    private CircleImageView loginHeader;
+
     private TextView tv_forgotPwd;
     private TextView tv_register;
     private ImageView img_hiddenPwd;
@@ -75,7 +75,7 @@ public class LoginDailogFragment extends LoginBaseFragment implements View.OnCli
     }
 
     public void initView(View view) {
-        loginHeader = view.findViewById(R.id.login_header);
+
         loginUserName = view.findViewById(R.id.login_userName);
         loginPassword = view.findViewById(R.id.login_password);
         loginBtn = view.findViewById(R.id.login_btn);

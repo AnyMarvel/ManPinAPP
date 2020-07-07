@@ -28,7 +28,7 @@ public class PhoneFormatCheckUtils {
         // ^ 匹配输入字符串开始的位置
         // \d 匹配一个或多个数字，其中 \ 要转义，所以是 \\d
         // $ 匹配输入字符串结尾的位置
-        String regExp = "^((13[0-9])|(14[0-9])|(15[0-9])|(166)|(17[0-9])" +
+        String regExp = "^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])" +
                 "|(18[0-9])|(19[0-9]))\\d{8}$";
         Pattern p = Pattern.compile(regExp);
         Matcher m = p.matcher(str);

@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import com.mp.android.apps.R;
 import com.mp.android.apps.StoryboardActivity;
 import com.mp.android.apps.login.fragment.LoginDailogFragment;
+import com.mp.android.apps.login.fragment.LoginFragment;
 import com.umeng.socialize.UMShareAPI;
 
 import java.lang.ref.WeakReference;
@@ -49,6 +50,8 @@ public class LoginActivity extends StoryboardActivity {
     private int mIndex;
 
     private LoginDailogFragment loginDailogFragment;
+
+    private LoginFragment loginFragment;
     private ImageView iv_back;
 
     @Override
@@ -57,7 +60,8 @@ public class LoginActivity extends StoryboardActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity_main);
         loginDailogFragment = new LoginDailogFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.login_container, loginDailogFragment).commitNow();
+        loginFragment=new LoginFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.login_container, loginFragment).commitNow();
         fl_images_container = (FrameLayout) findViewById(R.id.fl_images_container);
         iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(new View.OnClickListener() {

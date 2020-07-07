@@ -81,5 +81,41 @@ public class LoginManager {
 
     }
 
+    /**
+     * 获取到验证码的进行本地存储
+     *
+     * @param number
+     */
+    public void editLoginCodeByCodeNumber(String contractInfo, String number) {
+        sharedPreferences.edit()
+                .putString("verificationContractInfo", contractInfo)
+                .putString("verificationCode", number)
+                .putString("verificationTime", String.valueOf(System.currentTimeMillis()))
+                .apply();
+    }
+
+
+    /**
+     * 判断验证码和账号是否匹配
+     *
+     * @param number   验证码
+     * @param contract 账号信息
+     * @return
+     */
+    public boolean checkLoginCodeByCodeNumber(String number, String contract) {
+        String hqtime = sharedPreferences.getString("verificationTime", null);
+        String contractNumber = sharedPreferences.getString("verificationCode", null);
+        String contractInfo = sharedPreferences.getString("verificationContractInfo", null);
+        assert contractNumber != null;
+        assert contractInfo != null;
+        if (hqtime != null && contractNumber.equals(number) && contract.equals(contractInfo)) {
+            long s = (System.currentTimeMillis() - Long.parseLong(hqtime)) / (1000 * 60);
+            return s <= 10;
+        }
+        return false;
+
+
+    }
+
 
 }

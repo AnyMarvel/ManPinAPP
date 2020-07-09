@@ -3,8 +3,10 @@ package com.mp.android.apps.explore;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.drawerlayout.widget.DrawerLayout;
+
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -188,13 +190,13 @@ public class ExploreSquareActivity extends StoryboardActivity {
             public void onClick(View view) {
                 if (LoginManager.getInstance().checkLoginInfo()) {
                     Data data = LoginManager.getInstance().getLoginInfo();
-                    if (Objects.requireNonNull(data.getUniqueID()).startsWith("manpin_")) {
-                        LoginManager.getInstance().editLogoutInfo();
-                        logoutAuthListener.onComplete(null, 1, null);
-                    } else if (Objects.requireNonNull(data.getUniqueID()).startsWith("QQ_")) {
+                    if (Objects.requireNonNull(data.getUniqueID()).startsWith("QQ_")) {
                         UMShareAPI.get(getApplicationContext()).deleteOauth(ExploreSquareActivity.this, SHARE_MEDIA.QQ, logoutAuthListener);
                     } else if (Objects.requireNonNull(data.getUniqueID()).startsWith("SINA_")) {
                         UMShareAPI.get(getApplicationContext()).deleteOauth(ExploreSquareActivity.this, SHARE_MEDIA.SINA, logoutAuthListener);
+                    } else {
+                        LoginManager.getInstance().editLogoutInfo();
+                        logoutAuthListener.onComplete(null, 1, null);
                     }
                 }
             }

@@ -1,4 +1,4 @@
-package com.mp.android.apps.login.fragment;
+package com.mp.android.apps.login.fragment.imple;
 
 import android.os.CountDownTimer;
 import android.text.Editable;
@@ -16,25 +16,24 @@ import androidx.activity.OnBackPressedCallback;
 
 import com.mp.android.apps.R;
 import com.mp.android.apps.login.LoginActivity;
+import com.mp.android.apps.login.fragment.ILoginFragmentView;
 import com.mp.android.apps.login.presenter.ILoginFragmentPresenter;
 import com.mp.android.apps.login.presenter.impl.LoginFragmentPresenterImpl;
 import com.mp.android.apps.login.utils.LoginManager;
-import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
 import com.mp.android.apps.utils.PhoneFormatCheckUtils;
 import com.victor.loading.rotate.RotateLoading;
 
 import java.util.Objects;
 
 
-public class LoginFragment extends BaseFragment<ILoginFragmentPresenter> implements ILoginFragmentView, View.OnClickListener {
+public class LoginFragment extends LoginBaseFragment<ILoginFragmentPresenter> implements ILoginFragmentView, View.OnClickListener {
     private TextView verificationCode;
     private EditText cantractInfo;
     private ImageView clearLoginInfo;
-    /* 倒计时60秒，一次1秒 */
-    private CountDownTimer timer;
     private RotateLoading rotateLoading;
     private Button loginButton;
     private EditText loginPassworld;
+    private TextView loginByUserName;
 
     @Override
     protected ILoginFragmentPresenter initInjector() {
@@ -58,12 +57,14 @@ public class LoginFragment extends BaseFragment<ILoginFragmentPresenter> impleme
         loginButton = view.findViewById(R.id.login_btn);
         loginButton.setOnClickListener(this);
         loginPassworld = view.findViewById(R.id.login_password);
+        loginByUserName = view.findViewById(R.id.mp_login_by_userName);
+        loginByUserName.setOnClickListener(this);
+        OnClickListener(view, getActivity());
     }
 
     @Override
     protected void bindEvent() {
         super.bindEvent();
-        onBackPressed();
         cantractInfo.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -85,27 +86,12 @@ public class LoginFragment extends BaseFragment<ILoginFragmentPresenter> impleme
         });
     }
 
-    /**
-     * fragment返回事件处理
-     */
-    private void onBackPressed() {
-        Objects.requireNonNull(getActivity()).getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                Objects.requireNonNull(getActivity()).setResult(-1);
-                Objects.requireNonNull(getActivity()).overridePendingTransition(0, 0);
-                Objects.requireNonNull(getActivity()).finish();
-            }
-        });
-
-    }
-
-
     @Override
     public void updateViewByverification(boolean result) {
         if (result) {
             Toast.makeText(getContext(), "验证码发送成功", Toast.LENGTH_LONG).show();
-            timer = new CountDownTimer(60 * 1000, 1000) {
+            /* 倒计时60秒，一次1秒 */
+            new CountDownTimer(60 * 1000, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     verificationCode.setText(millisUntilFinished / 1000 + "S后重发");
@@ -169,8 +155,12 @@ public class LoginFragment extends BaseFragment<ILoginFragmentPresenter> impleme
                     }
                 }
                 break;
+            case R.id.mp_login_by_userName:
+                ((LoginActivity) Objects.requireNonNull(getActivity())).showFragment(1);
+                break;
             default:
                 break;
         }
     }
+
 }

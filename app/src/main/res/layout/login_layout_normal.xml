@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="150dp"
-        android:text="手机号/邮箱 登录"
+        android:text="手机号/邮箱/账号 登录"
         android:textColor="@color/black"
         android:textSize="20dp" />
 
@@ -31,7 +31,7 @@
             android:layout_weight="5"
             android:background="@null"
             android:ems="19"
-            android:hint="手机号/邮箱"
+            android:hint="手机号/邮箱/账号"
             android:paddingLeft="20dp"
             android:singleLine="true"
             android:textColor="@color/black"
@@ -50,21 +50,7 @@
             android:src="@drawable/icon_close"
             android:visibility="invisible" />
 
-        <View
-            android:layout_width="0.5dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="#80878787" />
 
-        <TextView
-            android:id="@+id/login_verification_code"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2.5"
-            android:paddingLeft="10dp"
-            android:text="获取验证码"
-            android:textColor="#FF0000" />
     </LinearLayout>
 
     <EditText
@@ -76,7 +62,7 @@
         android:layout_marginRight="18dp"
         android:background="@drawable/shape_rect"
         android:ems="19"
-        android:hint="短信/邮箱 验证码"
+        android:hint="登录密码"
         android:paddingLeft="20dp"
         android:singleLine="true"
         android:textColor="@color/black"
@@ -100,21 +86,35 @@
         android:layout_marginTop="20dp"
         android:layout_marginRight="18dp"
         android:background="@drawable/button_bg"
-        android:text="注册/登录"
+        android:text="登录"
         android:textColor="@android:color/white"
         android:textSize="16sp" />
 
-
-    <TextView
-        android:id="@+id/mp_login_by_userName"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
-        android:text="使用密码登录"
-        android:textColor="@color/button_material_dark" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="忘记密码"
+            android:textColor="@color/button_material_dark" />
+
+        <TextView
+            android:id="@+id/mp_login_by_verify"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="使用验证码登录"
+            android:textColor="@color/button_material_dark" />
+
+    </LinearLayout>
 
 
     <LinearLayout

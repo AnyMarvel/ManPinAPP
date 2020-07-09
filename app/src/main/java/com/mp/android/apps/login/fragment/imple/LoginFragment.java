@@ -128,8 +128,6 @@ public class LoginFragment extends LoginBaseFragment<ILoginFragmentPresenter> im
         int id = v.getId();
         String userNameStr = cantractInfo.getText().toString();
         switch (id) {
-            case R.id.login_userName:
-                break;
             case R.id.login_verification_code:
                 verificationCode.setClickable(false);
                 if (!PhoneFormatCheckUtils.isPhoneLegal(userNameStr) && !PhoneFormatCheckUtils.checkEmailFormat(userNameStr)) {

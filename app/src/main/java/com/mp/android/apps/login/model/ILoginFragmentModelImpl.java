@@ -12,7 +12,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public class ILoginFragmentModelImpl extends MBaseModelImpl {
-    private final String TAG = "http://10.12.176.59:8080";
+    private final String TAG = "http://aimanpin.com";
 
     public static ILoginFragmentModelImpl getInstance() {
         return new ILoginFragmentModelImpl();

@@ -28,8 +28,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public class ContentAimanpinModeImpl extends MBaseModelImpl implements IStationBookModel {
-    //    public static final String TAG = "http://aimanpin.com/";
-    public static final String TAG = "http://10.12.176.59:8080";
+    public static final String TAG = "http://aimanpin.com";
 
     public static ContentAimanpinModeImpl getInstance() {
         return new ContentAimanpinModeImpl();

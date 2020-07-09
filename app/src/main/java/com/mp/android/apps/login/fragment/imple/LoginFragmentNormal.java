@@ -28,6 +28,7 @@ public class LoginFragmentNormal extends LoginBaseFragment<LoginFragmentNormalPr
     private RotateLoading rotateLoading;
     private Button loginButton;
     private EditText loginPassword;
+    private TextView forgetPassword;
 
     @Override
     protected LoginFragmentNormalPresenterImpl initInjector() {
@@ -51,6 +52,8 @@ public class LoginFragmentNormal extends LoginBaseFragment<LoginFragmentNormalPr
         loginButton = view.findViewById(R.id.login_btn);
         loginButton.setOnClickListener(this);
         loginPassword = view.findViewById(R.id.login_password);
+        forgetPassword=view.findViewById(R.id.login_forget_password);
+        forgetPassword.setOnClickListener(this);
         OnClickListener(view, getActivity());
     }
 
@@ -101,7 +104,9 @@ public class LoginFragmentNormal extends LoginBaseFragment<LoginFragmentNormalPr
                         , loginPassword.getText().toString().trim());
 
                 break;
-
+            case R.id.login_forget_password:
+                ((LoginActivity) Objects.requireNonNull(getActivity())).showFragment(2);
+                break;
             default:
                 break;
         }

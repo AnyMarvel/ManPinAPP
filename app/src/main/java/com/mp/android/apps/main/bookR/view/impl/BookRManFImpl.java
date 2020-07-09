@@ -62,7 +62,6 @@ public class BookRManFImpl extends BaseFragment<IBookRManFPresenter> implements 
         recommendRecyclerView.setLayoutManager(layoutManager);
         recommendRecyclerView.setItemAnimator(new DefaultItemAnimator());
         initLocalData();
-        setClassicRecommendTitle("男生推荐");
     }
 
     @Override
@@ -78,6 +77,7 @@ public class BookRManFImpl extends BaseFragment<IBookRManFPresenter> implements 
     public void notifyRecyclerView(List<SourceListContent> recommendList, List<SourceListContent> hotRankingList, List<HomeDesignBean> listContent, boolean useCache) {
         if (useCache || recommendRecyclerAdapter == null) {
             recommendRecyclerAdapter = new BookManFAdapter(getContext(), this, recommendList, hotRankingList, listContent);
+            setClassicRecommendTitle("男生推荐");
             recommendRecyclerView.setAdapter(recommendRecyclerAdapter);
         } else {
             recommendRecyclerAdapter.setRecommendList(recommendList);

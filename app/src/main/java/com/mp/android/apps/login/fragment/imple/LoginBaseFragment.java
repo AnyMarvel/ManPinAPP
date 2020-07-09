@@ -1,23 +1,25 @@
-package com.mp.android.apps.login;
+package com.mp.android.apps.login.fragment.imple;
 
 import android.app.Activity;
-
-import androidx.fragment.app.Fragment;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
+
 import com.mp.android.apps.R;
+import com.mp.android.apps.login.LoginActivity;
 import com.mp.android.apps.login.bean.login.Data;
 import com.mp.android.apps.login.bean.login.LoginRootBean;
 import com.mp.android.apps.login.network.LoginAPI;
 import com.mp.android.apps.login.utils.LoginManager;
+import com.mp.android.apps.monke.basemvplib.IPresenter;
+import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
 import com.mp.android.apps.networkutils.FastJsonConverterFactory;
 import com.mp.android.apps.utils.Logger;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.victor.loading.rotate.RotateLoading;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,24 +30,31 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+public abstract class LoginBaseFragment<T extends IPresenter> extends BaseFragment<T> {
+    @Override
+    protected void bindEvent() {
+        super.bindEvent();
+        onBackPressed();
+    }
+    /**
+     * fragment返回事件处理
+     */
+    public void onBackPressed() {
+        Objects.requireNonNull(getActivity()).getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Objects.requireNonNull(getActivity()).setResult(-1);
+                Objects.requireNonNull(getActivity()).overridePendingTransition(0, 0);
+                Objects.requireNonNull(getActivity()).finish();
+            }
+        });
 
-public class LoginBaseFragment extends Fragment {
-    RotateLoading rotateLoading;
-
-    public void replaceLoginFragment(LoginBaseFragment loginBaseFragment) {
-        ((LoginActivity) getActivity()).getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.login_container, loginBaseFragment)
-                .commit();
     }
 
-    public boolean onBackPressed() {
-        return false;
-    }
 
 
     public void OnClickListener(View view, Activity activity) {
-        rotateLoading = new RotateLoading(activity);
+
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(80, 80);
         view.findViewById(R.id.weibo_login).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,5 +152,4 @@ public class LoginBaseFragment extends Fragment {
             Logger.d("取消回调");
         }
     };
-
 }

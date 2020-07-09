@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Handler;
@@ -21,7 +20,7 @@ import android.widget.ImageView;
 
 import com.mp.android.apps.R;
 import com.mp.android.apps.StoryboardActivity;
-import com.mp.android.apps.login.fragment.imple.LoginBaseFragment;
+import com.mp.android.apps.login.fragment.imple.LoginForgetFragment;
 import com.mp.android.apps.login.fragment.imple.LoginFragment;
 import com.mp.android.apps.login.fragment.imple.LoginFragmentNormal;
 import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
@@ -29,7 +28,6 @@ import com.umeng.socialize.UMShareAPI;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -55,6 +53,7 @@ public class LoginActivity extends StoryboardActivity {
 
     private LoginFragment loginFragment;
     private LoginFragmentNormal loginFragmentNormal;
+    private LoginForgetFragment loginForgetFragment;
     private ImageView iv_back;
     public static final int LOGINTYPE = 0;
 
@@ -65,6 +64,7 @@ public class LoginActivity extends StoryboardActivity {
         setContentView(R.layout.login_activity_main);
         loginFragmentNormal = new LoginFragmentNormal();
         loginFragment = new LoginFragment();
+        loginForgetFragment = new LoginForgetFragment();
         showFragment(LOGINTYPE);
 
         fl_images_container = (FrameLayout) findViewById(R.id.fl_images_container);
@@ -92,23 +92,33 @@ public class LoginActivity extends StoryboardActivity {
         palyAnimation();
     }
 
+    private void hideFragment(FragmentTransaction transaction) {
+        if (loginFragmentNormal != null) {
+            transaction.hide(loginFragmentNormal);
+        }
+        if (loginFragment != null) {
+            transaction.hide(loginFragment);
+        }
+        if (loginForgetFragment != null) {
+            transaction.hide(loginForgetFragment);
+        }
+    }
 
     public void showFragment(int loginType) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        hideFragment(transaction);
         BaseFragment fragment = null;
         if (loginType == LOGINTYPE) {
-            if (loginFragmentNormal != null) {
-                transaction.hide(loginFragmentNormal);
-            }
             if (loginFragment != null) {
                 fragment = loginFragment;
             }
-        } else {
-            if (loginFragment != null) {
-                transaction.hide(loginFragment);
-            }
+        } else if (loginType == 1) {
             if (loginFragmentNormal != null) {
                 fragment = loginFragmentNormal;
+            }
+        } else {
+            if (loginForgetFragment != null) {
+                fragment = loginForgetFragment;
             }
         }
         if (fragment != null) {

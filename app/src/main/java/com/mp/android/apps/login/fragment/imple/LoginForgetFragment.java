@@ -3,10 +3,14 @@ package com.mp.android.apps.login.fragment.imple;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,7 +38,7 @@ public class LoginForgetFragment extends LoginBaseFragment<LoginForgetFragmentPr
     private TextView verifyCode;
     private ImageView clearContractImage;
     private RotateLoading rotateLoading;
-
+    private CheckBox CheckBox;
     @Override
     protected LoginForgetFragmentPresenterImpl initInjector() {
         return new LoginForgetFragmentPresenterImpl();
@@ -58,6 +62,7 @@ public class LoginForgetFragment extends LoginBaseFragment<LoginForgetFragmentPr
         passworldVerifyCode = view.findViewById(R.id.mp_forget_passworld_verify_code);
         clearContractImage = view.findViewById(R.id.login__forget_clear_contract);
         rotateLoading = view.findViewById(R.id.rotateloading);
+        CheckBox=view.findViewById(R.id.login_visible_passworld);
     }
 
     @Override
@@ -79,6 +84,19 @@ public class LoginForgetFragment extends LoginBaseFragment<LoginForgetFragmentPr
 
             @Override
             public void afterTextChanged(Editable s) {
+
+            }
+        });
+        CheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    newPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    confirmNewPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }else {
+                    newPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    confirmNewPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
 
             }
         });

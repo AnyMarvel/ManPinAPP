@@ -1,8 +1,11 @@
 package com.mp.android.apps.login.model;
+
 import com.alibaba.fastjson.JSON;
 import com.mp.android.apps.monke.monkeybook.base.MBaseModelImpl;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import io.reactivex.Observable;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -49,6 +52,16 @@ public class ILoginFragmentModelImpl extends MBaseModelImpl {
         return getRetrofitObject(TAG).create(ILoginFragmentAPI.class).loginByUserName(userName, passworld);
     }
 
+    /**
+     * 重置密码
+     *
+     * @param userName  重置信息
+     * @param passworld 密码重新新密码
+     * @return 返回登录基础信息
+     */
+    public Observable<String> resetPassword(String userName, String passworld) {
+        return getRetrofitObject(TAG).create(ILoginFragmentAPI.class).resetPassword(userName, passworld);
+    }
 
     interface ILoginFragmentAPI {
         @POST("/api/open/send-otp")
@@ -57,9 +70,11 @@ public class ILoginFragmentModelImpl extends MBaseModelImpl {
         @GET("/app/phoneOrEmailLogin")
         Observable<String> loginByContractInfo(@Query("constr") String constr);
 
-        @POST("app/login")
+        @POST("/app/login")
         Observable<String> loginByUserName(@Query("userName") String userName, @Query("passworld") String passworld);
 
+        @GET("/app/resetPassword")
+        Observable<String> resetPassword(@Query("constract") String constract, @Query("password") String password);
     }
 
 }

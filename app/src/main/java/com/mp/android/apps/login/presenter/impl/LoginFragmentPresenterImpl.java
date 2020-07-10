@@ -34,7 +34,6 @@ public class LoginFragmentPresenterImpl extends BasePresenterImpl<ILoginFragment
                 .subscribe(new SimpleObserver<String>() {
                     @Override
                     public void onNext(String s) {
-                        System.out.println(s);
                         JSONObject jsonObject = JSON.parseObject(s);
                         if (jsonObject != null) {
                             String opt = jsonObject.getString("otp");

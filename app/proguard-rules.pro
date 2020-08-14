@@ -324,3 +324,4 @@ public static java.lang.String TABLENAME;
 -keep class com.mp.android.apps.login.bean.login.**{*;}
 -keep class com.mp.android.apps.explore.bean.**{*;}
 -keep class com.mp.android.apps.main.home.bean.**{*;}
+-keep class com.mp.android.apps.main.bookR.bean.**{*;}

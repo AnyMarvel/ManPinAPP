@@ -2,18 +2,21 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:fitsSystemWindows="true">
 
     <FrameLayout
         android:id="@+id/fl_images_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        />
+        android:layout_gravity="bottom" />
 
     <FrameLayout
         android:id="@+id/login_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
     <include layout="@layout/toolbar_edit_profile" />
+
+
 </FrameLayout>

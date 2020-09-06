@@ -6,8 +6,10 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -130,6 +132,9 @@ public class EditCardActivity extends StoryboardActivity implements View.OnClick
             }
         }
         setContentView(layoutID);
+        Resources res = getResources();
+        Drawable drawable = res.getDrawable(R.color.white);
+        this.getWindow().setBackgroundDrawable(drawable);
         initView();
     }
 
@@ -148,7 +153,11 @@ public class EditCardActivity extends StoryboardActivity implements View.OnClick
         editcardTextview.setText("请填写信封内容");
         editcardTextview.setOnClickListener(this);
         toPeople = findViewById(R.id.to_people);
+        toPeople.setHintTextColor(getResources().getColor(R.color.black));
+        toPeople.setTextColor(getResources().getColor(R.color.black));
         byPeople = findViewById(R.id.by_people);
+        byPeople.setTextColor(getResources().getColor(R.color.black));
+        byPeople.setHintTextColor(getResources().getColor(R.color.black));
         List<String> bySource = JSON.parseArray(getSharedPreferences("By_People", MODE_PRIVATE).getString("sourceData", ""), String.class);
         if (bySource != null && bySource.size() > 0) {
             byPeople.setText(bySource.get(0));

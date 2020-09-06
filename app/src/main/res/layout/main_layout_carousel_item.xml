@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
 
-    <com.mp.android.apps.main.view.CarouselLayout
+    <com.mp.android.apps.main.home.view.CarouselLayout
         android:layout_width="match_parent"
         android:layout_height="230dp">
 
@@ -13,6 +13,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
-    </com.mp.android.apps.main.view.CarouselLayout>
+    </com.mp.android.apps.main.home.view.CarouselLayout>
 
 </FrameLayout>

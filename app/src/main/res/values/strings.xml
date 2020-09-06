@@ -89,9 +89,5 @@
     <string name="privacy_tips">欢迎使用漫品客户端！请您务必审慎阅读,充分理解"服务协议"和"隐私政策"各条款,包括但不限于:为了向你提供及时分享服务和制作漫画需要的视频资源,我们需要收集你的设备信息,操作日志,地理位置信息等。你可以在"设置"中查看,变更,删除个人信息并管理你的授权.
         \n你可阅读《用户协议》和《隐私政策》了解详细信息。隐私政策和用户协议内容如你同意,请点击"同意"开始接受我们的服务。</string>
 
-    <string name="confirmed">用户须知已确认</string>
-    <string name="opt_terms">用户协议</string>
-    <string name="opt_privacy">隐私政策</string>
     <string name="so_load_check_str">视频转漫画基于3D神经网络转换,首次使用需要下载必要组件,大小为30M左右,是否确认下载?</string>
-    <string name="so_load_faid">必要组件下载或安装失败,请点击重试.如有问题请清空缓存后重试</string>
 </resources>

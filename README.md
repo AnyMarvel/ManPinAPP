@@ -39,7 +39,7 @@ github下载最新版本:https://github.com/AnyMarvel/ManPinAPP/releases
 持续更新中
 
 <div align="center">
-<img src="pictures/xiaoshuo_4.jpeg" width="150" height="300"/> <img src="pictures/xiaoshuo_3.jpeg" width="150" height="300"/> <img src="pictures/xiaoshuo_2.jpeg" width="150" height="300"/> <img src="pictures/xiaoshuo_1.jpeg" width="150" height="300"/>
+<img src="pictures/xiaoshuo01.jpeg" width="150" height="300"/> <img src="pictures/xiaoshuo02.jpeg" width="150" height="300"/> <img src="pictures/xiaoshuo03.jpeg" width="150" height="300"/> <img src="pictures/xiaoshuo04.jpeg" width="150" height="300"/><img src="pictures/xiaoshuo05.jpeg" width="150" height="300"/>
 </div>
 
 3. 明信片 本模块提供多种模板提供用户使用如图,效果如图

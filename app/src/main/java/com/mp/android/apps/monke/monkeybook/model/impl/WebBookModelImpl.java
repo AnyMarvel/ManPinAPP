@@ -102,7 +102,9 @@ public class WebBookModelImpl implements IWebBookModel {
      */
     @Override
     public Observable<List<SearchBookBean>> searchOtherBook(String content, int page, String tag) {
-        if (tag.equals(GxwztvBookModelImpl.TAG)) {
+        if (tag.equals(ContentAimanpinModeImpl.TAG)) {
+            return ContentAimanpinModeImpl.getInstance().searchBook(content, page);
+        } else if (tag.equals(GxwztvBookModelImpl.TAG)) {
             return GxwztvBookModelImpl.getInstance().searchBook(content, page);
         } else if (tag.equals(LingdiankanshuStationBookModelImpl.TAG)) {
             return LingdiankanshuStationBookModelImpl.getInstance().searchBook(content, page);
@@ -157,6 +159,7 @@ public class WebBookModelImpl implements IWebBookModel {
      */
     public void registerSearchEngine(List<Map> searchEngine) {
         //搜索引擎初始化
+        newSearchEngine(searchEngine, ContentAimanpinModeImpl.TAG);
         newSearchEngine(searchEngine, GxwztvBookModelImpl.TAG);
         newSearchEngine(searchEngine, LingdiankanshuStationBookModelImpl.TAG);
         newSearchEngine(searchEngine, ContentYb3ModelImpl.TAG);

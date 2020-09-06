@@ -43,7 +43,6 @@
     <color name="dim_foreground_disabled_material_light">#80323232</color>
     <color name="dim_foreground_material_dark">#ffbebebe</color>
     <color name="dim_foreground_material_light">#ff323232</color>
-    <color name="error_color_material">#fff4511e</color>
     <color name="foreground_material_light">@android:color/black</color>
     <color name="highlighted_text_material_dark">#6680cbc4</color>
     <color name="highlighted_text_material_light">#66009688</color>
@@ -92,7 +91,6 @@
     <color name="white">#ffffffff</color>
     <color name="split_line">#dedede</color>
     <color name="colorCursor">#cccccc</color>
-    <color name="colorLoginButton">#004684</color>
     <!--launcherView need-->
     <color name="load_red">#fa007a</color>
     <color name="load_purple">#935fe7</color>
@@ -127,9 +125,6 @@
     <color name="colorGray">#878787</color>
     <color name="colorOrange">#FFE26C25</color>
     <color name="colorBlue">#FF036EB8</color>
-    <color name="cycle_image_bg">#44222222</color>
 
-
-    <color name="toolbar_dark">#4D000000</color>
 
 </resources>

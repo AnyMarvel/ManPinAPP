@@ -5,7 +5,7 @@
     android:layout_gravity="center_horizontal"
     android:background="#fff3f5f9">
 
-    <com.mp.android.apps.main.view.CarouselLayout
+    <com.mp.android.apps.main.home.view.CarouselLayout
         android:layout_width="match_parent"
         android:layout_height="230dp">
 
@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
-    </com.mp.android.apps.main.view.CarouselLayout>
+    </com.mp.android.apps.main.home.view.CarouselLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

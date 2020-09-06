@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Handler;
 import android.os.Message;
@@ -20,12 +20,14 @@ import android.widget.ImageView;
 
 import com.mp.android.apps.R;
 import com.mp.android.apps.StoryboardActivity;
-import com.mp.android.apps.login.fragment.LoginDailogFragment;
+import com.mp.android.apps.login.fragment.imple.LoginForgetFragment;
+import com.mp.android.apps.login.fragment.imple.LoginFragment;
+import com.mp.android.apps.login.fragment.imple.LoginFragmentNormal;
+import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
 import com.umeng.socialize.UMShareAPI;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -48,22 +50,29 @@ public class LoginActivity extends StoryboardActivity {
     private AnimatorHandler mHandler;
     private int mIndex;
 
-    private LoginDailogFragment loginDailogFragment;
+
+    private LoginFragment loginFragment;
+    private LoginFragmentNormal loginFragmentNormal;
+    private LoginForgetFragment loginForgetFragment;
     private ImageView iv_back;
+    public static final int LOGINTYPE = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity_main);
-        loginDailogFragment = new LoginDailogFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.login_container, loginDailogFragment).commitNow();
+        loginFragmentNormal = new LoginFragmentNormal();
+        loginFragment = new LoginFragment();
+        loginForgetFragment = new LoginForgetFragment();
+        showFragment(LOGINTYPE);
+
         fl_images_container = (FrameLayout) findViewById(R.id.fl_images_container);
         iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               onBackPressed();
+                onBackPressed();
             }
         });
 
@@ -83,6 +92,45 @@ public class LoginActivity extends StoryboardActivity {
         palyAnimation();
     }
 
+    private void hideFragment(FragmentTransaction transaction) {
+        if (loginFragmentNormal != null) {
+            transaction.hide(loginFragmentNormal);
+        }
+        if (loginFragment != null) {
+            transaction.hide(loginFragment);
+        }
+        if (loginForgetFragment != null) {
+            transaction.hide(loginForgetFragment);
+        }
+    }
+
+    public void showFragment(int loginType) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        hideFragment(transaction);
+        BaseFragment fragment = null;
+        if (loginType == LOGINTYPE) {
+            if (loginFragment != null) {
+                fragment = loginFragment;
+            }
+        } else if (loginType == 1) {
+            if (loginFragmentNormal != null) {
+                fragment = loginFragmentNormal;
+            }
+        } else {
+            if (loginForgetFragment != null) {
+                fragment = loginForgetFragment;
+            }
+        }
+        if (fragment != null) {
+            if (fragment.isAdded()) {
+                transaction.show(fragment);
+            } else {
+                transaction.add(R.id.login_container, fragment).show(fragment);
+            }
+            transaction.commit();
+        }
+
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -90,22 +138,6 @@ public class LoginActivity extends StoryboardActivity {
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
-
-    @Override
-    public void onBackPressed() {
-        List<Fragment> fragments = getSupportFragmentManager().getFragments();
-
-        for (Fragment fragment : fragments) {
-            /*如果是自己封装的Fragment的子类  判断是否需要处理返回事件*/
-            if (fragment instanceof LoginBaseFragment) {
-                if (((LoginBaseFragment) fragment).onBackPressed()) {
-                    /*在Fragment中处理返回事件*/
-                    return;
-                }
-            }
-        }
-        super.onBackPressed();
-    }
 
     public void startActivity() {
         setResult(0);

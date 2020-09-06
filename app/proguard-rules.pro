@@ -54,6 +54,9 @@
 -dontwarn androidx.media.**
 -dontnote androidx.media.**
 
+-keep class android.support.design.widget.** {*; }
+-dontwarn android.support.design.widget.**
+
 -keep class androidx.core.graphics.drawable.IconCompatParcelizer{*;}
 -dontwarn androidx.core.graphics.drawable.IconCompatParcelizer
 -dontnote androidx.core.graphics.drawable.IconCompatParcelizer
@@ -320,4 +323,5 @@ public static java.lang.String TABLENAME;
 -keep class com.mp.android.apps.livevblank.bean.**{*;}
 -keep class com.mp.android.apps.login.bean.login.**{*;}
 -keep class com.mp.android.apps.explore.bean.**{*;}
--keep class com.mp.android.apps.main.bean.**{*;}
+-keep class com.mp.android.apps.main.home.bean.**{*;}
+-keep class com.mp.android.apps.main.bookR.bean.**{*;}

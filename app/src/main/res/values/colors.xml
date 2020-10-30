@@ -126,5 +126,9 @@
     <color name="colorOrange">#FFE26C25</color>
     <color name="colorBlue">#FF036EB8</color>
 
+    <color name="nb.read.bg.night">#000000</color>
+    <color name="nb.read.font_night">#99ffffff</color>
+
+    <color name="nb.read.menu.bg">#191919</color>
 
 </resources>

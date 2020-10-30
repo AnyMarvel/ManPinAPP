@@ -1,201 +1,321 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
     <View
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:background="@drawable/bg_shadow2" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="#ffffff"
+        android:orientation="vertical"
         android:paddingTop="15dp"
         android:paddingBottom="15dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:textSize="14sp"
-                android:textColor="#adadad"
+                android:layout_gravity="center_vertical"
                 android:gravity="center"
                 android:text="字号"
-                android:layout_gravity="center_vertical"/>
+                android:textColor="#adadad"
+                android:textSize="14sp" />
+
             <FrameLayout
                 android:id="@+id/fl_smaller"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/selector_pop_font_bg">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="-"
                     android:layout_gravity="center"
+                    android:text="-"
                     android:textColor="#767676"
-                    android:textSize="22sp"/>
+                    android:textSize="22sp" />
             </FrameLayout>
+
             <TextView
                 android:id="@+id/tv_dur_textsize"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
-                android:textSize="14sp"
-                android:textColor="#767676"
-                android:text="18"
+                android:layout_gravity="center"
                 android:gravity="center"
                 android:singleLine="true"
-                android:layout_gravity="center" />
+                android:text="18"
+                android:textColor="#767676"
+                android:textSize="14sp" />
+
             <FrameLayout
                 android:id="@+id/fl_bigger"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/selector_pop_font_bg">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="+"
                     android:layout_gravity="center"
+                    android:text="+"
                     android:textColor="#767676"
-                    android:textSize="22sp"/>
+                    android:textSize="22sp" />
             </FrameLayout>
+
             <TextView
                 android:id="@+id/tv_textsize_default"
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
-                android:textSize="14sp"
-                android:textColor="@drawable/selector_pop_font_color"
+                android:layout_gravity="center_vertical"
                 android:gravity="center"
                 android:text="默认"
-                android:layout_gravity="center_vertical"/>
+                android:textColor="@drawable/selector_pop_font_color"
+                android:textSize="14sp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:orientation="horizontal"
             android:layout_gravity="center"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:textSize="14sp"
-                android:textColor="#adadad"
-                android:gravity="center"
-                android:text="背景"
                 android:layout_gravity="center_vertical"
+                android:gravity="center"
                 android:paddingLeft="20dp"
-                android:paddingRight="20dp"/>
+                android:paddingRight="20dp"
+                android:text="背景"
+                android:textColor="#adadad"
+                android:textSize="14sp" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/civ_bg_white"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:src="@drawable/icon_readbook_white"
-                app:civ_border_width="1dp"
-                app:civ_border_color="#00000000"/>
+                app:civ_border_color="#00000000"
+                app:civ_border_width="1dp" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/civ_bg_yellow"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:src="@drawable/icon_readbook_yellow"
-                app:civ_border_width="1dp"
-                app:civ_border_color="#F3B63F"/>
+                app:civ_border_color="#F3B63F"
+                app:civ_border_width="1dp" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/civ_bg_green"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:src="@drawable/icon_readbook_green"
-                app:civ_border_width="1dp"
-                app:civ_border_color="#00000000"/>
+                app:civ_border_color="#00000000"
+                app:civ_border_width="1dp" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/civ_bg_black"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:src="@drawable/icon_readbook_black"
-                app:civ_border_width="1dp"
-                app:civ_border_color="#00000000"/>
+                app:civ_border_color="#00000000"
+                app:civ_border_width="1dp" />
+
             <View
                 android:layout_width="50dp"
-                android:layout_height="0dp"/>
+                android:layout_height="0dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingRight="15dp">
+
+            <RadioGroup
+                android:id="@+id/read_setting_rg_page_mode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="翻页"
+                    android:textColor="#adadad"
+                    android:textSize="14sp" />
+
+                <RadioButton
+                    android:id="@+id/read_setting_rb_simulation"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_btn_read_setting"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:checked="true"
+                    android:text="仿真"
+                    android:textColor="#adadad"
+                    android:textSize="14dp" />
+
+                <RadioButton
+                    android:id="@+id/read_setting_rb_cover"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_btn_read_setting"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="覆盖"
+                    android:textColor="#adadad"
+                    android:textSize="14dp" />
+
+                <RadioButton
+                    android:id="@+id/read_setting_rb_slide"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_btn_read_setting"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="滑动"
+                    android:textColor="#adadad"
+                    android:textSize="14dp"
+                    android:visibility="gone" />
+
+                <RadioButton
+                    android:id="@+id/read_setting_rb_scroll"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_btn_read_setting"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="滚动"
+
+                    android:textColor="#adadad"
+                    android:textSize="14dp" />
+
+                <RadioButton
+                    android:id="@+id/read_setting_rb_none"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_btn_read_setting"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="无"
+                    android:textColor="#adadad"
+                    android:textSize="14dp" />
+            </RadioGroup>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:orientation="horizontal"
             android:layout_marginTop="15dp"
+            android:background="#ffffff"
+            android:orientation="horizontal"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:background="#ffffff">
+            android:paddingRight="15dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:text="音量键翻页"
-                android:textColor="#767676"
-                android:layout_gravity="center_vertical"/>
+                android:textColor="#767676" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
+
             <com.kyleduo.switchbutton.SwitchButton
                 android:id="@+id/sb_key"
                 android:layout_width="47dp"
                 android:layout_height="26dp"
-                app:kswThumbColor="#ffffff"
+                android:layout_gravity="center_vertical"
                 app:kswBackColor="@drawable/selector_switchbutton"
-                android:layout_gravity="center_vertical"/>
+                app:kswThumbColor="#ffffff" />
         </LinearLayout>
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="0.8dp"
+            android:background="#ffffff"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:background="#ffffff"
-            android:src="#f3f3f3"/>
+            android:src="#f3f3f3" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="52dp"
+            android:background="#ffffff"
             android:orientation="horizontal"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:background="#ffffff">
+            android:paddingRight="15dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:text="点击页面两侧翻下一页"
-                android:textColor="#767676"
-                android:layout_gravity="center_vertical"/>
+                android:textColor="#767676" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
+
             <com.kyleduo.switchbutton.SwitchButton
                 android:id="@+id/sb_click"
                 android:layout_width="47dp"
                 android:layout_height="26dp"
-                app:kswThumbColor="#ffffff"
+                android:layout_gravity="center_vertical"
                 app:kswBackColor="@drawable/selector_switchbutton"
-                android:layout_gravity="center_vertical"/>
+                app:kswThumbColor="#ffffff" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -29,9 +29,15 @@ public class ContentSwitchView extends FrameLayout implements BookContentView.Se
     public final static int ONLYPRE = 1;//只有上一页
     public final static int ONLYNEXT = 2;//只有下一页
     private int state = NONE;    //0是有上一页   也有下一页 ;  2是只有下一页  ；1是只有上一页;-1是没有上一页 也没有下一页；
-
+    /**
+     * x轴滑动最大距离
+     */
     private int scrollX;
+    /**
+     * Y轴滑动最大距离
+     */
     private int scrollY;
+
     private Boolean isMoving = false;
 
     private BookContentView durPageView;

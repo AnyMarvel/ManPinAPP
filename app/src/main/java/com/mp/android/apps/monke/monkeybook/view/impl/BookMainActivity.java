@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.mp.android.apps.main.MainActivity;
 import com.mp.android.apps.monke.monkeybook.BitIntentDataManager;
 import com.mp.android.apps.R;
 import com.mp.android.apps.monke.monkeybook.base.MBaseActivity;
@@ -114,7 +115,7 @@ public class BookMainActivity extends MBaseActivity<IMainPresenter> implements I
         ibLibrary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityByAnim(new Intent(BookMainActivity.this, LibraryActivity.class), 0, 0);
+                startActivityByAnim(new Intent(BookMainActivity.this, MainActivity.class), 0, 0);
             }
         });
         ibAdd.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +129,7 @@ public class BookMainActivity extends MBaseActivity<IMainPresenter> implements I
             @Override
             public void toSearch() {
                 //点击去选书
-                startActivityByAnim(new Intent(BookMainActivity.this, LibraryActivity.class), 0, 0);
+                startActivityByAnim(new Intent(BookMainActivity.this, MainActivity.class), 0, 0);
             }
 
             @Override

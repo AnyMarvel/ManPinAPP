@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 读书界面控制器
+ */
 public class ReadBookControl {
     public static final int DEFAULT_TEXT = 2;
     public static final int DEFAULT_BG = 1;

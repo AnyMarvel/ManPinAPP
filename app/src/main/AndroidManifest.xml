@@ -71,11 +71,6 @@
             android:theme="@style/CAppTransparentTheme"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
-        <activity
-            android:name=".monke.monkeybook.view.impl.LibraryActivity"
-
-            android:theme="@style/CAppTransparentTheme" />
-
         <activity android:name=".monke.monkeybook.view.impl.ChoiceBookActivity" />
         <activity
             android:name=".monke.monkeybook.view.impl.BookDetailActivity"

@@ -173,7 +173,7 @@
                             android:layout_marginTop="3dp"/>
                     </LinearLayout>
                     <LinearLayout
-                        android:id="@+id/ll_font"
+                        android:id="@+id/ll_night_mode"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"

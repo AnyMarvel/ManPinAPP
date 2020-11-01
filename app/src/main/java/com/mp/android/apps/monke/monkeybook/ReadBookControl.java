@@ -76,6 +76,17 @@ public class ReadBookControl {
             temp5.put("textSize", 22);
             temp5.put("textExtra", DensityUtil.dp2px(MyApplication.getInstance(), 13));
             textKind.add(temp5);
+
+            Map<String, Integer> temp6 = new HashMap<>();
+            temp5.put("textSize", 24);
+            temp5.put("textExtra", DensityUtil.dp2px(MyApplication.getInstance(), 15));
+            textKind.add(temp6);
+
+            Map<String, Integer> temp7 = new HashMap<>();
+            temp5.put("textSize", 26);
+            temp5.put("textExtra", DensityUtil.dp2px(MyApplication.getInstance(), 17));
+            textKind.add(temp7);
+
         }
         if (null == textDrawable) {
             textDrawable = new ArrayList<>();

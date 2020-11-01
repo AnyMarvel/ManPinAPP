@@ -53,7 +53,7 @@ import java.util.List;
 
 import me.grantland.widget.AutofitTextView;
 
-public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implements IBookReadView {
+public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implements IBookReadView, View.OnClickListener {
 
     private FrameLayout flContent;
 
@@ -64,15 +64,27 @@ public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implemen
     private View vMenuBg;
     private LinearLayout llMenuTop;
     private LinearLayout llMenuBottom;
+    /**
+     * 阅读页面返回按钮
+     */
     private ImageButton ivReturn;
+    /**
+     * 右侧菜单按钮，弹出离线下载
+     */
     private ImageView ivMenuMore;
+    /**
+     * 章节提示
+     */
     private AutofitTextView atvTitle;
     private TextView tvPre;
     private TextView tvNext;
     private MHorProgressBar hpbReadProgress;
     private LinearLayout llCatalog;
     private LinearLayout llLight;
-    private LinearLayout llFont;
+    private LinearLayout llNightMode;
+    /**
+     * 设置按钮，弹出 字号 背景等设置内容
+     */
     private LinearLayout llSetting;
     //主菜单动画
     private Animation menuTopIn;
@@ -83,6 +95,9 @@ public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implemen
     private CheckAddShelfPop checkAddShelfPop;
     private ChapterListView chapterListView;
     private WindowLightPop windowLightPop;
+    /**
+     * 离线下载popWindow
+     */
     private ReadBookMenuMorePop readBookMenuMorePop;
 
     private MoreSettingPop moreSettingPop;
@@ -172,7 +187,7 @@ public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implemen
         hpbReadProgress = (MHorProgressBar) findViewById(R.id.hpb_read_progress);
         llCatalog = (LinearLayout) findViewById(R.id.ll_catalog);
         llLight = (LinearLayout) findViewById(R.id.ll_light);
-        llFont = (LinearLayout) findViewById(R.id.ll_font);
+        llNightMode = (LinearLayout) findViewById(R.id.ll_night_mode);
         ll_scene_text = findViewById(R.id.ll_scene_text);
 
         if (ReadBookControl.getInstance().getTextDrawableIndex() == 3) {
@@ -336,18 +351,6 @@ public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implemen
                 }
             }
         });
-        ivReturn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        ivMenuMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                readBookMenuMorePop.showAsDropDown(ivMenuMore, 0, DensityUtil.dp2px(ReadBookActivity.this, -3.5f));
-            }
-        });
         csvBook.setLoadDataListener(new ContentSwitchView.LoadDataListener() {
             @Override
             public void loaddata(BookContentView bookContentView, long qtag, int chapterIndex, int pageIndex) {
@@ -385,50 +388,32 @@ public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implemen
             }
         });
 
-        tvPre.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                csvBook.setInitData(mPresenter.getBookShelf().getDurChapter() - 1, mPresenter.getBookShelf().getBookInfoBean().getChapterlist().size(), BookContentView.DURPAGEINDEXBEGIN);
-            }
-        });
-        tvNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                csvBook.setInitData(mPresenter.getBookShelf().getDurChapter() + 1, mPresenter.getBookShelf().getBookInfoBean().getChapterlist().size(), BookContentView.DURPAGEINDEXBEGIN);
-            }
-        });
 
-        llCatalog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        ivReturn.setOnClickListener(this);
+        ivMenuMore.setOnClickListener(this);
+        tvPre.setOnClickListener(this);
+        tvNext.setOnClickListener(this);
+        llCatalog.setOnClickListener(this);
+        llLight.setOnClickListener(this);
+        llNightMode.setOnClickListener(this);
+        llSetting.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        switch (id) {
+            case R.id.ll_setting:
                 llMenuTop.startAnimation(menuTopOut);
                 llMenuBottom.startAnimation(menuBottomOut);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        chapterListView.show(mPresenter.getBookShelf().getDurChapter());
+                        moreSettingPop.showAtLocation(flContent, Gravity.BOTTOM, 0, 0);
                     }
                 }, menuTopOut.getDuration());
-            }
-        });
-
-        llLight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                llMenuTop.startAnimation(menuTopOut);
-                llMenuBottom.startAnimation(menuBottomOut);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        windowLightPop.showAtLocation(flContent, Gravity.BOTTOM, 0, 0);
-                    }
-                }, menuTopOut.getDuration());
-            }
-        });
-
-        llFont.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.ll_night_mode:
                 if (ll_scene_text.getText().equals(dayMessage)) {
                     ll_scene_text.setText(nightMessage);
                     ReadBookControl.getInstance().setTextDrawableIndex(ReadBookControl.getInstance().getDayColorIndex());
@@ -440,23 +425,42 @@ public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implemen
                     moreSettingPop.updateBg(3);
                     csvBook.changeBg();
                 }
-
-            }
-        });
-
-        llSetting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.ll_light:
                 llMenuTop.startAnimation(menuTopOut);
                 llMenuBottom.startAnimation(menuBottomOut);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        moreSettingPop.showAtLocation(flContent, Gravity.BOTTOM, 0, 0);
+                        windowLightPop.showAtLocation(flContent, Gravity.BOTTOM, 0, 0);
                     }
                 }, menuTopOut.getDuration());
-            }
-        });
+                break;
+            case R.id.ll_catalog:
+                llMenuTop.startAnimation(menuTopOut);
+                llMenuBottom.startAnimation(menuBottomOut);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        chapterListView.show(mPresenter.getBookShelf().getDurChapter());
+                    }
+                }, menuTopOut.getDuration());
+                break;
+            case R.id.tv_next:
+                csvBook.setInitData(mPresenter.getBookShelf().getDurChapter() + 1, mPresenter.getBookShelf().getBookInfoBean().getChapterlist().size(), BookContentView.DURPAGEINDEXBEGIN);
+                break;
+            case R.id.tv_pre:
+                csvBook.setInitData(mPresenter.getBookShelf().getDurChapter() - 1, mPresenter.getBookShelf().getBookInfoBean().getChapterlist().size(), BookContentView.DURPAGEINDEXBEGIN);
+                break;
+            case R.id.iv_more:
+                readBookMenuMorePop.showAsDropDown(ivMenuMore, 0, DensityUtil.dp2px(ReadBookActivity.this, -3.5f));
+                break;
+            case R.id.iv_return:
+                finish();
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -566,5 +570,6 @@ public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implemen
         }
         super.finish();
     }
+
 
 }

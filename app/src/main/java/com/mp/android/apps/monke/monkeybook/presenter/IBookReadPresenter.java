@@ -20,6 +20,9 @@ public interface IBookReadPresenter extends IPresenter {
 
     void updateProgress(int chapterIndex, int pageIndex);
 
+    /**
+     * 保存读书进度
+     */
     void saveProgress();
 
     String getChapterTitle(int chapterIndex);

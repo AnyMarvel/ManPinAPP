@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
+
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -513,4 +515,6 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
         }
         return result;
     }
+
+
 }

@@ -8,7 +8,9 @@ import android.content.pm.PackageManager;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.Handler;
+
 import androidx.annotation.NonNull;
+
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -545,33 +547,6 @@ public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implemen
 
     private Boolean showCheckPremission = false;
 
-    @SuppressLint("NewApi")
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 0x11) {
-            if (grantResults != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && PremissionCheck.checkPremission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                mPresenter.openBookFromOther(ReadBookActivity.this);
-            } else {
-                if (!this.shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    showCheckPremission = true;
-                    moProgressHUD.showTwoButton("去系统设置打开SD卡读写权限？", "取消", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            finish();
-                        }
-                    }, "设置", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            PremissionCheck.requestPermissionSetting(ReadBookActivity.this);
-                        }
-                    });
-                } else {
-                    Toast.makeText(this, "未获取SD卡读取权限", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
 
     @Override
     protected void onResume() {

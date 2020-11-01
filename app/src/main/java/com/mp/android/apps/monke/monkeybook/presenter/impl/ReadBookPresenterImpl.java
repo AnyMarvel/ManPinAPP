@@ -13,8 +13,12 @@ import android.provider.MediaStore;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.google.android.apps.photolab.storyboard.activity.ComicSplash;
+import com.google.android.apps.photolab.storyboard.download.DownloadUtil;
+import com.google.android.apps.photolab.storyboard.soloader.SoStatus;
 import com.hwangjr.rxbus.RxBus;
 import com.mp.android.apps.monke.basemvplib.impl.BaseActivity;
 import com.mp.android.apps.monke.basemvplib.impl.BasePresenterImpl;
@@ -36,6 +40,9 @@ import com.mp.android.apps.monke.monkeybook.utils.PremissionCheck;
 import com.mp.android.apps.monke.monkeybook.view.IBookReadView;
 import com.mp.android.apps.monke.monkeybook.widget.contentswitchview.BookContentView;
 import com.mp.android.apps.MyApplication;
+import com.mylhyl.acp.Acp;
+import com.mylhyl.acp.AcpListener;
+import com.mylhyl.acp.AcpOptions;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.io.File;
@@ -77,15 +84,18 @@ public class ReadBookPresenterImpl extends BasePresenterImpl<IBookReadView> impl
             BitIntentDataManager.getInstance().cleanData(key);
             checkInShelf();
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !PremissionCheck.checkPremission(activity,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                //申请权限
-                activity.requestPermissions(
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0x11);
-            } else {
-                openBookFromOther(activity);
-            }
-        }
+            Acp.getInstance(activity).request(new AcpOptions.Builder()
+                    .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE).build(), new AcpListener() {
+                @Override
+                public void onGranted() {
+                    openBookFromOther(activity);
+                }
+
+                @Override
+                public void onDenied(List<String> permissions) {
+                    Toast.makeText(activity, "读写权限被权限被拒绝,请到设置界面允许被拒绝权限", Toast.LENGTH_LONG).show();
+                }
+            });}
     }
 
     @Override

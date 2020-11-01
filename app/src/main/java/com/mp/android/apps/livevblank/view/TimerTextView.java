@@ -12,7 +12,6 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import com.mp.android.apps.R;
 import com.mp.android.apps.livevblank.util.NumberToCh;
@@ -22,7 +21,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
-public class TimerTextView extends TextView {
+public class TimerTextView extends androidx.appcompat.widget.AppCompatTextView {
     Paint mPain;
     TextPaint textPaint;
     String currentTime;
@@ -120,7 +119,7 @@ public class TimerTextView extends TextView {
             rectf.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
             canvas.drawRect(rectf, mPain);
             canvas.save();
-            StaticLayout layout = new StaticLayout(currentTime, textPaint, 300, Layout.Alignment.ALIGN_LEFT, 1.0F, 0.0F, true);
+            StaticLayout layout = new StaticLayout(currentTime, textPaint, 300, Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, true);
             // 这里的参数300，表示字符串的长度，当满300时，就会换行，也可以使用“\r\n”来实现换行
             canvas.translate(0, 0);//从100，100开始画
             layout.draw(canvas);

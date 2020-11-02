@@ -41,6 +41,7 @@ public class ContentSwitchView extends FrameLayout implements BookContentView.Se
     private Boolean isMoving = false;
 
     private BookContentView durPageView;
+
     private List<BookContentView> viewContents;
 
     public interface OnBookReadInitListener {
@@ -86,12 +87,27 @@ public class ContentSwitchView extends FrameLayout implements BookContentView.Se
         addView(durPageView);
     }
 
-
+    /**
+     * 初始化读书内容页
+     *
+     * @param bookReadInitListener
+     */
     public void bookReadInit(OnBookReadInitListener bookReadInitListener) {
         this.bookReadInitListener = bookReadInitListener;
-        durPageView.getTvContent().getViewTreeObserver().addOnGlobalLayoutListener(layoutInitListener);
+        durPageView.getTvContent().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (bookReadInitListener != null) {
+                    bookReadInitListener.success();
+                }
+                durPageView.getTvContent().getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 
+    /**
+     * 开始加载
+     */
     public void startLoading() {
         int height = durPageView.getTvContent().getHeight();
         if (height > 0) {
@@ -100,7 +116,18 @@ public class ContentSwitchView extends FrameLayout implements BookContentView.Se
                 loadDataListener.initData(durPageView.getLineCount(height));
             }
         }
-        durPageView.getTvContent().getViewTreeObserver().addOnGlobalLayoutListener(layoutListener);
+        durPageView.getTvContent().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int height = durPageView.getTvContent().getHeight();
+                if (height > 0) {
+                    if (loadDataListener != null && durHeight != height) {
+                        durHeight = height;
+                        loadDataListener.initData(durPageView.getLineCount(height));
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -509,27 +536,6 @@ public class ContentSwitchView extends FrameLayout implements BookContentView.Se
         Toast.makeText(getContext(), "没有下一页", Toast.LENGTH_SHORT).show();
     }
 
-    private ViewTreeObserver.OnGlobalLayoutListener layoutInitListener = new ViewTreeObserver.OnGlobalLayoutListener() {
-        @Override
-        public void onGlobalLayout() {
-            if (bookReadInitListener != null) {
-                bookReadInitListener.success();
-            }
-            durPageView.getTvContent().getViewTreeObserver().removeOnGlobalLayoutListener(layoutInitListener);
-        }
-    };
-    private ViewTreeObserver.OnGlobalLayoutListener layoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
-        @Override
-        public void onGlobalLayout() {
-            int height = durPageView.getTvContent().getHeight();
-            if (height > 0) {
-                if (loadDataListener != null && durHeight != height) {
-                    durHeight = height;
-                    loadDataListener.initData(durPageView.getLineCount(height));
-                }
-            }
-        }
-    };
 
     private int durHeight = 0;
 

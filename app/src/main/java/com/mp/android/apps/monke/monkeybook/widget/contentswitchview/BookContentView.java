@@ -236,11 +236,21 @@ public class BookContentView extends FrameLayout {
         return (int) ((height * 1.0f - tvContent.getLineSpacingExtra()) / (textHeight + tvContent.getLineSpacingExtra()));
     }
 
+    /**
+     * 设置阅读界面字体及背景等相关功能
+     *
+     * @param readBookControl
+     */
     public void setReadBookControl(ReadBookControl readBookControl) {
         setTextKind(readBookControl);
         setBg(readBookControl);
     }
 
+    /**
+     * 设置阅读界面背景色
+     *
+     * @param readBookControl
+     */
     public void setBg(ReadBookControl readBookControl) {
         ivBg.setImageResource(readBookControl.getTextBackground());
         tvTitle.setTextColor(readBookControl.getTextColor());
@@ -251,6 +261,11 @@ public class BookContentView extends FrameLayout {
         tvErrorInfo.setTextColor(readBookControl.getTextColor());
     }
 
+    /**
+     * 设置文字属性
+     *
+     * @param readBookControl
+     */
     public void setTextKind(ReadBookControl readBookControl) {
         tvContent.setTextSize(readBookControl.getTextSize());
         tvContent.setLineSpacing(readBookControl.getTextExtra(), 1);

@@ -15,12 +15,31 @@ import java.util.Map;
 
 /**
  * 读书界面控制器
+ * <p>
+ * 控制 1.背景 2.字号 3. 音量翻页 4.点击页面两侧翻页
  */
 public class ReadBookControl {
+    /**
+     * 字号默认设置为16 行间距默认设置为8
+     */
     public static final int DEFAULT_TEXT = 2;
+    /**
+     * 背景默认设置为
+     */
     public static final int DEFAULT_BG = 1;
 
+    /**
+     * 文字大小设置(设置文字大小需要同时修改行间距)
+     * textSize 文字大小尺寸设置
+     * textExtra 文字行间距设置
+     */
     private static List<Map<String, Integer>> textKind;
+
+    /**
+     * 背景色设置(设置背景色需要同时修改文字颜色)
+     * textColor 文字颜色
+     * textBackground 背景色彩
+     */
     private static List<Map<String, Integer>> textDrawable;
 
     private int textSize;
@@ -34,6 +53,9 @@ public class ReadBookControl {
     private Boolean canClickTurn = true;
     private Boolean canKeyTurn = true;
 
+    /**
+     * 应用sp存储设置内容及相关状态
+     */
     private SharedPreferences preference;
 
     private static ReadBookControl readBookControl;
@@ -78,13 +100,13 @@ public class ReadBookControl {
             textKind.add(temp5);
 
             Map<String, Integer> temp6 = new HashMap<>();
-            temp5.put("textSize", 24);
-            temp5.put("textExtra", DensityUtil.dp2px(MyApplication.getInstance(), 15));
+            temp6.put("textSize", 24);
+            temp6.put("textExtra", DensityUtil.dp2px(MyApplication.getInstance(), 15));
             textKind.add(temp6);
 
             Map<String, Integer> temp7 = new HashMap<>();
-            temp5.put("textSize", 26);
-            temp5.put("textExtra", DensityUtil.dp2px(MyApplication.getInstance(), 17));
+            temp7.put("textSize", 26);
+            temp7.put("textExtra", DensityUtil.dp2px(MyApplication.getInstance(), 17));
             textKind.add(temp7);
 
         }
@@ -110,10 +132,13 @@ public class ReadBookControl {
             temp4.put("textBackground", R.drawable.bg_readbook_black);
             textDrawable.add(temp4);
         }
+
         preference = MyApplication.getInstance().getSharedPreferences("CONFIG", 0);
+
         this.textKindIndex = preference.getInt("textKindIndex", DEFAULT_TEXT);
         this.textSize = textKind.get(textKindIndex).get("textSize");
         this.textExtra = textKind.get(textKindIndex).get("textExtra");
+
         this.textDrawableIndex = preference.getInt("textDrawableIndex", DEFAULT_BG);
         this.textColor = textDrawable.get(textDrawableIndex).get("textColor");
         this.textBackground = textDrawable.get(textDrawableIndex).get("textBackground");

@@ -65,7 +65,11 @@ public class ReadBookPresenterImpl extends BasePresenterImpl<IBookReadView> impl
     private int open_from;
     private BookShelfBean bookShelf;
 
-    private int pageLineCount = 5;   //假设5行一页
+    /**
+     * 每页有多少行文字
+     * 假设5行一页
+     */
+    private int pageLineCount = 5;
 
     public ReadBookPresenterImpl() {
 
@@ -95,7 +99,8 @@ public class ReadBookPresenterImpl extends BasePresenterImpl<IBookReadView> impl
                 public void onDenied(List<String> permissions) {
                     Toast.makeText(activity, "读写权限被权限被拒绝,请到设置界面允许被拒绝权限", Toast.LENGTH_LONG).show();
                 }
-            });}
+            });
+        }
     }
 
     @Override

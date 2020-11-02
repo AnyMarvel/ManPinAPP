@@ -229,6 +229,12 @@ public class BookContentView extends FrameLayout {
         return tvContent;
     }
 
+    /**
+     * 基于TextView界面计算 计算每页能够展示多少行内容
+     *
+     * @param height
+     * @return
+     */
     public int getLineCount(int height) {
         float ascent = tvContent.getPaint().ascent();
         float descent = tvContent.getPaint().descent();

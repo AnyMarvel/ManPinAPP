@@ -399,6 +399,7 @@ public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implemen
         llSetting.setOnClickListener(this);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         int id = view.getId();

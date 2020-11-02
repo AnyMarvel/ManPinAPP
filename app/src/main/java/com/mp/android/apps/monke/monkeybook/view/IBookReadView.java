@@ -9,20 +9,23 @@ public interface IBookReadView extends IView {
 
     /**
      * 获取当前阅读界面UI画笔
+     *
      * @return
      */
     Paint getPaint();
 
     /**
      * 获取当前小说内容可绘制宽度
+     *
      * @return
      */
     int getContentWidth();
 
     /**
      * 小说数据初始化成功
+     *
      * @param durChapterIndex
-     * @param chapterAll
+     * @param chapterAll      总章节数
      * @param durPageIndex
      */
     void initContentSuccess(int durChapterIndex, int chapterAll, int durPageIndex);

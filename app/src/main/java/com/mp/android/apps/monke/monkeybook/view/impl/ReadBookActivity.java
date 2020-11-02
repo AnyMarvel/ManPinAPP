@@ -122,7 +122,13 @@ public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implemen
     @Override
     protected void initData() {
         mPresenter.saveProgress();
+
+        //初始化头部及尾部
         menuTopIn = AnimationUtils.loadAnimation(this, R.anim.anim_readbook_top_in);
+        menuBottomIn = AnimationUtils.loadAnimation(this, R.anim.anim_readbook_bottom_in);
+        menuTopOut = AnimationUtils.loadAnimation(this, R.anim.anim_readbook_top_out);
+        menuBottomOut = AnimationUtils.loadAnimation(this, R.anim.anim_readbook_bottom_out);
+
         menuTopIn.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -144,9 +150,7 @@ public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implemen
 
             }
         });
-        menuBottomIn = AnimationUtils.loadAnimation(this, R.anim.anim_readbook_bottom_in);
 
-        menuTopOut = AnimationUtils.loadAnimation(this, R.anim.anim_readbook_top_out);
         menuTopOut.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -163,7 +167,6 @@ public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implemen
 
             }
         });
-        menuBottomOut = AnimationUtils.loadAnimation(this, R.anim.anim_readbook_bottom_out);
     }
 
     @Override

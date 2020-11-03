@@ -24,7 +24,7 @@ public class ILoginFragmentModelImpl extends MBaseModelImpl {
     public Observable<String> verifyLoginUser(String contract) {
         Map<String, String> map = new HashMap<String, String>(16);
         map.put("clientId", "59dfbd1db8544992aa9f7e12f5c1a213");
-        map.put("clientSecret", "");
+        map.put("clientSecret", "b1d96a95e59b4e23a0479cb712a68f3c");
         map.put("recipient", contract);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), JSON.toJSONString(map));
         return getRetrofitObject("https://www.onlyid.net").create(ILoginFragmentAPI.class).verifyCodeByID(requestBody);

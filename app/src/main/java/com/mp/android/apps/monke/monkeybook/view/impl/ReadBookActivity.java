@@ -172,11 +172,8 @@ public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implemen
     @Override
     protected void bindView() {
         moProgressHUD = new MoProgressHUD(this);
-
         flContent = (FrameLayout) findViewById(R.id.fl_content);
         csvBook = (ContentSwitchView) findViewById(R.id.csv_book);
-        initCsvBook();
-
         flMenu = (FrameLayout) findViewById(R.id.fl_menu);
         vMenuBg = findViewById(R.id.v_menu_bg);
         llMenuTop = (LinearLayout) findViewById(R.id.ll_menu_top);
@@ -184,7 +181,6 @@ public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implemen
         ivReturn = (ImageButton) findViewById(R.id.iv_return);
         ivMenuMore = (ImageView) findViewById(R.id.iv_more);
         atvTitle = (AutofitTextView) findViewById(R.id.atv_title);
-
         tvPre = (TextView) findViewById(R.id.tv_pre);
         tvNext = (TextView) findViewById(R.id.tv_next);
         hpbReadProgress = (MHorProgressBar) findViewById(R.id.hpb_read_progress);
@@ -192,16 +188,19 @@ public class ReadBookActivity extends MBaseActivity<IBookReadPresenter> implemen
         llLight = (LinearLayout) findViewById(R.id.ll_light);
         llNightMode = (LinearLayout) findViewById(R.id.ll_night_mode);
         ll_scene_text = findViewById(R.id.ll_scene_text);
+        llSetting = (LinearLayout) findViewById(R.id.ll_setting);
+        chapterListView = (ChapterListView) findViewById(R.id.clp_chapterlist);
+    }
 
+    @Override
+    protected void firstRequest() {
+        super.firstRequest();
+        initCsvBook();
         if (ReadBookControl.getInstance().getTextDrawableIndex() == 3) {
             ll_scene_text.setText(dayMessage);
         } else {
             ll_scene_text.setText(nightMessage);
         }
-
-        llSetting = (LinearLayout) findViewById(R.id.ll_setting);
-
-        chapterListView = (ChapterListView) findViewById(R.id.clp_chapterlist);
     }
 
     @Override

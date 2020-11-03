@@ -24,9 +24,9 @@ public interface IBookReadView extends IView {
     /**
      * 小说数据初始化成功
      *
-     * @param durChapterIndex
+     * @param durChapterIndex 当前章节 （包括番外）
      * @param chapterAll      总章节数
-     * @param durPageIndex
+     * @param durPageIndex    当前章节位置   用页码
      */
     void initContentSuccess(int durChapterIndex, int chapterAll, int durPageIndex);
 

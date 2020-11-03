@@ -109,25 +109,15 @@ public class ContentSwitchView extends FrameLayout implements BookContentView.Se
      * 开始加载
      */
     public void startLoading() {
-        int height = durPageView.getTvContent().getHeight();
-        if (height > 0) {
-            if (loadDataListener != null && durHeight != height) {
-                durHeight = height;
-                loadDataListener.initData(durPageView.getLineCount(height));
-            }
-        }
-        durPageView.getTvContent().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                int height = durPageView.getTvContent().getHeight();
-                if (height > 0) {
-                    if (loadDataListener != null && durHeight != height) {
-                        durHeight = height;
-                        loadDataListener.initData(durPageView.getLineCount(height));
-                    }
+        if (durPageView != null) {
+            int height = durPageView.getTvContent().getHeight();
+            if (height > 0) {
+                if (loadDataListener != null && durHeight != height) {
+                    durHeight = height;
+                    loadDataListener.initData(durPageView.getLineCount(height));
                 }
             }
-        });
+        }
     }
 
     @Override

@@ -14,9 +14,10 @@ import java.util.List;
 
 /**
  * 书本缓存内容
+ * 当前章节缓冲内容
  */
 @Entity
-public class BookContentBean implements Parcelable{
+public class BookContentBean implements Parcelable {
     @Id
     private String durChapterUrl; //对应BookInfoBean noteUrl;
 
@@ -35,7 +36,7 @@ public class BookContentBean implements Parcelable{
     @Transient
     private float lineSize;
 
-    public BookContentBean(){
+    public BookContentBean() {
 
     }
 
@@ -53,12 +54,12 @@ public class BookContentBean implements Parcelable{
         durCapterContent = in.readString();
         tag = in.readString();
         lineContent = in.createStringArrayList();
-        isRight = in.readByte()!=0;
+        isRight = in.readByte() != 0;
     }
 
     @Generated(hash = 1355824386)
     public BookContentBean(String durChapterUrl, int durChapterIndex,
-            String durCapterContent, String tag) {
+                           String durCapterContent, String tag) {
         this.durChapterUrl = durChapterUrl;
         this.durChapterIndex = durChapterIndex;
         this.durCapterContent = durCapterContent;
@@ -115,7 +116,7 @@ public class BookContentBean implements Parcelable{
 
     public void setDurCapterContent(String durCapterContent) {
         this.durCapterContent = durCapterContent;
-        if(durCapterContent==null || durCapterContent.length()==0)
+        if (durCapterContent == null || durCapterContent.length() == 0)
             this.isRight = false;
     }
 

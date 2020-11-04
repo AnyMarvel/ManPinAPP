@@ -395,7 +395,7 @@ public class ContentSwitchView extends FrameLayout implements BookContentView.Se
     }
 
     public void setInitData(int durChapterIndex, int chapterAll, int durPageIndex) {
-        updateOtherPage(durChapterIndex, chapterAll, durPageIndex, -1);
+//        updateOtherPage(durChapterIndex, chapterAll, durPageIndex, -1);
         durPageView.setLoadDataListener(loadDataListener, this);
         durPageView.loadData(null != loadDataListener ? loadDataListener.getChapterTitle(durChapterIndex) : "", durChapterIndex, chapterAll, durPageIndex);
 

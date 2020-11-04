@@ -27,6 +27,7 @@ import com.mp.android.apps.monke.monkeybook.BitIntentDataManager;
 import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
 import com.mp.android.apps.monke.monkeybook.bean.BookContentBean;
 import com.mp.android.apps.monke.monkeybook.bean.BookShelfBean;
+import com.mp.android.apps.monke.monkeybook.bean.ChapterListBean;
 import com.mp.android.apps.monke.monkeybook.bean.LocBookShelfBean;
 import com.mp.android.apps.monke.monkeybook.bean.ReadBookContentBean;
 import com.mp.android.apps.monke.monkeybook.common.RxBusTag;
@@ -177,7 +178,6 @@ public class ReadBookPresenterImpl extends BasePresenterImpl<IBookReadView> impl
         if (null != bookShelf && bookShelf.getBookInfoBean().getChapterlist().size() > 0) {
 
             BookContentBean contentBookContentBean = bookShelf.getBookInfoBean().getChapterlist().get(chapterIndex).getBookContentBean();
-
             if (null != contentBookContentBean && null != contentBookContentBean.getDurCapterContent()) {
                 if (contentBookContentBean.getLineSize() == mView.getPaint().getTextSize() && contentBookContentBean.getLineContent().size() > 0) {
                     //已有数据
@@ -228,10 +228,13 @@ public class ReadBookPresenterImpl extends BasePresenterImpl<IBookReadView> impl
                 }
             } else {
                 final int finalPageIndex1 = pageIndex;
+                ChapterListBean durChapterListBean = bookShelf.getBookInfoBean().getChapterlist().get(chapterIndex);
                 Observable.create(new ObservableOnSubscribe<ReadBookContentBean>() {
                     @Override
                     public void subscribe(ObservableEmitter<ReadBookContentBean> e) throws Exception {
-                        List<BookContentBean> tempList = DbHelper.getInstance().getmDaoSession().getBookContentBeanDao().queryBuilder().where(BookContentBeanDao.Properties.DurChapterUrl.eq(bookShelf.getBookInfoBean().getChapterlist().get(chapterIndex).getDurChapterUrl())).build().list();
+                        List<BookContentBean> tempList = DbHelper.getInstance().getmDaoSession().getBookContentBeanDao()
+                                .queryBuilder()
+                                .where(BookContentBeanDao.Properties.DurChapterUrl.eq(durChapterListBean.getDurChapterUrl())).build().list();
                         e.onNext(new ReadBookContentBean(tempList == null ? new ArrayList<BookContentBean>() : tempList, finalPageIndex1));
                         e.onComplete();
                     }
@@ -241,21 +244,22 @@ public class ReadBookPresenterImpl extends BasePresenterImpl<IBookReadView> impl
                         .subscribe(new SimpleObserver<ReadBookContentBean>() {
                             @Override
                             public void onNext(ReadBookContentBean tempList) {
-                                if (tempList.getBookContentList() != null && tempList.getBookContentList().size() > 0 && tempList.getBookContentList().get(0).getDurCapterContent() != null) {
-                                    bookShelf.getBookInfoBean().getChapterlist().get(chapterIndex).setBookContentBean(tempList.getBookContentList().get(0));
+                                if (tempList.getBookContentList() != null && tempList.getBookContentList().size() > 0
+                                        && tempList.getBookContentList().get(0).getDurCapterContent() != null) {
+                                    durChapterListBean.setBookContentBean(tempList.getBookContentList().get(0));
                                     loadContent(bookContentView, bookTag, chapterIndex, tempList.getPageIndex());
                                 } else {
                                     final int finalPageIndex1 = tempList.getPageIndex();
                                     WebBookModelImpl.
                                             getInstance().
-                                            getBookContent(bookShelf.getBookInfoBean().getChapterlist().get(chapterIndex).getDurChapterUrl(), chapterIndex, bookShelf.getTag()).
+                                            getBookContent(durChapterListBean.getDurChapterUrl(), chapterIndex, bookShelf.getTag()).
                                             map(new Function<BookContentBean, BookContentBean>() {
                                                 @Override
                                                 public BookContentBean apply(BookContentBean bookContentBean) throws Exception {
                                                     if (bookContentBean.getRight()) {
                                                         DbHelper.getInstance().getmDaoSession().getBookContentBeanDao().insertOrReplace(bookContentBean);
-                                                        bookShelf.getBookInfoBean().getChapterlist().get(chapterIndex).setHasCache(true);
-                                                        DbHelper.getInstance().getmDaoSession().getChapterListBeanDao().update(bookShelf.getBookInfoBean().getChapterlist().get(chapterIndex));
+                                                        durChapterListBean.setHasCache(true);
+                                                        DbHelper.getInstance().getmDaoSession().getChapterListBeanDao().update(durChapterListBean);
                                                     }
                                                     return bookContentBean;
                                                 }

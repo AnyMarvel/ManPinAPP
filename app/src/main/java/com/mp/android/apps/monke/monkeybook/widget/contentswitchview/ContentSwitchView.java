@@ -403,6 +403,14 @@ public class ContentSwitchView extends FrameLayout implements BookContentView.Se
             loadDataListener.updateProgress(durPageView.getDurChapterIndex(), durPageView.getDurPageIndex());
     }
 
+    /**
+     * 加载完当前页面数据后,更新后期加载数据
+     *
+     * @param durChapterIndex 当前章节数
+     * @param chapterAll      总章节数
+     * @param durPageIndex    当前章节的当前页面数
+     * @param pageAll         当前章节划分的总页数
+     */
     private void updateOtherPage(int durChapterIndex, int chapterAll, int durPageIndex, int pageAll) {
         if (chapterAll > 1 || pageAll > 1) {
             if ((durChapterIndex == 0 && pageAll == -1) || (durChapterIndex == 0 && durPageIndex == 0 && pageAll != -1)) {
@@ -445,6 +453,14 @@ public class ContentSwitchView extends FrameLayout implements BookContentView.Se
         }
     }
 
+    /**
+     * 加载下一页内容
+     *
+     * @param durChapterIndex 当前章节数
+     * @param chapterAll      总章节数
+     * @param durPageIndex    当前章节的当前页面数
+     * @param pageAll         当前章节划分的总页数
+     */
     private void addNextPage(int durChapterIndex, int chapterAll, int durPageIndex, int pageAll) {
         if (state == ONLYNEXT || state == PREANDNEXT) {
             int temp = (state == ONLYNEXT ? 1 : 2);
@@ -465,6 +481,14 @@ public class ContentSwitchView extends FrameLayout implements BookContentView.Se
         }
     }
 
+    /**
+     * 加载上一页内容
+     *
+     * @param durChapterIndex 当前章节数
+     * @param chapterAll      总章节数
+     * @param durPageIndex    当前章节的当前页面数
+     * @param pageAll         当前章节划分的总页数
+     */
     private void addPrePage(int durChapterIndex, int chapterAll, int durPageIndex, int pageAll) {
         if (state == ONLYNEXT || state == NONE) {
             BookContentView pre = new BookContentView(getContext());
@@ -484,7 +508,17 @@ public class ContentSwitchView extends FrameLayout implements BookContentView.Se
         }
     }
 
-
+    /**
+     * 当前页面加载完成后,向后预加载一页数据
+     * 停止方式为判断当前 BookContentView是否是当前界面展示View. 只往后加载一页数据
+     *
+     * @param bookContentView 当前展示View
+     * @param durChapterIndex 当前章节数
+     * @param chapterAll      总章节数
+     * @param durPageIndex    当前第几页
+     * @param pageAll         总页数
+     * @param fromPageIndex   从第几页开始
+     */
     @Override
     public void setDataFinish(BookContentView bookContentView, int durChapterIndex, int chapterAll, int durPageIndex, int pageAll, int fromPageIndex) {
         if (null != getDurContentView() && bookContentView == getDurContentView() && chapterAll > 0 && pageAll > 0) {

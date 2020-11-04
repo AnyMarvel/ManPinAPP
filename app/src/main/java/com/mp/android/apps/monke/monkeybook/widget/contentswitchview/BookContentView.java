@@ -105,6 +105,11 @@ public class BookContentView extends FrameLayout {
         }
     }
 
+    /**
+     * 加载完成
+     * 错误界面及loading标识隐藏
+     * llContent内容展示显示
+     */
     public void finishLoading() {
         llError.setVisibility(GONE);
         llContent.setVisibility(VISIBLE);
@@ -119,6 +124,17 @@ public class BookContentView extends FrameLayout {
         finishLoading();
     }
 
+    /**
+     * 更新ContentView内容
+     *
+     * @param tag             图书来源
+     * @param title           基于章节名称获取到的文章
+     * @param contentLines    当前ContentView展示的数据源
+     * @param durChapterIndex 当前章节(序号 int)
+     * @param chapterAll      总章节数
+     * @param durPageIndex    当前章节的当前页(page数)
+     * @param durPageAll      基于屏幕宽度和字体设置划分的当前章节的总页数
+     */
     public void updateData(long tag, String title, List<String> contentLines, int durChapterIndex, int chapterAll, int durPageIndex, int durPageAll) {
         if (tag == qTag) {
             if (setDataListener != null) {

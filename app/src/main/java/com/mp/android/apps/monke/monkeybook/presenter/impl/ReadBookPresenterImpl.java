@@ -180,7 +180,13 @@ public class ReadBookPresenterImpl extends BasePresenterImpl<IBookReadView> impl
             BookContentBean contentBookContentBean = bookShelf.getBookInfoBean().getChapterlist().get(chapterIndex).getBookContentBean();
             if (null != contentBookContentBean && null != contentBookContentBean.getDurCapterContent()) {
                 if (contentBookContentBean.getLineSize() == mView.getPaint().getTextSize() && contentBookContentBean.getLineContent().size() > 0) {
-                    //已有数据
+                    /**
+                     * 数据源数组已经划分为可使用数组
+                     *
+                     * 基于数据源计算当前章节总页数,
+                     * 每页展示的内容等,基于bookContentView.updateData方法更新当前页面
+                     *
+                     */
                     int tempCount = (int) Math.ceil(contentBookContentBean.getLineContent().size() * 1.0 / pageLineCount) - 1;
 
                     if (pageIndex == BookContentView.DURPAGEINDEXBEGIN) {
@@ -193,8 +199,9 @@ public class ReadBookPresenterImpl extends BasePresenterImpl<IBookReadView> impl
                         }
                     }
 
-                    int start = pageIndex * pageLineCount;
-                    int end = pageIndex == tempCount ? contentBookContentBean.getLineContent().size() : start + pageLineCount;
+                    int start = pageIndex * pageLineCount;//当前章节起始行
+                    int end = pageIndex == tempCount ? contentBookContentBean.getLineContent().size() : start + pageLineCount;//当前章节结束行
+
                     if (bookContentView != null && bookTag == bookContentView.getqTag()) {
                         bookContentView.updateData(bookTag, bookShelf.getBookInfoBean().getChapterlist().get(chapterIndex).getDurChapterName()
                                 , contentBookContentBean.getLineContent().subList(start, end)
@@ -204,7 +211,11 @@ public class ReadBookPresenterImpl extends BasePresenterImpl<IBookReadView> impl
                                 , tempCount + 1);
                     }
                 } else {
-                    //有元数据  重新分行
+                    /**
+                     * 有源数据(原始数据)  重新分行
+                     * 将当前章节(爬虫获取到的当前章节的内容)按照当前屏幕每行的可能容多少字体分割为多行,
+                     * 存储到 BookContentBean->lineContent数组中用于进行界面渲染
+                     */
                     contentBookContentBean.setLineSize(mView.getPaint().getTextSize());
                     final int finalPageIndex = pageIndex;
                     SeparateParagraphtoLines(contentBookContentBean.getDurCapterContent())
@@ -342,6 +353,13 @@ public class ReadBookPresenterImpl extends BasePresenterImpl<IBookReadView> impl
             return bookShelf.getBookInfoBean().getChapterlist().get(chapterIndex).getDurChapterName();
     }
 
+    /**
+     * 将单章文本内容以当前设置字体大小转换为StaticLayout,然后逐行存储到新数组中
+     * linesdata 数组 每行存储的数据为需要进行展示的数据
+     *
+     * @param paragraphstr 单章数据源
+     * @return 返回被观察者, 将获取到的需要裁剪的数据源进行向下传递
+     */
     public Observable<List<String>> SeparateParagraphtoLines(final String paragraphstr) {
         return Observable.create(new ObservableOnSubscribe<List<String>>() {
             @Override

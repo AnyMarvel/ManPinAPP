@@ -347,10 +347,12 @@ public class ReadBookPresenterImpl extends BasePresenterImpl<IBookReadView> impl
 
     @Override
     public String getChapterTitle(int chapterIndex) {
-        if (bookShelf.getBookInfoBean().getChapterlist().size() == 0) {
-            return "无章节";
-        } else
+        if (bookShelf.getBookInfoBean().getChapterlist().size() > chapterIndex) {
             return bookShelf.getBookInfoBean().getChapterlist().get(chapterIndex).getDurChapterName();
+        } else {
+            return "无章节";
+        }
+
     }
 
     /**

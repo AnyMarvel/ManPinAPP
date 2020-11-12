@@ -94,7 +94,8 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
     public void updateView() {
         if (null != mPresenter.getBookShelf()) {
             if (mPresenter.getInBookShelf()) {
-                if (mPresenter.getBookShelf().getBookInfoBean().getChapterlist().size() > 0)
+                if (mPresenter.getBookShelf().getBookInfoBean().getChapterlist().size() > 0
+                        && mPresenter.getBookShelf().getBookInfoBean().getChapterlist().size() > mPresenter.getBookShelf().getDurChapter())
                     tvChapter.setText(String.format(getString(R.string.tv_read_durprogress), mPresenter.getBookShelf().getBookInfoBean().getChapterlist().get(mPresenter.getBookShelf().getDurChapter()).getDurChapterName()));
                 else
                     tvChapter.setText("无章节");
@@ -215,15 +216,15 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
             @Override
             public void onClick(View v) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    if(getStart_share_ele()){
+                    if (getStart_share_ele()) {
                         finishAfterTransition();
-                    }else{
+                    } else {
                         finish();
-                        overridePendingTransition(0,android.R.anim.fade_out);
+                        overridePendingTransition(0, android.R.anim.fade_out);
                     }
                 } else {
                     finish();
-                    overridePendingTransition(0,android.R.anim.fade_out);
+                    overridePendingTransition(0, android.R.anim.fade_out);
                 }
             }
         });
@@ -245,15 +246,15 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
                 startActivityByAnim(intent, android.R.anim.fade_in, android.R.anim.fade_out);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    if(getStart_share_ele()){
+                    if (getStart_share_ele()) {
                         finishAfterTransition();
-                    }else{
+                    } else {
                         finish();
-                        overridePendingTransition(0,android.R.anim.fade_out);
+                        overridePendingTransition(0, android.R.anim.fade_out);
                     }
                 } else {
                     finish();
-                    overridePendingTransition(0,android.R.anim.fade_out);
+                    overridePendingTransition(0, android.R.anim.fade_out);
                 }
             }
         });

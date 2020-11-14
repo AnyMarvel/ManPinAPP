@@ -43,7 +43,7 @@
         <activity android:name=".livevblank.EditCardActivity" />
         <activity android:name=".livevblank.PreviewActivity" />
         <activity android:name=".livevblank.SearchPeopleActivity" />
-
+        <activity android:name=".monke.readActivity.ReadActivity"/>
         <activity android:name="com.xinlan.imageeditlibrary.picchooser.SelectPictureActivity" />
         <activity
             android:name="com.xinlan.imageeditlibrary.editimage.EditImageActivity"

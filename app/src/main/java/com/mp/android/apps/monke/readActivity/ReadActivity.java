@@ -62,6 +62,8 @@ import static android.view.View.VISIBLE;
 /**
  * Created by newbiechen on 17-5-16.
  */
+// TODO: 2020/11/15 https://www.wxguan.com/wenzhang/145/145928/ 测试阅读累，模拟构造方法
+
 
 public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
         implements ReadContract.View {

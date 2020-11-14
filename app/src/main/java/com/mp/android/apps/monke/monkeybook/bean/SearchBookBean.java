@@ -4,6 +4,9 @@ package com.mp.android.apps.monke.monkeybook.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * 获取图书详情页面
+ */
 public class SearchBookBean implements Parcelable {
     /**
      * 图书url详情页地址

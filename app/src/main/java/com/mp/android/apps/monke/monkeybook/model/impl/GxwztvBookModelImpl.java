@@ -8,17 +8,11 @@ import com.mp.android.apps.monke.monkeybook.bean.BookContentBean;
 import com.mp.android.apps.monke.monkeybook.bean.BookInfoBean;
 import com.mp.android.apps.monke.monkeybook.bean.BookShelfBean;
 import com.mp.android.apps.monke.monkeybook.bean.ChapterListBean;
-import com.mp.android.apps.monke.monkeybook.bean.LibraryBean;
-import com.mp.android.apps.monke.monkeybook.bean.LibraryKindBookListBean;
-import com.mp.android.apps.monke.monkeybook.bean.LibraryNewBookBean;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
 import com.mp.android.apps.monke.monkeybook.bean.WebChapterBean;
-import com.mp.android.apps.monke.monkeybook.cache.ACache;
-import com.mp.android.apps.monke.monkeybook.common.api.IBookInfoApi;
 import com.mp.android.apps.monke.monkeybook.common.api.IGxwztvApi;
 import com.mp.android.apps.monke.monkeybook.listener.OnGetChapterListListener;
 import com.mp.android.apps.monke.monkeybook.model.IGxwztvBookModel;
-import com.mp.android.apps.monke.monkeybook.presenter.impl.LibraryPresenterImpl;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -27,7 +21,6 @@ import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -44,129 +37,6 @@ public class GxwztvBookModelImpl extends MBaseModelImpl implements IGxwztvBookMo
 
     public static GxwztvBookModelImpl getInstance() {
         return new GxwztvBookModelImpl();
-    }
-
-
-    /**
-     * 获取主页信息
-     */
-    @Override
-    public Observable<LibraryBean> getLibraryData(final ACache aCache) {
-        return getRetrofitObject(TAG).create(IGxwztvApi.class).getLibraryData("").flatMap(new Function<String, ObservableSource<LibraryBean>>() {
-            @Override
-            public ObservableSource<LibraryBean> apply(String s) throws Exception {
-                if (s != null && s.length() > 0 && aCache != null) {
-                    aCache.put(LibraryPresenterImpl.LIBRARY_CACHE_KEY, s);
-                }
-                return analyLibraryData(s);
-            }
-        });
-    }
-
-    /**
-     * 解析主页数据
-     */
-    @Override
-    public Observable<LibraryBean> analyLibraryData(final String data) {
-        return Observable.create(new ObservableOnSubscribe<LibraryBean>() {
-            @Override
-            public void subscribe(ObservableEmitter<LibraryBean> e) throws Exception {
-                LibraryBean result = new LibraryBean();
-                Document doc = Jsoup.parse(data);
-                Element contentE = doc.getElementsByClass("container").get(0);
-                //解析最新书籍
-                Elements newBookEs = contentE.getElementsByClass("list-group-item text-nowrap modal-open");
-                List<LibraryNewBookBean> libraryNewBooks = new ArrayList<LibraryNewBookBean>();
-                for (int i = 0; i < newBookEs.size(); i++) {
-                    Element itemE = newBookEs.get(i).getElementsByTag("a").get(0);
-                    LibraryNewBookBean item = new LibraryNewBookBean(itemE.text(), TAG + itemE.attr("href"), TAG, "wzzw.la");
-                    libraryNewBooks.add(item);
-                }
-                result.setLibraryNewBooks(libraryNewBooks);
-                //////////////////////////////////////////////////////////////////////
-                List<LibraryKindBookListBean> kindBooks = new ArrayList<LibraryKindBookListBean>();
-                //解析男频女频
-                Elements hotEs = contentE.getElementsByClass("col-xs-12");
-                for (int i = 1; i < hotEs.size(); i++) {
-                    LibraryKindBookListBean kindItem = new LibraryKindBookListBean();
-                    kindItem.setKindName(hotEs.get(i).getElementsByClass("panel-title").get(0).text());
-                    Elements bookEs = hotEs.get(i).getElementsByClass("panel-body").get(0).getElementsByTag("li");
-
-                    List<SearchBookBean> books = new ArrayList<SearchBookBean>();
-                    for (int j = 0; j < bookEs.size(); j++) {
-                        SearchBookBean searchBookBean = new SearchBookBean();
-                        searchBookBean.setOrigin("wzzw.la");
-                        searchBookBean.setTag(TAG);
-                        searchBookBean.setName(bookEs.get(j).getElementsByTag("span").get(0).text());
-                        searchBookBean.setNoteUrl(TAG + bookEs.get(j).getElementsByTag("a").get(0).attr("href"));
-                        searchBookBean.setCoverUrl(bookEs.get(j).getElementsByTag("img").get(0).attr("src"));
-                        books.add(searchBookBean);
-                    }
-                    kindItem.setBooks(books);
-                    kindBooks.add(kindItem);
-                }
-                //解析部分分类推荐
-                Elements kindEs = contentE.getElementsByClass("panel panel-info index-category-qk");
-                for (int i = 0; i < kindEs.size(); i++) {
-                    LibraryKindBookListBean kindItem = new LibraryKindBookListBean();
-                    kindItem.setKindName(kindEs.get(i).getElementsByClass("panel-title").get(0).text());
-                    kindItem.setKindUrl(TAG + kindEs.get(i).getElementsByClass("listMore").get(0).getElementsByTag("a").get(0).attr("href"));
-
-                    List<SearchBookBean> books = new ArrayList<SearchBookBean>();
-                    Element firstBookE = kindEs.get(i).getElementsByTag("dl").get(0);
-                    SearchBookBean firstBook = new SearchBookBean();
-                    firstBook.setTag(TAG);
-                    firstBook.setOrigin("wzzw.la");
-                    firstBook.setName(firstBookE.getElementsByTag("a").get(1).text());
-                    firstBook.setNoteUrl(TAG + firstBookE.getElementsByTag("a").get(0).attr("href"));
-                    firstBook.setCoverUrl(firstBookE.getElementsByTag("a").get(0).getElementsByTag("img").get(0).attr("src"));
-                    firstBook.setKind(kindItem.getKindName());
-                    books.add(firstBook);
-
-                    Elements otherBookEs = kindEs.get(i).getElementsByClass("book_textList").get(0).getElementsByTag("li");
-                    for (int j = 0; j < otherBookEs.size(); j++) {
-                        SearchBookBean item = new SearchBookBean();
-                        item.setTag(TAG);
-                        item.setOrigin("wzzw.la");
-                        item.setKind(kindItem.getKindName());
-                        item.setNoteUrl(TAG + otherBookEs.get(j).getElementsByTag("a").get(0).attr("href"));
-                        item.setName(otherBookEs.get(j).getElementsByTag("a").get(0).text());
-                        books.add(item);
-                    }
-                    kindItem.setBooks(books);
-                    kindBooks.add(kindItem);
-                }
-                //////////////
-                result.setKindBooks(kindBooks);
-                e.onNext(result);
-                e.onComplete();
-            }
-        });
-    }
-
-    //Library展示导航索引页数据,获取
-    @Override
-    public LinkedHashMap<String, String> getBookNavs() {
-        LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
-        linkedHashMap.put("东方玄幻", "http://www.wzzw.la/xuanhuanxiaoshuo/");
-        linkedHashMap.put("西方奇幻", "http://www.wzzw.la/qihuanxiaoshuo/");
-        linkedHashMap.put("热血修真", "http://www.wzzw.la/xiuzhenxiaoshuo/");
-        linkedHashMap.put("武侠仙侠", "http://www.wzzw.la/wuxiaxiaoshuo/");
-        linkedHashMap.put("都市爽文", "http://www.wzzw.la/dushixiaoshuo/");
-        linkedHashMap.put("言情暧昧", "http://www.wzzw.la/yanqingxiaoshuo/");
-        linkedHashMap.put("灵异悬疑", "http://www.wzzw.la/lingyixiaoshuo/");
-        linkedHashMap.put("运动竞技", "http://www.wzzw.la/jingjixiaoshuo/");
-        linkedHashMap.put("历史架空", "http://www.wzzw.la/lishixiaoshuo/");
-        linkedHashMap.put("审美", "http://www.wzzw.la/danmeixiaoshuo/");
-        linkedHashMap.put("科幻迷航", "http://www.wzzw.la/kehuanxiaoshuo/");
-        linkedHashMap.put("游戏人生", "http://www.wzzw.la/youxixiaoshuo/");
-        linkedHashMap.put("军事斗争", "http://www.wzzw.la/junshixiaoshuo/");
-        linkedHashMap.put("商战人生", "http://www.wzzw.la/shangzhanxiaoshuo/");
-        linkedHashMap.put("校园爱情", "http://www.wzzw.la/xiaoyuanxiaoshuo/");
-        linkedHashMap.put("官场仕途", "http://www.wzzw.la/guanchangxiaoshuo/");
-        linkedHashMap.put("娱乐明星", "http://www.wzzw.la/zhichangxiaoshuo/");
-        linkedHashMap.put("其他", "http://www.wzzw.la/qitaxiaoshuo/");
-        return linkedHashMap;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////

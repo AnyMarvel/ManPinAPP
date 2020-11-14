@@ -13,6 +13,8 @@ import org.greenrobot.greendao.annotation.Transient;
 
 /**
  * 书架item Bean
+ * 保存阅读图书的状态
+ * 本地数据库存储阅读图书的状态
  */
 
 @Entity

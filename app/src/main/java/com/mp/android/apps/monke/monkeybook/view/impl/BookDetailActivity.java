@@ -142,12 +142,6 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
             tvChapter.setText(String.format(getString(R.string.tv_searchbook_lastest), mPresenter.getSearchBook().getLastChapter()));
             tvShelf.setText("放入书架");
             tvRead.setText("开始阅读");
-            tvRead.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //放入书架
-                }
-            });
             tvIntro.setVisibility(View.INVISIBLE);
             tvLoading.setVisibility(View.VISIBLE);
             tvLoading.setText("加载中...");

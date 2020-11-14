@@ -84,7 +84,7 @@
                 android:layout_weight="1"
                 android:stateListAnimator="@drawable/anim_state_list_m01"
                 app:image="@drawable/xiaoshuo"
-                app:text="小说"
+                app:text="书架"
                 app:textColor="@color/colorGray" />
 
 

@@ -26,6 +26,8 @@ import com.mp.android.apps.main.home.view.impl.MainFragment;
 import com.mp.android.apps.main.personal.PersonFragment;
 import com.mp.android.apps.main.home.view.MyImageTextView;
 import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
+import com.mp.android.apps.monke.readActivity.ReadActivity;
+import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
@@ -177,7 +179,10 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
                 break;
             case R.id.gerenzhongxin:
                 changeNavImages(R.id.gerenzhongxin);
-                showFragment(personFragment);
+                Intent intent = new Intent(MainActivity.this, ReadActivity.class);
+                intent.putExtra("extra_coll_book", getMyCollBookBean());
+                startActivity(intent);
+//                showFragment(personFragment);
                 break;
             default:
                 break;
@@ -207,4 +212,20 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
         }
     }
 
+    public CollBookBean getMyCollBookBean() {
+        CollBookBean collBookBean = new CollBookBean();
+        collBookBean.set_id("https://www.wxguan.com/wenzhang/145/145928/");
+        collBookBean.setTitle("wpkFlowLog");
+        collBookBean.setAuthor("xxxxx");
+        collBookBean.setCover("/storage/emulated/0/wpkFlowLog.txt");
+        collBookBean.setLastChapter("第一章节");
+        collBookBean.setLastRead("2020-11-15T03:43:56");
+        collBookBean.setUpdated("2019-08-26T04:54:33");
+        collBookBean.setHasCp(false);
+        collBookBean.setLocal(true);
+        collBookBean.setUpdate(false);
+        collBookBean.setShortIntro("五");
+        return collBookBean;
+
+    }
 }

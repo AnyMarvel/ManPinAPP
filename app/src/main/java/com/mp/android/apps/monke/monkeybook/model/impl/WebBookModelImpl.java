@@ -140,17 +140,7 @@ public class WebBookModelImpl implements IWebBookModel {
         }
     }
 
-    public LinkedHashMap<String, String> getBookNav(String url) {
-        Uri uri = Uri.parse(url);
-        String tag = uri.getScheme() + "://" + uri.getHost();
-        if (tag.equals(GxwztvBookModelImpl.TAG)) {
-            return GxwztvBookModelImpl.getInstance().getBookNavs();
-        } else if (tag.equals(LingdiankanshuStationBookModelImpl.TAG)) {
-            return LingdiankanshuStationBookModelImpl.getInstance().getBookNavs();
-        } else {
-            return GxwztvBookModelImpl.getInstance().getBookNavs();
-        }
-    }
+
 
     /**
      * 新增jsoup分析网站需要这里进行注册

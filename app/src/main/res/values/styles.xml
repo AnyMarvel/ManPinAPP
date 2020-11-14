@@ -47,6 +47,7 @@
         <item name="android:windowEnterAnimation">@anim/anim_pop_windowlight_in</item>
         <item name="android:windowExitAnimation">@anim/anim_pop_windowlight_out</item>
     </style>
+
     <style name="anim_pop_windowmenumore">
         <item name="android:windowEnterAnimation">@anim/anim_pop_windowmenumore_in</item>
         <item name="android:windowExitAnimation">@anim/anim_pop_windowmenumore_out</item>
@@ -80,5 +81,38 @@
 
     <!--Toolbar的Theme的设置，都是针对popup的设置-->
 
+
+<!--    ReadActivity-->
+    <!--Toolbar-->
+    <style name="Theme.ToolBar.Menu" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <!-- 设置-弹窗的背景-颜色-->
+        <item name="android:colorBackground">@color/white</item>
+        <!-- 字体的颜色-->
+        <item name="android:textColor">@color/black</item>
+        <!-- 字体大小-->
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">center_vertical</item>
+        <!-- 用于替换菜单的三个小白点，换成自已的图片-->
+        <item name="actionOverflowButtonStyle">@style/ActionButton.Overflow.Menu</item>
+        <!--用于控制menu弹出的位置，位于toolbar的下面，而不是上面-->
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
+        <!-- 用于修改item默认的分割线-->
+        <item name="android:dropDownListViewStyle">@style/dropDownStyle</item>
+        <item name="dropDownListViewStyle">@style/dropDownStyle</item>
+    </style>
+
+    <style name="ActionButton.Overflow.Menu" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_menu_overflow</item>
+    </style>
+
+    <style name="OverflowMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="overlapAnchor">false</item>
+    </style>
+    <!--用于修改popmenu的分割线-->
+    <style name="dropDownStyle" parent="android:style/Widget.Holo.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selector_common_bg</item>
+        <item name="android:divider">#727272</item>
+        <item name="android:dividerHeight">0.5dp</item>
+    </style>
 
 </resources>

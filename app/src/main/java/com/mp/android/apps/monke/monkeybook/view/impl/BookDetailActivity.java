@@ -13,14 +13,18 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.mp.android.apps.main.MainActivity;
 import com.mp.android.apps.monke.monkeybook.BitIntentDataManager;
 import com.mp.android.apps.R;
 import com.mp.android.apps.monke.monkeybook.base.MBaseActivity;
+import com.mp.android.apps.monke.monkeybook.bean.BookShelfBean;
 import com.mp.android.apps.monke.monkeybook.presenter.IBookDetailPresenter;
 import com.mp.android.apps.monke.monkeybook.presenter.impl.BookDetailPresenterImpl;
 import com.mp.android.apps.monke.monkeybook.presenter.impl.ReadBookPresenterImpl;
 import com.mp.android.apps.monke.monkeybook.utils.BlurTransformation;
 import com.mp.android.apps.monke.monkeybook.view.IBookDetailView;
+import com.mp.android.apps.monke.readActivity.ReadActivity;
+import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 
 public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> implements IBookDetailView {
     private FrameLayout iflContent;
@@ -227,17 +231,21 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
             @Override
             public void onClick(View v) {
                 //进入阅读
-                Intent intent = new Intent(BookDetailActivity.this, ReadBookActivity.class);
-                intent.putExtra("from", ReadBookPresenterImpl.OPEN_FROM_APP);
-                String key = String.valueOf(System.currentTimeMillis());
-                intent.putExtra("data_key", key);
-                try {
-                    BitIntentDataManager.getInstance().putData(key, mPresenter.getBookShelf().clone());
-                } catch (CloneNotSupportedException e) {
-                    BitIntentDataManager.getInstance().putData(key, mPresenter.getBookShelf());
-                    e.printStackTrace();
-                }
-                startActivityByAnim(intent, android.R.anim.fade_in, android.R.anim.fade_out);
+//                Intent intent = new Intent(BookDetailActivity.this, ReadBookActivity.class);
+//                intent.putExtra("from", ReadBookPresenterImpl.OPEN_FROM_APP);
+//                String key = String.valueOf(System.currentTimeMillis());
+//                intent.putExtra("data_key", key);
+//                try {
+//                    BitIntentDataManager.getInstance().putData(key, mPresenter.getBookShelf().clone());
+//                } catch (CloneNotSupportedException e) {
+//                    BitIntentDataManager.getInstance().putData(key, mPresenter.getBookShelf());
+//                    e.printStackTrace();
+//                }
+//                startActivityByAnim(intent, android.R.anim.fade_in, android.R.anim.fade_out);
+
+                Intent intent = new Intent(BookDetailActivity.this, ReadActivity.class);
+                intent.putExtra("extra_coll_book", getMyCollBookBean(mPresenter.getBookShelf()));
+                startActivity(intent);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     if (getStart_share_ele()) {
@@ -253,4 +261,21 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
             }
         });
     }
+    public CollBookBean getMyCollBookBean(BookShelfBean bookShelfBean) {
+        CollBookBean collBookBean = new CollBookBean();
+        collBookBean.set_id(bookShelfBean.getNoteUrl());
+        collBookBean.setTitle(bookShelfBean.getBookInfoBean().getName());
+        collBookBean.setAuthor(bookShelfBean.getBookInfoBean().getAuthor());
+        collBookBean.setCover(bookShelfBean.getBookInfoBean().getCoverUrl());
+        collBookBean.setLastChapter("第一章节");
+        collBookBean.setLastRead("2020-11-15T03:43:56");
+        collBookBean.setUpdated("2019-08-26T04:54:33");
+        collBookBean.setHasCp(false);
+        collBookBean.setLocal(false);
+        collBookBean.setUpdate(false);
+        collBookBean.setShortIntro("五");
+        return collBookBean;
+
+    }
+
 }

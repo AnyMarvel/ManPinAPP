@@ -1,6 +1,13 @@
 package com.mp.android.apps.monke.readActivity.local.remote;
 
 
+import com.mp.android.apps.monke.monkeybook.bean.BookShelfBean;
+import com.mp.android.apps.monke.monkeybook.bean.ChapterListBean;
+import com.mp.android.apps.monke.monkeybook.dao.ChapterListBeanDao;
+import com.mp.android.apps.monke.monkeybook.dao.DbHelper;
+import com.mp.android.apps.monke.monkeybook.listener.OnGetChapterListListener;
+import com.mp.android.apps.monke.monkeybook.model.impl.ReaderContentWxguanModelImpl;
+import com.mp.android.apps.monke.monkeybook.model.impl.WebBookModelImpl;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.ChapterInfoBean;
 
@@ -8,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Single;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleOnSubscribe;
 import retrofit2.Retrofit;
 
 /**
@@ -41,14 +50,34 @@ public class RemoteRepository {
 
 
     public Single<List<BookChapterBean>> getBookChapters(String bookId) {
-        return mBookApi.getBookChapterPackage(bookId, "chapter")
-                .map(bean -> {
-                    if (bean.getMixToc() == null) {
-                        return new ArrayList<BookChapterBean>(1);
-                    } else {
-                        return bean.getMixToc().getChapters();
-                    }
-                });
+        List<ChapterListBean> chapterListBeans = DbHelper.getInstance().getmDaoSession().getChapterListBeanDao().queryBuilder().where(ChapterListBeanDao.Properties.NoteUrl.eq(bookId)).build().list();
+        if (chapterListBeans == null || chapterListBeans.size() == 0) return null;
+        List<BookChapterBean> chapters=new ArrayList<>();
+        for (ChapterListBean chapterListBean:chapterListBeans){
+            BookChapterBean bookChapterBean=new BookChapterBean();
+            bookChapterBean.setId(chapterListBean.getNoteUrl());
+            bookChapterBean.setTitle(chapterListBean.getDurChapterName());
+            bookChapterBean.setLink(chapterListBean.getDurChapterUrl());
+            bookChapterBean.setUnreadble(false);
+            chapters.add(bookChapterBean);
+        }
+
+        return Single.create(new SingleOnSubscribe<List<BookChapterBean>>() {
+            @Override
+            public void subscribe(SingleEmitter<List<BookChapterBean>> emitter) throws Exception {
+                emitter.onSuccess(chapters);
+            }
+        });
+
+//        return mBookApi.getBookChapterPackage(bookId, "chapter")
+//                .map(bean -> {
+//                    if (bean.getMixToc() == null) {
+//                        return new ArrayList<BookChapterBean>(1);
+//                    } else {
+//                        return bean.getMixToc().getChapters();
+//                    }
+//                });
+
     }
 
     /**

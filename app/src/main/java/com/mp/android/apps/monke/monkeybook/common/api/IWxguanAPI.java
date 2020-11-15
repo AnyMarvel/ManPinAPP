@@ -47,4 +47,12 @@ public interface IWxguanAPI {
             "Connection:close",
             "Cache-Control:no-cache"})
     Single<String> getChapterLists(@Url String url);
+
+    @GET
+    @Headers({"Accept:text/html,application/xhtml+xml,application/xml",
+            "User-Agent:Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3",
+            "Accept-Charset:UTF-8",
+            "Connection:close",
+            "Cache-Control:no-cache"})
+    Single<String> getChapterInfo(@Url String url);
 }

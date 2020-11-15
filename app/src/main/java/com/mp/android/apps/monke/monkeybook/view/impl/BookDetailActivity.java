@@ -268,8 +268,6 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
         collBookBean.setAuthor(bookShelfBean.getBookInfoBean().getAuthor());
         collBookBean.setCover(bookShelfBean.getBookInfoBean().getCoverUrl());
         collBookBean.setLastChapter("第一章节");
-        collBookBean.setLastRead("2020-11-15T03:43:56");
-        collBookBean.setUpdated("2019-08-26T04:54:33");
         collBookBean.setHasCp(false);
         collBookBean.setLocal(false);
         collBookBean.setUpdate(false);

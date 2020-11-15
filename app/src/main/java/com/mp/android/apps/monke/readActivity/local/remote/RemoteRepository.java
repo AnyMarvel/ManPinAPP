@@ -69,15 +69,6 @@ public class RemoteRepository {
             }
         });
 
-//        return mBookApi.getBookChapterPackage(bookId, "chapter")
-//                .map(bean -> {
-//                    if (bean.getMixToc() == null) {
-//                        return new ArrayList<BookChapterBean>(1);
-//                    } else {
-//                        return bean.getMixToc().getChapters();
-//                    }
-//                });
-
     }
 
     /**
@@ -87,8 +78,12 @@ public class RemoteRepository {
      * @return
      */
     public Single<ChapterInfoBean> getChapterInfo(String url) {
-        return mBookApi.getChapterInfoPackage(url)
-                .map(bean -> bean.getChapter());
+
+        return ReaderContentWxguanModelImpl.getInstance().getChapterInfo(url);
+
+
+//        return mBookApi.getChapterInfoPackage(url)
+//                .map(bean -> bean.getChapter());
     }
 
 }

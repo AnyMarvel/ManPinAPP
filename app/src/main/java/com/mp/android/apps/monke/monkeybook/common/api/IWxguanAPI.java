@@ -40,6 +40,7 @@ public interface IWxguanAPI {
             "Cache-Control:no-cache"})
     Observable<String> getChapterList(@Url String url);
 
+    //新版本使用
     @GET
     @Headers({"Accept:text/html,application/xhtml+xml,application/xml",
             "User-Agent:Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3",

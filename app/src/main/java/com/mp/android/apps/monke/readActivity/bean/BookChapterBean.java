@@ -13,7 +13,7 @@ import java.io.Serializable;
  * 同时作为网络章节和本地章节 (没有找到更好分离两者的办法)
  */
 @Entity
-public class BookChapterBean implements Serializable{
+public class BookChapterBean implements Serializable {
     private static final long serialVersionUID = 56423411313L;
     /**
      * title : 第一章 他叫白小纯
@@ -47,7 +47,7 @@ public class BookChapterBean implements Serializable{
 
     @Generated(hash = 1508543635)
     public BookChapterBean(String id, String link, String title, String taskName,
-            boolean unreadble, String bookId, long start, long end) {
+                           boolean unreadble, String bookId, long start, long end) {
         this.id = id;
         this.link = link;
         this.title = title;

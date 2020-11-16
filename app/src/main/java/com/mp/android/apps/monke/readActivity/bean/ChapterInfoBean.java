@@ -4,6 +4,9 @@ package com.mp.android.apps.monke.readActivity.bean;
  * Created by newbiechen on 17-5-10.
  */
 
+/**
+ * ReadActivity 章节显示内容
+ */
 public class ChapterInfoBean {
     /**
      * title : 第一章 他叫白小纯

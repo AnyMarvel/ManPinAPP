@@ -13,8 +13,10 @@ import org.jsoup.nodes.Document;
 
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
@@ -57,10 +59,12 @@ public class ReaderContentWxguanModelImpl extends MBaseModelImpl {
         List<BookChapterBean> chapterBeans = new ArrayList<BookChapterBean>();
         for (int i = 11; i < chapterlist.size(); i++) {
             BookChapterBean temp = new BookChapterBean();
+            temp.setId(novelUrl);
+            temp.setTitle(chapterlist.get(i).getElementsByTag("a").get(0).text());
             temp.setLink(TAG + chapterlist.get(i).getElementsByTag("a").get(0).attr("href"));   //id
             temp.setStart(i);
-            temp.setBookId(chapterlist.get(i).getElementsByTag("a").get(0).text());
-            temp.setId(novelUrl);
+            temp.setBookId(novelUrl);
+            temp.setUnreadble(false);
             chapterBeans.add(temp);
         }
         return chapterBeans;

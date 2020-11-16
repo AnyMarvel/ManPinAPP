@@ -41,29 +41,14 @@ public class RemoteRepository {
 
 
     public Single<List<BookChapterBean>> getBookChapters(String bookId) {
-        List<ChapterListBean> chapterListBeans = DbHelper.getInstance().getmDaoSession().getChapterListBeanDao().queryBuilder().where(ChapterListBeanDao.Properties.NoteUrl.eq(bookId)).build().list();
-        if (chapterListBeans == null || chapterListBeans.size() == 0) return null;
-        List<BookChapterBean> chapters = new ArrayList<>();
-        for (ChapterListBean chapterListBean : chapterListBeans) {
-            BookChapterBean bookChapterBean = new BookChapterBean();
-            bookChapterBean.setId(chapterListBean.getNoteUrl());
-            bookChapterBean.setTitle(chapterListBean.getDurChapterName());
-            bookChapterBean.setLink(chapterListBean.getDurChapterUrl());
-            bookChapterBean.setUnreadble(false);
-            chapters.add(bookChapterBean);
-        }
 
-        return Single.create(new SingleOnSubscribe<List<BookChapterBean>>() {
-            @Override
-            public void subscribe(SingleEmitter<List<BookChapterBean>> emitter) throws Exception {
-                emitter.onSuccess(chapters);
-            }
-        });
+        return ReaderContentWxguanModelImpl.getInstance().getBookChapters(bookId);
 
     }
 
     /**
      * 注意这里用的是同步请求
+     * 获取章节对应信息内容
      *
      * @param url
      * @return

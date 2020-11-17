@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.mp.android.apps.monke.monkeybook.dao.BookChapterBeanDao;
 import com.mp.android.apps.monke.monkeybook.dao.CollBookBeanDao;
-import com.mp.android.apps.monke.monkeybook.dao.DownloadTaskBeanDao;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.BookRecordBean;
 import com.mp.android.apps.monke.readActivity.bean.ChapterInfoBean;
@@ -224,8 +223,6 @@ public class BookRepository {
             public void subscribe(SingleEmitter<Void> e) throws Exception {
                 //查看文本中是否存在删除的数据
                 deleteBook(bean.get_id());
-                //删除任务
-                deleteDownloadTask(bean.get_id());
                 //删除目录
                 deleteBookChapter(bean.get_id());
                 //删除CollBook
@@ -257,15 +254,6 @@ public class BookRepository {
         mSession.getBookRecordBeanDao()
                 .queryBuilder()
                 .where(BookRecordBeanDao.Properties.BookId.eq(id))
-                .buildDelete()
-                .executeDeleteWithoutDetachingEntities();
-    }
-
-    //删除任务
-    public void deleteDownloadTask(String bookId){
-        mSession.getDownloadTaskBeanDao()
-                .queryBuilder()
-                .where(DownloadTaskBeanDao.Properties.BookId.eq(bookId))
                 .buildDelete()
                 .executeDeleteWithoutDetachingEntities();
     }

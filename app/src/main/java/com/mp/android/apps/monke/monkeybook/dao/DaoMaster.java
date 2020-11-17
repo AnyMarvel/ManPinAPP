@@ -29,14 +29,9 @@ public class DaoMaster extends AbstractDaoMaster {
         SearchHistoryBeanDao.createTable(db, ifNotExists);
         AuthorBeanDao.createTable(db, ifNotExists);
         BookChapterBeanDao.createTable(db, ifNotExists);
-        BookCommentBeanDao.createTable(db, ifNotExists);
-        BookHelpfulBeanDao.createTable(db, ifNotExists);
-        BookHelpsBeanDao.createTable(db, ifNotExists);
         BookRecordBeanDao.createTable(db, ifNotExists);
-        BookReviewBeanDao.createTable(db, ifNotExists);
         CollBookBeanDao.createTable(db, ifNotExists);
         DownloadTaskBeanDao.createTable(db, ifNotExists);
-        ReviewBookBeanDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
@@ -49,14 +44,9 @@ public class DaoMaster extends AbstractDaoMaster {
         SearchHistoryBeanDao.dropTable(db, ifExists);
         AuthorBeanDao.dropTable(db, ifExists);
         BookChapterBeanDao.dropTable(db, ifExists);
-        BookCommentBeanDao.dropTable(db, ifExists);
-        BookHelpfulBeanDao.dropTable(db, ifExists);
-        BookHelpsBeanDao.dropTable(db, ifExists);
         BookRecordBeanDao.dropTable(db, ifExists);
-        BookReviewBeanDao.dropTable(db, ifExists);
         CollBookBeanDao.dropTable(db, ifExists);
         DownloadTaskBeanDao.dropTable(db, ifExists);
-        ReviewBookBeanDao.dropTable(db, ifExists);
     }
 
     /**
@@ -83,14 +73,9 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(SearchHistoryBeanDao.class);
         registerDaoClass(AuthorBeanDao.class);
         registerDaoClass(BookChapterBeanDao.class);
-        registerDaoClass(BookCommentBeanDao.class);
-        registerDaoClass(BookHelpfulBeanDao.class);
-        registerDaoClass(BookHelpsBeanDao.class);
         registerDaoClass(BookRecordBeanDao.class);
-        registerDaoClass(BookReviewBeanDao.class);
         registerDaoClass(CollBookBeanDao.class);
         registerDaoClass(DownloadTaskBeanDao.class);
-        registerDaoClass(ReviewBookBeanDao.class);
     }
 
     public DaoSession newSession() {

@@ -52,7 +52,13 @@ public class WebBookModelImpl implements IWebBookModel {
     }
 
     public Observable<CollBookBean> getBookInfo(CollBookBean collBookBean) {
-        return ReaderContentWxguanModelImpl.getInstance().getBookInfo(collBookBean);
+        switch (collBookBean.getBookTag()) {
+            case ReaderContentWxguanModelImpl.TAG:
+                return ReaderContentWxguanModelImpl.getInstance().getBookInfo(collBookBean);
+            default:
+                return null;
+        }
+
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

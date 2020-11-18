@@ -8,6 +8,7 @@ import com.mp.android.apps.monke.monkeybook.bean.BookShelfBean;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
 import com.mp.android.apps.monke.monkeybook.listener.OnGetChapterListListener;
 import com.mp.android.apps.monke.monkeybook.model.IWebBookModel;
+import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,6 +51,9 @@ public class WebBookModelImpl implements IWebBookModel {
         }
     }
 
+    public Observable<CollBookBean> getBookInfo(CollBookBean collBookBean) {
+        return ReaderContentWxguanModelImpl.getInstance().getBookInfo(collBookBean);
+    }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -139,7 +143,6 @@ public class WebBookModelImpl implements IWebBookModel {
             return GxwztvBookModelImpl.getInstance().getKindBook(url, page);
         }
     }
-
 
 
     /**

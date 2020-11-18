@@ -38,6 +38,8 @@ public class CollBookBeanDao extends AbstractDao<CollBookBean, String> {
         public final static Property LastChapter = new Property(11, String.class, "lastChapter", false, "LAST_CHAPTER");
         public final static Property IsUpdate = new Property(12, boolean.class, "isUpdate", false, "IS_UPDATE");
         public final static Property IsLocal = new Property(13, boolean.class, "isLocal", false, "IS_LOCAL");
+        public final static Property BookTag = new Property(14, String.class, "bookTag", false, "BOOK_TAG");
+        public final static Property BookChapterUrl = new Property(15, String.class, "bookChapterUrl", false, "BOOK_CHAPTER_URL");
     }
 
     private DaoSession daoSession;
@@ -69,7 +71,9 @@ public class CollBookBeanDao extends AbstractDao<CollBookBean, String> {
                 "\"CHAPTERS_COUNT\" INTEGER NOT NULL ," + // 10: chaptersCount
                 "\"LAST_CHAPTER\" TEXT," + // 11: lastChapter
                 "\"IS_UPDATE\" INTEGER NOT NULL ," + // 12: isUpdate
-                "\"IS_LOCAL\" INTEGER NOT NULL );"); // 13: isLocal
+                "\"IS_LOCAL\" INTEGER NOT NULL ," + // 13: isLocal
+                "\"BOOK_TAG\" TEXT," + // 14: bookTag
+                "\"BOOK_CHAPTER_URL\" TEXT);"); // 15: bookChapterUrl
     }
 
     /** Drops the underlying database table. */
@@ -127,6 +131,16 @@ public class CollBookBeanDao extends AbstractDao<CollBookBean, String> {
         }
         stmt.bindLong(13, entity.getIsUpdate() ? 1L: 0L);
         stmt.bindLong(14, entity.getIsLocal() ? 1L: 0L);
+ 
+        String bookTag = entity.getBookTag();
+        if (bookTag != null) {
+            stmt.bindString(15, bookTag);
+        }
+ 
+        String bookChapterUrl = entity.getBookChapterUrl();
+        if (bookChapterUrl != null) {
+            stmt.bindString(16, bookChapterUrl);
+        }
     }
 
     @Override
@@ -178,6 +192,16 @@ public class CollBookBeanDao extends AbstractDao<CollBookBean, String> {
         }
         stmt.bindLong(13, entity.getIsUpdate() ? 1L: 0L);
         stmt.bindLong(14, entity.getIsLocal() ? 1L: 0L);
+ 
+        String bookTag = entity.getBookTag();
+        if (bookTag != null) {
+            stmt.bindString(15, bookTag);
+        }
+ 
+        String bookChapterUrl = entity.getBookChapterUrl();
+        if (bookChapterUrl != null) {
+            stmt.bindString(16, bookChapterUrl);
+        }
     }
 
     @Override
@@ -207,7 +231,9 @@ public class CollBookBeanDao extends AbstractDao<CollBookBean, String> {
             cursor.getInt(offset + 10), // chaptersCount
             cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // lastChapter
             cursor.getShort(offset + 12) != 0, // isUpdate
-            cursor.getShort(offset + 13) != 0 // isLocal
+            cursor.getShort(offset + 13) != 0, // isLocal
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // bookTag
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15) // bookChapterUrl
         );
         return entity;
     }
@@ -228,6 +254,8 @@ public class CollBookBeanDao extends AbstractDao<CollBookBean, String> {
         entity.setLastChapter(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
         entity.setIsUpdate(cursor.getShort(offset + 12) != 0);
         entity.setIsLocal(cursor.getShort(offset + 13) != 0);
+        entity.setBookTag(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setBookChapterUrl(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
      }
     
     @Override

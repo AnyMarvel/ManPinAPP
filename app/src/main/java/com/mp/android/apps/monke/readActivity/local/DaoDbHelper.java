@@ -12,7 +12,7 @@ import com.mp.android.apps.monke.monkeybook.dao.DaoSession;
  */
 
 public class DaoDbHelper {
-    private static final String DB_NAME = "IReader_DB";
+    private static final String DB_NAME = "monkebook_db";
 
     private static volatile DaoDbHelper sInstance;
     private SQLiteDatabase mDb;

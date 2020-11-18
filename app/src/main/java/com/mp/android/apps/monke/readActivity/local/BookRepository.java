@@ -70,7 +70,12 @@ public class BookRepository {
                                         .insertOrReplaceInTx(bean.getBookChapters());
                             }
                             //存储CollBook (确保先后顺序，否则出错)
-                            mCollBookDao.insertOrReplace(bean);
+                            try {
+                                mCollBookDao.insertOrReplace(bean);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+
                         }
                 );
     }

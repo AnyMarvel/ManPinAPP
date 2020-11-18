@@ -1,6 +1,8 @@
 
 package com.mp.android.apps.monke.monkeybook.presenter.impl;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 
 import com.hwangjr.rxbus.RxBus;
@@ -10,17 +12,19 @@ import com.hwangjr.rxbus.thread.EventThread;
 import com.mp.android.apps.monke.basemvplib.IView;
 import com.mp.android.apps.monke.basemvplib.impl.BasePresenterImpl;
 import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
-import com.mp.android.apps.monke.monkeybook.bean.BookShelfBean;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
 import com.mp.android.apps.monke.monkeybook.bean.SearchHistoryBean;
 import com.mp.android.apps.monke.monkeybook.common.RxBusTag;
 import com.mp.android.apps.monke.monkeybook.dao.DbHelper;
 import com.mp.android.apps.monke.monkeybook.dao.SearchHistoryBeanDao;
-import com.mp.android.apps.monke.monkeybook.listener.OnGetChapterListListener;
 import com.mp.android.apps.monke.monkeybook.model.impl.WebBookModelImpl;
 import com.mp.android.apps.monke.monkeybook.presenter.ISearchPresenter;
 import com.mp.android.apps.monke.monkeybook.utils.NetworkUtil;
 import com.mp.android.apps.monke.monkeybook.view.ISearchView;
+import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
+import com.mp.android.apps.monke.readActivity.local.BookRepository;
+import com.mp.android.apps.monke.readActivity.utils.Constant;
+import com.mp.android.apps.monke.readActivity.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -55,33 +59,15 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
     private long startThisSearchTime;
     private String durSearchKey;
 
-    private List<BookShelfBean> bookShelfs = new ArrayList<>();   //用来比对搜索的书籍是否已经添加进书架
+    private List<CollBookBean> collBookBeans = new ArrayList<>();   //用来比对搜索的书籍是否已经添加进书架
 
     private Boolean isInput = false;
 
     public SearchPresenterImpl() {
-        Observable.create(new ObservableOnSubscribe<List<BookShelfBean>>() {
-            @Override
-            public void subscribe(ObservableEmitter<List<BookShelfBean>> e) throws Exception {
-                List<BookShelfBean> temp = DbHelper.getInstance().getmDaoSession().getBookShelfBeanDao().queryBuilder().list();
-                if (temp == null)
-                    temp = new ArrayList<BookShelfBean>();
-                e.onNext(temp);
-                e.onComplete();
-            }
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SimpleObserver<List<BookShelfBean>>() {
-                    @Override
-                    public void onNext(List<BookShelfBean> value) {
-                        bookShelfs.addAll(value);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-                });
+        List<CollBookBean> temp = DbHelper.getInstance().getmDaoSession().getCollBookBeanDao().queryBuilder().list();
+        if (temp != null && temp.size() > 0) {
+            collBookBeans.addAll(temp);
+        }
 
         //搜索引擎初始化
         searchEngine = new ArrayList<>();
@@ -268,8 +254,8 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
                                             searchEngine.get(finalSearchEngineIndex).put(HASMORE_KEY, false);
                                         } else {
                                             for (SearchBookBean temp : value) {
-                                                for (BookShelfBean bookShelfBean : bookShelfs) {
-                                                    if (temp.getNoteUrl().equals(bookShelfBean.getNoteUrl())) {
+                                                for (CollBookBean CollBookBean : collBookBeans) {
+                                                    if (temp.getNoteUrl().equals(CollBookBean.get_id())) {
                                                         temp.setAdd(true);
                                                         break;
                                                     }
@@ -327,54 +313,56 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
 
     @Override
     public void addBookToShelf(final SearchBookBean searchBookBean) {
-        final BookShelfBean bookShelfResult = new BookShelfBean();
-        bookShelfResult.setNoteUrl(searchBookBean.getNoteUrl());
-        bookShelfResult.setFinalDate(0);
-        bookShelfResult.setDurChapter(0);
-        bookShelfResult.setDurChapterPage(0);
-        bookShelfResult.setTag(searchBookBean.getTag());
-        Objects.requireNonNull(WebBookModelImpl.getInstance().getBookInfo(bookShelfResult))
+        CollBookBean collBookBean = new CollBookBean();
+        collBookBean.set_id(searchBookBean.getNoteUrl());
+        collBookBean.setAuthor(searchBookBean.getAuthor());
+        collBookBean.setCover(searchBookBean.getCoverUrl());
+        collBookBean.setIsLocal(false);
+        collBookBean.setIsUpdate(false);
+        collBookBean.setTitle(searchBookBean.getName());
+        collBookBean.setLastRead(StringUtils.
+                dateConvert(System.currentTimeMillis(), Constant.FORMAT_BOOK_DATE));
+        collBookBean.setLastChapter("开始阅读");
+        collBookBean.setHasCp(false);
+        if (TextUtils.isEmpty(searchBookBean.getDesc())) {
+            collBookBean.setShortIntro("暂无介绍");
+        } else {
+            collBookBean.setShortIntro(searchBookBean.getDesc());
+        }
+        collBookBean.setBookTag(searchBookBean.getTag());
+
+        Objects.requireNonNull(WebBookModelImpl.getInstance().getBookInfo(collBookBean))
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SimpleObserver<BookShelfBean>() {
-                    @Override
-                    public void onNext(BookShelfBean value) {
-                        WebBookModelImpl.getInstance().getChapterList(value, new OnGetChapterListListener() {
-                            @Override
-                            public void success(BookShelfBean bookShelfBean) {
-                                saveBookToShelf(bookShelfBean);
-                            }
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleObserver<CollBookBean>() {
+            @Override
+            public void onNext(@io.reactivex.annotations.NonNull CollBookBean collBookBean) {
+                saveBookToShelf(collBookBean);
+            }
 
-                            @Override
-                            public void error() {
-                                mView.addBookShelfFailed(NetworkUtil.ERROR_CODE_OUTTIME);
-                            }
-                        });
-                    }
+            @Override
+            public void onError(@io.reactivex.annotations.NonNull Throwable e) {
+                mView.addBookShelfFailed(NetworkUtil.ERROR_CODE_OUTTIME);
+            }
+        });
 
-                    @Override
-                    public void onError(Throwable e) {
-                        mView.addBookShelfFailed(NetworkUtil.ERROR_CODE_OUTTIME);
-                    }
-                });
+
     }
 
-    private void saveBookToShelf(final BookShelfBean bookShelfBean) {
-        Observable.create(new ObservableOnSubscribe<BookShelfBean>() {
+    private void saveBookToShelf(final CollBookBean collBookBean) {
+        Observable.create(new ObservableOnSubscribe<CollBookBean>() {
             @Override
-            public void subscribe(ObservableEmitter<BookShelfBean> e) throws Exception {
-                DbHelper.getInstance().getmDaoSession().getChapterListBeanDao().insertOrReplaceInTx(bookShelfBean.getBookInfoBean().getChapterlist());
-                DbHelper.getInstance().getmDaoSession().getBookInfoBeanDao().insertOrReplace(bookShelfBean.getBookInfoBean());
-                //网络数据获取成功  存入BookShelf表数据库
-                DbHelper.getInstance().getmDaoSession().getBookShelfBeanDao().insertOrReplace(bookShelfBean);
-                e.onNext(bookShelfBean);
+            public void subscribe(ObservableEmitter<CollBookBean> e) throws Exception {
+                BookRepository.getInstance()
+                        .saveCollBookWithAsync(collBookBean);
+
+                e.onNext(collBookBean);
                 e.onComplete();
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SimpleObserver<BookShelfBean>() {
+                .subscribe(new SimpleObserver<CollBookBean>() {
                     @Override
-                    public void onNext(BookShelfBean value) {
+                    public void onNext(CollBookBean value) {
                         //成功   //发送RxBus
                         RxBus.get().post(RxBusTag.HAD_ADD_BOOK, value);
                     }
@@ -404,11 +392,14 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
                     @Tag(RxBusTag.HAD_ADD_BOOK)
             }
     )
-    public void hadAddBook(BookShelfBean bookShelfBean) {
-        bookShelfs.add(bookShelfBean);
+    /**
+     * rxbus发送消息进行接受
+     */
+    public void hadAddBook(CollBookBean collBookBean) {
+        collBookBeans.add(collBookBean);
         List<SearchBookBean> datas = mView.getSearchBookAdapter().getSearchBooks();
         for (int i = 0; i < datas.size(); i++) {
-            if (datas.get(i).getNoteUrl().equals(bookShelfBean.getNoteUrl())) {
+            if (datas.get(i).getNoteUrl().equals(collBookBean.get_id())) {
                 datas.get(i).setAdd(true);
                 mView.updateSearchItem(i);
                 break;
@@ -422,18 +413,18 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
                     @Tag(RxBusTag.HAD_REMOVE_BOOK)
             }
     )
-    public void hadRemoveBook(BookShelfBean bookShelfBean) {
-        if (bookShelfs != null) {
-            for (int i = 0; i < bookShelfs.size(); i++) {
-                if (bookShelfs.get(i).getNoteUrl().equals(bookShelfBean.getNoteUrl())) {
-                    bookShelfs.remove(i);
+    public void hadRemoveBook(CollBookBean collBookBean) {
+        if (collBookBeans != null) {
+            for (int i = 0; i < collBookBeans.size(); i++) {
+                if (collBookBeans.get(i).get_id().equals(collBookBean.get_id())) {
+                    collBookBeans.remove(i);
                     break;
                 }
             }
         }
         List<SearchBookBean> datas = mView.getSearchBookAdapter().getSearchBooks();
         for (int i = 0; i < datas.size(); i++) {
-            if (datas.get(i).getNoteUrl().equals(bookShelfBean.getNoteUrl())) {
+            if (datas.get(i).getNoteUrl().equals(collBookBean.get_id())) {
                 datas.get(i).setAdd(false);
                 mView.updateSearchItem(i);
                 break;

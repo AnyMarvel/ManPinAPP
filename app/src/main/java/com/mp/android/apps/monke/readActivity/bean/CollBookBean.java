@@ -23,7 +23,7 @@ import com.mp.android.apps.monke.monkeybook.dao.CollBookBeanDao;
  * 收藏的书籍
  */
 @Entity
-public class CollBookBean implements Parcelable{
+public class CollBookBean implements Parcelable {
 
     public static final int STATUS_UNCACHE = 0; //未缓存
     public static final int STATUS_CACHING = 1; //正在缓存
@@ -38,7 +38,7 @@ public class CollBookBean implements Parcelable{
      * latelyFollower : 60213
      * retentionRatio : 22.87
      * updated : 2017-05-07T18:24:34.720Z
-     *
+     * <p>
      * chaptersCount : 1660
      * lastChapter : 第1659章 朱长老
      */
@@ -51,7 +51,7 @@ public class CollBookBean implements Parcelable{
     private boolean hasCp;
     private int latelyFollower;
     private double retentionRatio;
-    //最新更新日期
+    //最新更新日期 //必填项
     private String updated;
     //最新阅读日期
     private String lastRead;
@@ -61,20 +61,35 @@ public class CollBookBean implements Parcelable{
     private boolean isUpdate = true;
     //是否是本地文件
     private boolean isLocal = false;
+    //数据源地址标识
+    private String bookTag;
+    private String bookChapterUrl;
+
+    public String getBookChapterUrl() {
+        return bookChapterUrl;
+    }
+
+    public void setBookChapterUrl(String bookChapterUrl) {
+        this.bookChapterUrl = bookChapterUrl;
+    }
 
     @ToMany(referencedJoinProperty = "bookId")
     private List<BookChapterBean> bookChapterList;
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 1552163441)
     private transient CollBookBeanDao myDao;
 
-    @Generated(hash = 757968961)
-    public CollBookBean(String _id, String title, String author, String shortIntro, String cover,
-            boolean hasCp, int latelyFollower, double retentionRatio, String updated, String lastRead,
-            int chaptersCount, String lastChapter, boolean isUpdate, boolean isLocal) {
+    @Generated(hash = 144011258)
+    public CollBookBean(String _id, String title, String author, String shortIntro, String cover, boolean hasCp,
+            int latelyFollower, double retentionRatio, String updated, String lastRead, int chaptersCount,
+            String lastChapter, boolean isUpdate, boolean isLocal, String bookTag, String bookChapterUrl) {
         this._id = _id;
         this.title = title;
         this.author = author;
@@ -89,6 +104,8 @@ public class CollBookBean implements Parcelable{
         this.lastChapter = lastChapter;
         this.isUpdate = isUpdate;
         this.isLocal = isLocal;
+        this.bookTag = bookTag;
+        this.bookChapterUrl = bookChapterUrl;
     }
 
     public CollBookBean() {
@@ -213,23 +230,28 @@ public class CollBookBean implements Parcelable{
     public String getLastRead() {
         return StringUtils.convertCC(lastRead, MyApplication.getInstance());
     }
+    public String getBookTag() {
+        return bookTag;
+    }
 
+    public void setBookTag(String bookTag) {
+        this.bookTag = bookTag;
+    }
     public void setLastRead(String lastRead) {
         this.lastRead = lastRead;
     }
 
-    public void setBookChapters(List<BookChapterBean> beans){
+    public void setBookChapters(List<BookChapterBean> beans) {
         bookChapterList = beans;
-        for (BookChapterBean bean : bookChapterList){
+        for (BookChapterBean bean : bookChapterList) {
             bean.setBookId(get_id());
         }
     }
 
-    public List<BookChapterBean> getBookChapters(){
-        if (daoSession == null){
+    public List<BookChapterBean> getBookChapters() {
+        if (daoSession == null) {
             return bookChapterList;
-        }
-        else {
+        } else {
             return getBookChapterList();
         }
     }
@@ -258,7 +280,9 @@ public class CollBookBean implements Parcelable{
     }
 
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 1077762221)
     public synchronized void resetBookChapterList() {
         bookChapterList = null;
@@ -335,7 +359,9 @@ public class CollBookBean implements Parcelable{
         dest.writeByte(this.isLocal ? (byte) 1 : (byte) 0);
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 159260324)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;

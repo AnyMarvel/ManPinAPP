@@ -4,6 +4,7 @@ package com.mp.android.apps.monke.monkeybook.presenter;
 import com.mp.android.apps.monke.basemvplib.IPresenter;
 import com.mp.android.apps.monke.monkeybook.bean.BookShelfBean;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
+import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 
 public interface IBookDetailPresenter extends IPresenter {
 
@@ -11,8 +12,13 @@ public interface IBookDetailPresenter extends IPresenter {
 
     SearchBookBean getSearchBook();
 
-    BookShelfBean getBookShelf();
 
+    CollBookBean getCollBookBean();
+
+    /**
+     * 是否是在本地书架中
+     * @return
+     */
     Boolean getInBookShelf();
 
     void getBookShelfInfo();

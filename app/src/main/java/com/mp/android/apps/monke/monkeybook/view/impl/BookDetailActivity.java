@@ -13,18 +13,15 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.mp.android.apps.main.MainActivity;
-import com.mp.android.apps.monke.monkeybook.BitIntentDataManager;
+
 import com.mp.android.apps.R;
 import com.mp.android.apps.monke.monkeybook.base.MBaseActivity;
-import com.mp.android.apps.monke.monkeybook.bean.BookShelfBean;
 import com.mp.android.apps.monke.monkeybook.presenter.IBookDetailPresenter;
 import com.mp.android.apps.monke.monkeybook.presenter.impl.BookDetailPresenterImpl;
-import com.mp.android.apps.monke.monkeybook.presenter.impl.ReadBookPresenterImpl;
 import com.mp.android.apps.monke.monkeybook.utils.BlurTransformation;
 import com.mp.android.apps.monke.monkeybook.view.IBookDetailView;
 import com.mp.android.apps.monke.readActivity.ReadActivity;
-import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
+
 
 public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> implements IBookDetailView {
     private FrameLayout iflContent;
@@ -96,13 +93,9 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
 
     @Override
     public void updateView() {
-        if (null != mPresenter.getBookShelf()) {
+        if (null != mPresenter.getCollBookBean()) {
             if (mPresenter.getInBookShelf()) {
-                if (mPresenter.getBookShelf().getBookInfoBean().getChapterlist().size() > 0
-                        && mPresenter.getBookShelf().getBookInfoBean().getChapterlist().size() > mPresenter.getBookShelf().getDurChapter())
-                    tvChapter.setText(String.format(getString(R.string.tv_read_durprogress), mPresenter.getBookShelf().getBookInfoBean().getChapterlist().get(mPresenter.getBookShelf().getDurChapter()).getDurChapterName()));
-                else
-                    tvChapter.setText("无章节");
+                tvChapter.setText(String.format(getString(R.string.tv_searchbook_lastest), mPresenter.getCollBookBean().getLastChapter()));
                 tvShelf.setText("移出书架");
                 tvRead.setText("继续阅读");
                 tvShelf.setOnClickListener(new View.OnClickListener() {
@@ -113,11 +106,7 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
                     }
                 });
             } else {
-                if (mPresenter.getBookShelf().getBookInfoBean().getChapterlist().size() == 0) {
-                    tvChapter.setText("无章节");
-                } else {
-                    tvChapter.setText(String.format(getString(R.string.tv_searchbook_lastest), mPresenter.getBookShelf().getBookInfoBean().getChapterlist().get(mPresenter.getBookShelf().getBookInfoBean().getChapterlist().size() - 1).getDurChapterName()));
-                }
+                tvChapter.setText(String.format(getString(R.string.tv_searchbook_lastest), mPresenter.getCollBookBean().getLastChapter()));
                 tvShelf.setText("放入书架");
                 tvRead.setText("开始阅读");
                 tvShelf.setOnClickListener(new View.OnClickListener() {
@@ -129,16 +118,17 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
                 });
             }
             if (tvIntro.getText().toString().trim().length() == 0) {
-                tvIntro.setText(mPresenter.getBookShelf().getBookInfoBean().getIntroduce());
+                tvIntro.setText(mPresenter.getCollBookBean().getShortIntro());
             }
             if (tvIntro.getVisibility() != View.VISIBLE) {
                 tvIntro.setVisibility(View.VISIBLE);
                 tvIntro.startAnimation(animShowInfo);
                 tvLoading.startAnimation(animHideLoading);
             }
-            if (mPresenter.getBookShelf().getBookInfoBean().getOrigin() != null && mPresenter.getBookShelf().getBookInfoBean().getOrigin().length() > 0) {
+            if (mPresenter.getCollBookBean().getBookTag() != null) {
                 tvOrigin.setVisibility(View.VISIBLE);
-                tvOrigin.setText("来源:" + mPresenter.getBookShelf().getBookInfoBean().getOrigin());
+                String sourceWebsit = "来源:" + mPresenter.getCollBookBean().getBookTag();
+                tvOrigin.setText(sourceWebsit);
             } else {
                 tvOrigin.setVisibility(View.GONE);
             }
@@ -170,7 +160,7 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
     @Override
     protected void firstRequest() {
         super.firstRequest();
-        if (mPresenter.getOpenfrom() == BookDetailPresenterImpl.FROM_SEARCH && mPresenter.getBookShelf() == null) {
+        if (mPresenter.getOpenfrom() == BookDetailPresenterImpl.FROM_SEARCH && mPresenter.getCollBookBean() == null) {
             //网络请求
             mPresenter.getBookShelfInfo();
         }
@@ -181,12 +171,13 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
         String name;
         String author;
         if (mPresenter.getOpenfrom() == BookDetailPresenterImpl.FROM_BOOKSHELF) {
-            coverUrl = mPresenter.getBookShelf().getBookInfoBean().getCoverUrl();
-            name = mPresenter.getBookShelf().getBookInfoBean().getName();
-            author = mPresenter.getBookShelf().getBookInfoBean().getAuthor();
-            if (mPresenter.getBookShelf().getBookInfoBean().getOrigin() != null && mPresenter.getBookShelf().getBookInfoBean().getOrigin().length() > 0) {
+            coverUrl = mPresenter.getCollBookBean().getCover();
+            name = mPresenter.getCollBookBean().getTitle();
+            author = mPresenter.getCollBookBean().getAuthor();
+            if (mPresenter.getCollBookBean().getBookTag() != null) {
                 tvOrigin.setVisibility(View.VISIBLE);
-                tvOrigin.setText("来源:" + mPresenter.getBookShelf().getBookInfoBean().getOrigin());
+                String sourceWebsit = "来源:" + mPresenter.getCollBookBean().getBookTag();
+                tvOrigin.setText(sourceWebsit);
             } else {
                 tvOrigin.setVisibility(View.GONE);
             }
@@ -196,7 +187,8 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
             author = mPresenter.getSearchBook().getAuthor();
             if (mPresenter.getSearchBook().getOrigin() != null && mPresenter.getSearchBook().getOrigin().length() > 0) {
                 tvOrigin.setVisibility(View.VISIBLE);
-                tvOrigin.setText("来源:" + mPresenter.getSearchBook().getOrigin());
+                String sourceWebsit = "来源:" + mPresenter.getSearchBook().getOrigin();
+                tvOrigin.setText(sourceWebsit);
             } else {
                 tvOrigin.setVisibility(View.GONE);
             }
@@ -236,16 +228,16 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
 //                String key = String.valueOf(System.currentTimeMillis());
 //                intent.putExtra("data_key", key);
 //                try {
-//                    BitIntentDataManager.getInstance().putData(key, mPresenter.getBookShelf().clone());
+//                    BitIntentDataManager.getInstance().putData(key, mPresenter.getCollBookBean().clone());
 //                } catch (CloneNotSupportedException e) {
-//                    BitIntentDataManager.getInstance().putData(key, mPresenter.getBookShelf());
+//                    BitIntentDataManager.getInstance().putData(key, mPresenter.getCollBookBean());
 //                    e.printStackTrace();
 //                }
 //                startActivityByAnim(intent, android.R.anim.fade_in, android.R.anim.fade_out);
 
                 Intent intent = new Intent(BookDetailActivity.this, ReadActivity.class);
-                intent.putExtra("extra_coll_book", getMyCollBookBean(mPresenter.getBookShelf()));
-                startActivity(intent);
+                intent.putExtra("extra_coll_book", mPresenter.getCollBookBean());
+                startActivityByAnim(intent, android.R.anim.fade_in, android.R.anim.fade_out);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     if (getStart_share_ele()) {
@@ -261,19 +253,6 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
             }
         });
     }
-    public CollBookBean getMyCollBookBean(BookShelfBean bookShelfBean) {
-        CollBookBean collBookBean = new CollBookBean();
-        collBookBean.set_id(bookShelfBean.getNoteUrl());
-        collBookBean.setTitle(bookShelfBean.getBookInfoBean().getName());
-        collBookBean.setAuthor(bookShelfBean.getBookInfoBean().getAuthor());
-        collBookBean.setCover(bookShelfBean.getBookInfoBean().getCoverUrl());
-        collBookBean.setLastChapter("第一章节");
-        collBookBean.setHasCp(false);
-        collBookBean.setLocal(false);
-        collBookBean.setUpdate(false);
-        collBookBean.setShortIntro("五");
-        return collBookBean;
 
-    }
 
 }

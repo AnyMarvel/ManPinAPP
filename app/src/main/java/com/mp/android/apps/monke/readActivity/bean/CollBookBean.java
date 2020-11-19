@@ -2,6 +2,7 @@ package com.mp.android.apps.monke.readActivity.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 
 import org.greenrobot.greendao.DaoException;
@@ -13,7 +14,9 @@ import org.greenrobot.greendao.annotation.ToMany;
 import java.util.List;
 
 import com.mp.android.apps.MyApplication;
+import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
 import com.mp.android.apps.monke.monkeybook.dao.DaoSession;
+import com.mp.android.apps.monke.readActivity.utils.Constant;
 import com.mp.android.apps.monke.readActivity.utils.StringUtils;
 import com.mp.android.apps.monke.monkeybook.dao.BookChapterBeanDao;
 import com.mp.android.apps.monke.monkeybook.dao.CollBookBeanDao;
@@ -44,16 +47,16 @@ public class CollBookBean implements Parcelable {
      */
     @Id
     private String _id; // 本地书籍中，path 的 md5 值作为本地书籍的 id
-    private String title;
-    private String author;
-    private String shortIntro;
-    private String cover; // 在本地书籍中，该字段作为本地文件的路径
+    private String title;//书名
+    private String author;//作者
+    private String shortIntro;//图书简介
+    private String cover; // 在本地书籍中，该字段作为本地文件的路径//网络图书为图片
     private boolean hasCp;
     private int latelyFollower;
     private double retentionRatio;
     //最新更新日期 //必填项
     private String updated;
-    //最新阅读日期
+    //最新阅读日期//必填项
     private String lastRead;
     private int chaptersCount;
     private String lastChapter;
@@ -88,8 +91,8 @@ public class CollBookBean implements Parcelable {
 
     @Generated(hash = 144011258)
     public CollBookBean(String _id, String title, String author, String shortIntro, String cover, boolean hasCp,
-            int latelyFollower, double retentionRatio, String updated, String lastRead, int chaptersCount,
-            String lastChapter, boolean isUpdate, boolean isLocal, String bookTag, String bookChapterUrl) {
+                        int latelyFollower, double retentionRatio, String updated, String lastRead, int chaptersCount,
+                        String lastChapter, boolean isUpdate, boolean isLocal, String bookTag, String bookChapterUrl) {
         this._id = _id;
         this.title = title;
         this.author = author;
@@ -230,6 +233,7 @@ public class CollBookBean implements Parcelable {
     public String getLastRead() {
         return StringUtils.convertCC(lastRead, MyApplication.getInstance());
     }
+
     public String getBookTag() {
         return bookTag;
     }
@@ -237,6 +241,7 @@ public class CollBookBean implements Parcelable {
     public void setBookTag(String bookTag) {
         this.bookTag = bookTag;
     }
+
     public void setLastRead(String lastRead) {
         this.lastRead = lastRead;
     }
@@ -396,4 +401,26 @@ public class CollBookBean implements Parcelable {
             return new CollBookBean[size];
         }
     };
+
+
+    public CollBookBean getCollBookBeanFromSearch(SearchBookBean searchBookBean) {
+        CollBookBean collBookBean = new CollBookBean();
+        collBookBean.set_id(searchBookBean.getNoteUrl());
+        collBookBean.setAuthor(searchBookBean.getAuthor());
+        collBookBean.setCover(searchBookBean.getCoverUrl());
+        collBookBean.setIsLocal(false);
+        collBookBean.setIsUpdate(false);
+        collBookBean.setTitle(searchBookBean.getName());
+        collBookBean.setLastRead(StringUtils.
+                dateConvert(System.currentTimeMillis(), Constant.FORMAT_BOOK_DATE));
+        collBookBean.setLastChapter("开始阅读");
+        collBookBean.setHasCp(false);
+        if (TextUtils.isEmpty(searchBookBean.getDesc())) {
+            collBookBean.setShortIntro("暂无介绍");
+        } else {
+            collBookBean.setShortIntro(searchBookBean.getDesc());
+        }
+        collBookBean.setBookTag(searchBookBean.getTag());
+        return collBookBean;
+    }
 }

@@ -35,6 +35,7 @@ public class BookChapterBeanDao extends AbstractDao<BookChapterBean, String> {
         public final static Property BookId = new Property(5, String.class, "bookId", false, "BOOK_ID");
         public final static Property Start = new Property(6, long.class, "start", false, "START");
         public final static Property End = new Property(7, long.class, "end", false, "END");
+        public final static Property Position = new Property(8, long.class, "position", false, "POSITION");
     }
 
     private Query<BookChapterBean> collBookBean_BookChapterListQuery;
@@ -58,7 +59,8 @@ public class BookChapterBeanDao extends AbstractDao<BookChapterBean, String> {
                 "\"UNREADBLE\" INTEGER NOT NULL ," + // 4: unreadble
                 "\"BOOK_ID\" TEXT," + // 5: bookId
                 "\"START\" INTEGER NOT NULL ," + // 6: start
-                "\"END\" INTEGER NOT NULL );"); // 7: end
+                "\"END\" INTEGER NOT NULL ," + // 7: end
+                "\"POSITION\" INTEGER NOT NULL );"); // 8: position
         // Add Indexes
         db.execSQL("CREATE INDEX " + constraint + "IDX_BOOK_CHAPTER_BEAN_BOOK_ID ON \"BOOK_CHAPTER_BEAN\"" +
                 " (\"BOOK_ID\" ASC);");
@@ -101,6 +103,7 @@ public class BookChapterBeanDao extends AbstractDao<BookChapterBean, String> {
         }
         stmt.bindLong(7, entity.getStart());
         stmt.bindLong(8, entity.getEnd());
+        stmt.bindLong(9, entity.getPosition());
     }
 
     @Override
@@ -134,6 +137,7 @@ public class BookChapterBeanDao extends AbstractDao<BookChapterBean, String> {
         }
         stmt.bindLong(7, entity.getStart());
         stmt.bindLong(8, entity.getEnd());
+        stmt.bindLong(9, entity.getPosition());
     }
 
     @Override
@@ -151,7 +155,8 @@ public class BookChapterBeanDao extends AbstractDao<BookChapterBean, String> {
             cursor.getShort(offset + 4) != 0, // unreadble
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // bookId
             cursor.getLong(offset + 6), // start
-            cursor.getLong(offset + 7) // end
+            cursor.getLong(offset + 7), // end
+            cursor.getLong(offset + 8) // position
         );
         return entity;
     }
@@ -166,6 +171,7 @@ public class BookChapterBeanDao extends AbstractDao<BookChapterBean, String> {
         entity.setBookId(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setStart(cursor.getLong(offset + 6));
         entity.setEnd(cursor.getLong(offset + 7));
+        entity.setPosition(cursor.getLong(offset + 8));
      }
     
     @Override

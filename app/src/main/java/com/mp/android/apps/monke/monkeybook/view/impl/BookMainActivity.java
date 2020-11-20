@@ -2,7 +2,9 @@
 package com.mp.android.apps.monke.monkeybook.view.impl;
 
 import android.content.Intent;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
+
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -14,7 +16,6 @@ import com.mp.android.apps.main.MainActivity;
 import com.mp.android.apps.monke.monkeybook.BitIntentDataManager;
 import com.mp.android.apps.R;
 import com.mp.android.apps.monke.monkeybook.base.MBaseActivity;
-import com.mp.android.apps.monke.monkeybook.bean.BookShelfBean;
 import com.mp.android.apps.monke.monkeybook.presenter.IMainPresenter;
 import com.mp.android.apps.monke.monkeybook.presenter.impl.BookDetailPresenterImpl;
 import com.mp.android.apps.monke.monkeybook.presenter.impl.MainPresenterImpl;
@@ -25,6 +26,8 @@ import com.mp.android.apps.monke.monkeybook.view.popupwindow.DownloadListPop;
 import com.mp.android.apps.monke.monkeybook.view.popupwindow.ProxyPop;
 import com.mp.android.apps.monke.monkeybook.widget.refreshview.OnRefreshWithProgressListener;
 import com.mp.android.apps.monke.monkeybook.widget.refreshview.RefreshRecyclerView;
+import com.mp.android.apps.monke.readActivity.ReadActivity;
+import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 
 import java.util.List;
 
@@ -133,22 +136,16 @@ public class BookMainActivity extends MBaseActivity<IMainPresenter> implements I
             }
 
             @Override
-            public void onClick(BookShelfBean bookShelfBean, int index) {
-                Intent intent = new Intent(BookMainActivity.this, ReadBookActivity.class);
-                intent.putExtra("from", ReadBookPresenterImpl.OPEN_FROM_APP);
-                String key = String.valueOf(System.currentTimeMillis());
-                intent.putExtra("data_key", key);
-                try {
-                    BitIntentDataManager.getInstance().putData(key, bookShelfBean.clone());
-                } catch (CloneNotSupportedException e) {
-                    BitIntentDataManager.getInstance().putData(key, bookShelfBean);
-                    e.printStackTrace();
-                }
+            public void onClick(CollBookBean collBookBean, int index) {
+                Intent intent = new Intent(BookMainActivity.this, ReadActivity.class);
+
+                intent.putExtra(ReadActivity.EXTRA_COLL_BOOK, collBookBean);
+                intent.putExtra(ReadActivity.EXTRA_IS_COLLECTED, true);
                 startActivityByAnim(intent, android.R.anim.fade_in, android.R.anim.fade_out);
             }
 
             @Override
-            public void onLongClick(View animView, BookShelfBean bookShelfBean, int index) {
+            public void onLongClick(View animView, CollBookBean bookShelfBean, int index) {
                 Intent intent = new Intent(BookMainActivity.this, BookDetailActivity.class);
                 intent.putExtra("from", BookDetailPresenterImpl.FROM_BOOKSHELF);
                 String key = String.valueOf(System.currentTimeMillis());
@@ -186,7 +183,7 @@ public class BookMainActivity extends MBaseActivity<IMainPresenter> implements I
     }
 
     @Override
-    public void refreshBookShelf(List<BookShelfBean> bookShelfBeanList) {
+    public void refreshBookShelf(List<CollBookBean> bookShelfBeanList) {
         bookShelfAdapter.replaceAll(bookShelfBeanList);
     }
 

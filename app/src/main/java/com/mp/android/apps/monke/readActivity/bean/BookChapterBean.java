@@ -45,9 +45,19 @@ public class BookChapterBean implements Serializable {
     //在书籍文件中的终止位置
     private long end;
 
-    @Generated(hash = 1508543635)
+    private long position;
+
+    public long getPosition() {
+        return position;
+    }
+
+    public void setPosition(long position) {
+        this.position = position;
+    }
+
+    @Generated(hash = 104481972)
     public BookChapterBean(String id, String link, String title, String taskName,
-                           boolean unreadble, String bookId, long start, long end) {
+            boolean unreadble, String bookId, long start, long end, long position) {
         this.id = id;
         this.link = link;
         this.title = title;
@@ -56,6 +66,7 @@ public class BookChapterBean implements Serializable {
         this.bookId = bookId;
         this.start = start;
         this.end = end;
+        this.position = position;
     }
 
     @Generated(hash = 853839616)

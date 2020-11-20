@@ -222,21 +222,9 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
         tvRead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //进入阅读
-//                Intent intent = new Intent(BookDetailActivity.this, ReadBookActivity.class);
-//                intent.putExtra("from", ReadBookPresenterImpl.OPEN_FROM_APP);
-//                String key = String.valueOf(System.currentTimeMillis());
-//                intent.putExtra("data_key", key);
-//                try {
-//                    BitIntentDataManager.getInstance().putData(key, mPresenter.getCollBookBean().clone());
-//                } catch (CloneNotSupportedException e) {
-//                    BitIntentDataManager.getInstance().putData(key, mPresenter.getCollBookBean());
-//                    e.printStackTrace();
-//                }
-//                startActivityByAnim(intent, android.R.anim.fade_in, android.R.anim.fade_out);
-
                 Intent intent = new Intent(BookDetailActivity.this, ReadActivity.class);
                 intent.putExtra("extra_coll_book", mPresenter.getCollBookBean());
+                intent.putExtra(ReadActivity.EXTRA_IS_COLLECTED, false);
                 startActivityByAnim(intent, android.R.anim.fade_in, android.R.anim.fade_out);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

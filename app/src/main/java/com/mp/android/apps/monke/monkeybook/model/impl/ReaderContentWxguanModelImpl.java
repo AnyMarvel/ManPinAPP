@@ -121,7 +121,7 @@ public class ReaderContentWxguanModelImpl extends MBaseModelImpl {
             temp.setId(novelUrl);
             temp.setTitle(chapterlist.get(i).getElementsByTag("a").get(0).text());
             temp.setLink(TAG + chapterlist.get(i).getElementsByTag("a").get(0).attr("href"));   //id
-            temp.setStart(i);
+            temp.setPosition(i - 11);
             temp.setBookId(novelUrl);
             temp.setUnreadble(false);
             chapterBeans.add(temp);

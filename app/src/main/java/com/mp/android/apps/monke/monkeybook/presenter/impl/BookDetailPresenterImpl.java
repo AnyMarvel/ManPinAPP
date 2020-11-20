@@ -25,11 +25,14 @@ import com.mp.android.apps.monke.monkeybook.view.IBookDetailView;
 import com.mp.android.apps.MyApplication;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
+import com.mp.android.apps.monke.readActivity.utils.Constant;
+import com.mp.android.apps.monke.readActivity.utils.StringUtils;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -138,6 +141,8 @@ public class BookDetailPresenterImpl extends BasePresenterImpl<IBookDetailView> 
             Observable.create(new ObservableOnSubscribe<Boolean>() {
                 @Override
                 public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
+                    collBookBean.setLastRead(StringUtils.
+                            dateConvert(System.currentTimeMillis(), Constant.FORMAT_BOOK_DATE));
                     BookRepository.getInstance()
                             .saveCollBookWithAsync(collBookBean);
                     e.onNext(true);
@@ -172,7 +177,7 @@ public class BookDetailPresenterImpl extends BasePresenterImpl<IBookDetailView> 
                 @Override
                 public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
                     BookRepository.getInstance()
-                            .deleteCollBookInRx(collBookBean);
+                            .deleteCollBook(collBookBean);
                     e.onNext(true);
                     e.onComplete();
                 }

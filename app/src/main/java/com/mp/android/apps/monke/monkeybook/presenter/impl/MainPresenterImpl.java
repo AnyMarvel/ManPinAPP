@@ -11,7 +11,6 @@ import com.mp.android.apps.monke.basemvplib.IView;
 import com.mp.android.apps.monke.basemvplib.impl.BasePresenterImpl;
 import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
 import com.mp.android.apps.monke.monkeybook.bean.BookInfoBean;
-import com.mp.android.apps.monke.monkeybook.bean.BookShelfBean;
 import com.mp.android.apps.monke.monkeybook.common.RxBusTag;
 import com.mp.android.apps.monke.monkeybook.dao.BookInfoBeanDao;
 import com.mp.android.apps.monke.monkeybook.dao.BookShelfBeanDao;
@@ -22,6 +21,8 @@ import com.mp.android.apps.monke.monkeybook.model.impl.WebBookModelImpl;
 import com.mp.android.apps.monke.monkeybook.presenter.IMainPresenter;
 import com.mp.android.apps.monke.monkeybook.utils.NetworkUtil;
 import com.mp.android.apps.monke.monkeybook.view.IMainView;
+import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
+import com.mp.android.apps.monke.readActivity.local.BookRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,30 +38,18 @@ public class MainPresenterImpl extends BasePresenterImpl<IMainView> implements I
     public void queryBookShelf(final Boolean needRefresh) {
         if (needRefresh)
             mView.activityRefreshView();
-        Observable.create(new ObservableOnSubscribe<List<BookShelfBean>>() {
+        Observable.create(new ObservableOnSubscribe<List<CollBookBean>>() {
             @Override
-            public void subscribe(ObservableEmitter<List<BookShelfBean>> e) throws Exception {
-                List<BookShelfBean> bookShelfes = DbHelper.getInstance().getmDaoSession().getBookShelfBeanDao().queryBuilder().orderDesc(BookShelfBeanDao.Properties.FinalDate).list();
-                for (int i = 0; i < bookShelfes.size(); i++) {
-                    List<BookInfoBean> temp = DbHelper.getInstance().getmDaoSession().getBookInfoBeanDao().queryBuilder().where(BookInfoBeanDao.Properties.NoteUrl.eq(bookShelfes.get(i).getNoteUrl())).limit(1).build().list();
-                    if (temp != null && temp.size() > 0) {
-                        BookInfoBean bookInfoBean = temp.get(0);
-                        bookInfoBean.setChapterlist(DbHelper.getInstance().getmDaoSession().getChapterListBeanDao().queryBuilder().where(ChapterListBeanDao.Properties.NoteUrl.eq(bookShelfes.get(i).getNoteUrl())).orderAsc(ChapterListBeanDao.Properties.DurChapterIndex).build().list());
-                        bookShelfes.get(i).setBookInfoBean(bookInfoBean);
-                    } else {
-                        DbHelper.getInstance().getmDaoSession().getBookShelfBeanDao().delete(bookShelfes.get(i));
-                        bookShelfes.remove(i);
-                        i--;
-                    }
-                }
-                e.onNext(bookShelfes == null ? new ArrayList<BookShelfBean>() : bookShelfes);
+            public void subscribe(ObservableEmitter<List<CollBookBean>> e) throws Exception {
+                List<CollBookBean> bookShelfes = DbHelper.getInstance().getmDaoSession().getCollBookBeanDao().queryBuilder().list();
+                e.onNext(bookShelfes == null ? new ArrayList<CollBookBean>() : bookShelfes);
             }
         })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SimpleObserver<List<BookShelfBean>>() {
+                .subscribe(new SimpleObserver<List<CollBookBean>>() {
                     @Override
-                    public void onNext(List<BookShelfBean> value) {
+                    public void onNext(List<CollBookBean> value) {
                         if (null != value) {
                             mView.refreshBookShelf(value);
                             if (needRefresh) {
@@ -79,48 +68,38 @@ public class MainPresenterImpl extends BasePresenterImpl<IMainView> implements I
                 });
     }
 
-    public void startRefreshBook(List<BookShelfBean> value){
-        if (value != null && value.size() > 0){
+    public void startRefreshBook(List<CollBookBean> value) {
+        if (value != null && value.size() > 0) {
             mView.setRecyclerMaxProgress(value.size());
-            refreshBookShelf(value,0);
-        }else{
+            refreshBookShelf(value, 0);
+        } else {
             mView.refreshFinish();
         }
     }
 
-    private void refreshBookShelf(final List<BookShelfBean> value, final int index) {
-        if (index<=value.size()-1) {
-            WebBookModelImpl.getInstance().getChapterList(value.get(index), new OnGetChapterListListener() {
-                @Override
-                public void success(BookShelfBean bookShelfBean) {
-                    saveBookToShelf(value,index);
-                }
-
-                @Override
-                public void error() {
-                    mView.refreshError(NetworkUtil.getErrorTip(NetworkUtil.ERROR_CODE_NONET));
-                }
-            });
+    private void refreshBookShelf(final List<CollBookBean> value, final int index) {
+        if (index <= value.size() - 1) {
+            saveBookToShelf(value, index);
         } else {
             queryBookShelf(false);
         }
     }
 
-    private void saveBookToShelf(final List<BookShelfBean> datas, final int index){
-        Observable.create(new ObservableOnSubscribe<BookShelfBean>() {
+    private void saveBookToShelf(final List<CollBookBean> datas, final int index) {
+        Observable.create(new ObservableOnSubscribe<CollBookBean>() {
             @Override
-            public void subscribe(ObservableEmitter<BookShelfBean> e) throws Exception {
-                DbHelper.getInstance().getmDaoSession().getChapterListBeanDao().insertOrReplaceInTx(datas.get(index).getBookInfoBean().getChapterlist());
+            public void subscribe(ObservableEmitter<CollBookBean> e) throws Exception {
+                BookRepository.getInstance().saveCollBook(datas.get(index));
                 e.onNext(datas.get(index));
                 e.onComplete();
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SimpleObserver<BookShelfBean>() {
+                .subscribe(new SimpleObserver<CollBookBean>() {
                     @Override
-                    public void onNext(BookShelfBean value) {
+                    public void onNext(CollBookBean value) {
                         mView.refreshRecyclerViewItemAdd();
-                        refreshBookShelf(datas,index+1);
+                        refreshBookShelf(datas, index + 1);
                     }
 
                     @Override
@@ -151,7 +130,7 @@ public class MainPresenterImpl extends BasePresenterImpl<IMainView> implements I
                     @Tag(RxBusTag.UPDATE_BOOK_PROGRESS)
             }
     )
-    public void hadddOrRemoveBook(BookShelfBean bookShelfBean) {
+    public void hadddOrRemoveBook(CollBookBean bookShelfBean) {
         queryBookShelf(false);
     }
 }

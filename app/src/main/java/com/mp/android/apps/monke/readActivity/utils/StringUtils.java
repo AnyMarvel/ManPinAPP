@@ -36,6 +36,18 @@ public class StringUtils {
         return format.format(date);
     }
 
+    public static Date convertData(String time, String pattern) {
+        SimpleDateFormat format = new SimpleDateFormat(pattern);
+        try {
+            Date temp = format.parse(time);
+            return temp;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     //将日期转换成昨天、今天、明天
     public static String dateConvert(String source, String pattern) {
         DateFormat format = new SimpleDateFormat(pattern);

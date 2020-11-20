@@ -77,8 +77,8 @@ public class WebBookModelImpl implements IWebBookModel {
         } else if (bookShelfBean.getTag().equals(ContentWxguanModelImpl.TAG)) {
             ContentWxguanModelImpl.getInstance().getChapterList(bookShelfBean, getChapterListListener);
         } else {
-            if (getChapterListListener != null)
-                getChapterListListener.success(bookShelfBean);
+//            if (getChapterListListener != null)
+//                getChapterListListener.success(bookShelfBean);
         }
     }
 

@@ -703,7 +703,6 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
                         //设置阅读时间
                         mCollBook.setLastRead(StringUtils.
                                 dateConvert(System.currentTimeMillis(), Constant.FORMAT_BOOK_DATE));
-
                         BookRepository.getInstance()
                                 .saveCollBookWithAsync(mCollBook);
 

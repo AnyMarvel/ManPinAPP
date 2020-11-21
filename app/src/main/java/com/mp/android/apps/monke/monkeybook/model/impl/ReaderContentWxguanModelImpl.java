@@ -2,6 +2,7 @@
 package com.mp.android.apps.monke.monkeybook.model.impl;
 
 
+import com.google.android.apps.photolab.storyboard.download.MD5Utils;
 import com.mp.android.apps.monke.monkeybook.base.MBaseModelImpl;
 
 
@@ -120,9 +121,10 @@ public class ReaderContentWxguanModelImpl extends MBaseModelImpl {
         List<BookChapterBean> chapterBeans = new ArrayList<BookChapterBean>();
         for (int i = 11; i < chapterlist.size(); i++) {
             BookChapterBean temp = new BookChapterBean();
-            temp.setId(novelUrl);
+            String linkUrl = TAG + chapterlist.get(i).getElementsByTag("a").get(0).attr("href");
+            temp.setId(MD5Utils.strToMd5By16(linkUrl));
             temp.setTitle(chapterlist.get(i).getElementsByTag("a").get(0).text());
-            temp.setLink(TAG + chapterlist.get(i).getElementsByTag("a").get(0).attr("href"));   //id
+            temp.setLink(linkUrl);   //id
             temp.setPosition(i - 11);
             temp.setBookId(novelUrl);
             temp.setUnreadble(false);

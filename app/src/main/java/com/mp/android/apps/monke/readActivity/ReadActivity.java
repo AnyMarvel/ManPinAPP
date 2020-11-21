@@ -193,6 +193,7 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
 
     /***************params*****************/
     private boolean isCollected = false; // isFromSDCard
+    
     private boolean isNightMode = false;
     private boolean isFullScreen = false;
     private boolean isRegistered = false;

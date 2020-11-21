@@ -10,6 +10,7 @@ import com.mp.android.apps.monke.readActivity.bean.ChapterInfoBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.monkeybook.dao.BookRecordBeanDao;
 import com.mp.android.apps.monke.monkeybook.dao.DaoSession;
+import com.mp.android.apps.monke.readActivity.local.remote.RemoteRepository;
 import com.mp.android.apps.monke.readActivity.utils.BookManager;
 import com.mp.android.apps.monke.readActivity.utils.Constant;
 import com.mp.android.apps.monke.readActivity.utils.FileUtils;
@@ -246,7 +247,12 @@ public class BookRepository {
 
     }
 
-    /************************************************************/
+    /**
+     * 异步删除书架收藏记录
+     *
+     * @param bean
+     * @return
+     */
     public Single<Void> deleteCollBookInRx(CollBookBean bean) {
         return Single.create(new SingleOnSubscribe<Void>() {
             @Override
@@ -256,8 +262,7 @@ public class BookRepository {
                     deleteBook(bean.get_id());
                     //删除目录
                     deleteBookChapter(bean.get_id());
-                    //删除CollBook
-                    deleteCollBookDAO(bean.get_id());
+
                     e.onSuccess(new Void());
                 } catch (Exception e1) {
                     e1.printStackTrace();
@@ -272,19 +277,15 @@ public class BookRepository {
      *
      * @param bean
      */
-    public void deleteCollBook(CollBookBean bean) {
-        //删除目录
+    public void deleteCollBookSync(CollBookBean bean) {
+        //删除书籍
         mCollBookDao.delete(bean);
-        //删除CollBook
-        deleteCollBookDAO(bean.get_id());
-        //删除
+        //删除目录
+        deleteBookChapter(bean.get_id());
+        //删除阅读记录
         deleteBookRecord(bean.get_id());
     }
 
-    public void deleteCollBookDAO(String bookId) {
-        mCollBookDao.queryBuilder().where(CollBookBeanDao.Properties._id.eq(bookId))
-                .buildDelete().executeDeleteWithoutDetachingEntities();
-    }
 
     //这个需要用rx，进行删除
     public void deleteBookChapter(String bookId) {

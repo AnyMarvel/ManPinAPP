@@ -73,6 +73,8 @@ public class ReaderContentWxguanModelImpl extends MBaseModelImpl {
                 updatedTime = updatedTime.replace(" ", "").replace("  ", "").replace("更新时间：", "");
 
                 collBookBean.setUpdated(updatedTime);
+
+                collBookBean.setLastChapter(resultE.getElementsByClass("small").get(0).getElementsByTag("span").get(5).text().toString().trim());
                 List<TextNode> contentEs = resultE.getElementsByClass("intro").get(0).textNodes();
                 StringBuilder content = new StringBuilder();
                 for (int i = 0; i < contentEs.size(); i++) {

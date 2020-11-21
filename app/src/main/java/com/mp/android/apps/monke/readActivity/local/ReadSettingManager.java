@@ -86,7 +86,7 @@ public class ReadSettingManager {
     }
 
     public int getTextSize() {
-        return sharedPreUtils.getInt(SHARED_READ_TEXT_SIZE, ScreenUtils.spToPx(28));
+        return sharedPreUtils.getInt(SHARED_READ_TEXT_SIZE, ScreenUtils.spToPx(20));
     }
 
     public boolean isDefaultTextSize() {

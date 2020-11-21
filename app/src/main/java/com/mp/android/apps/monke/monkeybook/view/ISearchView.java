@@ -60,11 +60,6 @@ public interface ISearchView extends IView {
      */
     EditText getEdtContent();
 
-    /**
-     * 添加书籍失败
-     * @param code
-     */
-    void addBookShelfFailed(int code);
 
     SearchBookAdapter getSearchBookAdapter();
 

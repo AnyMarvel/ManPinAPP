@@ -474,10 +474,7 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
         return edtContent;
     }
 
-    @Override
-    public void addBookShelfFailed(int code) {
-        Toast.makeText(this, NetworkUtil.getErrorTip(code), Toast.LENGTH_SHORT).show();
-    }
+
 
     @Override
     public SearchBookAdapter getSearchBookAdapter() {

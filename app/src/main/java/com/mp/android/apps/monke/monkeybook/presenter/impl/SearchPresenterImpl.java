@@ -2,6 +2,7 @@
 package com.mp.android.apps.monke.monkeybook.presenter.impl;
 
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -9,7 +10,9 @@ import com.hwangjr.rxbus.RxBus;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
+import com.mp.android.apps.MyApplication;
 import com.mp.android.apps.monke.basemvplib.IView;
+import com.mp.android.apps.monke.basemvplib.impl.BaseActivity;
 import com.mp.android.apps.monke.basemvplib.impl.BasePresenterImpl;
 import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
@@ -21,10 +24,13 @@ import com.mp.android.apps.monke.monkeybook.model.impl.WebBookModelImpl;
 import com.mp.android.apps.monke.monkeybook.presenter.ISearchPresenter;
 import com.mp.android.apps.monke.monkeybook.utils.NetworkUtil;
 import com.mp.android.apps.monke.monkeybook.view.ISearchView;
+import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
+import com.mp.android.apps.monke.readActivity.local.remote.RemoteRepository;
 import com.mp.android.apps.monke.readActivity.utils.Constant;
 import com.mp.android.apps.monke.readActivity.utils.StringUtils;
+import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -36,7 +42,9 @@ import java.util.Set;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implements ISearchPresenter {
@@ -313,66 +321,11 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
 
     @Override
     public void addBookToShelf(final SearchBookBean searchBookBean) {
-        CollBookBean collBookBean = new CollBookBean();
-        collBookBean.set_id(searchBookBean.getNoteUrl());
-        collBookBean.setAuthor(searchBookBean.getAuthor());
-        collBookBean.setCover(searchBookBean.getCoverUrl());
-        collBookBean.setIsLocal(false);
-        collBookBean.setIsUpdate(false);
-        collBookBean.setTitle(searchBookBean.getName());
-        collBookBean.setLastRead(StringUtils.
-                dateConvert(System.currentTimeMillis(), Constant.FORMAT_BOOK_DATE));
-        collBookBean.setLastChapter("开始阅读");
-        collBookBean.setHasCp(false);
-        if (TextUtils.isEmpty(searchBookBean.getDesc())) {
-            collBookBean.setShortIntro("暂无介绍");
-        } else {
-            collBookBean.setShortIntro(searchBookBean.getDesc());
-        }
-        collBookBean.setBookTag(searchBookBean.getTag());
-
-        Objects.requireNonNull(WebBookModelImpl.getInstance().getBookInfo(collBookBean))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleObserver<CollBookBean>() {
-            @Override
-            public void onNext(@io.reactivex.annotations.NonNull CollBookBean collBookBean) {
-                saveBookToShelf(collBookBean);
-            }
-
-            @Override
-            public void onError(@io.reactivex.annotations.NonNull Throwable e) {
-                mView.addBookShelfFailed(NetworkUtil.ERROR_CODE_OUTTIME);
-            }
-        });
-
+        CollBookBean collBookBean = new CollBookBean().getCollBookBeanFromSearch(searchBookBean);
+        BookShelUtils.getInstance().addToBookShelfUtils(collBookBean, mView);
 
     }
 
-    private void saveBookToShelf(final CollBookBean collBookBean) {
-        Observable.create(new ObservableOnSubscribe<CollBookBean>() {
-            @Override
-            public void subscribe(ObservableEmitter<CollBookBean> e) throws Exception {
-                BookRepository.getInstance()
-                        .saveCollBookWithAsync(collBookBean);
-
-                e.onNext(collBookBean);
-                e.onComplete();
-            }
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SimpleObserver<CollBookBean>() {
-                    @Override
-                    public void onNext(CollBookBean value) {
-                        //成功   //发送RxBus
-                        RxBus.get().post(RxBusTag.HAD_ADD_BOOK, value);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mView.addBookShelfFailed(NetworkUtil.ERROR_CODE_OUTTIME);
-                    }
-                });
-    }
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override

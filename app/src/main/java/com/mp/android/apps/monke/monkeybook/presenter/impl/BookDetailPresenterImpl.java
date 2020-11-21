@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import android.widget.Toast;
 
+import com.google.android.apps.photolab.storyboard.download.MD5Utils;
 import com.hwangjr.rxbus.RxBus;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
@@ -18,14 +19,18 @@ import com.mp.android.apps.monke.monkeybook.BitIntentDataManager;
 import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
 import com.mp.android.apps.monke.monkeybook.common.RxBusTag;
+import com.mp.android.apps.monke.monkeybook.dao.CollBookBeanDao;
 import com.mp.android.apps.monke.monkeybook.dao.DbHelper;
 import com.mp.android.apps.monke.monkeybook.model.impl.WebBookModelImpl;
 import com.mp.android.apps.monke.monkeybook.presenter.IBookDetailPresenter;
 import com.mp.android.apps.monke.monkeybook.view.IBookDetailView;
 import com.mp.android.apps.MyApplication;
+import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
+import com.mp.android.apps.monke.readActivity.local.remote.RemoteRepository;
 import com.mp.android.apps.monke.readActivity.utils.Constant;
+import com.mp.android.apps.monke.readActivity.utils.RxUtils;
 import com.mp.android.apps.monke.readActivity.utils.StringUtils;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
@@ -37,7 +42,10 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
+import io.reactivex.SingleSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
@@ -54,6 +62,8 @@ public class BookDetailPresenterImpl extends BasePresenterImpl<IBookDetailView> 
 
     public BookDetailPresenterImpl(Intent intent) {
         openfrom = intent.getIntExtra("from", FROM_BOOKSHELF);
+
+
         if (openfrom == FROM_BOOKSHELF) {
             String key = intent.getStringExtra("data_key");
             collBookBean = (CollBookBean) BitIntentDataManager.getInstance().getData(key);
@@ -89,33 +99,17 @@ public class BookDetailPresenterImpl extends BasePresenterImpl<IBookDetailView> 
 
     @Override
     public void getBookShelfInfo() {
-        Observable.create(new ObservableOnSubscribe<List<CollBookBean>>() {
+
+        Observable.create(new ObservableOnSubscribe<CollBookBean>() {
             @Override
-            public void subscribe(ObservableEmitter<List<CollBookBean>> e) throws Exception {
-                List<CollBookBean> temp = DbHelper.getInstance().getmDaoSession().getCollBookBeanDao().queryBuilder().list();
-                if (temp == null)
-                    temp = new ArrayList<CollBookBean>();
-                e.onNext(temp);
-                e.onComplete();
-            }
-        }).flatMap(new Function<List<CollBookBean>, ObservableSource<CollBookBean>>() {
-            @Override
-            public ObservableSource<CollBookBean> apply(List<CollBookBean> collBookBean) throws Exception {
-                localCollBooks.addAll(collBookBean);
+            public void subscribe(ObservableEmitter<CollBookBean> emitter) throws Exception {
                 CollBookBean collBookInfo = new CollBookBean().getCollBookBeanFromSearch(searchBook);
-                return WebBookModelImpl.getInstance().getBookInfo(collBookInfo);
+                emitter.onNext(collBookInfo);
             }
-        }).map(new Function<CollBookBean, CollBookBean>() {
+        }).flatMap(new Function<CollBookBean, ObservableSource<CollBookBean>>() {
             @Override
-            public CollBookBean apply(CollBookBean collBookBean) throws Exception {
-                for (int i = 0; i < localCollBooks.size(); i++) {
-                    if (localCollBooks.get(i).get_id().equals(collBookBean.get_id())) {
-                        inBookShelf = true;
-                        collBookBean.setLastChapter(localCollBooks.get(i).getLastChapter());
-                        break;
-                    }
-                }
-                return collBookBean;
+            public ObservableSource<CollBookBean> apply(CollBookBean collBookBean) throws Exception {
+                return WebBookModelImpl.getInstance().getBookInfo(collBookBean);
             }
         }).subscribeOn(Schedulers.io())
                 .compose(((BaseActivity) mView.getContext()).<CollBookBean>bindUntilEvent(ActivityEvent.DESTROY))
@@ -123,6 +117,10 @@ public class BookDetailPresenterImpl extends BasePresenterImpl<IBookDetailView> 
                 .subscribe(new SimpleObserver<CollBookBean>() {
                     @Override
                     public void onNext(CollBookBean value) {
+                        CollBookBean localCollBookBean = BookRepository.getInstance().getSession().getCollBookBeanDao().queryBuilder().where(CollBookBeanDao.Properties._id.eq(value.get_id())).build().unique();
+                        if (localCollBookBean != null) {
+                            inBookShelf = true;
+                        }
                         collBookBean = value;
                         mView.updateView();
                     }
@@ -133,22 +131,34 @@ public class BookDetailPresenterImpl extends BasePresenterImpl<IBookDetailView> 
                         mView.getBookShelfError();
                     }
                 });
+
     }
 
     @Override
     public void addToBookShelf() {
         if (collBookBean != null) {
-            Observable.create(new ObservableOnSubscribe<Boolean>() {
-                @Override
-                public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
-                    collBookBean.setLastRead(StringUtils.
-                            dateConvert(System.currentTimeMillis(), Constant.FORMAT_BOOK_DATE));
-                    BookRepository.getInstance()
-                            .saveCollBookWithAsync(collBookBean);
-                    e.onNext(true);
-                    e.onComplete();
-                }
-            }).subscribeOn(Schedulers.io())
+            RemoteRepository.getInstance().getBookChapters(collBookBean.get_id())
+                    .toObservable()
+                    .flatMap(new Function<List<BookChapterBean>, ObservableSource<Boolean>>() {
+                        @Override
+                        public ObservableSource<Boolean> apply(List<BookChapterBean> bookChapterBeans) throws Exception {
+                            return Observable.create(new ObservableOnSubscribe<Boolean>() {
+                                @Override
+                                public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
+                                    collBookBean.__setDaoSession(DbHelper.getInstance().getmDaoSession());
+                                    if (collBookBean.getBookChapterList() == null || collBookBean.getBookChapterList().size() == 0) {
+                                        collBookBean.setBookChapters(bookChapterBeans);
+                                    }
+                                    collBookBean.setLastRead(StringUtils.
+                                            dateConvert(System.currentTimeMillis(), Constant.FORMAT_BOOK_DATE));
+                                    BookRepository.getInstance().saveCollBookWithAsync(collBookBean);
+                                    emitter.onNext(true);
+                                    emitter.onComplete();
+                                }
+                            });
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .compose(((BaseActivity) mView.getContext()).<Boolean>bindUntilEvent(ActivityEvent.DESTROY))
                     .subscribe(new SimpleObserver<Boolean>() {
@@ -167,6 +177,8 @@ public class BookDetailPresenterImpl extends BasePresenterImpl<IBookDetailView> 
                             Toast.makeText(MyApplication.getInstance(), "放入书架失败!", Toast.LENGTH_SHORT).show();
                         }
                     });
+
+
         }
     }
 
@@ -176,8 +188,7 @@ public class BookDetailPresenterImpl extends BasePresenterImpl<IBookDetailView> 
             Observable.create(new ObservableOnSubscribe<Boolean>() {
                 @Override
                 public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
-                    BookRepository.getInstance()
-                            .deleteCollBook(collBookBean);
+                    BookRepository.getInstance().deleteCollBookSync(collBookBean);
                     e.onNext(true);
                     e.onComplete();
                 }

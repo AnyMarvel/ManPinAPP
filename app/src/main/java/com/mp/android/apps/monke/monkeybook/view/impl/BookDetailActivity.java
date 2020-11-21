@@ -224,7 +224,7 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
             public void onClick(View v) {
                 Intent intent = new Intent(BookDetailActivity.this, ReadActivity.class);
                 intent.putExtra("extra_coll_book", mPresenter.getCollBookBean());
-                intent.putExtra(ReadActivity.EXTRA_IS_COLLECTED, false);
+                intent.putExtra(ReadActivity.EXTRA_IS_COLLECTED, mPresenter.getInBookShelf());
                 startActivityByAnim(intent, android.R.anim.fade_in, android.R.anim.fade_out);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

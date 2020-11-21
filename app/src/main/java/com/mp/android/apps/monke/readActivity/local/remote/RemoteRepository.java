@@ -39,7 +39,7 @@ public class RemoteRepository {
         return sInstance;
     }
 
-
+    //根据 图书url获取章节目录
     public Single<List<BookChapterBean>> getBookChapters(String bookId) {
 
         return ReaderContentWxguanModelImpl.getInstance().getBookChapters(bookId);

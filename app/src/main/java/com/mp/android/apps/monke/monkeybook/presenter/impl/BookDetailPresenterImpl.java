@@ -148,11 +148,14 @@ public class BookDetailPresenterImpl extends BasePresenterImpl<IBookDetailView> 
                                     collBookBean.__setDaoSession(DbHelper.getInstance().getmDaoSession());
                                     if (collBookBean.getBookChapterList() == null || collBookBean.getBookChapterList().size() == 0) {
                                         collBookBean.setBookChapters(bookChapterBeans);
+                                        collBookBean.setLastRead(StringUtils.
+                                                dateConvert(System.currentTimeMillis(), Constant.FORMAT_BOOK_DATE));
+                                        BookRepository.getInstance().saveCollBookWithAsync(collBookBean);
+                                        emitter.onNext(true);
+                                    } else {
+                                        emitter.onNext(false);
                                     }
-                                    collBookBean.setLastRead(StringUtils.
-                                            dateConvert(System.currentTimeMillis(), Constant.FORMAT_BOOK_DATE));
-                                    BookRepository.getInstance().saveCollBookWithAsync(collBookBean);
-                                    emitter.onNext(true);
+
                                     emitter.onComplete();
                                 }
                             });

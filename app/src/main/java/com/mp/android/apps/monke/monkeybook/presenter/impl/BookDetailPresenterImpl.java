@@ -137,51 +137,7 @@ public class BookDetailPresenterImpl extends BasePresenterImpl<IBookDetailView> 
     @Override
     public void addToBookShelf() {
         if (collBookBean != null) {
-            RemoteRepository.getInstance().getBookChapters(collBookBean.get_id())
-                    .toObservable()
-                    .flatMap(new Function<List<BookChapterBean>, ObservableSource<Boolean>>() {
-                        @Override
-                        public ObservableSource<Boolean> apply(List<BookChapterBean> bookChapterBeans) throws Exception {
-                            return Observable.create(new ObservableOnSubscribe<Boolean>() {
-                                @Override
-                                public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
-                                    collBookBean.__setDaoSession(DbHelper.getInstance().getmDaoSession());
-                                    if (collBookBean.getBookChapterList() == null || collBookBean.getBookChapterList().size() == 0) {
-                                        collBookBean.setBookChapters(bookChapterBeans);
-                                        collBookBean.setLastRead(StringUtils.
-                                                dateConvert(System.currentTimeMillis(), Constant.FORMAT_BOOK_DATE));
-                                        BookRepository.getInstance().saveCollBookWithAsync(collBookBean);
-                                        emitter.onNext(true);
-                                    } else {
-                                        emitter.onNext(false);
-                                    }
-
-                                    emitter.onComplete();
-                                }
-                            });
-                        }
-                    })
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .compose(((BaseActivity) mView.getContext()).<Boolean>bindUntilEvent(ActivityEvent.DESTROY))
-                    .subscribe(new SimpleObserver<Boolean>() {
-                        @Override
-                        public void onNext(Boolean value) {
-                            if (value) {
-                                RxBus.get().post(RxBusTag.HAD_ADD_BOOK, collBookBean);
-                            } else {
-                                Toast.makeText(MyApplication.getInstance(), "放入书架失败!", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            e.printStackTrace();
-                            Toast.makeText(MyApplication.getInstance(), "放入书架失败!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-
+            BookShelUtils.getInstance().addToBookShelfUtils(collBookBean, mView);
         }
     }
 

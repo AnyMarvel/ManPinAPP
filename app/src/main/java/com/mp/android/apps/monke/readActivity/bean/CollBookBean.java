@@ -11,6 +11,7 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToMany;
 
+import java.util.Date;
 import java.util.List;
 
 import com.mp.android.apps.MyApplication;
@@ -402,7 +403,12 @@ public class CollBookBean implements Parcelable {
         }
     };
 
-
+    /**
+     * searchBook转换为CollBook
+     *
+     * @param searchBookBean
+     * @return
+     */
     public CollBookBean getCollBookBeanFromSearch(SearchBookBean searchBookBean) {
         CollBookBean collBookBean = new CollBookBean();
         collBookBean.set_id(searchBookBean.getNoteUrl());
@@ -415,6 +421,7 @@ public class CollBookBean implements Parcelable {
                 dateConvert(System.currentTimeMillis(), Constant.FORMAT_BOOK_DATE));
         collBookBean.setLastChapter("开始阅读");
         collBookBean.setHasCp(false);
+        collBookBean.setUpdated(StringUtils.dateConvert(System.currentTimeMillis(), Constant.FORMAT_FILE_DATE));
         if (TextUtils.isEmpty(searchBookBean.getDesc())) {
             collBookBean.setShortIntro("暂无介绍");
         } else {

@@ -9,7 +9,6 @@ import com.mp.android.apps.monke.basemvplib.impl.BaseActivity;
 import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
 import com.mp.android.apps.monke.monkeybook.common.RxBusTag;
 import com.mp.android.apps.monke.monkeybook.dao.DbHelper;
-import com.mp.android.apps.monke.monkeybook.utils.NetworkUtil;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;

@@ -10,14 +10,8 @@ import com.hwangjr.rxbus.thread.EventThread;
 import com.mp.android.apps.monke.basemvplib.IView;
 import com.mp.android.apps.monke.basemvplib.impl.BasePresenterImpl;
 import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
-import com.mp.android.apps.monke.monkeybook.bean.BookInfoBean;
 import com.mp.android.apps.monke.monkeybook.common.RxBusTag;
-import com.mp.android.apps.monke.monkeybook.dao.BookInfoBeanDao;
-import com.mp.android.apps.monke.monkeybook.dao.BookShelfBeanDao;
-import com.mp.android.apps.monke.monkeybook.dao.ChapterListBeanDao;
 import com.mp.android.apps.monke.monkeybook.dao.DbHelper;
-import com.mp.android.apps.monke.monkeybook.listener.OnGetChapterListListener;
-import com.mp.android.apps.monke.monkeybook.model.impl.WebBookModelImpl;
 import com.mp.android.apps.monke.monkeybook.presenter.IMainPresenter;
 import com.mp.android.apps.monke.monkeybook.utils.NetworkUtil;
 import com.mp.android.apps.monke.monkeybook.view.IMainView;
@@ -41,7 +35,7 @@ public class MainPresenterImpl extends BasePresenterImpl<IMainView> implements I
         Observable.create(new ObservableOnSubscribe<List<CollBookBean>>() {
             @Override
             public void subscribe(ObservableEmitter<List<CollBookBean>> e) throws Exception {
-                List<CollBookBean> bookShelfes = DbHelper.getInstance().getmDaoSession().getCollBookBeanDao().queryBuilder().list();
+                List<CollBookBean> bookShelfes = BookRepository.getInstance().getCollBooks();
                 e.onNext(bookShelfes == null ? new ArrayList<CollBookBean>() : bookShelfes);
             }
         })

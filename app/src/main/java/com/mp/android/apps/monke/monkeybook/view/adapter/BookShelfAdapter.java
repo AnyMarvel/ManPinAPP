@@ -20,8 +20,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.mp.android.apps.R;
 import com.mp.android.apps.monke.monkeybook.dao.BookChapterBeanDao;
-import com.mp.android.apps.monke.monkeybook.dao.BookRecordBeanDao;
-import com.mp.android.apps.monke.monkeybook.dao.ChapterListBeanDao;
 import com.mp.android.apps.monke.monkeybook.dao.DbHelper;
 import com.mp.android.apps.monke.monkeybook.widget.refreshview.RefreshRecyclerViewAdapter;
 import com.monke.mprogressbar.MHorProgressBar;

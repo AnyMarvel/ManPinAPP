@@ -35,6 +35,11 @@ public class StringUtils {
         SimpleDateFormat format = new SimpleDateFormat(pattern);
         return format.format(date);
     }
+    //将data转换为标准模式
+    public static String dateConvert(Date data, String pattern) {
+        SimpleDateFormat format = new SimpleDateFormat(pattern);
+        return format.format(data);
+    }
 
     public static Date convertData(String time, String pattern) {
         SimpleDateFormat format = new SimpleDateFormat(pattern);

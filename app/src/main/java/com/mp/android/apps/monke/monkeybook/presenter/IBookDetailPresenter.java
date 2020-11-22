@@ -2,7 +2,6 @@
 package com.mp.android.apps.monke.monkeybook.presenter;
 
 import com.mp.android.apps.monke.basemvplib.IPresenter;
-import com.mp.android.apps.monke.monkeybook.bean.BookShelfBean;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 

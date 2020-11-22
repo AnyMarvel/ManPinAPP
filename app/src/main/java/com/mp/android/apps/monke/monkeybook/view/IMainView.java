@@ -2,7 +2,6 @@
 package com.mp.android.apps.monke.monkeybook.view;
 
 import com.mp.android.apps.monke.basemvplib.IView;
-import com.mp.android.apps.monke.monkeybook.bean.BookShelfBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 
 import java.util.List;

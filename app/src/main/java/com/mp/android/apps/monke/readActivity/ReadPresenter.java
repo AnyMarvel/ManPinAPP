@@ -2,13 +2,12 @@ package com.mp.android.apps.monke.readActivity;
 
 
 import com.google.android.apps.photolab.storyboard.download.MD5Utils;
+import com.mp.android.apps.monke.monkeybook.model.impl.WebBookModelImpl;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.ChapterInfoBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
-import com.mp.android.apps.monke.readActivity.local.remote.RemoteRepository;
 import com.mp.android.apps.monke.readActivity.utils.RxUtils;
 import com.mp.android.apps.monke.readActivity.view.TxtChapter;
-import com.mp.android.apps.utils.Logger;
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -35,7 +34,7 @@ public class ReadPresenter extends RxPresenter<ReadContract.View>
 
     @Override
     public void loadCategory(String bookId) {
-        Disposable disposable = RemoteRepository.getInstance()
+        Disposable disposable = WebBookModelImpl.getInstance()
                 .getBookChapters(bookId)
                 .doOnSuccess(new Consumer<List<BookChapterBean>>() {
                     @Override
@@ -73,7 +72,7 @@ public class ReadPresenter extends RxPresenter<ReadContract.View>
         for (int i = 0; i < size; ++i) {
             TxtChapter bookChapter = bookChapters.get(i);
             // 网络中获取数据
-            Single<ChapterInfoBean> chapterInfoSingle = RemoteRepository.getInstance()
+            Single<ChapterInfoBean> chapterInfoSingle = WebBookModelImpl.getInstance()
                     .getChapterInfo(bookChapter.getLink());
 
             chapterInfos.add(chapterInfoSingle);

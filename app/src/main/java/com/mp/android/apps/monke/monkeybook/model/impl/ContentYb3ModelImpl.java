@@ -10,11 +10,9 @@ import com.mp.android.apps.monke.monkeybook.bean.BookShelfBean;
 import com.mp.android.apps.monke.monkeybook.bean.ChapterListBean;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
 import com.mp.android.apps.monke.monkeybook.bean.WebChapterBean;
-import com.mp.android.apps.monke.monkeybook.common.api.ILingdiankanshuApi;
 import com.mp.android.apps.monke.monkeybook.common.api.IYb3API;
 import com.mp.android.apps.monke.monkeybook.listener.OnGetChapterListListener;
 import com.mp.android.apps.monke.monkeybook.model.IStationBookModel;
-import com.mp.android.apps.monke.monkeybook.model.IWebContentModel;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -140,7 +138,7 @@ public class ContentYb3ModelImpl extends MBaseModelImpl implements IStationBookM
 
         try {
             String lastChapter = resultE.getElementById("info").getElementsByTag("p").get(3).getElementsByTag("a").get(0).text();
-            ObtainBookInfoImpl.getInstance().senMessageManpin(bookInfoBean, "", lastChapter);
+//            ObtainBookInfoImpl.getInstance().senMessageManpin(bookInfoBean, "", lastChapter);
         } catch (Exception e) {
 
         }

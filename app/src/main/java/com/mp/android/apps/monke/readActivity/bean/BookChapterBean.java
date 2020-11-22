@@ -32,7 +32,7 @@ public class BookChapterBean implements Serializable {
 
     private boolean unreadble;
 
-    //所属的书籍
+    //所属的书籍//bookUrl
     @Index
     private String bookId;
 

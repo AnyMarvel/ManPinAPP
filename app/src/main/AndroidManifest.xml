@@ -71,20 +71,19 @@
             android:theme="@style/CAppTransparentTheme"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
-        <activity android:name=".monke.monkeybook.view.impl.ChoiceBookActivity" />
         <activity
             android:name=".monke.monkeybook.view.impl.BookDetailActivity"
 
             android:theme="@style/CAppTransparentTheme" />
-        <activity
-            android:name=".monke.monkeybook.view.impl.ReadBookActivity"
-            android:launchMode="singleTask">
-            <intent-filter tools:ignore="AppLinkUrlError">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="text/plain" />
-            </intent-filter>
-        </activity>
+<!--        <activity-->
+<!--            android:name=".monke.monkeybook.view.impl.ReadBookActivity"-->
+<!--            android:launchMode="singleTask">-->
+<!--            <intent-filter tools:ignore="AppLinkUrlError">-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <data android:mimeType="text/plain" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
         <activity
             android:name=".monke.monkeybook.view.impl.ImportBookActivity"
 

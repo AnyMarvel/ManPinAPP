@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 
 import android.widget.Toast;
 
-import com.google.android.apps.photolab.storyboard.download.MD5Utils;
 import com.hwangjr.rxbus.RxBus;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
@@ -20,18 +19,12 @@ import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
 import com.mp.android.apps.monke.monkeybook.common.RxBusTag;
 import com.mp.android.apps.monke.monkeybook.dao.CollBookBeanDao;
-import com.mp.android.apps.monke.monkeybook.dao.DbHelper;
 import com.mp.android.apps.monke.monkeybook.model.impl.WebBookModelImpl;
 import com.mp.android.apps.monke.monkeybook.presenter.IBookDetailPresenter;
 import com.mp.android.apps.monke.monkeybook.view.IBookDetailView;
 import com.mp.android.apps.MyApplication;
-import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
-import com.mp.android.apps.monke.readActivity.local.remote.RemoteRepository;
-import com.mp.android.apps.monke.readActivity.utils.Constant;
-import com.mp.android.apps.monke.readActivity.utils.RxUtils;
-import com.mp.android.apps.monke.readActivity.utils.StringUtils;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.ArrayList;
@@ -42,10 +35,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
-import io.reactivex.SingleSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 

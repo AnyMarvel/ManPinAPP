@@ -2,8 +2,9 @@ package com.mp.android.apps.monke.monkeybook.model.impl;
 
 import com.mp.android.apps.monke.monkeybook.base.MBaseModelImpl;
 import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
-import com.mp.android.apps.monke.monkeybook.bean.BookInfoBean;
 import com.mp.android.apps.monke.monkeybook.common.api.IBookInfoApi;
+import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 import io.reactivex.schedulers.Schedulers;
@@ -14,17 +15,17 @@ public class ObtainBookInfoImpl extends MBaseModelImpl {
         return new ObtainBookInfoImpl();
     }
 
-    public void senMessageManpin(BookInfoBean bookInfoBean, String kind, String lastChapter) {
+    public void senMessageManpin(CollBookBean collBookBean, String kind, String lastChapter) {
         try {
-            if (bookInfoBean.getNoteUrl().contains("http")) {
+            if (collBookBean.get_id().contains("http")) {
                 getRetrofitObject("http://aimanpin.com").create(IBookInfoApi.class)
-                        .obtainBookInfo(bookInfoBean.getNoteUrl(),
-                                bookInfoBean.getCoverUrl(),
-                                bookInfoBean.getName(),
-                                bookInfoBean.getAuthor(),
+                        .obtainBookInfo(collBookBean.get_id(),
+                                collBookBean.getCover(),
+                                collBookBean.getTitle(),
+                                collBookBean.getAuthor(),
                                 lastChapter,
-                                bookInfoBean.getTag(),
-                                bookInfoBean.getOrigin(),
+                                collBookBean.getBookTag(),
+                                collBookBean.getBookTag(),
                                 kind)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())

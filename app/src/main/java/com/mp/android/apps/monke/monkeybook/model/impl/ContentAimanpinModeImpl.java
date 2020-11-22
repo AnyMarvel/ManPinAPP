@@ -10,6 +10,8 @@ import com.mp.android.apps.monke.monkeybook.bean.BookShelfBean;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
 import com.mp.android.apps.monke.monkeybook.listener.OnGetChapterListListener;
 import com.mp.android.apps.monke.monkeybook.model.IStationBookModel;
+import com.mp.android.apps.monke.readActivity.utils.Constant;
+import com.mp.android.apps.monke.readActivity.utils.StringUtils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -60,6 +62,7 @@ public class ContentAimanpinModeImpl extends MBaseModelImpl implements IStationB
                         for (SourceListContent sourceListContent : sourceListContents) {
                             SearchBookBean searchBookBean = new SearchBookBean();
                             searchBookBean.setName(sourceListContent.getName());
+                            searchBookBean.setUpdated(StringUtils.dateConvert(sourceListContent.getUpdateTime(), Constant.FORMAT_BOOK_DATE));
                             searchBookBean.setCoverUrl(sourceListContent.getCoverUrl());
                             searchBookBean.setNoteUrl(sourceListContent.getNoteUrl());
                             searchBookBean.setAuthor(sourceListContent.getAuthor());

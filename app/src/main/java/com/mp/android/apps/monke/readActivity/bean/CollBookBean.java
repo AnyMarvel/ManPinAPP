@@ -419,9 +419,18 @@ public class CollBookBean implements Parcelable {
         collBookBean.setTitle(searchBookBean.getName());
         collBookBean.setLastRead(StringUtils.
                 dateConvert(System.currentTimeMillis(), Constant.FORMAT_BOOK_DATE));
-        collBookBean.setLastChapter("开始阅读");
+        if (searchBookBean.getLastChapter() != null) {
+            collBookBean.setLastChapter(searchBookBean.getLastChapter());
+        } else {
+            collBookBean.setLastChapter("无章节");
+        }
+
         collBookBean.setHasCp(false);
-        collBookBean.setUpdated(StringUtils.dateConvert(System.currentTimeMillis(), Constant.FORMAT_FILE_DATE));
+        if (searchBookBean.getUpdated() != null && searchBookBean.getUpdated().length() > 0) {
+            collBookBean.setUpdated(searchBookBean.getUpdated());
+        } else {
+            collBookBean.setUpdated(StringUtils.dateConvert(System.currentTimeMillis(), Constant.FORMAT_FILE_DATE));
+        }
         if (TextUtils.isEmpty(searchBookBean.getDesc())) {
             collBookBean.setShortIntro("暂无介绍");
         } else {

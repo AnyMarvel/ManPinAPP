@@ -99,38 +99,48 @@ public class BookDetailPresenterImpl extends BasePresenterImpl<IBookDetailView> 
 
     @Override
     public void getBookShelfInfo() {
-
-        Observable.create(new ObservableOnSubscribe<CollBookBean>() {
-            @Override
-            public void subscribe(ObservableEmitter<CollBookBean> emitter) throws Exception {
-                CollBookBean collBookInfo = new CollBookBean().getCollBookBeanFromSearch(searchBook);
-                emitter.onNext(collBookInfo);
+        CollBookBean collBookInfo = new CollBookBean().getCollBookBeanFromSearch(searchBook);
+        if (!"noimage".equals(collBookInfo.getCover())) {
+            CollBookBean localCollBookBean = BookRepository.getInstance().getSession().getCollBookBeanDao().queryBuilder().where(CollBookBeanDao.Properties._id.eq(collBookInfo.get_id())).build().unique();
+            if (localCollBookBean != null) {
+                inBookShelf = true;
             }
-        }).flatMap(new Function<CollBookBean, ObservableSource<CollBookBean>>() {
-            @Override
-            public ObservableSource<CollBookBean> apply(CollBookBean collBookBean) throws Exception {
-                return WebBookModelImpl.getInstance().getBookInfo(collBookBean);
-            }
-        }).subscribeOn(Schedulers.io())
-                .compose(((BaseActivity) mView.getContext()).<CollBookBean>bindUntilEvent(ActivityEvent.DESTROY))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SimpleObserver<CollBookBean>() {
-                    @Override
-                    public void onNext(CollBookBean value) {
-                        CollBookBean localCollBookBean = BookRepository.getInstance().getSession().getCollBookBeanDao().queryBuilder().where(CollBookBeanDao.Properties._id.eq(value.get_id())).build().unique();
-                        if (localCollBookBean != null) {
-                            inBookShelf = true;
+            collBookBean = collBookInfo;
+            mView.updateView();
+        } else {
+            Observable.create(new ObservableOnSubscribe<CollBookBean>() {
+                @Override
+                public void subscribe(ObservableEmitter<CollBookBean> emitter) throws Exception {
+                    emitter.onNext(collBookInfo);
+                }
+            }).flatMap(new Function<CollBookBean, ObservableSource<CollBookBean>>() {
+                @Override
+                public ObservableSource<CollBookBean> apply(CollBookBean collBookBean) throws Exception {
+                    return WebBookModelImpl.getInstance().getBookInfo(collBookBean);
+                }
+            }).subscribeOn(Schedulers.io())
+                    .compose(((BaseActivity) mView.getContext()).<CollBookBean>bindUntilEvent(ActivityEvent.DESTROY))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new SimpleObserver<CollBookBean>() {
+                        @Override
+                        public void onNext(CollBookBean value) {
+                            CollBookBean localCollBookBean = BookRepository.getInstance().getSession().getCollBookBeanDao().queryBuilder().where(CollBookBeanDao.Properties._id.eq(value.get_id())).build().unique();
+                            if (localCollBookBean != null) {
+                                inBookShelf = true;
+                            }
+                            collBookBean = value;
+                            mView.updateView();
                         }
-                        collBookBean = value;
-                        mView.updateView();
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        collBookBean = null;
-                        mView.getBookShelfError();
-                    }
-                });
+                        @Override
+                        public void onError(Throwable e) {
+                            collBookBean = null;
+                            mView.getBookShelfError();
+                        }
+                    });
+
+        }
+
 
     }
 

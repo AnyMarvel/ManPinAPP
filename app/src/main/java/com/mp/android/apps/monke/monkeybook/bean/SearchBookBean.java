@@ -40,12 +40,25 @@ public class SearchBookBean implements Parcelable {
     private String tag;
 
     private String kind;
+
+    public String getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(String updated) {
+        this.updated = updated;
+    }
+
     /**
      * 来源
      */
     private String origin;
 
     private String desc;
+    /**
+     * 更新时间
+     */
+    private String updated;
 
     public SearchBookBean() {
 

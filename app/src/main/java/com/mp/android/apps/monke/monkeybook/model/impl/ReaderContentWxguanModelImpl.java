@@ -144,7 +144,7 @@ public class ReaderContentWxguanModelImpl extends MBaseModelImpl implements IRea
                 try {
                     String kind = resultE.getElementsByClass("small").get(0).getElementsByTag("span").get(1).text().replace("分类：", "");
                     String lastChapter = resultE.getElementsByClass("small").get(0).getElementsByTag("span").get(5).getElementsByTag("a").text();
-                    ObtainBookInfoImpl.getInstance().senMessageManpin(collBookBean, kind, lastChapter);
+//                    ObtainBookInfoImpl.getInstance().senMessageManpin(collBookBean, kind, lastChapter);
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }

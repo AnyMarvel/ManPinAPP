@@ -9,10 +9,10 @@ import com.mp.android.apps.monke.basemvplib.impl.BaseActivity;
 import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
 import com.mp.android.apps.monke.monkeybook.common.RxBusTag;
 import com.mp.android.apps.monke.monkeybook.dao.DbHelper;
+import com.mp.android.apps.monke.monkeybook.model.impl.WebBookModelImpl;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
-import com.mp.android.apps.monke.readActivity.local.remote.RemoteRepository;
 import com.mp.android.apps.monke.readActivity.utils.Constant;
 import com.mp.android.apps.monke.readActivity.utils.StringUtils;
 import com.trello.rxlifecycle2.android.ActivityEvent;
@@ -50,7 +50,7 @@ public class BookShelUtils {
      * @param mView
      */
     public void addToBookShelfUtils(CollBookBean collBookBean, IView mView) {
-        RemoteRepository.getInstance().getBookChapters(collBookBean.get_id())
+        WebBookModelImpl.getInstance().getBookChapters(collBookBean.get_id())
                 .toObservable()
                 .flatMap(new Function<List<BookChapterBean>, ObservableSource<Boolean>>() {
                     @Override

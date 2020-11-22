@@ -10,13 +10,10 @@ import com.mp.android.apps.monke.readActivity.bean.ChapterInfoBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.monkeybook.dao.BookRecordBeanDao;
 import com.mp.android.apps.monke.monkeybook.dao.DaoSession;
-import com.mp.android.apps.monke.readActivity.local.remote.RemoteRepository;
 import com.mp.android.apps.monke.readActivity.utils.BookManager;
 import com.mp.android.apps.monke.readActivity.utils.Constant;
 import com.mp.android.apps.monke.readActivity.utils.FileUtils;
 import com.mp.android.apps.monke.readActivity.utils.IOUtils;
-import com.mp.android.apps.monke.readActivity.utils.StringUtils;
-import com.umeng.commonsdk.debug.E;
 
 
 import java.io.BufferedReader;

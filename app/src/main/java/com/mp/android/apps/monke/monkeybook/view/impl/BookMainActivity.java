@@ -16,11 +16,9 @@ import com.mp.android.apps.main.MainActivity;
 import com.mp.android.apps.monke.monkeybook.BitIntentDataManager;
 import com.mp.android.apps.R;
 import com.mp.android.apps.monke.monkeybook.base.MBaseActivity;
-import com.mp.android.apps.monke.monkeybook.dao.DbHelper;
 import com.mp.android.apps.monke.monkeybook.presenter.IMainPresenter;
 import com.mp.android.apps.monke.monkeybook.presenter.impl.BookDetailPresenterImpl;
 import com.mp.android.apps.monke.monkeybook.presenter.impl.MainPresenterImpl;
-import com.mp.android.apps.monke.monkeybook.presenter.impl.ReadBookPresenterImpl;
 import com.mp.android.apps.monke.monkeybook.view.IMainView;
 import com.mp.android.apps.monke.monkeybook.view.adapter.BookShelfAdapter;
 import com.mp.android.apps.monke.monkeybook.view.popupwindow.DownloadListPop;
@@ -29,7 +27,6 @@ import com.mp.android.apps.monke.monkeybook.widget.refreshview.OnRefreshWithProg
 import com.mp.android.apps.monke.monkeybook.widget.refreshview.RefreshRecyclerView;
 import com.mp.android.apps.monke.readActivity.ReadActivity;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
-import com.mp.android.apps.monke.readActivity.local.BookRepository;
 
 import java.util.List;
 

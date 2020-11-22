@@ -13,7 +13,6 @@ import com.mp.android.apps.monke.monkeybook.bean.WebChapterBean;
 import com.mp.android.apps.monke.monkeybook.common.api.IWxguanAPI;
 import com.mp.android.apps.monke.monkeybook.listener.OnGetChapterListListener;
 import com.mp.android.apps.monke.monkeybook.model.IStationBookModel;
-import com.mp.android.apps.monke.monkeybook.model.IWebContentModel;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,7 +20,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -150,7 +148,7 @@ public class ContentWxguanModelImpl extends MBaseModelImpl implements IStationBo
         try {
             String kind = resultE.getElementsByClass("small").get(0).getElementsByTag("span").get(1).text().replace("分类：", "");
             String lastChapter = resultE.getElementsByClass("small").get(0).getElementsByTag("span").get(5).getElementsByTag("a").text();
-            ObtainBookInfoImpl.getInstance().senMessageManpin(bookInfoBean, kind, lastChapter);
+//            ObtainBookInfoImpl.getInstance().senMessageManpin(bookInfoBean, kind, lastChapter);
         } catch (Exception e) {
 
         }

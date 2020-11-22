@@ -4,90 +4,82 @@ package com.mp.android.apps.monke.monkeybook.model.impl;
 import android.net.Uri;
 
 import com.mp.android.apps.monke.monkeybook.bean.BookContentBean;
-import com.mp.android.apps.monke.monkeybook.bean.BookShelfBean;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
-import com.mp.android.apps.monke.monkeybook.listener.OnGetChapterListListener;
-import com.mp.android.apps.monke.monkeybook.model.IWebBookModel;
+import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
+import com.mp.android.apps.monke.readActivity.bean.ChapterInfoBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
+import com.mp.android.apps.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Single;
 
 import static com.mp.android.apps.monke.monkeybook.presenter.impl.SearchPresenterImpl.TAG_KEY;
 
-public class WebBookModelImpl implements IWebBookModel {
+/**
+ * 图书内容获取 加载，解析，章节处理，内容处理等问题
+ */
+public class WebBookModelImpl {
+    private static WebBookModelImpl webBookModel;
+
+    private WebBookModelImpl() {
+    }
 
     public static WebBookModelImpl getInstance() {
-        return new WebBookModelImpl();
+        if (webBookModel == null) {
+            synchronized (WebBookModelImpl.class) {
+                if (webBookModel == null) {
+                    webBookModel = new WebBookModelImpl();
+                }
+            }
+        }
+        return webBookModel;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * 网络请求并解析书籍信息
-     * return BookShelfBean
-     */
-    @Override
-    public Observable<BookShelfBean> getBookInfo(BookShelfBean bookShelfBean) {
-        switch (bookShelfBean.getTag()) {
-            case GxwztvBookModelImpl.TAG:
-                return GxwztvBookModelImpl.getInstance().getBookInfo(bookShelfBean);
-            case LingdiankanshuStationBookModelImpl.TAG:
-                return LingdiankanshuStationBookModelImpl.getInstance().getBookInfo(bookShelfBean);
-            case ContentYb3ModelImpl.TAG:
-                return ContentYb3ModelImpl.getInstance().getBookInfo(bookShelfBean);
-            case ContentWxguanModelImpl.TAG:
-                return ContentWxguanModelImpl.getInstance().getBookInfo(bookShelfBean);
-            default:
-                return null;
-        }
-    }
-
     public Observable<CollBookBean> getBookInfo(CollBookBean collBookBean) {
         switch (collBookBean.getBookTag()) {
             case ReaderContentWxguanModelImpl.TAG:
                 return ReaderContentWxguanModelImpl.getInstance().getBookInfo(collBookBean);
+            case ReaderGxwztvBookModelImpl.TAG:
+                return ReaderGxwztvBookModelImpl.getInstance().getBookInfo(collBookBean);
             default:
                 return null;
         }
 
     }
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * 网络解析图书目录
-     * return BookShelfBean
+     * 根据 图书url获取章节目录
+     *
+     * @param bookId
+     * @return
      */
-    @Override
-    public void getChapterList(final BookShelfBean bookShelfBean, OnGetChapterListListener getChapterListListener) {
-        if (bookShelfBean.getTag().equals(GxwztvBookModelImpl.TAG)) {
-            GxwztvBookModelImpl.getInstance().getChapterList(bookShelfBean, getChapterListListener);
-        } else if (bookShelfBean.getTag().equals(LingdiankanshuStationBookModelImpl.TAG)) {
-            LingdiankanshuStationBookModelImpl.getInstance().getChapterList(bookShelfBean, getChapterListListener);
-        } else if (bookShelfBean.getTag().equals(ContentYb3ModelImpl.TAG)) {
-            ContentYb3ModelImpl.getInstance().getChapterList(bookShelfBean, getChapterListListener);
-        } else if (bookShelfBean.getTag().equals(ContentWxguanModelImpl.TAG)) {
-            ContentWxguanModelImpl.getInstance().getChapterList(bookShelfBean, getChapterListListener);
-        } else {
-//            if (getChapterListListener != null)
-//                getChapterListListener.success(bookShelfBean);
+    public Single<List<BookChapterBean>> getBookChapters(String bookId) {
+        Uri uri = Uri.parse(bookId);
+        String TAG = uri.getScheme() + "://" + uri.getHost();
+        Logger.d("Current website" + TAG);
+        switch (TAG) {
+            case ReaderContentWxguanModelImpl.TAG:
+                return ReaderContentWxguanModelImpl.getInstance().getBookChapters(bookId);
+            case ReaderGxwztvBookModelImpl.TAG:
+                return ReaderGxwztvBookModelImpl.getInstance().getBookChapters(bookId);
+            default:
+                return null;
         }
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * 章节缓存
+     * 章节内容
      */
-    @Override
     public Observable<BookContentBean> getBookContent(String durChapterUrl, int durChapterIndex, String tag) {
         if (tag.equals(GxwztvBookModelImpl.TAG)) {
             return GxwztvBookModelImpl.getInstance().getBookContent(durChapterUrl, durChapterIndex);
@@ -108,47 +100,68 @@ public class WebBookModelImpl implements IWebBookModel {
     }
 
     /**
-     * 其他站点集合搜索
+     * 获取章节内容
+     *
+     * @param url
+     * @return
      */
-    @Override
-    public Observable<List<SearchBookBean>> searchOtherBook(String content, int page, String tag) {
-        if (tag.equals(ContentAimanpinModeImpl.TAG)) {
-            return ContentAimanpinModeImpl.getInstance().searchBook(content, page);
-        } else if (tag.equals(GxwztvBookModelImpl.TAG)) {
-            return GxwztvBookModelImpl.getInstance().searchBook(content, page);
-        } else if (tag.equals(LingdiankanshuStationBookModelImpl.TAG)) {
-            return LingdiankanshuStationBookModelImpl.getInstance().searchBook(content, page);
-        } else if (tag.equals(ContentYb3ModelImpl.TAG)) {
-            return ContentYb3ModelImpl.getInstance().searchBook(content, page);
-        } else if (tag.equals(ContentWxguanModelImpl.TAG)) {
-            return ContentWxguanModelImpl.getInstance().searchBook(content, page);
-        } else {
-            return Observable.create(new ObservableOnSubscribe<List<SearchBookBean>>() {
-                @Override
-                public void subscribe(ObservableEmitter<List<SearchBookBean>> e) throws Exception {
-                    e.onNext(new ArrayList<SearchBookBean>());
-                    e.onComplete();
-                }
-            });
+    public Single<ChapterInfoBean> getChapterInfo(String url) {
+        Uri uri = Uri.parse(url);
+        String TAG = uri.getScheme() + "://" + uri.getHost();
+        Logger.d("Current website" + TAG);
+        switch (TAG) {
+            case ReaderContentWxguanModelImpl.TAG:
+                return ReaderContentWxguanModelImpl.getInstance().getChapterInfo(url);
+            case ReaderGxwztvBookModelImpl.TAG:
+                return ReaderGxwztvBookModelImpl.getInstance().getChapterInfo(url);
+            default:
+                return null;
         }
+
+
     }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * 点击事件获取分类书籍
+     * 其他站点集合搜索
      */
-    @Override
-    public Observable<List<SearchBookBean>> getKindBook(String url, int page) {
-        Uri uri = Uri.parse(url);
-        String tag = uri.getScheme() + "://" + uri.getHost();
-        if (tag.equals(GxwztvBookModelImpl.TAG)) {
-            return GxwztvBookModelImpl.getInstance().getKindBook(url, page);
-        } else if (tag.equals(LingdiankanshuStationBookModelImpl.TAG)) {
-            return LingdiankanshuStationBookModelImpl.getInstance().getKindBook(url, page);
-        } else {
-            return GxwztvBookModelImpl.getInstance().getKindBook(url, page);
+    public Observable<List<SearchBookBean>> searchOtherBook(String content, int page, String tag) {
+        switch (tag) {
+            case ReaderContentWxguanModelImpl.TAG:
+                return ReaderContentWxguanModelImpl.getInstance().searchBook(content, page);
+            case ReaderGxwztvBookModelImpl.TAG:
+                return ReaderGxwztvBookModelImpl.getInstance().searchBook(content, page);
+            default:
+                return Observable.create(new ObservableOnSubscribe<List<SearchBookBean>>() {
+                    @Override
+                    public void subscribe(ObservableEmitter<List<SearchBookBean>> e) throws Exception {
+                        e.onNext(new ArrayList<SearchBookBean>());
+                        e.onComplete();
+                    }
+                });
+
         }
+
+//        if (tag.equals(ContentAimanpinModeImpl.TAG)) {
+//            return ContentAimanpinModeImpl.getInstance().searchBook(content, page);
+//        } else if (tag.equals(GxwztvBookModelImpl.TAG)) {
+//            return GxwztvBookModelImpl.getInstance().searchBook(content, page);
+//        } else if (tag.equals(LingdiankanshuStationBookModelImpl.TAG)) {
+//            return LingdiankanshuStationBookModelImpl.getInstance().searchBook(content, page);
+//        } else if (tag.equals(ContentYb3ModelImpl.TAG)) {
+//            return ContentYb3ModelImpl.getInstance().searchBook(content, page);
+//        } else if (tag.equals(ContentWxguanModelImpl.TAG)) {
+//            return ContentWxguanModelImpl.getInstance().searchBook(content, page);
+//        } else {
+//            return Observable.create(new ObservableOnSubscribe<List<SearchBookBean>>() {
+//                @Override
+//                public void subscribe(ObservableEmitter<List<SearchBookBean>> e) throws Exception {
+//                    e.onNext(new ArrayList<SearchBookBean>());
+//                    e.onComplete();
+//                }
+//            });
+//        }
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     /**
@@ -159,10 +172,14 @@ public class WebBookModelImpl implements IWebBookModel {
     public void registerSearchEngine(List<Map> searchEngine) {
         //搜索引擎初始化
         newSearchEngine(searchEngine, ContentAimanpinModeImpl.TAG);
+        newSearchEngine(searchEngine, ReaderContentWxguanModelImpl.TAG);
+
+        newSearchEngine(searchEngine, ContentWxguanModelImpl.TAG);
+
         newSearchEngine(searchEngine, GxwztvBookModelImpl.TAG);
         newSearchEngine(searchEngine, LingdiankanshuStationBookModelImpl.TAG);
         newSearchEngine(searchEngine, ContentYb3ModelImpl.TAG);
-        newSearchEngine(searchEngine, ContentWxguanModelImpl.TAG);
+
     }
 
     private void newSearchEngine(List<Map> searchEngine, String ImplTAG) {

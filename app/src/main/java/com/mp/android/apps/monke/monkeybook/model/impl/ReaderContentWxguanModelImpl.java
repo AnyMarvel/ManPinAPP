@@ -6,8 +6,9 @@ import com.google.android.apps.photolab.storyboard.download.MD5Utils;
 import com.mp.android.apps.monke.monkeybook.base.MBaseModelImpl;
 
 
-import com.mp.android.apps.monke.monkeybook.bean.BookInfoBean;
+import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
 import com.mp.android.apps.monke.monkeybook.common.api.IWxguanAPI;
+import com.mp.android.apps.monke.monkeybook.model.IReaderBookModel;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.ChapterInfoBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
@@ -32,7 +33,7 @@ import io.reactivex.SingleOnSubscribe;
 import io.reactivex.SingleSource;
 import io.reactivex.functions.Function;
 
-public class ReaderContentWxguanModelImpl extends MBaseModelImpl {
+public class ReaderContentWxguanModelImpl extends MBaseModelImpl implements IReaderBookModel {
     public static final String TAG = "https://www.wxguan.com";
     public static final String TAG_SEARCH = "https://so.biqusoso.com";
     public static final String ORIGIN = "wxguan.com";
@@ -46,6 +47,55 @@ public class ReaderContentWxguanModelImpl extends MBaseModelImpl {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @Override
+    public Observable<List<SearchBookBean>> searchBook(String content, int page) {
+        return getRetrofitObject(TAG_SEARCH).create(IWxguanAPI.class).searchBook("xwxguan.com", content, "utf-8").flatMap(new Function<String, ObservableSource<List<SearchBookBean>>>() {
+            @Override
+            public ObservableSource<List<SearchBookBean>> apply(String s) throws Exception {
+                return analySearchBook(s);
+            }
+        });
+    }
+
+    //todo 修改搜索后跳转详情问题
+    public Observable<List<SearchBookBean>> analySearchBook(final String s) {
+        return Observable.create(new ObservableOnSubscribe<List<SearchBookBean>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<SearchBookBean>> e) throws Exception {
+                try {
+                    Document doc = Jsoup.parse(s);
+                    Elements booksE = doc.getElementsByClass("search-list").get(0).getElementsByTag("li");
+                    if (null != booksE && booksE.size() > 1) {
+                        List<SearchBookBean> books = new ArrayList<SearchBookBean>();
+                        for (int i = 1; i < booksE.size(); i++) {
+                            SearchBookBean item = new SearchBookBean();
+                            item.setTag(TAG);
+                            item.setAuthor(booksE.get(i).getElementsByClass("s4").get(0).text());
+                            item.setKind("文学馆小说");
+//                            item.setState();
+                            item.setOrigin(ORIGIN);
+                            item.setName(booksE.get(i).getElementsByClass("s2").get(0).getElementsByTag("a").get(0).text());
+                            String href = booksE.get(i).getElementsByClass("s2").get(0).getElementsByTag("a").get(0).attr("href");
+                            item.setNoteUrl(TAG + "/wenzhang/" + Integer.parseInt(href.substring(href.lastIndexOf("/") + 1)) / 2 + "/" + href.substring(href.lastIndexOf("/") + 1));
+                            item.setCoverUrl("noimage");
+                            books.add(item);
+                        }
+                        e.onNext(books);
+                    } else {
+                        e.onNext(new ArrayList<SearchBookBean>());
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    e.onNext(new ArrayList<SearchBookBean>());
+                }
+                e.onComplete();
+            }
+        });
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @Override
     public Observable<CollBookBean> getBookInfo(CollBookBean collBookBean) {
         return getRetrofitObject(TAG).create(IWxguanAPI.class).getBookInfo(collBookBean.get_id().replace(TAG, "")).flatMap(new Function<String, ObservableSource<CollBookBean>>() {
             @Override
@@ -91,6 +141,13 @@ public class ReaderContentWxguanModelImpl extends MBaseModelImpl {
 
                 collBookBean.setShortIntro(content.toString());
                 collBookBean.setBookChapterUrl(collBookBean.get_id());
+                try {
+                    String kind = resultE.getElementsByClass("small").get(0).getElementsByTag("span").get(1).text().replace("分类：", "");
+                    String lastChapter = resultE.getElementsByClass("small").get(0).getElementsByTag("span").get(5).getElementsByTag("a").text();
+                    ObtainBookInfoImpl.getInstance().senMessageManpin(collBookBean, kind, lastChapter);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
                 e.onNext(collBookBean);
                 e.onComplete();
             }
@@ -98,7 +155,7 @@ public class ReaderContentWxguanModelImpl extends MBaseModelImpl {
     }
 
 
-    //==================================================================================
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////    @Override
     public Single<List<BookChapterBean>> getBookChapters(String bookurl) {
         return getRetrofitObject(TAG).create(IWxguanAPI.class).getChapterLists(bookurl)
                 .flatMap(new Function<String, Single<List<BookChapterBean>>>() {
@@ -133,7 +190,9 @@ public class ReaderContentWxguanModelImpl extends MBaseModelImpl {
         return chapterBeans;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
     //==================================获取章节内容(具体的阅读内容)
+    @Override
     public Single<ChapterInfoBean> getChapterInfo(String url) {
         return getRetrofitObject(TAG).create(IWxguanAPI.class).getChapterInfo(url).flatMap(new Function<String, SingleSource<? extends ChapterInfoBean>>() {
             @Override

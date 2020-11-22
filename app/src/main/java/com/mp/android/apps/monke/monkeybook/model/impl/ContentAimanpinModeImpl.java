@@ -13,10 +13,6 @@ import com.mp.android.apps.monke.monkeybook.model.IStationBookModel;
 import com.mp.android.apps.monke.readActivity.utils.Constant;
 import com.mp.android.apps.monke.readActivity.utils.StringUtils;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +20,6 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
-import io.reactivex.Observer;
 import io.reactivex.functions.Function;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

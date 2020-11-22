@@ -224,17 +224,18 @@ public class DownloadService extends Service {
                 @Override
                 public ObservableSource<BookContentBean> apply(final BookContentBean bookContentBean) throws Exception {
                     if (bookContentBean.getDurChapterUrl() == null || bookContentBean.getDurChapterUrl().length() <= 0) {
-                        return WebBookModelImpl.getInstance().getBookContent(data.getDurChapterUrl(), data.getDurChapterIndex(), data.getTag()).map(new Function<BookContentBean, BookContentBean>() {
-                            @Override
-                            public BookContentBean apply(BookContentBean bookContentBean) throws Exception {
-                                DbHelper.getInstance().getmDaoSession().getDownloadChapterBeanDao().delete(data);
-                                if (bookContentBean.getRight()) {
-                                    DbHelper.getInstance().getmDaoSession().getBookContentBeanDao().insertOrReplace(bookContentBean);
-                                    DbHelper.getInstance().getmDaoSession().getChapterListBeanDao().update(new ChapterListBean(data.getNoteUrl(), data.getDurChapterIndex(), data.getDurChapterUrl(), data.getDurChapterName(), data.getTag(), true));
-                                }
-                                return bookContentBean;
-                            }
-                        });
+//                        return WebBookModelImpl.getInstance().getBookContent(data.getDurChapterUrl(), data.getDurChapterIndex(), data.getTag()).map(new Function<BookContentBean, BookContentBean>() {
+//                            @Override
+//                            public BookContentBean apply(BookContentBean bookContentBean) throws Exception {
+//                                DbHelper.getInstance().getmDaoSession().getDownloadChapterBeanDao().delete(data);
+//                                if (bookContentBean.getRight()) {
+//                                    DbHelper.getInstance().getmDaoSession().getBookContentBeanDao().insertOrReplace(bookContentBean);
+//                                    DbHelper.getInstance().getmDaoSession().getChapterListBeanDao().update(new ChapterListBean(data.getNoteUrl(), data.getDurChapterIndex(), data.getDurChapterUrl(), data.getDurChapterName(), data.getTag(), true));
+//                                }
+//                                return bookContentBean;
+//                            }
+//                        });
+                        return null;
                     } else {
                         return Observable.create(new ObservableOnSubscribe<BookContentBean>() {
                             @Override

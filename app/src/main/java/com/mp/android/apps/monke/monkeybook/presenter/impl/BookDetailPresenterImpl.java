@@ -47,7 +47,6 @@ public class BookDetailPresenterImpl extends BasePresenterImpl<IBookDetailView> 
     private SearchBookBean searchBook;
     private CollBookBean collBookBean;
     private Boolean inBookShelf = false;
-
     private List<CollBookBean> localCollBooks = Collections.synchronizedList(new ArrayList<CollBookBean>());   //用来比对搜索的书籍是否已经添加进书架
 
     public BookDetailPresenterImpl(Intent intent) {
@@ -90,7 +89,9 @@ public class BookDetailPresenterImpl extends BasePresenterImpl<IBookDetailView> 
     @Override
     public void getBookShelfInfo() {
         CollBookBean collBookInfo = new CollBookBean().getCollBookBeanFromSearch(searchBook);
-        if (!"noimage".equals(collBookInfo.getCover())) {
+        //图书详情是否使用本地数据获取,本地数据会导致爬虫数据失效
+        boolean UseLocalData = !"noimage".equals(collBookInfo.getCover()) && !collBookInfo.get_id().contains("www.wzzw.la");
+        if (UseLocalData) {
             CollBookBean localCollBookBean = BookRepository.getInstance().getSession().getCollBookBeanDao().queryBuilder().where(CollBookBeanDao.Properties._id.eq(collBookInfo.get_id())).build().unique();
             if (localCollBookBean != null) {
                 inBookShelf = true;

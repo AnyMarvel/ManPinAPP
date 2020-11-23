@@ -112,7 +112,9 @@ public class ReaderGxwztvBookModelImpl extends MBaseModelImpl implements IReader
                     introduce = Objects.requireNonNull(introduceE.getElementById("shot")).text();
                 }
                 collBookBean.setShortIntro("\u3000\u3000" + introduce);
-                collBookBean.setBookChapterUrl(TAG + resultE.getElementsByClass("list-group-item tac").get(0).getElementsByTag("a").get(0).attr("href"));
+                String bookChapterUrl=TAG + resultE.getElementsByClass("list-group-item tac").get(0).getElementsByTag("a").get(0).attr("href");
+                collBookBean.setBookChapterUrl(bookChapterUrl);
+                collBookBean.set_id(bookChapterUrl);
                 String updatedTime = resultE.getElementsByClass("col-xs-4 list-group-item no-border").get(2).text().replace(" ", "").replace("  ", "").replace("更新时间：", "");
                 collBookBean.setUpdated(updatedTime);
 

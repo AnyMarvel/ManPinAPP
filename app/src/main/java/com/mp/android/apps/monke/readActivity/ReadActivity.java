@@ -26,6 +26,7 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Space;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
@@ -60,6 +61,7 @@ import io.reactivex.disposables.Disposable;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+
 /**
  * Created by newbiechen on 17-5-16.
  */
@@ -193,7 +195,7 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
 
     /***************params*****************/
     private boolean isCollected = false; // isFromSDCard
-    
+
     private boolean isNightMode = false;
     private boolean isFullScreen = false;
     private boolean isRegistered = false;
@@ -614,28 +616,34 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
     @Override
     protected void processLogic() {
         super.processLogic();
-        // 如果是已经收藏的，那么就从数据库中获取目录
-        if (isCollected) {
-            Disposable disposable = BookRepository.getInstance()
-                    .getBookChaptersInRx(mBookId)
-                    .compose(RxUtils::toSimpleSingle)
-                    .subscribe(
-                            (bookChapterBeen, throwable) -> {
-                                // 设置 CollBook
-                                mPageLoader.getCollBook().setBookChapters(bookChapterBeen);
-                                // 刷新章节列表
-                                mPageLoader.refreshChapterList();
-                                // 如果是网络小说并被标记更新的，则从网络下载目录
-                                if (mCollBook.isUpdate() && !mCollBook.isLocal()) {
-                                    mPresenter.loadCategory(mBookId);
+        try {
+            // 如果是已经收藏的，那么就从数据库中获取目录
+            if (isCollected) {
+                Disposable disposable = BookRepository.getInstance()
+                        .getBookChaptersInRx(mBookId)
+                        .compose(RxUtils::toSimpleSingle)
+                        .subscribe(
+                                (bookChapterBeen, throwable) -> {
+                                    // 设置 CollBook
+                                    mPageLoader.getCollBook().setBookChapters(bookChapterBeen);
+                                    // 刷新章节列表
+                                    mPageLoader.refreshChapterList();
+                                    // 如果是网络小说并被标记更新的，则从网络下载目录
+                                    if (mCollBook.isUpdate() && !mCollBook.isLocal()) {
+                                        mPresenter.loadCategory(mBookId);
+                                    }
                                 }
-                            }
-                    );
-            addDisposable(disposable);
-        } else {
-            // 从网络中获取目录
-            mPresenter.loadCategory(mBookId);
+                        );
+                addDisposable(disposable);
+            } else {
+                // 从网络中获取目录
+                mPresenter.loadCategory(mBookId);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "图书解析错误,请联系管理员", Toast.LENGTH_LONG).show();
         }
+
     }
 
     /***************************view************************************/

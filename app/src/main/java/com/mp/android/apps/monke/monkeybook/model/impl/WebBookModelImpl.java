@@ -137,10 +137,11 @@ public class WebBookModelImpl {
      */
     public void registerSearchEngine(List<Map> searchEngine) {
         //搜索引擎初始化
-        newSearchEngine(searchEngine, ContentAimanpinModeImpl.TAG);
+        newSearchEngine(searchEngine, ReaderGxwztvBookModelImpl.TAG);
         newSearchEngine(searchEngine, ReaderContentWxguanModelImpl.TAG);
+        newSearchEngine(searchEngine, ContentAimanpinModeImpl.TAG);
         newSearchEngine(searchEngine, ReaderContentYb3ModelImpl.TAG);
-//        newSearchEngine(searchEngine, ReaderGxwztvBookModelImpl.TAG);
+
 //        newSearchEngine(searchEngine, LingdiankanshuStationBookModelImpl.TAG);
 
 

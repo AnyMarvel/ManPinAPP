@@ -3,7 +3,6 @@ package com.mp.android.apps.monke.monkeybook.model.impl;
 
 import android.net.Uri;
 
-import com.mp.android.apps.monke.monkeybook.bean.BookContentBean;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.ChapterInfoBean;
@@ -45,12 +44,12 @@ public class WebBookModelImpl {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public Observable<CollBookBean> getBookInfo(CollBookBean collBookBean) {
         switch (collBookBean.getBookTag()) {
-            case ReaderContentWxguanModelImpl.TAG:
-                return ReaderContentWxguanModelImpl.getInstance().getBookInfo(collBookBean);
-            case ReaderGxwztvBookModelImpl.TAG:
-                return ReaderGxwztvBookModelImpl.getInstance().getBookInfo(collBookBean);
-            case ReaderContentYb3ModelImpl.TAG:
-                return ReaderContentYb3ModelImpl.getInstance().getBookInfo(collBookBean);
+            case ContentWxguanModelImpl.TAG:
+                return ContentWxguanModelImpl.getInstance().getBookInfo(collBookBean);
+            case GxwztvBookModelImpl.TAG:
+                return GxwztvBookModelImpl.getInstance().getBookInfo(collBookBean);
+            case ContentYb3ModelImpl.TAG:
+                return ContentYb3ModelImpl.getInstance().getBookInfo(collBookBean);
             default:
                 return null;
         }
@@ -68,12 +67,12 @@ public class WebBookModelImpl {
         String TAG = uri.getScheme() + "://" + uri.getHost();
         Logger.d("Current website" + TAG);
         switch (TAG) {
-            case ReaderContentWxguanModelImpl.TAG:
-                return ReaderContentWxguanModelImpl.getInstance().getBookChapters(bookId);
-            case ReaderGxwztvBookModelImpl.TAG:
-                return ReaderGxwztvBookModelImpl.getInstance().getBookChapters(bookId);
-            case ReaderContentYb3ModelImpl.TAG:
-                return ReaderContentYb3ModelImpl.getInstance().getBookChapters(bookId);
+            case ContentWxguanModelImpl.TAG:
+                return ContentWxguanModelImpl.getInstance().getBookChapters(bookId);
+            case GxwztvBookModelImpl.TAG:
+                return GxwztvBookModelImpl.getInstance().getBookChapters(bookId);
+            case ContentYb3ModelImpl.TAG:
+                return ContentYb3ModelImpl.getInstance().getBookChapters(bookId);
             default:
                 return null;
         }
@@ -92,12 +91,12 @@ public class WebBookModelImpl {
         String TAG = uri.getScheme() + "://" + uri.getHost();
         Logger.d("Current website" + TAG);
         switch (TAG) {
-            case ReaderContentWxguanModelImpl.TAG:
-                return ReaderContentWxguanModelImpl.getInstance().getChapterInfo(url);
-            case ReaderGxwztvBookModelImpl.TAG:
-                return ReaderGxwztvBookModelImpl.getInstance().getChapterInfo(url);
-            case ReaderContentYb3ModelImpl.TAG:
-                return ReaderContentYb3ModelImpl.getInstance().getChapterInfo(url);
+            case ContentWxguanModelImpl.TAG:
+                return ContentWxguanModelImpl.getInstance().getChapterInfo(url);
+            case GxwztvBookModelImpl.TAG:
+                return GxwztvBookModelImpl.getInstance().getChapterInfo(url);
+            case ContentYb3ModelImpl.TAG:
+                return ContentYb3ModelImpl.getInstance().getChapterInfo(url);
             default:
                 return null;
         }
@@ -110,12 +109,12 @@ public class WebBookModelImpl {
      */
     public Observable<List<SearchBookBean>> searchOtherBook(String content, int page, String tag) {
         switch (tag) {
-            case ReaderContentWxguanModelImpl.TAG:
-                return ReaderContentWxguanModelImpl.getInstance().searchBook(content, page);
-            case ReaderGxwztvBookModelImpl.TAG:
-                return ReaderGxwztvBookModelImpl.getInstance().searchBook(content, page);
-            case ReaderContentYb3ModelImpl.TAG:
-                return ReaderContentYb3ModelImpl.getInstance().searchBook(content, page);
+            case ContentWxguanModelImpl.TAG:
+                return ContentWxguanModelImpl.getInstance().searchBook(content, page);
+            case GxwztvBookModelImpl.TAG:
+                return GxwztvBookModelImpl.getInstance().searchBook(content, page);
+            case ContentYb3ModelImpl.TAG:
+                return ContentYb3ModelImpl.getInstance().searchBook(content, page);
             default:
                 return Observable.create(new ObservableOnSubscribe<List<SearchBookBean>>() {
                     @Override
@@ -137,13 +136,10 @@ public class WebBookModelImpl {
      */
     public void registerSearchEngine(List<Map> searchEngine) {
         //搜索引擎初始化
-        newSearchEngine(searchEngine, ReaderGxwztvBookModelImpl.TAG);
-        newSearchEngine(searchEngine, ReaderContentWxguanModelImpl.TAG);
+        newSearchEngine(searchEngine, GxwztvBookModelImpl.TAG);
+        newSearchEngine(searchEngine, ContentWxguanModelImpl.TAG);
         newSearchEngine(searchEngine, ContentAimanpinModeImpl.TAG);
-        newSearchEngine(searchEngine, ReaderContentYb3ModelImpl.TAG);
-
-//        newSearchEngine(searchEngine, LingdiankanshuStationBookModelImpl.TAG);
-
+        newSearchEngine(searchEngine, ContentYb3ModelImpl.TAG);
 
     }
 

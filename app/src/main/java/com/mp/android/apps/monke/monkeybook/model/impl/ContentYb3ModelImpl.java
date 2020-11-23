@@ -2,20 +2,10 @@
 package com.mp.android.apps.monke.monkeybook.model.impl;
 
 import com.google.android.apps.photolab.storyboard.download.MD5Utils;
-import com.mp.android.apps.monke.monkeybook.ErrorAnalyContentManager;
 import com.mp.android.apps.monke.monkeybook.base.MBaseModelImpl;
-import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
-import com.mp.android.apps.monke.monkeybook.bean.BookContentBean;
-import com.mp.android.apps.monke.monkeybook.bean.BookInfoBean;
-import com.mp.android.apps.monke.monkeybook.bean.BookShelfBean;
-import com.mp.android.apps.monke.monkeybook.bean.ChapterListBean;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
-import com.mp.android.apps.monke.monkeybook.bean.WebChapterBean;
-import com.mp.android.apps.monke.monkeybook.common.api.IWxguanAPI;
 import com.mp.android.apps.monke.monkeybook.common.api.IYb3API;
-import com.mp.android.apps.monke.monkeybook.listener.OnGetChapterListListener;
 import com.mp.android.apps.monke.monkeybook.model.IReaderBookModel;
-import com.mp.android.apps.monke.monkeybook.model.IStationBookModel;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.ChapterInfoBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
@@ -37,15 +27,13 @@ import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
 import io.reactivex.SingleSource;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
-public class ReaderContentYb3ModelImpl extends MBaseModelImpl implements IReaderBookModel {
+public class ContentYb3ModelImpl extends MBaseModelImpl implements IReaderBookModel {
     public static final String TAG = "https://www.yb3.cc";
 
-    public static ReaderContentYb3ModelImpl getInstance() {
-        return new ReaderContentYb3ModelImpl();
+    public static ContentYb3ModelImpl getInstance() {
+        return new ContentYb3ModelImpl();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -137,7 +125,7 @@ public class ReaderContentYb3ModelImpl extends MBaseModelImpl implements IReader
                 }
                 collBookBean.setUpdated(resultE.getElementById("info").getElementsByTag("p").get(2).text().toString().trim());
                 collBookBean.setShortIntro(content.toString());
-                collBookBean.setBookChapterUrl(collBookBean.get_id());
+
                 String lastChapter = resultE.getElementById("info").getElementsByTag("p").get(3).getElementsByTag("a").get(0).text();
                 collBookBean.setLastChapter(lastChapter);
                 try {

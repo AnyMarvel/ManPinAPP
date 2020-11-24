@@ -20,7 +20,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.mp.android.apps.R;
 import com.mp.android.apps.monke.monkeybook.dao.BookChapterBeanDao;
-import com.mp.android.apps.monke.monkeybook.dao.DbHelper;
 import com.mp.android.apps.monke.monkeybook.widget.refreshview.RefreshRecyclerViewAdapter;
 import com.monke.mprogressbar.MHorProgressBar;
 import com.monke.mprogressbar.OnProgressListener;
@@ -28,6 +27,7 @@ import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.BookRecordBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
+import com.mp.android.apps.monke.readActivity.local.DaoDbHelper;
 import com.mp.android.apps.monke.readActivity.utils.Constant;
 import com.mp.android.apps.monke.readActivity.utils.StringUtils;
 import com.mp.android.apps.utils.Logger;
@@ -275,7 +275,7 @@ public class BookShelfAdapter extends RefreshRecyclerViewAdapter {
 
             holder.llDurcursor.setVisibility(View.VISIBLE);
             holder.mpbDurprogress.setVisibility(View.VISIBLE);
-            List<BookChapterBean> bookChapterBeans = DbHelper.getInstance().getmDaoSession().getBookChapterBeanDao().queryBuilder()
+            List<BookChapterBean> bookChapterBeans = DaoDbHelper.getInstance().getSession().getBookChapterBeanDao().queryBuilder()
                     .where(BookChapterBeanDao.Properties.BookId.eq(books.get(index).get_id())).list();
             if (bookChapterBeans != null) {
                 holder.mpbDurprogress.setMaxProgress(bookChapterBeans.size());

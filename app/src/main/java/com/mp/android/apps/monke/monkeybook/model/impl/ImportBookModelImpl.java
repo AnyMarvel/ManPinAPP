@@ -8,8 +8,8 @@ import com.mp.android.apps.monke.monkeybook.bean.LocBookShelfBean;
 import com.mp.android.apps.monke.monkeybook.dao.BookInfoBeanDao;
 import com.mp.android.apps.monke.monkeybook.dao.BookShelfBeanDao;
 import com.mp.android.apps.monke.monkeybook.dao.ChapterListBeanDao;
-import com.mp.android.apps.monke.monkeybook.dao.DbHelper;
 import com.mp.android.apps.monke.monkeybook.model.IImportBookModel;
+import com.mp.android.apps.monke.readActivity.local.DaoDbHelper;
 
 import org.mozilla.universalchardet.UniversalDetector;
 
@@ -51,12 +51,12 @@ public class ImportBookModelImpl extends MBaseModelImpl implements IImportBookMo
 
                 String md5 = new BigInteger(1, md.digest()).toString(16);
                 BookShelfBean bookShelfBean = null;
-                List<BookShelfBean> temp = DbHelper.getInstance().getmDaoSession().getBookShelfBeanDao().queryBuilder().where(BookShelfBeanDao.Properties.NoteUrl.eq(md5)).build().list();
+                List<BookShelfBean> temp = DaoDbHelper.getInstance().getSession().getBookShelfBeanDao().queryBuilder().where(BookShelfBeanDao.Properties.NoteUrl.eq(md5)).build().list();
                 Boolean isNew = true;
                 if (temp!=null && temp.size()>0) {
                     isNew = false;
                     bookShelfBean = temp.get(0);
-                    bookShelfBean.setBookInfoBean(DbHelper.getInstance().getmDaoSession().getBookInfoBeanDao().queryBuilder().where(BookInfoBeanDao.Properties.NoteUrl.eq(bookShelfBean.getNoteUrl())).build().list().get(0));
+                    bookShelfBean.setBookInfoBean(DaoDbHelper.getInstance().getSession().getBookInfoBeanDao().queryBuilder().where(BookInfoBeanDao.Properties.NoteUrl.eq(bookShelfBean.getNoteUrl())).build().list().get(0));
                 } else {
                     bookShelfBean = new BookShelfBean();
                     bookShelfBean.setFinalDate(System.currentTimeMillis());
@@ -73,10 +73,10 @@ public class ImportBookModelImpl extends MBaseModelImpl implements IImportBookMo
                     bookShelfBean.getBookInfoBean().setTag(BookShelfBean.LOCAL_TAG);
 
                     saveChapter(book, md5);
-                    DbHelper.getInstance().getmDaoSession().getBookInfoBeanDao().insertOrReplace(bookShelfBean.getBookInfoBean());
-                    DbHelper.getInstance().getmDaoSession().getBookShelfBeanDao().insertOrReplace(bookShelfBean);
+                    DaoDbHelper.getInstance().getSession().getBookInfoBeanDao().insertOrReplace(bookShelfBean.getBookInfoBean());
+                    DaoDbHelper.getInstance().getSession().getBookShelfBeanDao().insertOrReplace(bookShelfBean);
                 }
-                bookShelfBean.getBookInfoBean().setChapterlist(DbHelper.getInstance().getmDaoSession().getChapterListBeanDao().queryBuilder().where(ChapterListBeanDao.Properties.NoteUrl.eq(bookShelfBean.getNoteUrl())).orderAsc(ChapterListBeanDao.Properties.DurChapterIndex).build().list());
+                bookShelfBean.getBookInfoBean().setChapterlist(DaoDbHelper.getInstance().getSession().getChapterListBeanDao().queryBuilder().where(ChapterListBeanDao.Properties.NoteUrl.eq(bookShelfBean.getNoteUrl())).orderAsc(ChapterListBeanDao.Properties.DurChapterIndex).build().list());
                 e.onNext(new LocBookShelfBean(isNew,bookShelfBean));
                 e.onComplete();
             }
@@ -182,7 +182,7 @@ public class ImportBookModelImpl extends MBaseModelImpl implements IImportBookMo
         chapterListBean.getBookContentBean().setDurChapterIndex(chapterListBean.getDurChapterIndex());
         chapterListBean.getBookContentBean().setDurCapterContent(content);
 
-        DbHelper.getInstance().getmDaoSession().getBookContentBeanDao().insertOrReplace(chapterListBean.getBookContentBean());
-        DbHelper.getInstance().getmDaoSession().getChapterListBeanDao().insertOrReplace(chapterListBean);
+        DaoDbHelper.getInstance().getSession().getBookContentBeanDao().insertOrReplace(chapterListBean.getBookContentBean());
+        DaoDbHelper.getInstance().getSession().getChapterListBeanDao().insertOrReplace(chapterListBean);
     }
 }

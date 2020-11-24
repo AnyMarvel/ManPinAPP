@@ -22,8 +22,8 @@ import com.mp.android.apps.monke.monkeybook.bean.BookShelfBean;
 import com.mp.android.apps.monke.monkeybook.bean.DownloadChapterBean;
 import com.mp.android.apps.monke.monkeybook.common.RxBusTag;
 import com.mp.android.apps.monke.monkeybook.dao.BookShelfBeanDao;
-import com.mp.android.apps.monke.monkeybook.dao.DbHelper;
 import com.mp.android.apps.monke.monkeybook.dao.DownloadChapterBeanDao;
+import com.mp.android.apps.monke.readActivity.local.DaoDbHelper;
 
 import java.util.List;
 
@@ -95,11 +95,11 @@ public class DownloadListPop extends PopupWindow {
         Observable.create(new ObservableOnSubscribe<DownloadChapterBean>() {
             @Override
             public void subscribe(ObservableEmitter<DownloadChapterBean> e) throws Exception {
-                List<BookShelfBean> bookShelfBeanList = DbHelper.getInstance().getmDaoSession().getBookShelfBeanDao().queryBuilder().orderDesc(BookShelfBeanDao.Properties.FinalDate).list();
+                List<BookShelfBean> bookShelfBeanList = DaoDbHelper.getInstance().getSession().getBookShelfBeanDao().queryBuilder().orderDesc(BookShelfBeanDao.Properties.FinalDate).list();
                 if (bookShelfBeanList != null && bookShelfBeanList.size() > 0) {
                     for (BookShelfBean bookItem : bookShelfBeanList) {
                         if (!bookItem.getTag().equals(BookShelfBean.LOCAL_TAG)) {
-                            List<DownloadChapterBean> downloadChapterList = DbHelper.getInstance().getmDaoSession().getDownloadChapterBeanDao().queryBuilder().where(DownloadChapterBeanDao.Properties.NoteUrl.eq(bookItem.getNoteUrl())).orderAsc(DownloadChapterBeanDao.Properties.DurChapterIndex).limit(1).list();
+                            List<DownloadChapterBean> downloadChapterList = DaoDbHelper.getInstance().getSession().getDownloadChapterBeanDao().queryBuilder().where(DownloadChapterBeanDao.Properties.NoteUrl.eq(bookItem.getNoteUrl())).orderAsc(DownloadChapterBeanDao.Properties.DurChapterIndex).limit(1).list();
                             if (downloadChapterList != null && downloadChapterList.size() > 0) {
                                 e.onNext(downloadChapterList.get(0));
                                 e.onComplete();
@@ -107,10 +107,10 @@ public class DownloadListPop extends PopupWindow {
                             }
                         }
                     }
-                    DbHelper.getInstance().getmDaoSession().getDownloadChapterBeanDao().deleteAll();
+                    DaoDbHelper.getInstance().getSession().getDownloadChapterBeanDao().deleteAll();
                     e.onNext(new DownloadChapterBean());
                 } else {
-                    DbHelper.getInstance().getmDaoSession().getDownloadChapterBeanDao().deleteAll();
+                    DaoDbHelper.getInstance().getSession().getDownloadChapterBeanDao().deleteAll();
                     e.onNext(new DownloadChapterBean());
                 }
                 e.onComplete();

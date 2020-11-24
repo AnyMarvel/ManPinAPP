@@ -13,12 +13,12 @@ import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
 import com.mp.android.apps.monke.monkeybook.bean.SearchHistoryBean;
 import com.mp.android.apps.monke.monkeybook.common.RxBusTag;
-import com.mp.android.apps.monke.monkeybook.dao.DbHelper;
 import com.mp.android.apps.monke.monkeybook.dao.SearchHistoryBeanDao;
 import com.mp.android.apps.monke.monkeybook.model.impl.WebBookModelImpl;
 import com.mp.android.apps.monke.monkeybook.presenter.ISearchPresenter;
 import com.mp.android.apps.monke.monkeybook.view.ISearchView;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
+import com.mp.android.apps.monke.readActivity.local.DaoDbHelper;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -57,7 +57,7 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
     private Boolean isInput = false;
 
     public SearchPresenterImpl() {
-        List<CollBookBean> temp = DbHelper.getInstance().getmDaoSession().getCollBookBeanDao().queryBuilder().list();
+        List<CollBookBean> temp = DaoDbHelper.getInstance().getSession().getCollBookBeanDao().queryBuilder().list();
         if (temp != null && temp.size() > 0) {
             collBookBeans.addAll(temp);
         }
@@ -85,7 +85,7 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
         Observable.create(new ObservableOnSubscribe<SearchHistoryBean>() {
             @Override
             public void subscribe(ObservableEmitter<SearchHistoryBean> e) throws Exception {
-                List<SearchHistoryBean> datas = DbHelper.getInstance().getmDaoSession().getSearchHistoryBeanDao()
+                List<SearchHistoryBean> datas = DaoDbHelper.getInstance().getSession().getSearchHistoryBeanDao()
                         .queryBuilder()
                         .where(SearchHistoryBeanDao.Properties.Type.eq(type), SearchHistoryBeanDao.Properties.Content.eq(content))
                         .limit(1)
@@ -94,10 +94,10 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
                 if (null != datas && datas.size() > 0) {
                     searchHistoryBean = datas.get(0);
                     searchHistoryBean.setDate(System.currentTimeMillis());
-                    DbHelper.getInstance().getmDaoSession().getSearchHistoryBeanDao().update(searchHistoryBean);
+                    DaoDbHelper.getInstance().getSession().getSearchHistoryBeanDao().update(searchHistoryBean);
                 } else {
                     searchHistoryBean = new SearchHistoryBean(type, content, System.currentTimeMillis());
-                    DbHelper.getInstance().getmDaoSession().getSearchHistoryBeanDao().insert(searchHistoryBean);
+                    DaoDbHelper.getInstance().getSession().getSearchHistoryBeanDao().insert(searchHistoryBean);
                 }
                 e.onNext(searchHistoryBean);
             }
@@ -123,7 +123,7 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(ObservableEmitter<Integer> e) throws Exception {
-                int a = DbHelper.getInstance().getDb().delete(SearchHistoryBeanDao.TABLENAME, SearchHistoryBeanDao.Properties.Type.columnName + "=? and " + SearchHistoryBeanDao.Properties.Content.columnName + " like ?", new String[]{String.valueOf(type), "%" + content + "%"});
+                int a = DaoDbHelper.getInstance().getDatabase().delete(SearchHistoryBeanDao.TABLENAME, SearchHistoryBeanDao.Properties.Type.columnName + "=? and " + SearchHistoryBeanDao.Properties.Content.columnName + " like ?", new String[]{String.valueOf(type), "%" + content + "%"});
                 e.onNext(a);
             }
         }).subscribeOn(Schedulers.io())
@@ -150,7 +150,7 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
         Observable.create(new ObservableOnSubscribe<List<SearchHistoryBean>>() {
             @Override
             public void subscribe(ObservableEmitter<List<SearchHistoryBean>> e) throws Exception {
-                List<SearchHistoryBean> datas = DbHelper.getInstance().getmDaoSession().getSearchHistoryBeanDao()
+                List<SearchHistoryBean> datas = DaoDbHelper.getInstance().getSession().getSearchHistoryBeanDao()
                         .queryBuilder()
                         .where(SearchHistoryBeanDao.Properties.Type.eq(type), SearchHistoryBeanDao.Properties.Content.like("%" + content + "%"))
                         .orderDesc(SearchHistoryBeanDao.Properties.Date)

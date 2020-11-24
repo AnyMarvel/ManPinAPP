@@ -8,11 +8,11 @@ import com.mp.android.apps.monke.basemvplib.IView;
 import com.mp.android.apps.monke.basemvplib.impl.BaseActivity;
 import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
 import com.mp.android.apps.monke.monkeybook.common.RxBusTag;
-import com.mp.android.apps.monke.monkeybook.dao.DbHelper;
 import com.mp.android.apps.monke.monkeybook.model.impl.WebBookModelImpl;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
+import com.mp.android.apps.monke.readActivity.local.DaoDbHelper;
 import com.mp.android.apps.monke.readActivity.utils.Constant;
 import com.mp.android.apps.monke.readActivity.utils.StringUtils;
 import com.trello.rxlifecycle2.android.ActivityEvent;
@@ -59,7 +59,7 @@ public class BookShelUtils {
                             @Override
                             public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
                                 //在表的一对多联接中，只是简单地创建两个表以及使用@ToMany注解经常会报错.
-                                collBookBean.__setDaoSession(DbHelper.getInstance().getmDaoSession());
+                                collBookBean.__setDaoSession(DaoDbHelper.getInstance().getSession());
                                 if (collBookBean.getBookChapterList() == null || collBookBean.getBookChapterList().size() == 0) {
                                     collBookBean.setBookChapters(bookChapterBeans);
                                 }

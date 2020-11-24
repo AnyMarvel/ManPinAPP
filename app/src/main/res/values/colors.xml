@@ -146,4 +146,8 @@
     <color name="nb.read.bg_6">#DDCEC29C</color>
 
     <color name="light_red">#EC4A48</color>
+    <color name="transparent">#00000000</color>
+    <color name="light_translucent">#23000000</color>
+    <color name="nb.widget.button.selected">#E3E3E3</color>
+
 </resources>

@@ -630,7 +630,7 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/model/impl/ImportBookMode
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 54.
   52.                   String md5 = new BigInteger(1, md.digest()).toString(16);
   53.                   BookShelfBean bookShelfBean = null;
-  54. >                 List<BookShelfBean> temp = DbHelper.getInstance().getmDaoSession().getBookShelfBeanDao().queryBuilder().where(BookShelfBeanDao.Properties.NoteUrl.eq(md5)).build().list();
+  54. >                 List<BookShelfBean> temp = DaoDbHelper.getInstance().getSession().getBookShelfBeanDao().queryBuilder().where(BookShelfBeanDao.Properties.NoteUrl.eq(md5)).build().list();
   55.                   Boolean isNew = true;
   56.                   if (temp!=null && temp.size()>0) {
 
@@ -670,9 +670,9 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/presenter/impl/MainPresen
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 43.
   41.               @Override
   42.               public void subscribe(ObservableEmitter<List<BookShelfBean>> e) throws Exception {
-  43. >                 List<BookShelfBean> bookShelfes = DbHelper.getInstance().getmDaoSession().getBookShelfBeanDao().queryBuilder().orderDesc(BookShelfBeanDao.Properties.FinalDate).list();
+  43. >                 List<BookShelfBean> bookShelfes = DaoDbHelper.getInstance().getSession().getBookShelfBeanDao().queryBuilder().orderDesc(BookShelfBeanDao.Properties.FinalDate).list();
   44.                   for (int i = 0; i < bookShelfes.size(); i++) {
-  45.                       List<BookInfoBean> temp = DbHelper.getInstance().getmDaoSession().getBookInfoBeanDao().queryBuilder().where(BookInfoBeanDao.Properties.NoteUrl.eq(bookShelfes.get(i).getNoteUrl())).limit(1).build().list();
+  45.                       List<BookInfoBean> temp = DaoDbHelper.getInstance().getSession().getBookInfoBeanDao().queryBuilder().where(BookInfoBeanDao.Properties.NoteUrl.eq(bookShelfes.get(i).getNoteUrl())).limit(1).build().list();
 
 app/src/main/java/androidx/media/filterpacks/base/MergeFilter.java:57: error: NULL_DEREFERENCE
   object returned by `*ports[bestPortIx].pullFrame()` could be null and is dereferenced by call to `pushFrame(...)` at line 57.
@@ -862,7 +862,7 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/presenter/impl/ChoiceBook
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 49.
   47.               @Override
   48.               public void subscribe(ObservableEmitter<List<BookShelfBean>> e) throws Exception {
-  49. >                 List<BookShelfBean> temp = DbHelper.getInstance().getmDaoSession().getBookShelfBeanDao().queryBuilder().list();
+  49. >                 List<BookShelfBean> temp = DaoDbHelper.getInstance().getSession().getBookShelfBeanDao().queryBuilder().list();
   50.                   if (temp == null)
   51.                       temp = new ArrayList<BookShelfBean>();
 
@@ -1047,7 +1047,7 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/presenter/impl/SearchPres
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 65.
   63.               @Override
   64.               public void subscribe(ObservableEmitter<List<BookShelfBean>> e) throws Exception {
-  65. >                 List<BookShelfBean> temp = DbHelper.getInstance().getmDaoSession().getBookShelfBeanDao().queryBuilder().list();
+  65. >                 List<BookShelfBean> temp = DaoDbHelper.getInstance().getSession().getBookShelfBeanDao().queryBuilder().list();
   66.                   if (temp == null)
   67.                       temp = new ArrayList<BookShelfBean>();
 
@@ -1209,7 +1209,7 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/presenter/impl/BookDetail
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 92.
   90.               @Override
   91.               public void subscribe(ObservableEmitter<List<BookShelfBean>> e) throws Exception {
-  92. >                 List<BookShelfBean> temp = DbHelper.getInstance().getmDaoSession().getBookShelfBeanDao().queryBuilder().list();
+  92. >                 List<BookShelfBean> temp = DaoDbHelper.getInstance().getSession().getBookShelfBeanDao().queryBuilder().list();
   93.                   if (temp == null)
   94.                       temp = new ArrayList<BookShelfBean>();
 
@@ -1266,7 +1266,7 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/view/popupwindow/Download
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 98.
   96.               @Override
   97.               public void subscribe(ObservableEmitter<DownloadChapterBean> e) throws Exception {
-  98. >                 List<BookShelfBean> bookShelfBeanList = DbHelper.getInstance().getmDaoSession().getBookShelfBeanDao().queryBuilder().orderDesc(BookShelfBeanDao.Properties.FinalDate).list();
+  98. >                 List<BookShelfBean> bookShelfBeanList = DaoDbHelper.getInstance().getSession().getBookShelfBeanDao().queryBuilder().orderDesc(BookShelfBeanDao.Properties.FinalDate).list();
   99.                   if (bookShelfBeanList != null && bookShelfBeanList.size() > 0) {
   100.                       for (BookShelfBean bookItem : bookShelfBeanList) {
 
@@ -1306,7 +1306,7 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/presenter/impl/SearchPres
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 108.
   106.               @Override
   107.               public void subscribe(ObservableEmitter<SearchHistoryBean> e) throws Exception {
-  108. >                 List<SearchHistoryBean> datas = DbHelper.getInstance().getmDaoSession().getSearchHistoryBeanDao()
+  108. >                 List<SearchHistoryBean> datas = DaoDbHelper.getInstance().getSession().getSearchHistoryBeanDao()
   109.                           .queryBuilder()
   110.                           .where(SearchHistoryBeanDao.Properties.Type.eq(type), SearchHistoryBeanDao.Properties.Content.eq(content))
 
@@ -1331,7 +1331,7 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/service/DownloadService.j
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 112.
   110.               @Override
   111.               public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
-  112. >                 DbHelper.getInstance().getmDaoSession().getDownloadChapterBeanDao().insertOrReplaceInTx(newData);
+  112. >                 DaoDbHelper.getInstance().getSession().getDownloadChapterBeanDao().insertOrReplaceInTx(newData);
   113.                   e.onNext(true);
   114.                   e.onComplete();
 
@@ -1339,7 +1339,7 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/presenter/impl/MainPresen
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 113.
   111.               @Override
   112.               public void subscribe(ObservableEmitter<BookShelfBean> e) throws Exception {
-  113. >                 DbHelper.getInstance().getmDaoSession().getChapterListBeanDao().insertOrReplaceInTx(datas.get(index).getBookInfoBean().getChapterlist());
+  113. >                 DaoDbHelper.getInstance().getSession().getChapterListBeanDao().insertOrReplaceInTx(datas.get(index).getBookInfoBean().getChapterlist());
   114.                   e.onNext(datas.get(index));
   115.                   e.onComplete();
 
@@ -1422,7 +1422,7 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/service/DownloadService.j
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 143.
   141.                   @Override
   142.                   public void subscribe(ObservableEmitter<DownloadChapterBean> e) throws Exception {
-  143. >                     List<BookShelfBean> bookShelfBeanList = DbHelper.getInstance().getmDaoSession().getBookShelfBeanDao().queryBuilder().orderDesc(BookShelfBeanDao.Properties.FinalDate).list();
+  143. >                     List<BookShelfBean> bookShelfBeanList = DaoDbHelper.getInstance().getSession().getBookShelfBeanDao().queryBuilder().orderDesc(BookShelfBeanDao.Properties.FinalDate).list();
   144.                       if (bookShelfBeanList != null && bookShelfBeanList.size() > 0) {
   145.                           for (BookShelfBean bookItem : bookShelfBeanList) {
 
@@ -1462,8 +1462,8 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/presenter/impl/BookDetail
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 159.
   157.                   @Override
   158.                   public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
-  159. >                     DbHelper.getInstance().getmDaoSession().getChapterListBeanDao().insertOrReplaceInTx(bookShelf.getBookInfoBean().getChapterlist());
-  160.                       DbHelper.getInstance().getmDaoSession().getBookInfoBeanDao().insertOrReplace(bookShelf.getBookInfoBean());
+  159. >                     DaoDbHelper.getInstance().getSession().getChapterListBeanDao().insertOrReplaceInTx(bookShelf.getBookInfoBean().getChapterlist());
+  160.                       DaoDbHelper.getInstance().getSession().getBookInfoBeanDao().insertOrReplace(bookShelf.getBookInfoBean());
   161.                       //网络数据获取成功  存入BookShelf表数据库
 
 app/src/main/java/com/mp/android/apps/monke/monkeybook/widget/RecyclerViewBar.java:159: error: NULL_DEREFERENCE
@@ -1519,8 +1519,8 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/presenter/impl/ChoiceBook
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 170.
   168.               @Override
   169.               public void subscribe(ObservableEmitter<BookShelfBean> e) throws Exception {
-  170. >                 DbHelper.getInstance().getmDaoSession().getChapterListBeanDao().insertOrReplaceInTx(bookShelfBean.getBookInfoBean().getChapterlist());
-  171.                   DbHelper.getInstance().getmDaoSession().getBookInfoBeanDao().insertOrReplace(bookShelfBean.getBookInfoBean());
+  170. >                 DaoDbHelper.getInstance().getSession().getChapterListBeanDao().insertOrReplaceInTx(bookShelfBean.getBookInfoBean().getChapterlist());
+  171.                   DaoDbHelper.getInstance().getSession().getBookInfoBeanDao().insertOrReplace(bookShelfBean.getBookInfoBean());
   172.                   //网络数据获取成功  存入BookShelf表数据库
 
 app/src/main/java/com/google/android/apps/photolab/storyboard/download/ZipUtils.java:175: error: RESOURCE_LEAK
@@ -1535,7 +1535,7 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/presenter/impl/SearchPres
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 173.
   171.               @Override
   172.               public void subscribe(ObservableEmitter<List<SearchHistoryBean>> e) throws Exception {
-  173. >                 List<SearchHistoryBean> datas = DbHelper.getInstance().getmDaoSession().getSearchHistoryBeanDao()
+  173. >                 List<SearchHistoryBean> datas = DaoDbHelper.getInstance().getSession().getSearchHistoryBeanDao()
   174.                           .queryBuilder()
   175.                           .where(SearchHistoryBeanDao.Properties.Type.eq(type), SearchHistoryBeanDao.Properties.Content.like("%" + content + "%"))
 
@@ -1543,15 +1543,15 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/model/impl/ImportBookMode
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 185.
   183.           chapterListBean.getBookContentBean().setDurCapterContent(content);
   184.   
-  185. >         DbHelper.getInstance().getmDaoSession().getBookContentBeanDao().insertOrReplace(chapterListBean.getBookContentBean());
-  186.           DbHelper.getInstance().getmDaoSession().getChapterListBeanDao().insertOrReplace(chapterListBean);
+  185. >         DaoDbHelper.getInstance().getSession().getBookContentBeanDao().insertOrReplace(chapterListBean.getBookContentBean());
+  186.           DaoDbHelper.getInstance().getSession().getChapterListBeanDao().insertOrReplace(chapterListBean);
   187.       }
 
 app/src/main/java/com/mp/android/apps/monke/monkeybook/service/DownloadService.java:175: error: NULL_DEREFERENCE
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 175.
   173.                                       @Override
   174.                                       public void subscribe(ObservableEmitter<Object> e) throws Exception {
-  175. >                                         DbHelper.getInstance().getmDaoSession().getDownloadChapterBeanDao().deleteAll();
+  175. >                                         DaoDbHelper.getInstance().getSession().getDownloadChapterBeanDao().deleteAll();
   176.                                           e.onNext(new Object());
   177.                                           e.onComplete();
 
@@ -1583,8 +1583,8 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/presenter/impl/BookDetail
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 194.
   192.                   @Override
   193.                   public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
-  194. >                     DbHelper.getInstance().getmDaoSession().getBookShelfBeanDao().deleteByKey(bookShelf.getNoteUrl());
-  195.                       DbHelper.getInstance().getmDaoSession().getBookInfoBeanDao().deleteByKey(bookShelf.getBookInfoBean().getNoteUrl());
+  194. >                     DaoDbHelper.getInstance().getSession().getBookShelfBeanDao().deleteByKey(bookShelf.getNoteUrl());
+  195.                       DaoDbHelper.getInstance().getSession().getBookInfoBeanDao().deleteByKey(bookShelf.getBookInfoBean().getNoteUrl());
   196.                       List<String> keys = new ArrayList<String>();
 
 app/src/main/java/com/google/android/apps/photolab/storyboard/activity/ComicGenerator.java:210: error: NULL_DEREFERENCE
@@ -1599,7 +1599,7 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/presenter/impl/ReadBookPr
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 211.
   209.                       @Override
   210.                       public void subscribe(ObservableEmitter<ReadBookContentBean> e) throws Exception {
-  211. >                         List<BookContentBean> tempList = DbHelper.getInstance().getmDaoSession().getBookContentBeanDao().queryBuilder().where(BookContentBeanDao.Properties.DurChapterUrl.eq(bookShelf.getBookInfoBean().getChapterlist().get(chapterIndex).getDurChapterUrl())).build().list();
+  211. >                         List<BookContentBean> tempList = DaoDbHelper.getInstance().getSession().getBookContentBeanDao().queryBuilder().where(BookContentBeanDao.Properties.DurChapterUrl.eq(bookShelf.getBookInfoBean().getChapterlist().get(chapterIndex).getDurChapterUrl())).build().list();
   212.                           e.onNext(new ReadBookContentBean(tempList == null ? new ArrayList<BookContentBean>() : tempList, finalPageIndex1));
   213.                           e.onComplete();
 
@@ -1623,7 +1623,7 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/service/DownloadService.j
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 215.
   213.                   @Override
   214.                   public void subscribe(ObservableEmitter<BookContentBean> e) throws Exception {
-  215. >                     List<BookContentBean> result = DbHelper.getInstance().getmDaoSession().getBookContentBeanDao().queryBuilder().where(BookContentBeanDao.Properties.DurChapterUrl.eq(data.getDurChapterUrl())).list();
+  215. >                     List<BookContentBean> result = DaoDbHelper.getInstance().getSession().getBookContentBeanDao().queryBuilder().where(BookContentBeanDao.Properties.DurChapterUrl.eq(data.getDurChapterUrl())).list();
   216.                       if (result != null && result.size() > 0) {
   217.                           e.onNext(result.get(0));
 
@@ -1647,17 +1647,17 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/presenter/impl/ReadBookPr
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 230.
   228.                                           public BookContentBean apply(BookContentBean bookContentBean) throws Exception {
   229.                                               if (bookContentBean.getRight()) {
-  230. >                                                 DbHelper.getInstance().getmDaoSession().getBookContentBeanDao().insertOrReplace(bookContentBean);
+  230. >                                                 DaoDbHelper.getInstance().getSession().getBookContentBeanDao().insertOrReplace(bookContentBean);
   231.                                                   bookShelf.getBookInfoBean().getChapterlist().get(chapterIndex).setHasCache(true);
-  232.                                                   DbHelper.getInstance().getmDaoSession().getChapterListBeanDao().update(bookShelf.getBookInfoBean().getChapterlist().get(chapterIndex));
+  232.                                                   DaoDbHelper.getInstance().getSession().getChapterListBeanDao().update(bookShelf.getBookInfoBean().getChapterlist().get(chapterIndex));
 
 app/src/main/java/com/mp/android/apps/monke/monkeybook/service/DownloadService.java:230: error: NULL_DEREFERENCE
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 230.
   228.                               @Override
   229.                               public BookContentBean apply(BookContentBean bookContentBean) throws Exception {
-  230. >                                 DbHelper.getInstance().getmDaoSession().getDownloadChapterBeanDao().delete(data);
+  230. >                                 DaoDbHelper.getInstance().getSession().getDownloadChapterBeanDao().delete(data);
   231.                                   if (bookContentBean.getRight()) {
-  232.                                       DbHelper.getInstance().getmDaoSession().getBookContentBeanDao().insertOrReplace(bookContentBean);
+  232.                                       DaoDbHelper.getInstance().getSession().getBookContentBeanDao().insertOrReplace(bookContentBean);
 
 app/src/main/java/com/mp/android/apps/monke/monkeybook/view/adapter/BookShelfAdapter.java:265: error: NULL_DEREFERENCE
   object returned by `BookShelfAdapter.books.get(index).getBookInfoBean().getChapterlist()` could be null and is dereferenced at line 265.
@@ -1679,7 +1679,7 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/service/DownloadService.j
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 242.
   240.                               @Override
   241.                               public void subscribe(ObservableEmitter<BookContentBean> e) throws Exception {
-  242. >                                 DbHelper.getInstance().getmDaoSession().getDownloadChapterBeanDao().delete(data);
+  242. >                                 DaoDbHelper.getInstance().getSession().getDownloadChapterBeanDao().delete(data);
   243.                                   e.onNext(bookContentBean);
   244.                                   e.onComplete();
 
@@ -1704,7 +1704,7 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/service/DownloadService.j
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 283.
   281.                       @Override
   282.                       public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
-  283. >                         DbHelper.getInstance().getmDaoSession().getDownloadChapterBeanDao().delete(data);
+  283. >                         DaoDbHelper.getInstance().getSession().getDownloadChapterBeanDao().delete(data);
   284.                           e.onNext(true);
   285.                           e.onComplete();
 
@@ -1721,7 +1721,7 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/presenter/impl/ReadBookPr
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 288.
   286.                   public void subscribe(ObservableEmitter<BookShelfBean> e) throws Exception {
   287.                       bookShelf.setFinalDate(System.currentTimeMillis());
-  288. >                     DbHelper.getInstance().getmDaoSession().getBookShelfBeanDao().insertOrReplace(bookShelf);
+  288. >                     DaoDbHelper.getInstance().getSession().getBookShelfBeanDao().insertOrReplace(bookShelf);
   289.                       e.onNext(bookShelf);
   290.                       e.onComplete();
 
@@ -1737,7 +1737,7 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/service/DownloadService.j
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 335.
   333.               @Override
   334.               public void subscribe(ObservableEmitter<Object> e) throws Exception {
-  335. >                 DbHelper.getInstance().getmDaoSession().getDownloadChapterBeanDao().deleteAll();
+  335. >                 DaoDbHelper.getInstance().getSession().getDownloadChapterBeanDao().deleteAll();
   336.                   e.onNext(new Object());
   337.                   e.onComplete();
 
@@ -1745,7 +1745,7 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/presenter/impl/ReadBookPr
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 341.
   339.               @Override
   340.               public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
-  341. >                 List<BookShelfBean> temp = DbHelper.getInstance().getmDaoSession().getBookShelfBeanDao().queryBuilder().where(BookShelfBeanDao.Properties.NoteUrl.eq(bookShelf.getNoteUrl())).build().list();
+  341. >                 List<BookShelfBean> temp = DaoDbHelper.getInstance().getSession().getBookShelfBeanDao().queryBuilder().where(BookShelfBeanDao.Properties.NoteUrl.eq(bookShelf.getNoteUrl())).build().list();
   342.                   if (temp == null || temp.size() == 0) {
   343.                       isAdd = false;
 
@@ -1761,8 +1761,8 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/presenter/impl/SearchPres
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 365.
   363.               @Override
   364.               public void subscribe(ObservableEmitter<BookShelfBean> e) throws Exception {
-  365. >                 DbHelper.getInstance().getmDaoSession().getChapterListBeanDao().insertOrReplaceInTx(bookShelfBean.getBookInfoBean().getChapterlist());
-  366.                   DbHelper.getInstance().getmDaoSession().getBookInfoBeanDao().insertOrReplace(bookShelfBean.getBookInfoBean());
+  365. >                 DaoDbHelper.getInstance().getSession().getChapterListBeanDao().insertOrReplaceInTx(bookShelfBean.getBookInfoBean().getChapterlist());
+  366.                   DaoDbHelper.getInstance().getSession().getBookInfoBeanDao().insertOrReplace(bookShelfBean.getBookInfoBean());
   367.                   //网络数据获取成功  存入BookShelf表数据库
 
 app/src/main/java/com/google/android/apps/photolab/storyboard/activity/ComicActivity.java:369: error: NULL_DEREFERENCE
@@ -1801,7 +1801,7 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/service/DownloadService.j
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 370.
   368.               @Override
   369.               public void subscribe(ObservableEmitter<DownloadChapterBean> e) throws Exception {
-  370. >                 List<BookShelfBean> bookShelfBeanList = DbHelper.getInstance().getmDaoSession().getBookShelfBeanDao().queryBuilder().orderDesc(BookShelfBeanDao.Properties.FinalDate).list();
+  370. >                 List<BookShelfBean> bookShelfBeanList = DaoDbHelper.getInstance().getSession().getBookShelfBeanDao().queryBuilder().orderDesc(BookShelfBeanDao.Properties.FinalDate).list();
   371.                   if (bookShelfBeanList != null && bookShelfBeanList.size() > 0) {
   372.                       for (BookShelfBean bookItem : bookShelfBeanList) {
 
@@ -1817,8 +1817,8 @@ app/src/main/java/com/mp/android/apps/monke/monkeybook/presenter/impl/ReadBookPr
   object returned by `getInstance().getmDaoSession()` could be null and is dereferenced at line 377.
   375.                   @Override
   376.                   public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
-  377. >                     DbHelper.getInstance().getmDaoSession().getChapterListBeanDao().insertOrReplaceInTx(bookShelf.getBookInfoBean().getChapterlist());
-  378.                       DbHelper.getInstance().getmDaoSession().getBookInfoBeanDao().insertOrReplace(bookShelf.getBookInfoBean());
+  377. >                     DaoDbHelper.getInstance().getSession().getChapterListBeanDao().insertOrReplaceInTx(bookShelf.getBookInfoBean().getChapterlist());
+  378.                       DaoDbHelper.getInstance().getSession().getBookInfoBeanDao().insertOrReplace(bookShelf.getBookInfoBean());
   379.                       //网络数据获取成功  存入BookShelf表数据库
 
 app/src/main/java/com/google/android/apps/photolab/storyboard/activity/ComicActivity.java:439: error: NULL_DEREFERENCE

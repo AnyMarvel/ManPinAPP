@@ -140,7 +140,7 @@ public class ContentWxguanModelImpl extends MBaseModelImpl implements IReaderBoo
                 }
 
                 collBookBean.setShortIntro(content.toString());
-
+                collBookBean.setBookChapterUrl(collBookBean.get_id());
                 try {
                     String kind = resultE.getElementsByClass("small").get(0).getElementsByTag("span").get(1).text().replace("分类：", "");
                     String lastChapter = resultE.getElementsByClass("small").get(0).getElementsByTag("span").get(5).getElementsByTag("a").text();
@@ -156,8 +156,8 @@ public class ContentWxguanModelImpl extends MBaseModelImpl implements IReaderBoo
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////    @Override
-    public Single<List<BookChapterBean>> getBookChapters(String bookurl) {
-        return getRetrofitObject(TAG).create(IWxguanAPI.class).getChapterLists(bookurl)
+    public Single<List<BookChapterBean>> getBookChapters(CollBookBean collBookBean) {
+        return getRetrofitObject(TAG).create(IWxguanAPI.class).getChapterLists(collBookBean.getBookChapterUrl())
                 .flatMap(new Function<String, Single<List<BookChapterBean>>>() {
 
                     @Override
@@ -165,14 +165,14 @@ public class ContentWxguanModelImpl extends MBaseModelImpl implements IReaderBoo
                         return Single.create(new SingleOnSubscribe<List<BookChapterBean>>() {
                             @Override
                             public void subscribe(SingleEmitter<List<BookChapterBean>> emitter) throws Exception {
-                                emitter.onSuccess(analyChapterlist(s, bookurl));
+                                emitter.onSuccess(analyChapterlist(s, collBookBean));
                             }
                         });
                     }
                 });
     }
 
-    private List<BookChapterBean> analyChapterlist(String s, String novelUrl) {
+    private List<BookChapterBean> analyChapterlist(String s, CollBookBean collBookBean) {
         Document doc = Jsoup.parse(s);
         Elements chapterlist = doc.getElementsByClass("listmain").get(0).getElementsByTag("dd");
         List<BookChapterBean> chapterBeans = new ArrayList<BookChapterBean>();
@@ -183,7 +183,7 @@ public class ContentWxguanModelImpl extends MBaseModelImpl implements IReaderBoo
             temp.setTitle(chapterlist.get(i).getElementsByTag("a").get(0).text());
             temp.setLink(linkUrl);   //id
             temp.setPosition(i - 11);
-            temp.setBookId(novelUrl);
+            temp.setBookId(collBookBean.get_id());
             temp.setUnreadble(false);
             chapterBeans.add(temp);
         }

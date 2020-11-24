@@ -9,14 +9,17 @@ import com.mp.android.apps.monke.monkeybook.model.IReaderBookModel;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.ChapterInfoBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -112,8 +115,8 @@ public class GxwztvBookModelImpl extends MBaseModelImpl implements IReaderBookMo
                     introduce = Objects.requireNonNull(introduceE.getElementById("shot")).text();
                 }
                 collBookBean.setShortIntro("\u3000\u3000" + introduce);
-                String bookChapterUrl=TAG + resultE.getElementsByClass("list-group-item tac").get(0).getElementsByTag("a").get(0).attr("href");
-                collBookBean.set_id(bookChapterUrl);
+                String bookChapterUrl = TAG + resultE.getElementsByClass("list-group-item tac").get(0).getElementsByTag("a").get(0).attr("href");
+                collBookBean.setBookChapterUrl(bookChapterUrl);
                 String updatedTime = resultE.getElementsByClass("col-xs-4 list-group-item no-border").get(2).text().replace(" ", "").replace("  ", "").replace("更新时间：", "");
                 collBookBean.setUpdated(updatedTime);
 
@@ -130,8 +133,8 @@ public class GxwztvBookModelImpl extends MBaseModelImpl implements IReaderBookMo
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
-    public Single<List<BookChapterBean>> getBookChapters(String bookurl) {
-        return getRetrofitObject(TAG).create(IGxwztvApi.class).getChapterLists(bookurl)
+    public Single<List<BookChapterBean>> getBookChapters(CollBookBean collBookBean) {
+        return getRetrofitObject(TAG).create(IGxwztvApi.class).getChapterLists(collBookBean.getBookChapterUrl())
                 .flatMap(new Function<String, Single<List<BookChapterBean>>>() {
 
                     @Override
@@ -139,7 +142,7 @@ public class GxwztvBookModelImpl extends MBaseModelImpl implements IReaderBookMo
                         return Single.create(new SingleOnSubscribe<List<BookChapterBean>>() {
                             @Override
                             public void subscribe(SingleEmitter<List<BookChapterBean>> emitter) throws Exception {
-                                emitter.onSuccess(analyChapterlist(s, bookurl));
+                                emitter.onSuccess(analyChapterlist(s, collBookBean));
                             }
                         });
                     }
@@ -147,7 +150,7 @@ public class GxwztvBookModelImpl extends MBaseModelImpl implements IReaderBookMo
 
     }
 
-    private List<BookChapterBean> analyChapterlist(String s, String novelUrl) {
+    private List<BookChapterBean> analyChapterlist(String s, CollBookBean collBookBean) {
         Document doc = Jsoup.parse(s);
         Elements chapterlist = doc.getElementById("chapters-list").getElementsByTag("a");
         List<BookChapterBean> chapterBeans = new ArrayList<BookChapterBean>();
@@ -158,7 +161,7 @@ public class GxwztvBookModelImpl extends MBaseModelImpl implements IReaderBookMo
             temp.setTitle(chapterlist.get(i).text());
             temp.setLink(linkUrl);   //id
             temp.setPosition(i);
-            temp.setBookId(novelUrl);
+            temp.setBookId(collBookBean.get_id());
             temp.setUnreadble(false);
 
             chapterBeans.add(temp);

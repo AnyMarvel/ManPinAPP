@@ -43,6 +43,44 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/manpin_weixin_xiaobian_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:paddingLeft="10.0dip"
+            android:paddingTop="10.0dip"
+            android:paddingRight="10.0dip"
+            android:paddingBottom="10.0dip">
+
+            <ImageView
+                android:id="@+id/manpin_weixin_xiaobian"
+                android:layout_width="29dp"
+                android:layout_height="29dp"
+                android:layout_gravity="center"
+                android:background="@drawable/umeng_socialize_wechat" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10.0dip"
+                android:layout_toRightOf="@id/manpin_weixin_xiaobian"
+                android:ellipsize="marquee"
+                android:fadingEdge="horizontal"
+                android:singleLine="true"
+                android:text="联系漫品小编"
+                android:textColor="@color/mtrl_chip_ripple_color" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/entry_arrow" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/yijianfankui"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
@@ -204,9 +242,9 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="100dp"
         android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
         android:layout_toLeftOf="@+id/mImage1"
         android:src="@drawable/ic_camera_beauty" />
 

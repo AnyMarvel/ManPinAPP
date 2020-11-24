@@ -5,11 +5,12 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mp.android.apps.main.home.bean.SourceListContent;
 import com.mp.android.apps.monke.monkeybook.base.MBaseModelImpl;
-import com.mp.android.apps.monke.monkeybook.bean.BookContentBean;
-import com.mp.android.apps.monke.monkeybook.bean.BookShelfBean;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
-import com.mp.android.apps.monke.monkeybook.listener.OnGetChapterListListener;
-import com.mp.android.apps.monke.monkeybook.model.IStationBookModel;
+import com.mp.android.apps.monke.monkeybook.model.IReaderBookModel;
+
+import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
+import com.mp.android.apps.monke.readActivity.bean.ChapterInfoBean;
+import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.readActivity.utils.Constant;
 import com.mp.android.apps.monke.readActivity.utils.StringUtils;
 
@@ -20,11 +21,12 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
+import io.reactivex.Single;
 import io.reactivex.functions.Function;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public class ContentAimanpinModeImpl extends MBaseModelImpl implements IStationBookModel {
+public class ContentAimanpinModeImpl extends MBaseModelImpl implements IReaderBookModel {
     public static final String TAG = "http://aimanpin.com";
 
     public static ContentAimanpinModeImpl getInstance() {
@@ -43,6 +45,8 @@ public class ContentAimanpinModeImpl extends MBaseModelImpl implements IStationB
             }
         });
     }
+
+
 
     public Observable<List<SearchBookBean>> analySearchBook(final String s) {
         return Observable.create(new ObservableOnSubscribe<List<SearchBookBean>>() {
@@ -83,21 +87,21 @@ public class ContentAimanpinModeImpl extends MBaseModelImpl implements IStationB
             }
         });
     }
-
     @Override
-    public Observable<BookShelfBean> getBookInfo(BookShelfBean bookShelfBean) {
+    public Observable<CollBookBean> getBookInfo(CollBookBean collBookBean) {
         return null;
     }
 
     @Override
-    public void getChapterList(BookShelfBean bookShelfBean, OnGetChapterListListener getChapterListListener) {
-
+    public Single<List<BookChapterBean>> getBookChapters(CollBookBean collBookBean) {
+        return null;
     }
 
     @Override
-    public Observable<BookContentBean> getBookContent(String durChapterUrl, int durChapterIndex) {
+    public Single<ChapterInfoBean> getChapterInfo(String url) {
         return null;
     }
+
 
     interface SearchManpin {
         @GET("/appview/searchBook")

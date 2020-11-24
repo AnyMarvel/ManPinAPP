@@ -63,11 +63,11 @@
 
                     <TextView
                         android:id="@+id/read_tv_brief"
-                        android:layout_width="50dp"
+                        android:layout_width="70dp"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:gravity="center"
-                        android:text="简介"
+                        android:text="联系作者"
                         android:textColor="#CBCBCB"
                         android:textSize="16sp" />
 
@@ -77,7 +77,7 @@
                         android:layout_height="match_parent"
                         android:layout_toLeftOf="@id/read_tv_brief"
                         android:gravity="center"
-                        android:text="社区"
+                        android:text="反馈"
                         android:textColor="#CBCBCB"
                         android:textSize="16sp" />
                 </RelativeLayout>

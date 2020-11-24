@@ -75,6 +75,7 @@
             android:name=".monke.monkeybook.view.impl.BookDetailActivity"
 
             android:theme="@style/CAppTransparentTheme" />
+        <activity android:name=".main.ManpinWXActivity"/>
 <!--        <activity-->
 <!--            android:name=".monke.monkeybook.view.impl.ReadBookActivity"-->
 <!--            android:launchMode="singleTask">-->
@@ -88,6 +89,9 @@
             android:name=".monke.monkeybook.view.impl.ImportBookActivity"
 
             android:theme="@style/CAppTransparentTheme" />
+
+        <!--bugly使用的Activity-->
+
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"

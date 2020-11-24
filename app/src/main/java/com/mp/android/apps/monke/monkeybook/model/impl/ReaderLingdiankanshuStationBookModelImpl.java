@@ -4,16 +4,9 @@ package com.mp.android.apps.monke.monkeybook.model.impl;
 import android.text.TextUtils;
 
 import com.google.android.apps.photolab.storyboard.download.MD5Utils;
-import com.mp.android.apps.monke.monkeybook.ErrorAnalyContentManager;
 import com.mp.android.apps.monke.monkeybook.base.MBaseModelImpl;
-import com.mp.android.apps.monke.monkeybook.bean.BookContentBean;
-import com.mp.android.apps.monke.monkeybook.bean.ChapterListBean;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
-import com.mp.android.apps.monke.monkeybook.bean.WebChapterBean;
-import com.mp.android.apps.monke.monkeybook.common.api.IGxwztvApi;
 import com.mp.android.apps.monke.monkeybook.common.api.ILingdiankanshuApi;
-import com.mp.android.apps.monke.monkeybook.common.api.IWxguanAPI;
-import com.mp.android.apps.monke.monkeybook.listener.OnGetChapterListListener;
 import com.mp.android.apps.monke.monkeybook.model.IReaderBookModel;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.ChapterInfoBean;

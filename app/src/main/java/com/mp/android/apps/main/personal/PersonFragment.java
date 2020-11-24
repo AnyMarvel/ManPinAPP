@@ -19,6 +19,7 @@ import com.mp.android.apps.login.LoginActivity;
 import com.mp.android.apps.login.bean.login.Data;
 import com.mp.android.apps.login.utils.LoginManager;
 import com.mp.android.apps.main.MainActivity;
+import com.mp.android.apps.main.ManpinWXActivity;
 import com.mp.android.apps.main.home.model.IMainFragmentModelImpl;
 import com.mp.android.apps.monke.basemvplib.IPresenter;
 import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
@@ -85,6 +86,7 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
     TextView person_text;
     LinearLayout person_login_statu;
     CircleImageView mUserLogo;
+    RelativeLayout manpin_weixin_xiaobian_layout;
 
     @Override
     protected void bindView() {
@@ -102,6 +104,8 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
         mUserLogo = view.findViewById(R.id.mUserLogo);
         person_login_statu = view.findViewById(R.id.person_login_statu);
         person_login_statu.setOnClickListener(this);
+        manpin_weixin_xiaobian_layout = view.findViewById(R.id.manpin_weixin_xiaobian_layout);
+        manpin_weixin_xiaobian_layout.setOnClickListener(this);
     }
 
     @Override
@@ -132,6 +136,10 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivityForResult(intent, PERSON_LOGIN_REQUEST);
                 }
+                break;
+            case R.id.manpin_weixin_xiaobian_layout:
+                Intent intent = new Intent(getActivity(), ManpinWXActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;

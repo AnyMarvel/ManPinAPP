@@ -35,7 +35,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.mp.android.apps.FeedbackActivity;
 import com.mp.android.apps.R;
+import com.mp.android.apps.main.ManpinWXActivity;
 import com.mp.android.apps.monke.readActivity.base.BaseMVPActivity;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
@@ -517,16 +519,19 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
                 }
         );
 
-//        mTvBrief.setOnClickListener(
-//                (v) -> BookDetailActivity.startActivity(this, mBookId)
-//        );
+        mTvBrief.setOnClickListener(
+                (v) -> {
+                 Intent intent=new Intent(ReadActivity.this, ManpinWXActivity.class);
+                 startActivity(intent);
+                }
+        );
 
-//        mTvCommunity.setOnClickListener(
-//                (v) -> {
-//                    Intent intent = new Intent(this, CommunityActivity.class);
-//                    startActivity(intent);
-//                }
-//        );
+        mTvCommunity.setOnClickListener(
+                (v) -> {
+                    Intent intent = new Intent(this, FeedbackActivity.class);
+                    startActivity(intent);
+                }
+        );
 
         mSettingDialog.setOnDismissListener(
                 dialog -> hideSystemBar()

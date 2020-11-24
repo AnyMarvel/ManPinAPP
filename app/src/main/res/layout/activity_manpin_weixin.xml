@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_edit_profile" />
+
+    <ImageView
+        android:id="@+id/manpin_weixin_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/manpin_weixin" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:text="使用微信扫描添加"
+        android:textColor="@color/black"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="1. 点击保存二维码,将二维码保存到手机"
+        android:textColor="@color/black"
+        android:textSize="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="2. 打开微信&quot;扫一扫&quot;,点击右上角&quot;从相册选取二维码,选择此二维码。"
+        android:textColor="@color/black"
+        android:textSize="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="3. 扫描后点击&quot;添加到通讯录&quot;即可"
+        android:textColor="@color/black"
+        android:textSize="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="4. 漫品小编留言&quot;问题内容,或拉我进群&quot;"
+        android:textColor="@color/black"
+        android:textSize="16dp" />
+
+    <Button
+        android:id="@+id/manpin_save_open_weixin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/bg_weixin_button"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="保存并打开微信"
+        android:textSize="20dp" />
+</LinearLayout>

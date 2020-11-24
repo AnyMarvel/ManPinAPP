@@ -44,6 +44,8 @@ public class WebBookModelImpl {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public Observable<CollBookBean> getBookInfo(CollBookBean collBookBean) {
         switch (collBookBean.getBookTag()) {
+            case TXSBookModelImpl.TAG:
+                return TXSBookModelImpl.getInstance().getBookInfo(collBookBean);
             case ContentWxguanModelImpl.TAG:
                 return ContentWxguanModelImpl.getInstance().getBookInfo(collBookBean);
             case GxwztvBookModelImpl.TAG:
@@ -59,23 +61,27 @@ public class WebBookModelImpl {
     /**
      * 根据 图书url获取章节目录
      *
-     * @param bookId
      * @return
      */
-    public Single<List<BookChapterBean>> getBookChapters(String bookId) {
-        Uri uri = Uri.parse(bookId);
+    public Single<List<BookChapterBean>> getBookChapters(CollBookBean collBookBean) {
+
+        Uri uri = Uri.parse(collBookBean.getBookChapterUrl());
         String TAG = uri.getScheme() + "://" + uri.getHost();
-        Logger.d("Current website" + TAG);
+        Logger.d("Current website:  " + TAG);
         switch (TAG) {
+            case TXSBookModelImpl.TAG:
+                return TXSBookModelImpl.getInstance().getBookChapters(collBookBean);
             case ContentWxguanModelImpl.TAG:
-                return ContentWxguanModelImpl.getInstance().getBookChapters(bookId);
+                return ContentWxguanModelImpl.getInstance().getBookChapters(collBookBean);
             case GxwztvBookModelImpl.TAG:
-                return GxwztvBookModelImpl.getInstance().getBookChapters(bookId);
+                return GxwztvBookModelImpl.getInstance().getBookChapters(collBookBean);
             case ContentYb3ModelImpl.TAG:
-                return ContentYb3ModelImpl.getInstance().getBookChapters(bookId);
+                return ContentYb3ModelImpl.getInstance().getBookChapters(collBookBean);
             default:
                 return null;
         }
+
+
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -91,6 +97,8 @@ public class WebBookModelImpl {
         String TAG = uri.getScheme() + "://" + uri.getHost();
         Logger.d("Current website" + TAG);
         switch (TAG) {
+            case TXSBookModelImpl.TAG:
+                return TXSBookModelImpl.getInstance().getChapterInfo(url);
             case ContentWxguanModelImpl.TAG:
                 return ContentWxguanModelImpl.getInstance().getChapterInfo(url);
             case GxwztvBookModelImpl.TAG:
@@ -109,12 +117,16 @@ public class WebBookModelImpl {
      */
     public Observable<List<SearchBookBean>> searchOtherBook(String content, int page, String tag) {
         switch (tag) {
+            case TXSBookModelImpl.TAG:
+                return TXSBookModelImpl.getInstance().searchBook(content, page);
             case ContentWxguanModelImpl.TAG:
                 return ContentWxguanModelImpl.getInstance().searchBook(content, page);
             case GxwztvBookModelImpl.TAG:
                 return GxwztvBookModelImpl.getInstance().searchBook(content, page);
             case ContentYb3ModelImpl.TAG:
                 return ContentYb3ModelImpl.getInstance().searchBook(content, page);
+            case ContentAimanpinModeImpl.TAG:
+                return ContentAimanpinModeImpl.getInstance().searchBook(content, page);
             default:
                 return Observable.create(new ObservableOnSubscribe<List<SearchBookBean>>() {
                     @Override
@@ -136,10 +148,14 @@ public class WebBookModelImpl {
      */
     public void registerSearchEngine(List<Map> searchEngine) {
         //搜索引擎初始化
-        newSearchEngine(searchEngine, GxwztvBookModelImpl.TAG);
-        newSearchEngine(searchEngine, ContentWxguanModelImpl.TAG);
         newSearchEngine(searchEngine, ContentAimanpinModeImpl.TAG);
+        newSearchEngine(searchEngine, TXSBookModelImpl.TAG);
+        newSearchEngine(searchEngine, ContentWxguanModelImpl.TAG);
         newSearchEngine(searchEngine, ContentYb3ModelImpl.TAG);
+        newSearchEngine(searchEngine, GxwztvBookModelImpl.TAG);
+//
+//
+//
 
     }
 

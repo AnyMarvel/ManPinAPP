@@ -125,7 +125,7 @@ public class ContentYb3ModelImpl extends MBaseModelImpl implements IReaderBookMo
                 }
                 collBookBean.setUpdated(resultE.getElementById("info").getElementsByTag("p").get(2).text().toString().trim());
                 collBookBean.setShortIntro(content.toString());
-
+                collBookBean.setBookChapterUrl(collBookBean.get_id());
                 String lastChapter = resultE.getElementById("info").getElementsByTag("p").get(3).getElementsByTag("a").get(0).text();
                 collBookBean.setLastChapter(lastChapter);
                 try {
@@ -141,8 +141,8 @@ public class ContentYb3ModelImpl extends MBaseModelImpl implements IReaderBookMo
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    public Single<List<BookChapterBean>> getBookChapters(String bookurl) {
-        return getRetrofitObject(TAG).create(IYb3API.class).getChapterLists(bookurl)
+    public Single<List<BookChapterBean>> getBookChapters(CollBookBean collBookBean) {
+        return getRetrofitObject(TAG).create(IYb3API.class).getChapterLists(collBookBean.getBookChapterUrl())
                 .flatMap(new Function<String, Single<List<BookChapterBean>>>() {
 
                     @Override
@@ -150,14 +150,14 @@ public class ContentYb3ModelImpl extends MBaseModelImpl implements IReaderBookMo
                         return Single.create(new SingleOnSubscribe<List<BookChapterBean>>() {
                             @Override
                             public void subscribe(SingleEmitter<List<BookChapterBean>> emitter) throws Exception {
-                                emitter.onSuccess(analyChapterlist(s, bookurl));
+                                emitter.onSuccess(analyChapterlist(s, collBookBean));
                             }
                         });
                     }
                 });
     }
 
-    private List<BookChapterBean> analyChapterlist(String s, String novelUrl) {
+    private List<BookChapterBean> analyChapterlist(String s,CollBookBean collBookBean) {
         List<BookChapterBean> chapterBeans = new ArrayList<BookChapterBean>();
         Document doc = Jsoup.parse(s);
         Elements chapterlist = doc.getElementById("list").getElementsByTag("dd");
@@ -169,7 +169,7 @@ public class ContentYb3ModelImpl extends MBaseModelImpl implements IReaderBookMo
             temp.setTitle(chapterlist.get(i).getElementsByTag("a").get(0).text());
             temp.setPosition(i);
             temp.setLink(linkUrl);
-            temp.setBookId(novelUrl);
+            temp.setBookId(collBookBean.get_id());
             temp.setUnreadble(false);
             chapterBeans.add(temp);
         }

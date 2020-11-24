@@ -202,12 +202,6 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
 
     private String mBookId;
 
-    public static void startActivity(Context context, CollBookBean collBook, boolean isCollected) {
-        context.startActivity(new Intent(context, ReadActivity.class)
-                .putExtra(EXTRA_IS_COLLECTED, isCollected)
-                .putExtra(EXTRA_COLL_BOOK, collBook));
-    }
-
     @Override
     protected int getContentId() {
         return R.layout.activity_read;
@@ -630,14 +624,14 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
                                     mPageLoader.refreshChapterList();
                                     // 如果是网络小说并被标记更新的，则从网络下载目录
                                     if (mCollBook.isUpdate() && !mCollBook.isLocal()) {
-                                        mPresenter.loadCategory(mBookId);
+                                        mPresenter.loadCategory(mCollBook);
                                     }
                                 }
                         );
                 addDisposable(disposable);
             } else {
                 // 从网络中获取目录
-                mPresenter.loadCategory(mBookId);
+                mPresenter.loadCategory(mCollBook);
             }
         } catch (Exception e) {
             e.printStackTrace();

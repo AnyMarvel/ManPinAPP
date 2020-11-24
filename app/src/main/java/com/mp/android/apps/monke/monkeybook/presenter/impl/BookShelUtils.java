@@ -50,7 +50,7 @@ public class BookShelUtils {
      * @param mView
      */
     public void addToBookShelfUtils(CollBookBean collBookBean, IView mView) {
-        WebBookModelImpl.getInstance().getBookChapters(collBookBean.get_id())
+        WebBookModelImpl.getInstance().getBookChapters(collBookBean)
                 .toObservable()
                 .flatMap(new Function<List<BookChapterBean>, ObservableSource<Boolean>>() {
                     @Override

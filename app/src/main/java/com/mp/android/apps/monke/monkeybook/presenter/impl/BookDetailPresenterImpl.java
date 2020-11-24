@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import androidx.annotation.NonNull;
 
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.hwangjr.rxbus.RxBus;
@@ -90,7 +91,7 @@ public class BookDetailPresenterImpl extends BasePresenterImpl<IBookDetailView> 
     public void getBookShelfInfo() {
         CollBookBean collBookInfo = new CollBookBean().getCollBookBeanFromSearch(searchBook);
         //图书详情是否使用本地数据获取,本地数据会导致爬虫数据失效
-        boolean UseLocalData = !"noimage".equals(collBookInfo.getCover()) && !collBookInfo.get_id().contains("www.wzzw.la");
+        boolean UseLocalData = !"noimage".equals(collBookInfo.getCover()) && !TextUtils.isEmpty(collBookInfo.getBookChapterUrl());
         if (UseLocalData) {
             CollBookBean localCollBookBean = BookRepository.getInstance().getSession().getCollBookBeanDao().queryBuilder().where(CollBookBeanDao.Properties._id.eq(collBookInfo.get_id())).build().unique();
             if (localCollBookBean != null) {

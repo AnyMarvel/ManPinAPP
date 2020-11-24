@@ -5,6 +5,7 @@ import com.google.android.apps.photolab.storyboard.download.MD5Utils;
 import com.mp.android.apps.monke.monkeybook.model.impl.WebBookModelImpl;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.ChapterInfoBean;
+import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
 import com.mp.android.apps.monke.readActivity.utils.RxUtils;
 import com.mp.android.apps.monke.readActivity.view.TxtChapter;
@@ -33,16 +34,16 @@ public class ReadPresenter extends RxPresenter<ReadContract.View>
     private Subscription mChapterSub;
 
     @Override
-    public void loadCategory(String bookId) {
+    public void loadCategory(CollBookBean collBookBean) {
         Disposable disposable = WebBookModelImpl.getInstance()
-                .getBookChapters(bookId)
+                .getBookChapters(collBookBean)
                 .doOnSuccess(new Consumer<List<BookChapterBean>>() {
                     @Override
                     public void accept(List<BookChapterBean> bookChapterBeen) throws Exception {
                         //进行设定BookChapter所属的书的id。
                         for (BookChapterBean bookChapter : bookChapterBeen) {
                             bookChapter.setId(MD5Utils.strToMd5By16(bookChapter.getLink()));
-                            bookChapter.setBookId(bookId);
+                            bookChapter.setBookId(collBookBean.get_id());
                         }
                     }
                 })

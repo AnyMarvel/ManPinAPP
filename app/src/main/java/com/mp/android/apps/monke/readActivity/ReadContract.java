@@ -3,6 +3,7 @@ package com.mp.android.apps.monke.readActivity;
 
 import com.mp.android.apps.monke.readActivity.base.BaseContract;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
+import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.readActivity.view.TxtChapter;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface ReadContract extends BaseContract {
     }
 
     interface Presenter extends BaseContract.BasePresenter<View>{
-        void loadCategory(String bookId);
+        void loadCategory(CollBookBean collBookBean);
         void loadChapter(String bookId,List<TxtChapter> bookChapterList);
     }
 }

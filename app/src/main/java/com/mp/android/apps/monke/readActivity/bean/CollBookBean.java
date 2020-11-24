@@ -67,6 +67,15 @@ public class CollBookBean implements Parcelable {
     private boolean isLocal = false;
     //数据源地址标识
     private String bookTag;
+    private String bookChapterUrl;
+
+    public String getBookChapterUrl() {
+        return bookChapterUrl;
+    }
+
+    public void setBookChapterUrl(String bookChapterUrl) {
+        this.bookChapterUrl = bookChapterUrl;
+    }
 
     @ToMany(referencedJoinProperty = "bookId")
     private List<BookChapterBean> bookChapterList;
@@ -81,10 +90,10 @@ public class CollBookBean implements Parcelable {
     @Generated(hash = 1552163441)
     private transient CollBookBeanDao myDao;
 
-    @Generated(hash = 1588578884)
+    @Generated(hash = 144011258)
     public CollBookBean(String _id, String title, String author, String shortIntro, String cover, boolean hasCp,
-            int latelyFollower, double retentionRatio, String updated, String lastRead, int chaptersCount,
-            String lastChapter, boolean isUpdate, boolean isLocal, String bookTag) {
+                        int latelyFollower, double retentionRatio, String updated, String lastRead, int chaptersCount,
+                        String lastChapter, boolean isUpdate, boolean isLocal, String bookTag, String bookChapterUrl) {
         this._id = _id;
         this.title = title;
         this.author = author;
@@ -100,6 +109,7 @@ public class CollBookBean implements Parcelable {
         this.isUpdate = isUpdate;
         this.isLocal = isLocal;
         this.bookTag = bookTag;
+        this.bookChapterUrl = bookChapterUrl;
     }
 
     public CollBookBean() {
@@ -353,6 +363,7 @@ public class CollBookBean implements Parcelable {
         dest.writeString(this.lastChapter);
         dest.writeByte(this.isUpdate ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isLocal ? (byte) 1 : (byte) 0);
+        dest.writeString(this.bookChapterUrl);
     }
 
     /**
@@ -379,6 +390,7 @@ public class CollBookBean implements Parcelable {
         this.lastChapter = in.readString();
         this.isUpdate = in.readByte() != 0;
         this.isLocal = in.readByte() != 0;
+        this.bookChapterUrl = in.readString();
     }
 
     public static final Creator<CollBookBean> CREATOR = new Creator<CollBookBean>() {

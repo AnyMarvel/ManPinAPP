@@ -16,7 +16,7 @@ public interface IReaderBookModel {
 
     Observable<CollBookBean> getBookInfo(CollBookBean collBookBean);
 
-    Single<List<BookChapterBean>> getBookChapters(String bookurl);
+    Single<List<BookChapterBean>> getBookChapters(CollBookBean collBookBean);
 
     Single<ChapterInfoBean> getChapterInfo(String url);
 

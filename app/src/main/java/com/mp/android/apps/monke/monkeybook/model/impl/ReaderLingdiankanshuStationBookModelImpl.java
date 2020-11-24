@@ -160,9 +160,9 @@ public class ReaderLingdiankanshuStationBookModelImpl extends MBaseModelImpl imp
 
 
     @Override
-    public Single<List<BookChapterBean>> getBookChapters(String bookurl) {
+    public Single<List<BookChapterBean>> getBookChapters(CollBookBean collBookBean) {
 
-        return getRetrofitObject(TAG).create(ILingdiankanshuApi.class).getCharterPageUrls(bookurl)
+        return getRetrofitObject(TAG).create(ILingdiankanshuApi.class).getCharterPageUrls(collBookBean.getBookChapterUrl())
                 .flatMap(new Function<String, ObservableSource<List<String>>>() {
                     @Override
                     public ObservableSource<List<String>> apply(@NonNull String s) throws Exception {

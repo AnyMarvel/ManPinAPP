@@ -6,6 +6,8 @@ import android.content.Intent;
 
 
 import android.os.Build;
+import android.widget.Toast;
+
 import androidx.multidex.MultiDex;
 
 import com.mp.android.apps.monke.monkeybook.ProxyManager;
@@ -15,6 +17,8 @@ import com.tencent.bugly.Bugly;
 
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
+
+import java.io.File;
 
 public class MyApplication extends Application {
 
@@ -29,6 +33,14 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (BuildConfig.VERSION_CODE <= 24) {
+            File file = this.getDatabasePath("monkebook_db");
+            if (file.exists()) {
+                this.deleteDatabase("monkebook_db");
+                Toast.makeText(this, "为适配新版本搜索引擎,旧版本书架将被清空", Toast.LENGTH_LONG).show();
+            }
+        }
+
         Bugly.init(getApplicationContext(), "097fb8e660", true);
         UMConfigure.init(this, "5b924832b27b0a673c0000d4"
                 , "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");

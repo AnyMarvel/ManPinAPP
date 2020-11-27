@@ -404,6 +404,7 @@ public class LocalPageLoader extends PageLoader {
                             bean.setStart(chapter.getStart());
                             bean.setUnreadble(false);
                             bean.setEnd(chapter.getEnd());
+                            bean.setPosition(i);
                             bookChapterBeanList.add(bean);
                         }
                         mCollBook.setBookChapters(bookChapterBeanList);

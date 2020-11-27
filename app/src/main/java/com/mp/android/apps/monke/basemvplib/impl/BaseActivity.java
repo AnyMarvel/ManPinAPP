@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
+
 import android.view.View;
 import android.view.WindowManager;
 
@@ -14,18 +16,23 @@ import com.mp.android.apps.monke.basemvplib.IPresenter;
 import com.mp.android.apps.monke.basemvplib.IView;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public abstract class BaseActivity<T extends IPresenter> extends RxAppCompatActivity implements IView {
-    public final static String start_share_ele= "start_with_share_ele";
+    public final static String start_share_ele = "start_with_share_ele";
     protected Bundle savedInstanceState;
     protected T mPresenter;
     private Boolean startShareAnim = false;
+    private Unbinder unbinder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         this.savedInstanceState = savedInstanceState;
-        if(getIntent()!=null){
-            startShareAnim = getIntent().getBooleanExtra(start_share_ele,false);
+        if (getIntent() != null) {
+            startShareAnim = getIntent().getBooleanExtra(start_share_ele, false);
         }
         AppActivityManager.getInstance().add(this);
         initSDK();
@@ -33,6 +40,7 @@ public abstract class BaseActivity<T extends IPresenter> extends RxAppCompatActi
         mPresenter = initInjector();
         attachView();
         initData();
+        unbinder = ButterKnife.bind(this);
         bindView();
         bindEvent();
         firstRequest();
@@ -115,6 +123,7 @@ public abstract class BaseActivity<T extends IPresenter> extends RxAppCompatActi
     protected void onDestroy() {
         super.onDestroy();
         detachView();
+        unbinder.unbind();
         AppActivityManager.getInstance().remove(this);
     }
 
@@ -140,14 +149,14 @@ public abstract class BaseActivity<T extends IPresenter> extends RxAppCompatActi
 
     protected void startActivityByAnim(Intent intent, @NonNull View view, @NonNull String transitionName, int animIn, int animExit) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            intent.putExtra(start_share_ele,true);
+            intent.putExtra(start_share_ele, true);
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this, view, transitionName).toBundle());
         } else {
             startActivityByAnim(intent, animIn, animExit);
         }
     }
 
-    public Context getContext(){
+    public Context getContext() {
         return this;
     }
 

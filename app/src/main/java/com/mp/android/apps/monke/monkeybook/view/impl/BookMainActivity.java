@@ -52,6 +52,7 @@ public class BookMainActivity extends MBaseActivity<IMainPresenter> implements I
         return new MainPresenterImpl();
     }
 
+
     @Override
     protected void onCreateActivity() {
         setContentView(R.layout.activity_book_main);

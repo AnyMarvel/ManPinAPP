@@ -2,24 +2,24 @@ package com.mp.android.apps.monke.monkeybook.presenter.impl;
 
 import android.os.Environment;
 
-import com.hwangjr.rxbus.RxBus;
+import com.google.android.apps.photolab.storyboard.download.MD5Utils;
 import com.mp.android.apps.monke.basemvplib.impl.BasePresenterImpl;
 import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
-import com.mp.android.apps.monke.monkeybook.bean.LocBookShelfBean;
-import com.mp.android.apps.monke.monkeybook.common.RxBusTag;
-import com.mp.android.apps.monke.monkeybook.model.impl.ImportBookModelImpl;
 import com.mp.android.apps.monke.monkeybook.presenter.IImportBookPresenter;
 import com.mp.android.apps.monke.monkeybook.view.IImportBookView;
+import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
+import com.mp.android.apps.monke.readActivity.local.BookRepository;
+import com.mp.android.apps.monke.readActivity.utils.Constant;
+import com.mp.android.apps.monke.readActivity.utils.StringUtils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class ImportBookPresenterImpl extends BasePresenterImpl<IImportBookView> implements IImportBookPresenter {
@@ -77,37 +77,43 @@ public class ImportBookPresenterImpl extends BasePresenterImpl<IImportBookView> 
 
     @Override
     public void importBooks(List<File> books) {
-        Observable.fromIterable(books).flatMap(new Function<File, ObservableSource<LocBookShelfBean>>() {
-            @Override
-            public ObservableSource<LocBookShelfBean> apply(File file) throws Exception {
-                return ImportBookModelImpl.getInstance().importBook(file);
-            }
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SimpleObserver<LocBookShelfBean>() {
-                    @Override
-                    public void onNext(LocBookShelfBean value) {
-                        if (value.getNew()) {
-                            RxBus.get().post(RxBusTag.HAD_ADD_BOOK, value.getBookShelfBean());
-                        }
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        mView.addError();
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        mView.addSuccess();
-                    }
-                });
+        //转换成CollBook,并存储
+        List<CollBookBean> collBooks = convertCollBook(books);
+        BookRepository.getInstance()
+                .saveCollBooks(collBooks);
+        mView.addSuccess();
     }
 
     @Override
     public void detachView() {
 
+    }
+
+    /**
+     * 将文件转换成CollBook
+     * @param files:需要加载的文件列表
+     * @return
+     */
+    private List<CollBookBean> convertCollBook(List<File> files){
+        List<CollBookBean> collBooks = new ArrayList<>(files.size());
+        for(File file : files){
+            //判断文件是否存在
+            if (!file.exists()) continue;
+
+            CollBookBean collBook = new CollBookBean();
+            collBook.set_id(MD5Utils.strToMd5By16(file.getAbsolutePath()));
+            collBook.setTitle(file.getName().replace(".txt",""));
+            collBook.setAuthor("");
+            collBook.setShortIntro("无");
+            collBook.setCover(file.getAbsolutePath());
+            collBook.setLocal(true);
+            collBook.setLastChapter("开始阅读");
+            collBook.setUpdated(StringUtils.dateConvert(file.lastModified(), Constant.FORMAT_BOOK_DATE));
+            collBook.setLastRead(StringUtils.
+                    dateConvert(System.currentTimeMillis(), Constant.FORMAT_BOOK_DATE));
+            collBooks.add(collBook);
+        }
+        return collBooks;
     }
 }

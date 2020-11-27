@@ -228,21 +228,5 @@ public class BookDetailPresenterImpl extends BasePresenterImpl<IBookDetailView> 
         }
     }
 
-    @Subscribe(
-            thread = EventThread.MAIN_THREAD,
-            tags = {
-                    @Tag(RxBusTag.HAD_ADD_BOOK),
-            }
-    )
-    public void hadBook(CollBookBean value) {
-        localCollBooks.add(value);
-        if ((null != collBookBean && value.get_id().equals(collBookBean.get_id())) || (null != searchBook && value.get_id().equals(searchBook.getNoteUrl()))) {
-            inBookShelf = true;
-            if (null != searchBook) {
-                searchBook.setAdd(true);
-            }
-            mView.updateView();
-        }
-    }
 
 }

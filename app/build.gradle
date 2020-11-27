@@ -13,8 +13,8 @@ android {
         applicationId "com.mp.android.apps"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 24
-        versionName "1.7.3"
+        versionCode 25
+        versionName "1.7.4"
         multiDexEnabled true
         multiDexKeepProguard file("multidexKeep.pro")
         ndk {

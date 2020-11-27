@@ -1,6 +1,8 @@
 
 package com.mp.android.apps.monke.monkeybook.presenter.impl;
 
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
 import com.hwangjr.rxbus.RxBus;
@@ -8,6 +10,7 @@ import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.mp.android.apps.monke.basemvplib.IView;
+import com.mp.android.apps.monke.basemvplib.impl.BaseActivity;
 import com.mp.android.apps.monke.basemvplib.impl.BasePresenterImpl;
 import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
@@ -19,6 +22,7 @@ import com.mp.android.apps.monke.monkeybook.presenter.ISearchPresenter;
 import com.mp.android.apps.monke.monkeybook.view.ISearchView;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.readActivity.local.DaoDbHelper;
+import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -29,7 +33,9 @@ import java.util.Set;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implements ISearchPresenter {
@@ -307,7 +313,27 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
     @Override
     public void addBookToShelf(final SearchBookBean searchBookBean) {
         CollBookBean collBookBean = new CollBookBean().getCollBookBeanFromSearch(searchBookBean);
-        BookShelUtils.getInstance().addToBookShelfUtils(collBookBean, mView);
+        if (collBookBean != null) {
+            if (collBookBean.getBookChapterUrl() != null) {
+                BookShelUtils.getInstance().addToBookShelfUtils(collBookBean, mView);
+            } else {
+                WebBookModelImpl.getInstance().getBookInfo(collBookBean).subscribeOn(Schedulers.io())
+                        .compose(((BaseActivity) mView.getContext()).<CollBookBean>bindUntilEvent(ActivityEvent.DESTROY))
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new SimpleObserver<CollBookBean>() {
+                            @Override
+                            public void onNext(CollBookBean collBookBean) {
+                                BookShelUtils.getInstance().addToBookShelfUtils(collBookBean, mView);
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Toast.makeText(mView.getContext(), "加入书架失败", Toast.LENGTH_LONG).show();
+                            }
+                        });
+            }
+        }
+
 
     }
 

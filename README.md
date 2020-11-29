@@ -91,3 +91,8 @@ Android开发内容总结,主要针对Android技术,界面,底层,性能优化�
 
 
 [https://androidsummary.gitbook.io/androidsummary/](https://androidsummary.gitbook.io/androidsummary/)
+
+更新记录：
+1.7.5
+1. 修复本地图书智能导入功能
+2. 修复阅读界面不能保持长亮功能

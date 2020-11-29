@@ -311,9 +311,9 @@ public class BookShelfAdapter extends RefreshRecyclerViewAdapter {
                 }
             });
             if (needAnim) {
-                holder.mpbDurprogress.setDurProgressWithAnim(10);
+                holder.mpbDurprogress.setDurProgressWithAnim(currentCharterCount);
             } else {
-                holder.mpbDurprogress.setDurProgress(10);
+                holder.mpbDurprogress.setDurProgress(currentCharterCount);
             }
             holder.tvWatch.setText("继续阅读");
             holder.tvWatch.setOnClickListener(new View.OnClickListener() {

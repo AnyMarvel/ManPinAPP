@@ -65,6 +65,7 @@
             android:layout_gravity="bottom"/>
     </FrameLayout>
     <FrameLayout
+        android:id="@+id/scan_content_layout"
         android:layout_width="match_parent"
         android:layout_height="48dp">
         <FrameLayout

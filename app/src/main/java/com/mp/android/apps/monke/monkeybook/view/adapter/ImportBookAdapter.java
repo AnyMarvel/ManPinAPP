@@ -2,8 +2,10 @@
 package com.mp.android.apps.monke.monkeybook.view.adapter;
 
 import android.os.Environment;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +20,17 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImportBookAdapter extends RecyclerView.Adapter<ImportBookAdapter.Viewholder>{
+public class ImportBookAdapter extends RecyclerView.Adapter<ImportBookAdapter.Viewholder> {
     private List<File> datas;
     private List<File> selectDatas;
 
-    public interface OnCheckBookListener{
+    public interface OnCheckBookListener {
         void checkBook(int count);
     }
 
     private OnCheckBookListener checkBookListener;
-    public ImportBookAdapter(@NonNull OnCheckBookListener checkBookListener){
+
+    public ImportBookAdapter(@NonNull OnCheckBookListener checkBookListener) {
         datas = new ArrayList<>();
         selectDatas = new ArrayList<>();
         this.checkBookListener = checkBookListener;
@@ -35,49 +38,55 @@ public class ImportBookAdapter extends RecyclerView.Adapter<ImportBookAdapter.Vi
 
     @Override
     public Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new Viewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_adapter_importbook,parent,false));
+        return new Viewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_adapter_importbook, parent, false));
     }
 
     @Override
     public void onBindViewHolder(final Viewholder holder, final int position) {
         holder.tvNmae.setText(datas.get(position).getName());
         holder.tvSize.setText(convertByte(datas.get(position).length()));
-        holder.tvLoc.setText(datas.get(position).getAbsolutePath().replace(Environment.getExternalStorageDirectory().getAbsolutePath(),"存储空间"));
+        holder.tvLoc.setText(datas.get(position).getAbsolutePath().replace(Environment.getExternalStorageDirectory().getAbsolutePath(), "存储空间"));
 
         holder.scbSelect.setOnCheckedChangeListener(new SmoothCheckBox.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SmoothCheckBox checkBox, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     selectDatas.add(datas.get(position));
-                }else{
+                } else {
                     selectDatas.remove(datas.get(position));
                 }
                 checkBookListener.checkBook(selectDatas.size());
             }
         });
-        if(canCheck){
+        if (canCheck) {
             holder.scbSelect.setVisibility(View.VISIBLE);
             holder.llContent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    holder.scbSelect.setChecked(!holder.scbSelect.isChecked(),true);
+                    holder.scbSelect.setChecked(!holder.scbSelect.isChecked(), true);
                 }
             });
-        }else{
+        } else {
             holder.scbSelect.setVisibility(View.INVISIBLE);
             holder.llContent.setOnClickListener(null);
         }
     }
 
-    public void addData(File newItem){
+    public void addData(File newItem) {
         int position = datas.size();
         datas.add(newItem);
         notifyItemInserted(position);
         notifyItemRangeChanged(position, 1);
     }
 
+    public void setSystemFiles(List<File> files) {
+        datas.addAll(files);
+        notifyDataSetChanged();
+    }
+
     private Boolean canCheck = false;
-    public void setCanCheck(Boolean canCheck){
+
+    public void setCanCheck(Boolean canCheck) {
         this.canCheck = canCheck;
         notifyDataSetChanged();
     }

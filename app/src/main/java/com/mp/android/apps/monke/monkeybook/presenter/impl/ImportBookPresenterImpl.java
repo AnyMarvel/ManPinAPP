@@ -17,6 +17,9 @@ import com.mp.android.apps.utils.Logger;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -37,37 +40,35 @@ public class ImportBookPresenterImpl extends BasePresenterImpl<IImportBookView> 
         MediaStoreHelper.getAllBookFile((BaseActivity) mView, new MediaStoreHelper.MediaResultCallback() {
             @Override
             public void onResultCallback(List<File> files) {
-                Logger.d("ssssssssssssssssssssssss", files.size());
+                orderByLength(files);
+                mView.setSystemBooks(files);
+                mView.searchFinish();
             }
         });
 
-        Observable.create(new ObservableOnSubscribe<File>() {
-            @Override
-            public void subscribe(ObservableEmitter<File> e) throws Exception {
-                if (Environment.getExternalStorageState().equals(
-                        Environment.MEDIA_MOUNTED)) {
-                    searchBook(e, new File(Environment.getExternalStorageDirectory().getAbsolutePath()));
-                }
-                e.onComplete();
+    }
+
+    /**
+     * 比较文件大小，递减排序
+     *
+     * @param fileList
+     */
+    private void orderByLength(List<File> fileList) {
+        Collections.sort(fileList, new Comparator<File>() {
+            public int compare(File f1, File f2) {
+                long diff = f1.length() - f2.length();
+                if (diff > 0)
+                    return -1;
+                else if (diff == 0)
+                    return 0;
+                else
+                    return 1;//如果 if 中修改为 返回-1 同时此处修改为返回 1  排序就会是递减
             }
-        }).observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new SimpleObserver<File>() {
-                    @Override
-                    public void onNext(File value) {
-                        mView.addNewBook(value);
-                    }
 
-                    @Override
-                    public void onComplete() {
-                        mView.searchFinish();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-                });
+            public boolean equals(Object obj) {
+                return true;
+            }
+        });
     }
 
     private void searchBook(ObservableEmitter<File> e, File parentFile) {

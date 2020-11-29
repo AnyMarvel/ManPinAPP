@@ -15,6 +15,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -58,6 +59,8 @@ public class ImportBookActivity extends MBaseActivity<IImportBookPresenter> impl
 
     private MoProgressHUD moProgressHUD;
 
+    private FrameLayout scanContentLayout;
+
     @Override
     protected IImportBookPresenter initInjector() {
         return new ImportBookPresenterImpl();
@@ -97,6 +100,8 @@ public class ImportBookActivity extends MBaseActivity<IImportBookPresenter> impl
         rcvBooks = (RecyclerView) findViewById(R.id.rcv_books);
         rcvBooks.setAdapter(importBookAdapter);
         rcvBooks.setLayoutManager(new LinearLayoutManager(this));
+
+        scanContentLayout = findViewById(R.id.scan_content_layout);
     }
 
     @Override
@@ -174,16 +179,20 @@ public class ImportBookActivity extends MBaseActivity<IImportBookPresenter> impl
     }
 
     @Override
-    public void addNewBook(File newFile) {
-        importBookAdapter.addData(newFile);
-        tvCount.setText(String.format(getString(R.string.tv_importbook_count), String.valueOf(importBookAdapter.getItemCount())));
+    public void setSystemBooks(List<File> files) {
+        importBookAdapter.setSystemFiles(files);
+//        tvCount.setText(String.format(getString(R.string.tv_importbook_count), String.valueOf(importBookAdapter.getItemCount())));
     }
 
     @Override
     public void searchFinish() {
+
         rlLoading.stop();
         rlLoading.setVisibility(View.INVISIBLE);
         importBookAdapter.setCanCheck(true);
+        tvScan.setVisibility(View.GONE);
+        scanContentLayout.setVisibility(View.GONE);
+
     }
 
     @Override

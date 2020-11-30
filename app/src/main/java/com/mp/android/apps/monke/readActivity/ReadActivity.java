@@ -1,6 +1,5 @@
 package com.mp.android.apps.monke.readActivity;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -24,7 +23,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
-import android.widget.Space;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +57,7 @@ import com.mp.android.apps.utils.Logger;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 
 import static android.view.View.GONE;
@@ -124,6 +123,8 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
     /***************left slide*******************************/
     @BindView(R.id.read_iv_category)
     ListView mLvCategory;
+    @BindView(R.id.read_book_cache_download)
+    TextView readBookCacheDownload;
     /*****************view******************/
     private ReadSettingDialog mSettingDialog;
     private PageLoader mPageLoader;
@@ -521,8 +522,8 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
 
         mTvBrief.setOnClickListener(
                 (v) -> {
-                 Intent intent=new Intent(ReadActivity.this, ManpinWXActivity.class);
-                 startActivity(intent);
+                    Intent intent = new Intent(ReadActivity.this, ManpinWXActivity.class);
+                    startActivity(intent);
                 }
         );
 
@@ -578,7 +579,7 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
     private void toggleMenu(boolean hideStatusBar) {
         initMenuAnim();
 
-        if (mAblTopMenu.getVisibility() == View.VISIBLE) {
+        if (mAblTopMenu.getVisibility() == VISIBLE) {
             //关闭
             mAblTopMenu.startAnimation(mTopOutAnim);
             mLlBottomMenu.startAnimation(mBottomOutAnim);
@@ -590,8 +591,8 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
                 hideSystemBar();
             }
         } else {
-            mAblTopMenu.setVisibility(View.VISIBLE);
-            mLlBottomMenu.setVisibility(View.VISIBLE);
+            mAblTopMenu.setVisibility(VISIBLE);
+            mLlBottomMenu.setVisibility(VISIBLE);
             mAblTopMenu.startAnimation(mTopInAnim);
             mLlBottomMenu.startAnimation(mBottomInAnim);
 
@@ -686,7 +687,7 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
 
     @Override
     public void onBackPressed() {
-        if (mAblTopMenu.getVisibility() == View.VISIBLE) {
+        if (mAblTopMenu.getVisibility() == VISIBLE) {
             // 非全屏下才收缩，全屏下直接退出
             if (!ReadSettingManager.getInstance().isFullScreen()) {
                 toggleMenu(true);
@@ -812,5 +813,12 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
                 SystemBarUtils.showStableNavBar(this);
             }
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

@@ -82,6 +82,14 @@
                         android:textColor="#CBCBCB"
                         android:textSize="16sp" />
                 </RelativeLayout>
+                <TextView
+                    android:id="@+id/read_book_cache_download"
+                    android:layout_width="70dp"
+                    android:layout_height="48dp"
+                    android:textColor="#CBCBCB"
+                    android:clickable="true"
+                    android:textSize="16sp"
+                    android:text="离线下载"/>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 

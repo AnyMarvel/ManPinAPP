@@ -41,6 +41,7 @@ import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
 import com.mp.android.apps.monke.readActivity.local.ReadSettingManager;
+import com.mp.android.apps.monke.readActivity.ui.DownloadCacheDialog;
 import com.mp.android.apps.monke.readActivity.ui.ReadSettingDialog;
 import com.mp.android.apps.monke.readActivity.utils.Constant;
 import com.mp.android.apps.monke.readActivity.utils.RxUtils;
@@ -205,6 +206,8 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
 
     private String mBookId;
 
+    private DownloadCacheDialog downloadCacheDialog;
+
     @Override
     protected int getContentId() {
         return R.layout.activity_read;
@@ -285,6 +288,8 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
 
         //初始化BottomMenu
         initBottomMenu();
+        //初始化离线下载Dialog弹框
+        downloadCacheDialog = new DownloadCacheDialog(this);
     }
 
     private void initTopMenu() {
@@ -537,6 +542,10 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
         mSettingDialog.setOnDismissListener(
                 dialog -> hideSystemBar()
         );
+        readBookCacheDownload.setOnClickListener(
+                (v) -> {
+                    downloadCacheDialog.show();
+                });
     }
 
     /**
@@ -619,6 +628,7 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
         try {
             // 如果是已经收藏的，那么就从数据库中获取目录
             if (isCollected) {
+                readBookCacheDownload.setVisibility(View.GONE);
                 Disposable disposable = BookRepository.getInstance()
                         .getBookChaptersInRx(mBookId)
                         .compose(RxUtils::toSimpleSingle)
@@ -636,6 +646,7 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
                         );
                 addDisposable(disposable);
             } else {
+                readBookCacheDownload.setVisibility(VISIBLE);
                 // 从网络中获取目录
                 mPresenter.loadCategory(mCollBook);
             }

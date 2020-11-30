@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="260dp"
+    android:layout_height="185dp"
+    android:background="@drawable/bg_search"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="16.5dp"
+    android:paddingLeft="10.5dp"
+    android:paddingRight="10.5dp"
+    android:paddingTop="3.5dp"
+   >
+
+    <TextView
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:text="全本离线下载"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="14dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="离线下载全本资源\n 边下载边阅读\n可到书架查看下载进度"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#c1c1c1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_book_detail_shelf_bg"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="#767676"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_download"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_book_detail_read_bg"
+            android:gravity="center"
+            android:text="下载"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+    </LinearLayout>
+</LinearLayout>

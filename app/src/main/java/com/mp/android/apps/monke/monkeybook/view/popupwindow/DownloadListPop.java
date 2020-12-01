@@ -15,6 +15,7 @@ import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.mp.android.apps.R;
+import com.mp.android.apps.monke.monkeybook.bean.DownloadTaskBean;
 import com.mp.android.apps.monke.monkeybook.common.RxBusTag;
 
 public class DownloadListPop extends PopupWindow {
@@ -75,10 +76,24 @@ public class DownloadListPop extends PopupWindow {
         tvDownload = (TextView) view.findViewById(R.id.tv_download);
     }
 
-    private void initWait() {}
+    private void initWait() {
+    }
 
     public void onDestroy() {
         RxBus.get().unregister(DownloadListPop.this);
+    }
+
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
+                    @Tag(RxBusTag.PROGRESS_DOWNLOAD_LISTENER)
+            }
+    )
+    public void progressTask(DownloadTaskBean downloadTaskBean) {
+        tvNone.setVisibility(View.GONE);
+        tvName.setText(downloadTaskBean.getTaskName());
+        tvChapterName.setText(downloadTaskBean.getBookChapterList().get(downloadTaskBean.getCurrentChapter()).getTitle());
+
     }
 
     @Subscribe(
@@ -102,6 +117,7 @@ public class DownloadListPop extends PopupWindow {
     public void finishTask(Object o) {
         tvNone.setVisibility(View.VISIBLE);
     }
+
 
 //    @Subscribe(
 //            thread = EventThread.MAIN_THREAD,

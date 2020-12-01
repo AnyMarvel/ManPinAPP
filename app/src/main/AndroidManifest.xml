@@ -112,7 +112,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
 
-        <service android:name=".monke.monkeybook.service.DownloadService" />
+<!--        <service android:name=".monke.monkeybook.service.DownloadService" />-->
     </application>
 
     <!--    摄像头依赖生命-->

@@ -8,21 +8,13 @@ import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.identityscope.IdentityScopeType;
 import org.greenrobot.greendao.internal.DaoConfig;
 
-import com.mp.android.apps.monke.monkeybook.bean.BookContentBean;
-import com.mp.android.apps.monke.monkeybook.bean.BookInfoBean;
-import com.mp.android.apps.monke.monkeybook.bean.BookShelfBean;
-import com.mp.android.apps.monke.monkeybook.bean.ChapterListBean;
-import com.mp.android.apps.monke.monkeybook.bean.DownloadChapterBean;
+import com.mp.android.apps.monke.monkeybook.bean.DownloadTaskBean;
 import com.mp.android.apps.monke.monkeybook.bean.SearchHistoryBean;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.BookRecordBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 
-import com.mp.android.apps.monke.monkeybook.dao.BookContentBeanDao;
-import com.mp.android.apps.monke.monkeybook.dao.BookInfoBeanDao;
-import com.mp.android.apps.monke.monkeybook.dao.BookShelfBeanDao;
-import com.mp.android.apps.monke.monkeybook.dao.ChapterListBeanDao;
-import com.mp.android.apps.monke.monkeybook.dao.DownloadChapterBeanDao;
+import com.mp.android.apps.monke.monkeybook.dao.DownloadTaskBeanDao;
 import com.mp.android.apps.monke.monkeybook.dao.SearchHistoryBeanDao;
 import com.mp.android.apps.monke.monkeybook.dao.BookChapterBeanDao;
 import com.mp.android.apps.monke.monkeybook.dao.BookRecordBeanDao;
@@ -37,21 +29,13 @@ import com.mp.android.apps.monke.monkeybook.dao.CollBookBeanDao;
  */
 public class DaoSession extends AbstractDaoSession {
 
-    private final DaoConfig bookContentBeanDaoConfig;
-    private final DaoConfig bookInfoBeanDaoConfig;
-    private final DaoConfig bookShelfBeanDaoConfig;
-    private final DaoConfig chapterListBeanDaoConfig;
-    private final DaoConfig downloadChapterBeanDaoConfig;
+    private final DaoConfig downloadTaskBeanDaoConfig;
     private final DaoConfig searchHistoryBeanDaoConfig;
     private final DaoConfig bookChapterBeanDaoConfig;
     private final DaoConfig bookRecordBeanDaoConfig;
     private final DaoConfig collBookBeanDaoConfig;
 
-    private final BookContentBeanDao bookContentBeanDao;
-    private final BookInfoBeanDao bookInfoBeanDao;
-    private final BookShelfBeanDao bookShelfBeanDao;
-    private final ChapterListBeanDao chapterListBeanDao;
-    private final DownloadChapterBeanDao downloadChapterBeanDao;
+    private final DownloadTaskBeanDao downloadTaskBeanDao;
     private final SearchHistoryBeanDao searchHistoryBeanDao;
     private final BookChapterBeanDao bookChapterBeanDao;
     private final BookRecordBeanDao bookRecordBeanDao;
@@ -61,20 +45,8 @@ public class DaoSession extends AbstractDaoSession {
             daoConfigMap) {
         super(db);
 
-        bookContentBeanDaoConfig = daoConfigMap.get(BookContentBeanDao.class).clone();
-        bookContentBeanDaoConfig.initIdentityScope(type);
-
-        bookInfoBeanDaoConfig = daoConfigMap.get(BookInfoBeanDao.class).clone();
-        bookInfoBeanDaoConfig.initIdentityScope(type);
-
-        bookShelfBeanDaoConfig = daoConfigMap.get(BookShelfBeanDao.class).clone();
-        bookShelfBeanDaoConfig.initIdentityScope(type);
-
-        chapterListBeanDaoConfig = daoConfigMap.get(ChapterListBeanDao.class).clone();
-        chapterListBeanDaoConfig.initIdentityScope(type);
-
-        downloadChapterBeanDaoConfig = daoConfigMap.get(DownloadChapterBeanDao.class).clone();
-        downloadChapterBeanDaoConfig.initIdentityScope(type);
+        downloadTaskBeanDaoConfig = daoConfigMap.get(DownloadTaskBeanDao.class).clone();
+        downloadTaskBeanDaoConfig.initIdentityScope(type);
 
         searchHistoryBeanDaoConfig = daoConfigMap.get(SearchHistoryBeanDao.class).clone();
         searchHistoryBeanDaoConfig.initIdentityScope(type);
@@ -88,21 +60,13 @@ public class DaoSession extends AbstractDaoSession {
         collBookBeanDaoConfig = daoConfigMap.get(CollBookBeanDao.class).clone();
         collBookBeanDaoConfig.initIdentityScope(type);
 
-        bookContentBeanDao = new BookContentBeanDao(bookContentBeanDaoConfig, this);
-        bookInfoBeanDao = new BookInfoBeanDao(bookInfoBeanDaoConfig, this);
-        bookShelfBeanDao = new BookShelfBeanDao(bookShelfBeanDaoConfig, this);
-        chapterListBeanDao = new ChapterListBeanDao(chapterListBeanDaoConfig, this);
-        downloadChapterBeanDao = new DownloadChapterBeanDao(downloadChapterBeanDaoConfig, this);
+        downloadTaskBeanDao = new DownloadTaskBeanDao(downloadTaskBeanDaoConfig, this);
         searchHistoryBeanDao = new SearchHistoryBeanDao(searchHistoryBeanDaoConfig, this);
         bookChapterBeanDao = new BookChapterBeanDao(bookChapterBeanDaoConfig, this);
         bookRecordBeanDao = new BookRecordBeanDao(bookRecordBeanDaoConfig, this);
         collBookBeanDao = new CollBookBeanDao(collBookBeanDaoConfig, this);
 
-        registerDao(BookContentBean.class, bookContentBeanDao);
-        registerDao(BookInfoBean.class, bookInfoBeanDao);
-        registerDao(BookShelfBean.class, bookShelfBeanDao);
-        registerDao(ChapterListBean.class, chapterListBeanDao);
-        registerDao(DownloadChapterBean.class, downloadChapterBeanDao);
+        registerDao(DownloadTaskBean.class, downloadTaskBeanDao);
         registerDao(SearchHistoryBean.class, searchHistoryBeanDao);
         registerDao(BookChapterBean.class, bookChapterBeanDao);
         registerDao(BookRecordBean.class, bookRecordBeanDao);
@@ -110,35 +74,15 @@ public class DaoSession extends AbstractDaoSession {
     }
     
     public void clear() {
-        bookContentBeanDaoConfig.clearIdentityScope();
-        bookInfoBeanDaoConfig.clearIdentityScope();
-        bookShelfBeanDaoConfig.clearIdentityScope();
-        chapterListBeanDaoConfig.clearIdentityScope();
-        downloadChapterBeanDaoConfig.clearIdentityScope();
+        downloadTaskBeanDaoConfig.clearIdentityScope();
         searchHistoryBeanDaoConfig.clearIdentityScope();
         bookChapterBeanDaoConfig.clearIdentityScope();
         bookRecordBeanDaoConfig.clearIdentityScope();
         collBookBeanDaoConfig.clearIdentityScope();
     }
 
-    public BookContentBeanDao getBookContentBeanDao() {
-        return bookContentBeanDao;
-    }
-
-    public BookInfoBeanDao getBookInfoBeanDao() {
-        return bookInfoBeanDao;
-    }
-
-    public BookShelfBeanDao getBookShelfBeanDao() {
-        return bookShelfBeanDao;
-    }
-
-    public ChapterListBeanDao getChapterListBeanDao() {
-        return chapterListBeanDao;
-    }
-
-    public DownloadChapterBeanDao getDownloadChapterBeanDao() {
-        return downloadChapterBeanDao;
+    public DownloadTaskBeanDao getDownloadTaskBeanDao() {
+        return downloadTaskBeanDao;
     }
 
     public SearchHistoryBeanDao getSearchHistoryBeanDao() {

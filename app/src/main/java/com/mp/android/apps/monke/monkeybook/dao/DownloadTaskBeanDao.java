@@ -30,6 +30,7 @@ public class DownloadTaskBeanDao extends AbstractDao<DownloadTaskBean, String> {
         public final static Property LastChapter = new Property(3, int.class, "lastChapter", false, "LAST_CHAPTER");
         public final static Property Status = new Property(4, int.class, "status", false, "STATUS");
         public final static Property Size = new Property(5, long.class, "size", false, "SIZE");
+        public final static Property CoverUrl = new Property(6, String.class, "coverUrl", false, "COVER_URL");
     }
 
     private DaoSession daoSession;
@@ -53,7 +54,8 @@ public class DownloadTaskBeanDao extends AbstractDao<DownloadTaskBean, String> {
                 "\"CURRENT_CHAPTER\" INTEGER NOT NULL ," + // 2: currentChapter
                 "\"LAST_CHAPTER\" INTEGER NOT NULL ," + // 3: lastChapter
                 "\"STATUS\" INTEGER NOT NULL ," + // 4: status
-                "\"SIZE\" INTEGER NOT NULL );"); // 5: size
+                "\"SIZE\" INTEGER NOT NULL ," + // 5: size
+                "\"COVER_URL\" TEXT);"); // 6: coverUrl
     }
 
     /** Drops the underlying database table. */
@@ -79,6 +81,11 @@ public class DownloadTaskBeanDao extends AbstractDao<DownloadTaskBean, String> {
         stmt.bindLong(4, entity.getLastChapter());
         stmt.bindLong(5, entity.getStatus());
         stmt.bindLong(6, entity.getSize());
+ 
+        String coverUrl = entity.getCoverUrl();
+        if (coverUrl != null) {
+            stmt.bindString(7, coverUrl);
+        }
     }
 
     @Override
@@ -98,6 +105,11 @@ public class DownloadTaskBeanDao extends AbstractDao<DownloadTaskBean, String> {
         stmt.bindLong(4, entity.getLastChapter());
         stmt.bindLong(5, entity.getStatus());
         stmt.bindLong(6, entity.getSize());
+ 
+        String coverUrl = entity.getCoverUrl();
+        if (coverUrl != null) {
+            stmt.bindString(7, coverUrl);
+        }
     }
 
     @Override
@@ -119,7 +131,8 @@ public class DownloadTaskBeanDao extends AbstractDao<DownloadTaskBean, String> {
             cursor.getInt(offset + 2), // currentChapter
             cursor.getInt(offset + 3), // lastChapter
             cursor.getInt(offset + 4), // status
-            cursor.getLong(offset + 5) // size
+            cursor.getLong(offset + 5), // size
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6) // coverUrl
         );
         return entity;
     }
@@ -132,6 +145,7 @@ public class DownloadTaskBeanDao extends AbstractDao<DownloadTaskBean, String> {
         entity.setLastChapter(cursor.getInt(offset + 3));
         entity.setStatus(cursor.getInt(offset + 4));
         entity.setSize(cursor.getLong(offset + 5));
+        entity.setCoverUrl(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
      }
     
     @Override

@@ -2,6 +2,7 @@ package com.mp.android.apps.monke.readActivity.local;
 
 import android.util.Log;
 
+import com.mp.android.apps.monke.monkeybook.bean.DownloadTaskBean;
 import com.mp.android.apps.monke.monkeybook.dao.BookChapterBeanDao;
 import com.mp.android.apps.monke.monkeybook.dao.CollBookBeanDao;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
@@ -309,5 +310,11 @@ public class BookRepository {
 
     public DaoSession getSession() {
         return mSession;
+    }
+
+    public void saveDownloadTask(DownloadTaskBean bean) {
+        saveBookChaptersWithAsync(bean.getBookChapters());
+        mSession.getDownloadTaskBeanDao()
+                .insertOrReplace(bean);
     }
 }

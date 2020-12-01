@@ -289,7 +289,7 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
         //初始化BottomMenu
         initBottomMenu();
         //初始化离线下载Dialog弹框
-        downloadCacheDialog = new DownloadCacheDialog(this);
+        downloadCacheDialog = new DownloadCacheDialog(this,mCollBook);
     }
 
     private void initTopMenu() {
@@ -628,7 +628,6 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
         try {
             // 如果是已经收藏的，那么就从数据库中获取目录
             if (isCollected) {
-                readBookCacheDownload.setVisibility(View.GONE);
                 Disposable disposable = BookRepository.getInstance()
                         .getBookChaptersInRx(mBookId)
                         .compose(RxUtils::toSimpleSingle)
@@ -646,7 +645,6 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
                         );
                 addDisposable(disposable);
             } else {
-                readBookCacheDownload.setVisibility(VISIBLE);
                 // 从网络中获取目录
                 mPresenter.loadCategory(mCollBook);
             }

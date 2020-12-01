@@ -90,4 +90,6 @@
         \n你可阅读《用户协议》和《隐私政策》了解详细信息。隐私政策和用户协议内容如你同意,请点击"同意"开始接受我们的服务。</string>
 
     <string name="so_load_check_str">视频转漫画基于3D神经网络转换,首次使用需要下载必要组件,大小为30M左右,是否确认下载?</string>
+    <string name="nb.download.chapter_scope">(%1$d-%2$d章)</string>
+
 </resources>

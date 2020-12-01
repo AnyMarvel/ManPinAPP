@@ -3,7 +3,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="80dp"
     android:background="@drawable/bg_search"
     android:paddingLeft="10dp"
     android:paddingRight="10dp">
@@ -14,65 +14,47 @@
         android:layout_gravity="center_vertical"
         android:orientation="horizontal">
 
+
+        <ImageView
+            android:id="@+id/iv_cover"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:src="@drawable/img_cover_default" />
+
         <LinearLayout
-            android:id="@+id/ll_download"
-            android:layout_width="0dp"
+            android:layout_width="140dp"
             android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="999"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
-            <ImageView
-                android:id="@+id/iv_cover"
-                android:layout_width="45dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/img_cover_default" />
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="小说名称设置"
+                android:textColor="@color/tv_btn_black"
+                android:textSize="13sp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="7dp" />
+            <TextView
+                android:id="@+id/tv_chapter_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="第一千二百章，内容测试"
+                android:textColor="@color/tv_btn_normal_black"
+                android:textSize="11sp" />
 
-                <TextView
-                    android:id="@+id/tv_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:textColor="@color/tv_btn_black"
-                    android:textSize="13sp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="2" />
-
-                <TextView
-                    android:id="@+id/tv_chapter_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:textColor="@color/tv_btn_normal_black"
-                    android:textSize="11sp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="3" />
-            </LinearLayout>
         </LinearLayout>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/tv_download"
@@ -86,9 +68,6 @@
             android:textColor="#ffffff"
             android:textSize="12sp" />
 
-        <View
-            android:layout_width="5dp"
-            android:layout_height="0dp" />
 
         <TextView
             android:id="@+id/tv_cancel"
@@ -102,12 +81,7 @@
             android:textColor="#767676"
             android:textSize="12sp" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
     </LinearLayout>
-
     <TextView
         android:id="@+id/tv_none"
         android:layout_width="match_parent"
@@ -125,4 +99,8 @@
         android:layout_height="0.7dp"
         android:layout_gravity="bottom"
         android:background="#c1c1c1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="80dp" />
 </FrameLayout>

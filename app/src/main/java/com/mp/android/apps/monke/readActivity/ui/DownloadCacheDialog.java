@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,17 +18,19 @@ import com.mp.android.apps.monke.monkeybook.dao.BookChapterBeanDao;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
-import com.mp.android.apps.monke.readActivity.local.DaoDbHelper;
 
 import java.util.List;
 
+
 public class DownloadCacheDialog extends Dialog {
     private TextView tv_download;
-    private CollBookBean collBookBean;
+    private String bookId;
+    private Context context;
 
-    public DownloadCacheDialog(@NonNull Context context, CollBookBean collBookBean) {
+    public DownloadCacheDialog(@NonNull Context context, String bookId) {
         super(context);
-        this.collBookBean = collBookBean;
+        this.bookId = bookId;
+        this.context = context;
     }
 
     public DownloadCacheDialog(@NonNull Context context, int themeResId) {
@@ -47,7 +50,13 @@ public class DownloadCacheDialog extends Dialog {
         tv_download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RxBus.get().post(RxBusTag.ADD_DOWNLOAD_TASK, translateCollBooBean(collBookBean));
+                CollBookBean collBookBean = BookRepository.getInstance().getCollBook(bookId);
+                if (collBookBean != null) {
+                    RxBus.get().post(RxBusTag.ADD_DOWNLOAD_TASK, translateCollBooBean(collBookBean));
+                } else {
+                    Toast.makeText(context, "未加入书架无法离线，请先添加到书架", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
     }

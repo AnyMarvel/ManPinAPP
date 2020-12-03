@@ -17,6 +17,7 @@ import com.mp.android.apps.monke.readActivity.view.animation.PageAnimation;
 import com.mp.android.apps.monke.readActivity.view.animation.ScrollPageAnim;
 import com.mp.android.apps.monke.readActivity.view.animation.SimulationPageAnim;
 import com.mp.android.apps.monke.readActivity.view.animation.SlidePageAnim;
+import com.mp.android.apps.monke.readActivity.view.animation.leftPageAnim.LeftNonePageAnim;
 
 /**
  * Created by Administrator on 2016/8/29 0029.
@@ -113,6 +114,9 @@ public class PageView extends View {
             case SCROLL:
                 mPageAnim = new ScrollPageAnim(mViewWidth, mViewHeight, 0,
                         mPageLoader.getMarginHeight(), this, mPageAnimListener);
+                break;
+            case LEFT_HAND:
+                mPageAnim = new LeftNonePageAnim(mViewWidth, mViewHeight, this, mPageAnimListener);
                 break;
             default:
                 mPageAnim = new SimulationPageAnim(mViewWidth, mViewHeight, this, mPageAnimListener);

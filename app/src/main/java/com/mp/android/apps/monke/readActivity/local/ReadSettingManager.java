@@ -112,7 +112,7 @@ public class ReadSettingManager {
     }
 
     public boolean isVolumeTurnPage() {
-        return sharedPreUtils.getBoolean(SHARED_READ_VOLUME_TURN_PAGE, false);
+        return sharedPreUtils.getBoolean(SHARED_READ_VOLUME_TURN_PAGE, true);
     }
 
     public void setFullScreen(boolean isFullScreen) {

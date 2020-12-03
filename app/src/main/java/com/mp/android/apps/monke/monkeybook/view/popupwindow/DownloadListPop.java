@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.hwangjr.rxbus.RxBus;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
@@ -29,7 +30,8 @@ public class DownloadListPop extends PopupWindow {
     private TextView tvName;
     private TextView tvChapterName;
     private TextView tvCancel;
-    private TextView tvDownload;
+    //    private TextView tvDownload;
+    private DownloadTaskBean downloadTaskBean;
 
     public DownloadListPop(Context context) {
         super(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -50,20 +52,20 @@ public class DownloadListPop extends PopupWindow {
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RxBus.get().post(RxBusTag.CANCEL_DOWNLOAD, new Object());
+                RxBus.get().post(RxBusTag.CANCEL_DOWNLOAD, downloadTaskBean);
                 tvNone.setVisibility(View.VISIBLE);
             }
         });
-        tvDownload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (tvDownload.getText().equals("开始下载")) {
-                    RxBus.get().post(RxBusTag.START_DOWNLOAD, new Object());
-                } else {
-                    RxBus.get().post(RxBusTag.PAUSE_DOWNLOAD, new Object());
-                }
-            }
-        });
+//        tvDownload.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (tvDownload.getText().equals("开始下载")) {
+//                    RxBus.get().post(RxBusTag.START_DOWNLOAD, new Object());
+//                } else {
+//                    RxBus.get().post(RxBusTag.PAUSE_DOWNLOAD, new Object());
+//                }
+//            }
+//        });
     }
 
     private void bindView() {
@@ -73,7 +75,7 @@ public class DownloadListPop extends PopupWindow {
         tvName = (TextView) view.findViewById(R.id.tv_name);
         tvChapterName = (TextView) view.findViewById(R.id.tv_chapter_name);
         tvCancel = (TextView) view.findViewById(R.id.tv_cancel);
-        tvDownload = (TextView) view.findViewById(R.id.tv_download);
+//        tvDownload = (TextView) view.findViewById(R.id.tv_download);
     }
 
     private void initWait() {
@@ -90,22 +92,13 @@ public class DownloadListPop extends PopupWindow {
             }
     )
     public void progressTask(DownloadTaskBean downloadTaskBean) {
+        this.downloadTaskBean = downloadTaskBean;
+        Glide.with(getContentView()).load(downloadTaskBean.getCoverUrl()).into(ivCover);
         tvNone.setVisibility(View.GONE);
         tvName.setText(downloadTaskBean.getTaskName());
-        tvChapterName.setText(downloadTaskBean.getBookChapterList().get(downloadTaskBean.getCurrentChapter()).getTitle());
+        String titleName = "正在下载" + downloadTaskBean.getBookChapterList().get(downloadTaskBean.getCurrentChapter()).getTitle();
+        tvChapterName.setText(titleName);
 
-    }
-
-    @Subscribe(
-            thread = EventThread.MAIN_THREAD,
-            tags = {
-                    @Tag(RxBusTag.PAUSE_DOWNLOAD_LISTENER)
-            }
-    )
-    public void pauseTask(Object o) {
-        tvNone.setVisibility(View.GONE);
-        llDownload.setVisibility(View.GONE);
-        tvDownload.setText("开始下载");
     }
 
     @Subscribe(
@@ -118,6 +111,15 @@ public class DownloadListPop extends PopupWindow {
         tvNone.setVisibility(View.VISIBLE);
     }
 
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
+                    @Tag(RxBusTag.PAUSE_DOWNLOAD_LISTENER)
+            }
+    )
+    public void pauseTask(DownloadTaskBean downloadTaskBean) {
+        tvNone.setVisibility(View.VISIBLE);
+    }
 
 //    @Subscribe(
 //            thread = EventThread.MAIN_THREAD,

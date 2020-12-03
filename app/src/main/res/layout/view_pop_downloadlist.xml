@@ -22,7 +22,7 @@
             android:src="@drawable/img_cover_default" />
 
         <LinearLayout
-            android:layout_width="140dp"
+            android:layout_width="213dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingLeft="10dp"
@@ -56,24 +56,24 @@
         </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/tv_download"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/selector_bg_download"
-            android:clickable="true"
-            android:gravity="center"
-            android:text="开始下载"
-            android:textColor="#ffffff"
-            android:textSize="12sp" />
+        <!--        <TextView-->
+        <!--            android:id="@+id/tv_download"-->
+        <!--            android:layout_width="70dp"-->
+        <!--            android:layout_height="30dp"-->
+        <!--            android:layout_gravity="center_vertical"-->
+        <!--            android:background="@drawable/selector_bg_download"-->
+        <!--            android:clickable="true"-->
+        <!--            android:gravity="center"-->
+        <!--            android:text="开始下载"-->
+        <!--            android:textColor="#ffffff"-->
+        <!--            android:textSize="12sp" />-->
 
 
         <TextView
             android:id="@+id/tv_cancel"
             android:layout_width="70dp"
             android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="right|center"
             android:background="@drawable/selector_bg_download_cancel"
             android:clickable="true"
             android:gravity="center"
@@ -82,6 +82,7 @@
             android:textSize="12sp" />
 
     </LinearLayout>
+
     <TextView
         android:id="@+id/tv_none"
         android:layout_width="match_parent"
@@ -102,5 +103,5 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="80dp" />
+        android:layout_height="60dp" />
 </FrameLayout>

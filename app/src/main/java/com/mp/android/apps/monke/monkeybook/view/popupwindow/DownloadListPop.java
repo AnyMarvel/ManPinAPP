@@ -95,9 +95,9 @@ public class DownloadListPop extends PopupWindow {
         this.downloadTaskBean = downloadTaskBean;
         Glide.with(getContentView()).load(downloadTaskBean.getCoverUrl()).into(ivCover);
         tvNone.setVisibility(View.GONE);
-        tvName.setText(downloadTaskBean.getTaskName());
-        String titleName = "正在下载" + downloadTaskBean.getBookChapterList().get(downloadTaskBean.getCurrentChapter()).getTitle();
-        tvChapterName.setText(titleName);
+        String titleName = "正在下载:" + downloadTaskBean.getTaskName();
+        tvName.setText(titleName);
+        tvChapterName.setText(downloadTaskBean.getBookChapterList().get(downloadTaskBean.getCurrentChapter()).getTitle());
 
     }
 

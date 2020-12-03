@@ -6,5 +6,5 @@ package com.mp.android.apps.monke.readActivity.view;
  */
 
 public enum PageMode {
-    SIMULATION, COVER, SLIDE, NONE, SCROLL
+    SIMULATION, COVER, SLIDE, NONE, SCROLL,LEFT_HAND
 }

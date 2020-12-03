@@ -195,6 +195,20 @@
             android:text="无"
             android:textColor="#CBCBCB"
             android:textSize="14dp" />
+
+        <RadioButton
+            android:id="@+id/read_setting_rb_left"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="18dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_btn_read_setting"
+            android:button="@null"
+            android:gravity="center"
+            android:text="左手"
+            android:textColor="#CBCBCB"
+            android:textSize="14dp" />
+
     </RadioGroup>
 
     <androidx.recyclerview.widget.RecyclerView

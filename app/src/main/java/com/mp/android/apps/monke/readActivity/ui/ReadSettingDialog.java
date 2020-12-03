@@ -2,7 +2,6 @@ package com.mp.android.apps.monke.readActivity.ui;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -74,6 +73,8 @@ public class ReadSettingDialog extends Dialog {
     RecyclerView mRvBg;
     @BindView(R.id.read_setting_tv_more)
     TextView mTvMore;
+    @BindView(R.id.read_setting_rb_left)
+    RadioButton readSettingRbLeft;
     /************************************/
     private PageStyleAdapter mPageStyleAdapter;
     private ReadSettingManager mSettingManager;
@@ -171,6 +172,9 @@ public class ReadSettingDialog extends Dialog {
                 break;
             case SCROLL:
                 mRbScroll.setChecked(true);
+                break;
+            case LEFT_HAND:
+                readSettingRbLeft.setChecked(true);
                 break;
         }
     }
@@ -296,6 +300,9 @@ public class ReadSettingDialog extends Dialog {
                             break;
                         case R.id.read_setting_rb_none:
                             pageMode = PageMode.NONE;
+                            break;
+                        case R.id.read_setting_rb_left:
+                            pageMode = PageMode.LEFT_HAND;
                             break;
                         default:
                             pageMode = PageMode.SIMULATION;

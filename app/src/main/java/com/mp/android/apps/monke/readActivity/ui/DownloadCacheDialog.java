@@ -18,18 +18,20 @@ import com.mp.android.apps.monke.monkeybook.dao.BookChapterBeanDao;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
+import com.mp.android.apps.utils.Logger;
 
 import java.util.List;
 
 
 public class DownloadCacheDialog extends Dialog {
     private TextView tv_download;
+
+
     private String bookId;
     private Context context;
 
-    public DownloadCacheDialog(@NonNull Context context, String bookId) {
+    public DownloadCacheDialog(@NonNull Context context) {
         super(context);
-        this.bookId = bookId;
         this.context = context;
     }
 
@@ -47,18 +49,34 @@ public class DownloadCacheDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.read_book_cache_download_dialog);
         tv_download = findViewById(R.id.tv_download);
+        findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DownloadCacheDialog.this.dismiss();
+            }
+        });
         tv_download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CollBookBean collBookBean = BookRepository.getInstance().getCollBook(bookId);
+
+                CollBookBean collBookBean = BookRepository.getInstance().getCollBook(getBookId());
                 if (collBookBean != null) {
                     RxBus.get().post(RxBusTag.ADD_DOWNLOAD_TASK, translateCollBooBean(collBookBean));
+                    Toast.makeText(context, "正在离线缓存,可边到书架页面查看缓存进度或取消", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(context, "未加入书架无法离线，请先添加到书架", Toast.LENGTH_LONG).show();
                 }
-
+                DownloadCacheDialog.this.dismiss();
             }
         });
+    }
+
+    public String getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
     }
 
     private DownloadTaskBean translateCollBooBean(CollBookBean collBookBean) {

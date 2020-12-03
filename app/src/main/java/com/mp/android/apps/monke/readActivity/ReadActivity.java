@@ -289,7 +289,8 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
         //初始化BottomMenu
         initBottomMenu();
         //初始化离线下载Dialog弹框
-        downloadCacheDialog = new DownloadCacheDialog(this,mBookId);
+        downloadCacheDialog = new DownloadCacheDialog(this);
+        downloadCacheDialog.setBookId(mBookId);
     }
 
     private void initTopMenu() {

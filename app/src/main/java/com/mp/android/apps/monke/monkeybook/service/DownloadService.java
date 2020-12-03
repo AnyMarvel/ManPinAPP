@@ -158,10 +158,8 @@ public class DownloadService extends BaseService {
                 if (result == LOAD_NORMAL) {
                     taskEvent.setCurrentChapter(i);
                     RxBus.get().post(RxBusTag.PROGRESS_DOWNLOAD_LISTENER, taskEvent);//章节下载完成,需要更新进度
-                    Logger.d("ssssssssssssssss", RxBusTag.PROGRESS_DOWNLOAD_LISTENER);
-                }
-                //章节加载失败
-                else {
+                } else {
+                    //章节加载失败
                     //遇到错误退出
                     break;
                 }
@@ -189,13 +187,15 @@ public class DownloadService extends BaseService {
                 //没想好怎么做
             }
 
+
+            //green dao 数据库升级问题需要进行解决才能开启数据状态存储
             //存储状态
-            BookRepository.getInstance().saveDownloadTask(taskEvent);
+//            BookRepository.getInstance().saveDownloadTask(taskEvent);
 
             //轮询下一个事件，用RxBus用来保证事件是在主线程
 
             //移除完成的任务
-            mDownloadTaskQueue.remove(taskEvent);
+//            mDownloadTaskQueue.remove(taskEvent);
             //设置为空闲
             isBusy = false;
         };
@@ -238,19 +238,14 @@ public class DownloadService extends BaseService {
     public void addTask(DownloadTaskBean taskEvent) {
         //判断是否为轮询请求
         if (!TextUtils.isEmpty(taskEvent.getBookId())) {
-
+            isCancel = false;
             if (!mDownloadTaskList.contains(taskEvent)) {
                 //加入总列表中，表示创建，修改CollBean的状态。
                 mDownloadTaskList.add(taskEvent);
             }
-            // 添加到下载队列
-            mDownloadTaskQueue.add(taskEvent);
         }
+        startTask(taskEvent);
 
-        // 从队列顺序取出第一条下载
-        if (mDownloadTaskQueue.size() > 0) {
-            startTask(mDownloadTaskQueue.get(0));
-        }
     }
 
     @Subscribe(
@@ -259,7 +254,8 @@ public class DownloadService extends BaseService {
                     @Tag(RxBusTag.CANCEL_DOWNLOAD)
             }
     )
-    public void cancelTask(Object o) {
+    public void cancelTask(DownloadTaskBean taskEvent) {
+        isCancel = true;
 
     }
 

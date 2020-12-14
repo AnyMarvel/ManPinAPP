@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -126,6 +127,8 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
     ListView mLvCategory;
     @BindView(R.id.read_book_cache_download)
     TextView readBookCacheDownload;
+    @BindView(R.id.iv_back)
+    ImageView ivBack;
     /*****************view******************/
     private ReadSettingDialog mSettingDialog;
     private PageLoader mPageLoader;
@@ -547,6 +550,9 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
                 (v) -> {
                     downloadCacheDialog.show();
                 });
+        ivBack.setOnClickListener(v -> {
+            onBackPressed();
+        });
     }
 
     /**

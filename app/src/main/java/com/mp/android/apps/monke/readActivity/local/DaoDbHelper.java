@@ -22,6 +22,7 @@ public class DaoDbHelper {
     private DaoDbHelper(){
         //封装数据库的创建、更新、删除
         DaoMaster.DevOpenHelper openHelper = new MyOpenHelper(MyApplication.getInstance(),DB_NAME,null);
+
         //获取数据库
         mDb = openHelper.getWritableDatabase();
         //封装数据库中表的创建、更新、删除

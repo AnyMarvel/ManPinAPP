@@ -4,9 +4,13 @@ import android.database.Cursor;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.room.Delete;
+
 import com.google.android.apps.photolab.storyboard.download.MD5Utils;
+import com.mp.android.apps.monke.monkeybook.bean.DownloadTaskBean;
 import com.mp.android.apps.monke.monkeybook.dao.BookChapterBeanDao;
 import com.mp.android.apps.monke.monkeybook.dao.CollBookBeanDao;
+import com.mp.android.apps.monke.monkeybook.dao.DownloadTaskBeanDao;
 
 import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.database.Database;
@@ -16,6 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -41,8 +46,22 @@ public class Update2Helper {
     }
 
     public void update(Database db) {
-        updateCollBook(db);
-        updateBookChapter(db);
+        deleteOtherTables(db);
+//        updateCollBook(db);
+//        updateBookChapter(db);
+//        createOrignalTables(db, DownloadTaskBeanDao.class);
+    }
+
+    private void deleteOtherTables(Database db) {
+        Collection<AbstractDao<?, ?>> collection
+                = DaoDbHelper.getInstance().getSession().getAllDaos();
+        for (AbstractDao<?, ?> dao :
+                collection) {
+            System.out.println(dao.getTablename());
+        }
+        Cursor cursor=db.rawQuery("show tables", null);
+
+
     }
 
     private void updateBookChapter(Database db) {
@@ -78,7 +97,7 @@ public class Update2Helper {
                 updateSb.append("UPDATE " + tableName + " SET ");
                 updateSb.append("_ID=").append(String.format(QUOTE, id)).append(DIVIDER);
                 updateSb.append("COVER=").append(String.format(QUOTE, cover)).append(" ");
-                updateSb.append("WHERE _ID=").append(String.format(QUOTE,cover)).append(";");
+                updateSb.append("WHERE _ID=").append(String.format(QUOTE, cover)).append(";");
 
                 db.execSQL(updateSb.toString());
                 updateSb.delete(0, updateSb.length());

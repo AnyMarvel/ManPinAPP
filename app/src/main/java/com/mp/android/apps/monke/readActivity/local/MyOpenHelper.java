@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 
 import com.mp.android.apps.monke.monkeybook.dao.DaoMaster;
+import com.mp.android.apps.utils.Logger;
 
 import org.greenrobot.greendao.database.Database;
 
@@ -23,6 +24,7 @@ public class MyOpenHelper extends DaoMaster.DevOpenHelper{
         switch (oldVersion){
             case 1:
                 // 暂无 1.0
+                Update2Helper.getInstance().update(db);
             case 2:
                 // 更新数据到 3.0
                 Update2Helper.getInstance().update(db);

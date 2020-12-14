@@ -5,9 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/read_dl_slide"
-    android:keepScreenOn="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:keepScreenOn="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -56,6 +56,27 @@
                 android:minHeight="?attr/actionBarSize"
                 android:theme="@style/Theme.ToolBar.Menu">
 
+                <ImageView
+                    android:id="@+id/iv_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:padding="12dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_arrow_back" />
+
+                <TextView
+                    android:id="@+id/read_book_cache_download"
+                    android:layout_width="70dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="20dp"
+                    android:clickable="true"
+                    android:text="离线下载"
+                    android:textColor="#CBCBCB"
+                    android:textSize="16sp" />
+
                 <RelativeLayout
                     android:layout_width="120dp"
                     android:layout_height="50dp"
@@ -82,14 +103,6 @@
                         android:textColor="#CBCBCB"
                         android:textSize="16sp" />
                 </RelativeLayout>
-                <TextView
-                    android:id="@+id/read_book_cache_download"
-                    android:layout_width="70dp"
-                    android:layout_height="48dp"
-                    android:textColor="#CBCBCB"
-                    android:clickable="true"
-                    android:textSize="16sp"
-                    android:text="离线下载"/>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 

@@ -100,7 +100,8 @@ public class BookMainActivity extends MBaseActivity<IMainPresenter> implements I
         ibDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                downloadListPop.showAsDropDown(ibDownload);
+                startActivity(new Intent(BookMainActivity.this, DownloadBookActivity.class));
+//                downloadListPop.showAsDropDown(ibDownload);
             }
         });
         ibMoney.setOnClickListener(new View.OnClickListener() {

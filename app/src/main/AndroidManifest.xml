@@ -62,6 +62,8 @@
         <activity
             android:name=".monke.monkeybook.view.impl.BookMainActivity"
             android:launchMode="singleTask" />
+
+        <activity android:name=".monke.monkeybook.view.impl.DownloadBookActivity" />
         <activity
             android:name=".monke.monkeybook.view.impl.SearchActivity"
             android:configChanges="locale|keyboardHidden|orientation|screenSize"
@@ -74,15 +76,6 @@
 
             android:theme="@style/CAppTransparentTheme" />
         <activity android:name=".main.ManpinWXActivity" />
-        <!--        <activity-->
-        <!--            android:name=".monke.monkeybook.view.impl.ReadBookActivity"-->
-        <!--            android:launchMode="singleTask">-->
-        <!--            <intent-filter tools:ignore="AppLinkUrlError">-->
-        <!--                <action android:name="android.intent.action.VIEW" />-->
-        <!--                <category android:name="android.intent.category.DEFAULT" />-->
-        <!--                <data android:mimeType="text/plain" />-->
-        <!--            </intent-filter>-->
-        <!--        </activity>-->
         <activity
             android:name=".monke.monkeybook.view.impl.ImportBookActivity"
 

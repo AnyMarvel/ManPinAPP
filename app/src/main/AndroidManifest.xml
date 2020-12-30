@@ -31,9 +31,7 @@
         <activity
             android:name=".explore.ExploreSquareActivity"
             android:launchMode="singleTask" />
-        <activity
-            android:name="com.google.android.apps.photolab.storyboard.activity.ComicActivity"
-            />
+        <activity android:name="com.google.android.apps.photolab.storyboard.activity.ComicActivity" />
         <activity
             android:name="com.google.android.apps.photolab.storyboard.activity.ComicSplash"
             android:launchMode="singleTask" />
@@ -43,7 +41,7 @@
         <activity android:name=".livevblank.EditCardActivity" />
         <activity android:name=".livevblank.PreviewActivity" />
         <activity android:name=".livevblank.SearchPeopleActivity" />
-        <activity android:name=".monke.readActivity.ReadActivity"/>
+        <activity android:name=".monke.readActivity.ReadActivity" />
         <activity android:name="com.xinlan.imageeditlibrary.picchooser.SelectPictureActivity" />
         <activity
             android:name="com.xinlan.imageeditlibrary.editimage.EditImageActivity"
@@ -75,16 +73,16 @@
             android:name=".monke.monkeybook.view.impl.BookDetailActivity"
 
             android:theme="@style/CAppTransparentTheme" />
-        <activity android:name=".main.ManpinWXActivity"/>
-<!--        <activity-->
-<!--            android:name=".monke.monkeybook.view.impl.ReadBookActivity"-->
-<!--            android:launchMode="singleTask">-->
-<!--            <intent-filter tools:ignore="AppLinkUrlError">-->
-<!--                <action android:name="android.intent.action.VIEW" />-->
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-<!--                <data android:mimeType="text/plain" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
+        <activity android:name=".main.ManpinWXActivity" />
+        <!--        <activity-->
+        <!--            android:name=".monke.monkeybook.view.impl.ReadBookActivity"-->
+        <!--            android:launchMode="singleTask">-->
+        <!--            <intent-filter tools:ignore="AppLinkUrlError">-->
+        <!--                <action android:name="android.intent.action.VIEW" />-->
+        <!--                <category android:name="android.intent.category.DEFAULT" />-->
+        <!--                <data android:mimeType="text/plain" />-->
+        <!--            </intent-filter>-->
+        <!--        </activity>-->
         <activity
             android:name=".monke.monkeybook.view.impl.ImportBookActivity"
 
@@ -110,9 +108,13 @@
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-
-        <service android:name=".monke.monkeybook.service.DownloadService" />
+        <service
+            android:name=".monke.monkeybook.service.DownloadService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.mp.android.apps.monke.monkeybook.service.DownloadService_action" />
+            </intent-filter>
+        </service>
     </application>
 
     <!--    摄像头依赖生命-->

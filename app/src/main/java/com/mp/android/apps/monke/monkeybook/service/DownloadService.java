@@ -63,17 +63,7 @@ public class DownloadService extends BaseService {
     @Override
     public void onCreate() {
         super.onCreate();
-        NotificationManager notificationManager = (NotificationManager) MyApplication.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationChannel mChannel = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            mChannel = new NotificationChannel(CHANNEL_ID_STRING, getString(R.string.app_name),
-                    NotificationManager.IMPORTANCE_LOW);
-            notificationManager.createNotificationChannel(mChannel);
-            notification = new Notification.Builder(getApplicationContext(), CHANNEL_ID_STRING).build();
-            startForeground(1, notification);
-        }
         mDownloadTaskList = new ArrayList<>();
-//        BookRepository.getInstance().getSession().getDownloadTaskBeanDao().loadAll()
     }
 
     @Override
@@ -87,11 +77,6 @@ public class DownloadService extends BaseService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        super.onStartCommand(intent, flags, startId);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            startForeground(1, notification);
-        }
-
         if (!isInit) {
             isInit = true;
             RxBus.get().register(this);

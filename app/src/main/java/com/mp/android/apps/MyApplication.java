@@ -20,6 +20,7 @@ import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
 
 import java.io.File;
+import java.util.Arrays;
 
 public class MyApplication extends Application {
 
@@ -55,10 +56,33 @@ public class MyApplication extends Application {
 
         instance = this;
         ProxyManager.initProxy();
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            startForegroundService(new Intent(this, DownloadService.class));
+//        } else {
+//            startService(new Intent(this, DownloadService.class));
+//        }
+        startDownloadService();
+
+
+    }
+
+    private void startDownloadService() {
+        Intent serviceIntent = new Intent();
+        serviceIntent.setAction("com.mp.android.apps.monke.monkeybook.service.DownloadService_action");
+        serviceIntent.setPackage(getPackageName());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(new Intent(this, DownloadService.class));
+            try {
+                startService(serviceIntent);
+            } catch (Exception e) {
+                Logger.d("startDownloadService", Arrays.toString(e.getStackTrace()));
+                Intent activityIntent = new Intent();
+                serviceIntent.setAction("com.mp.android.apps.TranslucentActivity");
+                serviceIntent.setPackage(getPackageName());
+                activityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(activityIntent);
+            }
         } else {
-            startService(new Intent(this, DownloadService.class));
+            startService(serviceIntent);
         }
     }
 

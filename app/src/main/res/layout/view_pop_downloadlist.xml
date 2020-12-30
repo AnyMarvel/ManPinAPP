@@ -4,9 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:background="@drawable/bg_search"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +16,7 @@
         <ImageView
             android:id="@+id/iv_cover"
             android:layout_width="wrap_content"
-            android:layout_height="70dp"
+            android:layout_height="match_parent"
             android:src="@drawable/img_cover_default" />
 
         <LinearLayout
@@ -55,20 +53,6 @@
 
         </LinearLayout>
 
-
-        <!--        <TextView-->
-        <!--            android:id="@+id/tv_download"-->
-        <!--            android:layout_width="70dp"-->
-        <!--            android:layout_height="30dp"-->
-        <!--            android:layout_gravity="center_vertical"-->
-        <!--            android:background="@drawable/selector_bg_download"-->
-        <!--            android:clickable="true"-->
-        <!--            android:gravity="center"-->
-        <!--            android:text="开始下载"-->
-        <!--            android:textColor="#ffffff"-->
-        <!--            android:textSize="12sp" />-->
-
-
         <TextView
             android:id="@+id/tv_cancel"
             android:layout_width="70dp"
@@ -103,5 +87,5 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="60dp" />
+        android:layout_height="match_parent" />
 </FrameLayout>

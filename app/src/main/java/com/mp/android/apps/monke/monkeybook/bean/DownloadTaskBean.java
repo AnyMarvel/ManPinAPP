@@ -1,5 +1,8 @@
 package com.mp.android.apps.monke.monkeybook.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 
 import org.greenrobot.greendao.DaoException;
@@ -8,6 +11,7 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToMany;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.mp.android.apps.monke.monkeybook.dao.DaoSession;
@@ -18,7 +22,7 @@ import com.mp.android.apps.monke.monkeybook.dao.DownloadTaskBeanDao;
  * Created by newbiechen on 17-5-11.
  */
 @Entity
-public class DownloadTaskBean {
+public class DownloadTaskBean implements Parcelable {
     public static final int STATUS_LOADING = 1;
     public static final int STATUS_WAIT = 2;
     public static final int STATUS_PAUSE = 3;
@@ -45,6 +49,32 @@ public class DownloadTaskBean {
     //下载图书封面url地址
     private String coverUrl;
 
+    protected DownloadTaskBean(Parcel in) {
+        taskName = in.readString();
+        bookId = in.readString();
+        currentChapter = in.readInt();
+        lastChapter = in.readInt();
+        status = in.readInt();
+        size = in.readLong();
+        coverUrl = in.readString();
+        if (bookChapterList == null) {
+            bookChapterList = new ArrayList<BookChapterBean>();
+        }
+        in.readList(bookChapterList, BookChapterBean.class.getClassLoader());
+    }
+
+    public static final Creator<DownloadTaskBean> CREATOR = new Creator<DownloadTaskBean>() {
+        @Override
+        public DownloadTaskBean createFromParcel(Parcel in) {
+            return new DownloadTaskBean(in);
+        }
+
+        @Override
+        public DownloadTaskBean[] newArray(int size) {
+            return new DownloadTaskBean[size];
+        }
+    };
+
     public String getCoverUrl() {
         return coverUrl;
     }
@@ -66,7 +96,7 @@ public class DownloadTaskBean {
 
     @Generated(hash = 1966116566)
     public DownloadTaskBean(String taskName, String bookId, int currentChapter, int lastChapter,
-            int status, long size, String coverUrl) {
+                            int status, long size, String coverUrl) {
         this.taskName = taskName;
         this.bookId = bookId;
         this.currentChapter = currentChapter;
@@ -228,4 +258,20 @@ public class DownloadTaskBean {
         myDao = daoSession != null ? daoSession.getDownloadTaskBeanDao() : null;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(taskName);
+        dest.writeString(bookId);
+        dest.writeInt(currentChapter);
+        dest.writeInt(lastChapter);
+        dest.writeInt(status);
+        dest.writeLong(size);
+        dest.writeString(coverUrl);
+        dest.writeList(bookChapterList);
+    }
 }

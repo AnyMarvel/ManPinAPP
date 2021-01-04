@@ -103,7 +103,8 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <service
             android:name=".monke.monkeybook.service.DownloadService"
-            android:exported="false">
+            android:exported="false"
+            android:process=":mp_download">
             <intent-filter>
                 <action android:name="com.mp.android.apps.monke.monkeybook.service.DownloadService_action" />
             </intent-filter>

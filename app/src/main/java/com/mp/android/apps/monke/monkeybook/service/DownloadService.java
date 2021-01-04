@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import com.hwangjr.rxbus.RxBus;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
+import com.mp.android.apps.IDownloadBookInterface;
 import com.mp.android.apps.MyApplication;
 import com.mp.android.apps.R;
 import com.mp.android.apps.monke.monkeybook.bean.DownloadTaskBean;
@@ -87,7 +89,7 @@ public class DownloadService extends BaseService {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return new MyDownloadBinder();
     }
 
 
@@ -99,16 +101,17 @@ public class DownloadService extends BaseService {
     )
     public void startTask(DownloadTaskBean taskEvent) {
         Runnable runnable = () -> {
-
+            Logger.d("======= 异步任务开始执行");
             taskEvent.setStatus(DownloadTaskBean.STATUS_LOADING);
 
             int result = LOAD_NORMAL;
             List<BookChapterBean> bookChapterBeans = taskEvent.getBookChapters();
-
+            Logger.d("========="+bookChapterBeans.size());
             //调用for循环，下载数据
             for (int i = taskEvent.getCurrentChapter(); i < bookChapterBeans.size(); ++i) {
 
                 BookChapterBean bookChapterBean = bookChapterBeans.get(i);
+                Logger.d("======= 开始下载"+bookChapterBean.getTitle());
                 //首先判断该章节是否曾经被加载过 (从文件中判断)
                 if (BookManager
                         .isChapterCached(taskEvent.getBookId(), bookChapterBean.getTitle())) {
@@ -253,4 +256,21 @@ public class DownloadService extends BaseService {
     public void pauseTask(Object o) {
 
     }
+
+    class MyDownloadBinder extends IDownloadBookInterface.Stub {
+        @Override
+        public void addTask(DownloadTaskBean taskEvent) throws RemoteException {
+            //判断是否为轮询请求
+            if (!TextUtils.isEmpty(taskEvent.getBookId())) {
+                isCancel = false;
+                if (!mDownloadTaskList.contains(taskEvent)) {
+                    //加入总列表中，表示创建，修改CollBean的状态。
+                    mDownloadTaskList.add(taskEvent);
+                }
+            }
+            Logger.d("=======================开始请求");
+            startTask(taskEvent);
+        }
+    }
+
 }

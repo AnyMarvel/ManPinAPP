@@ -11,8 +11,6 @@ import android.widget.Toast;
 import androidx.multidex.MultiDex;
 
 import com.mp.android.apps.monke.monkeybook.ProxyManager;
-//import com.mp.android.apps.monke.monkeybook.service.DownloadService;
-import com.mp.android.apps.monke.monkeybook.service.DownloadService;
 import com.mp.android.apps.utils.Logger;
 import com.tencent.bugly.Bugly;
 

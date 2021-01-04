@@ -25,10 +25,14 @@ android {
 
     signingConfigs {
         debug {
-            storeFile rootProject.file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile rootProject.file('AnyMarvel.jks')
+            storePassword SiginPassword
+            keyAlias SiginkeyAlias
+            keyPassword SiginkeyPassword
+//            storeFile rootProject.file('debug.keystore')
+//            storePassword 'android'
+//            keyAlias 'androiddebugkey'
+//            keyPassword 'android'
         }
         release {
             storeFile rootProject.file('AnyMarvel.jks')

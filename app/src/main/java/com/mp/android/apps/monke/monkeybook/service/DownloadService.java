@@ -2,17 +2,13 @@
 package com.mp.android.apps.monke.monkeybook.service;
 
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.text.TextUtils;
-
 import androidx.annotation.Nullable;
-
 import com.mp.android.apps.IDownloadBookInterface;
 import com.mp.android.apps.monke.monkeybook.bean.DownloadTaskBean;
-import com.mp.android.apps.monke.monkeybook.common.RxBusTag;
 import com.mp.android.apps.monke.monkeybook.contentprovider.MyContentProvider;
 import com.mp.android.apps.monke.monkeybook.dao.DownloadTaskBeanDao;
 import com.mp.android.apps.monke.monkeybook.model.impl.WebBookModelImpl;
@@ -22,17 +18,11 @@ import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
 import com.mp.android.apps.monke.readActivity.utils.BookManager;
 import com.mp.android.apps.utils.Logger;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 

@@ -36,8 +36,8 @@ public class ApiHelper {
     private OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
-            .readTimeout(10, TimeUnit.SECONDS)
-            .addInterceptor(new ProxyInterceptor());
+            .readTimeout(10, TimeUnit.SECONDS);
+//    .addInterceptor(new ProxyInterceptor())
 
     private TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
         @Override

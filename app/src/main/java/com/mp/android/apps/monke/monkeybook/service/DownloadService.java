@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.text.TextUtils;
+
 import androidx.annotation.Nullable;
+
 import com.mp.android.apps.IDownloadBookInterface;
 import com.mp.android.apps.monke.monkeybook.bean.DownloadTaskBean;
 import com.mp.android.apps.monke.monkeybook.contentprovider.MyContentProvider;
+import com.mp.android.apps.monke.monkeybook.dao.BookChapterBeanDao;
 import com.mp.android.apps.monke.monkeybook.dao.DownloadTaskBeanDao;
 import com.mp.android.apps.monke.monkeybook.model.impl.WebBookModelImpl;
 import com.mp.android.apps.monke.monkeybook.utils.NetworkUtils;
@@ -18,11 +21,13 @@ import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
 import com.mp.android.apps.monke.readActivity.utils.BookManager;
 import com.mp.android.apps.utils.Logger;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -47,6 +52,16 @@ public class DownloadService extends BaseService {
             @Override
             public void run() {
                 Logger.d("======= 异步任务开始执行");
+
+                List<BookChapterBean> taskChapters = BookRepository.getInstance().getSession()
+                        .getBookChapterBeanDao()
+                        .queryBuilder()
+                        .where(BookChapterBeanDao.Properties.BookId.eq(taskEvent.getBookId()))
+                        .list();
+                taskEvent.setBookChapters(taskChapters);
+                taskEvent.setLastChapter(taskChapters.size());
+
+
                 DownloadTaskBean downloadTaskBean = BookRepository.getInstance().getSession().getDownloadTaskBeanDao()
                         .queryBuilder().where(DownloadTaskBeanDao.Properties.TaskName.eq(taskEvent.getTaskName())).unique();
                 taskEvent.setStatus(DownloadTaskBean.STATUS_LOADING);

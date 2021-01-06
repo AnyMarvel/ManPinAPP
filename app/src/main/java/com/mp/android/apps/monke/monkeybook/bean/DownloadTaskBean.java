@@ -58,10 +58,10 @@ public class DownloadTaskBean implements Parcelable {
         status = in.readInt();
         size = in.readLong();
         coverUrl = in.readString();
-        if (bookChapterList == null) {
-            bookChapterList = new ArrayList<BookChapterBean>();
-        }
-        in.readList(bookChapterList, BookChapterBean.class.getClassLoader());
+//        if (bookChapterList == null) {
+//            bookChapterList = new ArrayList<BookChapterBean>();
+//        }
+//        in.readList(bookChapterList, BookChapterBean.class.getClassLoader());
     }
 
     public static final Creator<DownloadTaskBean> CREATOR = new Creator<DownloadTaskBean>() {
@@ -273,6 +273,6 @@ public class DownloadTaskBean implements Parcelable {
         dest.writeInt(status);
         dest.writeLong(size);
         dest.writeString(coverUrl);
-        dest.writeList(bookChapterList);
+//        dest.writeList(bookChapterList);
     }
 }

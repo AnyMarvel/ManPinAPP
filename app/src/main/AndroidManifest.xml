@@ -109,6 +109,10 @@
                 <action android:name="com.mp.android.apps.monke.monkeybook.service.DownloadService_action" />
             </intent-filter>
         </service>
+
+        <provider
+            android:name="com.mp.android.apps.monke.monkeybook.contentprovider.MyContentProvider"
+            android:authorities="com.mp.android.apps.download.provider" />
     </application>
 
     <!--    摄像头依赖生命-->

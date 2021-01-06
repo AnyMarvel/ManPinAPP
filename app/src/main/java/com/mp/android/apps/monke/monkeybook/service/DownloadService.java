@@ -1,28 +1,20 @@
 
 package com.mp.android.apps.monke.monkeybook.service;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.Service;
-import android.content.Context;
+
+import android.content.ContentValues;
 import android.content.Intent;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
-import com.hwangjr.rxbus.RxBus;
-import com.hwangjr.rxbus.annotation.Subscribe;
-import com.hwangjr.rxbus.annotation.Tag;
-import com.hwangjr.rxbus.thread.EventThread;
 import com.mp.android.apps.IDownloadBookInterface;
-import com.mp.android.apps.MyApplication;
-import com.mp.android.apps.R;
 import com.mp.android.apps.monke.monkeybook.bean.DownloadTaskBean;
 import com.mp.android.apps.monke.monkeybook.common.RxBusTag;
+import com.mp.android.apps.monke.monkeybook.contentprovider.MyContentProvider;
+import com.mp.android.apps.monke.monkeybook.dao.DownloadTaskBeanDao;
 import com.mp.android.apps.monke.monkeybook.model.impl.WebBookModelImpl;
 import com.mp.android.apps.monke.monkeybook.utils.NetworkUtils;
 import com.mp.android.apps.monke.readActivity.base.BaseService;
@@ -36,55 +28,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.disposables.Disposable;
 
 
 public class DownloadService extends BaseService {
-    //加载状态
-    private static final int LOAD_ERROR = -1; //加载失败
-    private static final int LOAD_NORMAL = 0; //增长加载
-    private static final int LOAD_PAUSE = 1; // 暂停加载
-    private static final int LOAD_DELETE = 2; //正在加载时候，用户删除收藏书籍的情况。
 
     //线程池
-    private final ExecutorService mSingleExecutor = Executors.newSingleThreadExecutor();
-    //加载队列
+    private final ExecutorService mCachedExecutor = Executors.newCachedThreadPool();
+
+    //加载队列 //目前无用
     private final List<DownloadTaskBean> mDownloadTaskQueue = Collections.synchronizedList(new ArrayList<>());
-
-    //包含所有的DownloadTask
-    private List<DownloadTaskBean> mDownloadTaskList;
-
-    private Boolean isInit = false;
-    public static final String CHANNEL_ID_STRING = "service_01";
-    // serve前台service channel通知
-    private Notification notification;
-    private boolean isBusy = false;
-    private boolean isCancel = false;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        mDownloadTaskList = new ArrayList<>();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (RxBus.get() != null) {
-            RxBus.get().unregister(this);
-        }
-        isInit = true;
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        if (!isInit) {
-            isInit = true;
-            RxBus.get().register(this);
-        }
-        return super.onStartCommand(intent, flags, startId);
-    }
 
     @Nullable
     @Override
@@ -93,106 +50,103 @@ public class DownloadService extends BaseService {
     }
 
 
-    @Subscribe(
-            thread = EventThread.MAIN_THREAD,
-            tags = {
-                    @Tag(RxBusTag.START_DOWNLOAD)
-            }
-    )
     public void startTask(DownloadTaskBean taskEvent) {
-        Runnable runnable = () -> {
-            Logger.d("======= 异步任务开始执行");
-            taskEvent.setStatus(DownloadTaskBean.STATUS_LOADING);
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                Logger.d("======= 异步任务开始执行");
+                DownloadTaskBean downloadTaskBean = BookRepository.getInstance().getSession().getDownloadTaskBeanDao()
+                        .queryBuilder().where(DownloadTaskBeanDao.Properties.TaskName.eq(taskEvent.getTaskName())).unique();
+                taskEvent.setStatus(DownloadTaskBean.STATUS_LOADING);
 
-            int result = LOAD_NORMAL;
-            List<BookChapterBean> bookChapterBeans = taskEvent.getBookChapters();
-            Logger.d("========="+bookChapterBeans.size());
-            //调用for循环，下载数据
-            for (int i = taskEvent.getCurrentChapter(); i < bookChapterBeans.size(); ++i) {
-
-                BookChapterBean bookChapterBean = bookChapterBeans.get(i);
-                Logger.d("======= 开始下载"+bookChapterBean.getTitle());
-                //首先判断该章节是否曾经被加载过 (从文件中判断)
-                if (BookManager
-                        .isChapterCached(taskEvent.getBookId(), bookChapterBean.getTitle())) {
-
-                    //设置任务进度
-                    taskEvent.setCurrentChapter(i);
-
-                    //章节加载完成
-//                    postDownloadChange(taskEvent, DownloadTaskBean.STATUS_LOADING, i + "");
-                    RxBus.get().post(RxBusTag.FINISH_DOWNLOAD_LISTENER, taskEvent);
-
-                    //无需进行下一步
-                    continue;
-                }
-
-                //判断网络是否出问题
-                if (!NetworkUtils.isAvailable()) {
-                    //章节加载失败
-                    result = LOAD_ERROR;
-                    break;
-                }
-
-                if (isCancel) {
-                    result = LOAD_PAUSE;
-                    isCancel = false;
-                    break;
-                }
-
-                //加载数据
-                result = loadChapter(taskEvent.getBookId(), bookChapterBean);
-                //章节加载完成
-                if (result == LOAD_NORMAL) {
-                    taskEvent.setCurrentChapter(i);
-                    RxBus.get().post(RxBusTag.PROGRESS_DOWNLOAD_LISTENER, taskEvent);//章节下载完成,需要更新进度
+                if (downloadTaskBean == null) {
+                    downloadTaskBean = taskEvent;
+                    BookRepository.getInstance().saveDownloadTask(taskEvent);
                 } else {
-                    //章节加载失败
-                    //遇到错误退出
-                    break;
+
+                    if (taskEvent.getBookChapterList().size() != downloadTaskBean.getBookChapterList().size()) {
+                        downloadTaskBean.setBookChapters(taskEvent.getBookChapterList());
+                    } else {
+                        //如果数据库中列表内容未更新，且标志位未完成状态，则舍弃当前下载任务
+                        if (downloadTaskBean.getStatus() == DownloadTaskBean.STATUS_FINISH) {
+                            return;
+                        }
+                    }
+                    downloadTaskBean.setStatus(DownloadTaskBean.STATUS_LOADING);
+                    downloadTaskBean.update();
                 }
+
+
+                List<BookChapterBean> bookChapterBeans = taskEvent.getBookChapters();
+                //调用for循环，下载缓存文件
+                for (int i = taskEvent.getCurrentChapter(); i < bookChapterBeans.size(); ++i) {
+
+                    BookChapterBean bookChapterBean = bookChapterBeans.get(i);
+                    Logger.d("======= 开始下载" + bookChapterBean.getTitle());
+                    //首先判断该章节是否曾经被加载过 (从文件中判断)
+                    if (BookManager
+                            .isChapterCached(taskEvent.getBookId(), bookChapterBean.getTitle())) {
+
+                        //设置任务进度
+                        taskEvent.setCurrentChapter(i);
+
+                        //无需进行下一步，跳出当次循环，执行下一次循环
+                        continue;
+                    }
+
+                    //判断网络是否出问题
+                    if (!NetworkUtils.isAvailable()) {
+                        //章节加载失败
+                        taskEvent.setStatus(DownloadTaskBean.STATUS_PAUSE);
+                        //结束循环体，提出for循环
+                        break;
+                    }
+
+                    //加载数据
+                    int result = loadChapter(taskEvent.getBookId(), bookChapterBean);
+                    if (result == 1) {
+                        taskEvent.setStatus(DownloadTaskBean.STATUS_PAUSE);
+                        break;
+                    }
+                    taskEvent.setCurrentChapter(i);
+                    Logger.d("=================:" + i);
+                    downloadTaskBean.setCurrentChapter(i);
+                    downloadTaskBean.update();
+
+
+                    getContentResolver().notifyChange(MyContentProvider.CONTENT_URI, null);
+                }
+
+                if (taskEvent.getStatus() == DownloadTaskBean.STATUS_PAUSE ||
+                        taskEvent.getCurrentChapter() < taskEvent.getBookChapters().size()) {
+                    taskEvent.setStatus(DownloadTaskBean.STATUS_PAUSE);//Task的状态
+                } else {
+                    //存储DownloadTask的状态
+                    taskEvent.setStatus(DownloadTaskBean.STATUS_FINISH);//Task的状态
+                    taskEvent.setCurrentChapter(taskEvent.getBookChapters().size());//当前下载的章节数量
+                    taskEvent.setSize(BookManager.getBookSize(taskEvent.getBookId()));//Task的大小
+                }
+
+
+                //green dao 数据库升级问题需要进行解决才能开启数据状态存储
+                //存储状态
+                BookRepository.getInstance().saveDownloadTask(taskEvent);
+                getContentResolver().notifyChange(MyContentProvider.CONTENT_URI, null);
+                //轮询下一个事件，用RxBus用来保证事件是在主线程
+
+                //移除完成的任务
+                mDownloadTaskQueue.remove(taskEvent);
+                //设置为空闲
+
             }
-
-
-            if (result == LOAD_NORMAL) {
-                //存储DownloadTask的状态
-                taskEvent.setStatus(DownloadTaskBean.STATUS_FINISH);//Task的状态
-                taskEvent.setCurrentChapter(taskEvent.getBookChapters().size());//当前下载的章节数量
-                taskEvent.setSize(BookManager.getBookSize(taskEvent.getBookId()));//Task的大小
-
-                //发送完成状态
-                RxBus.get().post(RxBusTag.FINISH_DOWNLOAD_LISTENER, taskEvent);//下载完成
-
-            } else if (result == LOAD_ERROR) {
-                taskEvent.setStatus(DownloadTaskBean.STATUS_ERROR);//Task的状态
-                //任务加载失败
-                //资源或网络错误
-                RxBus.get().post(RxBusTag.ERROR_DOWNLOAD_LISTENER, taskEvent);
-            } else if (result == LOAD_PAUSE) {
-                taskEvent.setStatus(DownloadTaskBean.STATUS_PAUSE);//Task的状态
-                RxBus.get().post(RxBusTag.PAUSE_DOWNLOAD_LISTENER, taskEvent);//暂停加载监听状态
-            } else if (result == LOAD_DELETE) {
-                //没想好怎么做
-            }
-
-
-            //green dao 数据库升级问题需要进行解决才能开启数据状态存储
-            //存储状态
-//            BookRepository.getInstance().saveDownloadTask(taskEvent);
-
-            //轮询下一个事件，用RxBus用来保证事件是在主线程
-
-            //移除完成的任务
-//            mDownloadTaskQueue.remove(taskEvent);
-            //设置为空闲
-            isBusy = false;
         };
-        mSingleExecutor.execute(runnable);
+
+        mCachedExecutor.execute(runnable);
     }
 
     private int loadChapter(String folderName, BookChapterBean bean) {
         //加载的结果参数
-        final int[] result = {LOAD_NORMAL};
+        final int[] result = {0};
 
         //问题:(这里有个问题，就是body其实比较大，如何获取数据流而不是对象，)是不是直接使用OkHttpClient交互会更好一点
         Disposable disposable = WebBookModelImpl.getInstance()
@@ -210,65 +164,26 @@ public class DownloadService extends BaseService {
                             //当前进度加载错误（这里需要判断是什么问题，根据相应的问题做出相应的回答）
                             Logger.e("DownloadService", e);
                             //设置加载结果
-                            result[0] = LOAD_ERROR;
+                            result[0] = 1;
                         }
                 );
         addDisposable(disposable);
         return result[0];
     }
 
-    @Subscribe(
-            thread = EventThread.MAIN_THREAD,
-            tags = {
-                    @Tag(RxBusTag.ADD_DOWNLOAD_TASK)
-            }
-    )
-    public void addTask(DownloadTaskBean taskEvent) {
-        //判断是否为轮询请求
-        if (!TextUtils.isEmpty(taskEvent.getBookId())) {
-            isCancel = false;
-            if (!mDownloadTaskList.contains(taskEvent)) {
-                //加入总列表中，表示创建，修改CollBean的状态。
-                mDownloadTaskList.add(taskEvent);
-            }
-        }
-        startTask(taskEvent);
-
-    }
-
-    @Subscribe(
-            thread = EventThread.MAIN_THREAD,
-            tags = {
-                    @Tag(RxBusTag.CANCEL_DOWNLOAD)
-            }
-    )
-    public void cancelTask(DownloadTaskBean taskEvent) {
-        isCancel = true;
-
-    }
-
-    @Subscribe(
-            thread = EventThread.MAIN_THREAD,
-            tags = {
-                    @Tag(RxBusTag.PAUSE_DOWNLOAD)
-            }
-    )
-    public void pauseTask(Object o) {
-
-    }
-
+    /**
+     * binder的接口实现
+     */
     class MyDownloadBinder extends IDownloadBookInterface.Stub {
         @Override
         public void addTask(DownloadTaskBean taskEvent) throws RemoteException {
             //判断是否为轮询请求
             if (!TextUtils.isEmpty(taskEvent.getBookId())) {
-                isCancel = false;
-                if (!mDownloadTaskList.contains(taskEvent)) {
+                if (!mDownloadTaskQueue.contains(taskEvent)) {
                     //加入总列表中，表示创建，修改CollBean的状态。
-                    mDownloadTaskList.add(taskEvent);
+                    mDownloadTaskQueue.add(taskEvent);
                 }
             }
-            Logger.d("=======================开始请求");
             startTask(taskEvent);
         }
     }

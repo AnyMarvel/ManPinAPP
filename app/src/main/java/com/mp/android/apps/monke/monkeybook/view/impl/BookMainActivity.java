@@ -2,16 +2,13 @@
 package com.mp.android.apps.monke.monkeybook.view.impl;
 
 import android.content.Intent;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.mp.android.apps.main.MainActivity;
 import com.mp.android.apps.monke.monkeybook.BitIntentDataManager;
 import com.mp.android.apps.R;
@@ -21,7 +18,6 @@ import com.mp.android.apps.monke.monkeybook.presenter.impl.BookDetailPresenterIm
 import com.mp.android.apps.monke.monkeybook.presenter.impl.MainPresenterImpl;
 import com.mp.android.apps.monke.monkeybook.view.IMainView;
 import com.mp.android.apps.monke.monkeybook.view.adapter.BookShelfAdapter;
-import com.mp.android.apps.monke.monkeybook.view.popupwindow.DownloadListPop;
 import com.mp.android.apps.monke.monkeybook.view.popupwindow.ProxyPop;
 import com.mp.android.apps.monke.monkeybook.widget.refreshview.OnRefreshWithProgressListener;
 import com.mp.android.apps.monke.monkeybook.widget.refreshview.RefreshRecyclerView;
@@ -44,7 +40,7 @@ public class BookMainActivity extends MBaseActivity<IMainPresenter> implements I
     private FrameLayout flWarn;
     private ImageView ivWarnClose;
 
-    private DownloadListPop downloadListPop;
+
     private ProxyPop proxyPop;
 
     @Override
@@ -71,7 +67,6 @@ public class BookMainActivity extends MBaseActivity<IMainPresenter> implements I
     @Override
     protected void bindView() {
         proxyPop = new ProxyPop(BookMainActivity.this);
-        downloadListPop = new DownloadListPop(BookMainActivity.this);
 
         ivBack = findViewById(R.id.iv_back);
         rfRvShelf = (RefreshRecyclerView) findViewById(R.id.rf_rv_shelf);
@@ -101,7 +96,6 @@ public class BookMainActivity extends MBaseActivity<IMainPresenter> implements I
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(BookMainActivity.this, DownloadBookActivity.class));
-//                downloadListPop.showAsDropDown(ibDownload);
             }
         });
         ibMoney.setOnClickListener(new View.OnClickListener() {
@@ -214,13 +208,5 @@ public class BookMainActivity extends MBaseActivity<IMainPresenter> implements I
     public void setRecyclerMaxProgress(int x) {
         rfRvShelf.getRpb().setMaxProgress(x);
     }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        downloadListPop.onDestroy();
-    }
-
 
 }

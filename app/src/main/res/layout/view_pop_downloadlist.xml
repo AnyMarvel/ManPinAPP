@@ -54,38 +54,18 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_cancel"
+            android:id="@+id/tv_progresss"
             android:layout_width="70dp"
             android:layout_height="30dp"
             android:layout_gravity="right|center"
             android:background="@drawable/selector_bg_download_cancel"
-            android:clickable="true"
+            android:clickable="false"
             android:gravity="center"
-            android:text="取消下载"
+            android:text="10%"
             android:textColor="#767676"
             android:textSize="12sp" />
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_none"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#ffffff"
-        android:clickable="true"
-        android:gravity="center"
-        android:text="暂无任务"
-        android:textColor="@color/tv_btn_black"
-        android:textSize="14sp"
-        android:visibility="invisible" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.7dp"
-        android:layout_gravity="bottom"
-        android:background="#c1c1c1" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 </FrameLayout>

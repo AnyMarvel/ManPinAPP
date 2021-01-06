@@ -65,9 +65,11 @@ public class DownloadBookActivity extends MBaseActivity<IDownloadBookPresenter> 
         tvTitle.setText("下载列表");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
+
         downloadRecycle.setLayoutManager(layoutManager);
         downloadRecycle.setItemAnimator(new DefaultItemAnimator());
         downloadRecycle.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
         downloadBookAdapter = new DownloadBookAdapter(this, downloadTaskBeanList);
         downloadRecycle.setAdapter(downloadBookAdapter);
 

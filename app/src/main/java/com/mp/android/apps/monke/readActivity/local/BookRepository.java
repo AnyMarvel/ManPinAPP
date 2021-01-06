@@ -317,4 +317,6 @@ public class BookRepository {
         mSession.getDownloadTaskBeanDao()
                 .insertOrReplace(bean);
     }
+
+
 }

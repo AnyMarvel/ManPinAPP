@@ -10,6 +10,7 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToMany;
+import org.greenrobot.greendao.annotation.Unique;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +25,9 @@ import com.mp.android.apps.monke.monkeybook.dao.DownloadTaskBeanDao;
 @Entity
 public class DownloadTaskBean implements Parcelable {
     public static final int STATUS_LOADING = 1;
-    public static final int STATUS_WAIT = 2;
+
     public static final int STATUS_PAUSE = 3;
-    public static final int STATUS_ERROR = 4;
+
     public static final int STATUS_FINISH = 5;
 
     //任务名称 -> 名称唯一不重复
@@ -41,9 +42,9 @@ public class DownloadTaskBean implements Parcelable {
     private int currentChapter = 0;
     //最后的章节
     private int lastChapter = 0;
-    //状态:正在下载、下载完成、暂停、等待、下载错误。
+    //状态:正在下载、下载完成、暂停、下载错误。
 
-    private volatile int status = STATUS_WAIT;
+    private volatile int status = STATUS_LOADING;
     //总大小 -> (完成之后才会赋值)
     private long size = 0;
     //下载图书封面url地址

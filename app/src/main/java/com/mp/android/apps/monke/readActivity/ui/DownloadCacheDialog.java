@@ -82,7 +82,6 @@ public class DownloadCacheDialog extends Dialog {
 
                 CollBookBean collBookBean = BookRepository.getInstance().getCollBook(getBookId());
                 if (collBookBean != null) {
-//                    RxBus.get().post(RxBusTag.ADD_DOWNLOAD_TASK, translateCollBooBean(collBookBean));
                     try {
                         downloadBookInterface.addTask(translateCollBooBean(collBookBean));
                     } catch (RemoteException e) {
@@ -106,6 +105,12 @@ public class DownloadCacheDialog extends Dialog {
         this.bookId = bookId;
     }
 
+    /**
+     * CollBookBean转换为DownloadTaskBean
+     *
+     * @param collBookBean 本地收藏图书
+     * @return 返回 DownloadTaskBean
+     */
     private DownloadTaskBean translateCollBooBean(CollBookBean collBookBean) {
         DownloadTaskBean downloadTaskBean = new DownloadTaskBean();
         downloadTaskBean.setBookId(collBookBean.get_id());

@@ -116,13 +116,16 @@ public class DownloadCacheDialog extends Dialog {
         downloadTaskBean.setBookId(collBookBean.get_id());
         downloadTaskBean.setTaskName(collBookBean.getTitle());
         downloadTaskBean.setCoverUrl(collBookBean.getCover());
+
+        downloadTaskBean.setCurrentChapter(0);
+
         List<BookChapterBean> bookChapterBeans = BookRepository.getInstance().getSession()
                 .getBookChapterBeanDao()
                 .queryBuilder()
                 .where(BookChapterBeanDao.Properties.BookId.eq(collBookBean.get_id()))
                 .list();
         downloadTaskBean.setBookChapters(bookChapterBeans);
-        downloadTaskBean.setCurrentChapter(0);
+
         downloadTaskBean.setLastChapter(bookChapterBeans.size());
         return downloadTaskBean;
     }

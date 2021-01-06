@@ -16,10 +16,7 @@ import com.mp.android.apps.monke.monkeybook.bean.DownloadTaskBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DownloadBookAdapter extends RecyclerView.Adapter<DownloadBookAdapter.ViewHolder> {
     private Context context;
@@ -40,7 +37,12 @@ public class DownloadBookAdapter extends RecyclerView.Adapter<DownloadBookAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         DownloadTaskBean downloadTaskBean = downloadTaskBeanList.get(position);
-        Glide.with(context).load(downloadTaskBean.getCoverUrl()).into(holder.ivCover);
+        Glide.with(context).load(downloadTaskBean.getCoverUrl())
+                .placeholder(R.drawable.img_cover_default)
+                .fallback(R.drawable.img_cover_default)
+                .error(R.drawable.img_cover_default)
+                .into(holder.ivCover);
+
         holder.tvName.setText(downloadTaskBean.getTaskName());
         if (downloadTaskBean.getBookChapters().size() > downloadTaskBean.getCurrentChapter())
             holder.tvChapterName.setText(downloadTaskBean.getBookChapters().get(downloadTaskBean.getCurrentChapter()).getTitle());
@@ -89,9 +91,6 @@ public class DownloadBookAdapter extends RecyclerView.Adapter<DownloadBookAdapte
                 }
             }
         }
-
-
-
         notifyDataSetChanged();
     }
 }

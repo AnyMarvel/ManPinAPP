@@ -32,7 +32,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class DownloadService extends BaseService {
@@ -108,9 +110,9 @@ public class DownloadService extends BaseService {
                         taskEvent.setStatus(DownloadTaskBean.STATUS_PAUSE);
                         break;
                     }
-                    taskEvent.setCurrentChapter(i);
+                    taskEvent.setCurrentChapter(i + 1);
                     Logger.d("=================:" + i);
-                    downloadTaskBean.setCurrentChapter(i);
+                    downloadTaskBean.setCurrentChapter(i + 1);
                     downloadTaskBean.update();
 
 
@@ -130,7 +132,8 @@ public class DownloadService extends BaseService {
 
                 //green dao 数据库升级问题需要进行解决才能开启数据状态存储
                 //存储状态
-                BookRepository.getInstance().saveDownloadTask(taskEvent);
+                downloadTaskBean = taskEvent;
+                downloadTaskBean.update();
                 getContentResolver().notifyChange(MyContentProvider.CONTENT_URI, null);
                 //轮询下一个事件，用RxBus用来保证事件是在主线程
 
@@ -151,6 +154,7 @@ public class DownloadService extends BaseService {
         //问题:(这里有个问题，就是body其实比较大，如何获取数据流而不是对象，)是不是直接使用OkHttpClient交互会更好一点
         Disposable disposable = WebBookModelImpl.getInstance()
                 .getChapterInfo(bean.getLink())
+                .subscribeOn(Schedulers.io())
                 //表示在当前环境下执行
                 .subscribe(
                         chapterInfo -> {

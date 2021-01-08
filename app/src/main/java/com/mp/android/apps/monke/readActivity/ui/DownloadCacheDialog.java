@@ -15,13 +15,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.hwangjr.rxbus.RxBus;
 import com.mp.android.apps.IDownloadBookInterface;
 import com.mp.android.apps.R;
 import com.mp.android.apps.monke.monkeybook.bean.DownloadTaskBean;
-import com.mp.android.apps.monke.monkeybook.common.RxBusTag;
-import com.mp.android.apps.monke.monkeybook.dao.BookChapterBeanDao;
-import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
 import com.mp.android.apps.utils.Logger;
@@ -50,6 +46,8 @@ public class DownloadCacheDialog extends Dialog {
 
     }
 
+    ServiceConnection serviceConnection;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +56,8 @@ public class DownloadCacheDialog extends Dialog {
         Intent serviceIntent = new Intent();
         serviceIntent.setAction("com.mp.android.apps.monke.monkeybook.service.DownloadService_action");
         serviceIntent.setPackage(context.getPackageName());
-        context.bindService(serviceIntent, new ServiceConnection() {
+
+        serviceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 downloadBookInterface = IDownloadBookInterface.Stub.asInterface(service);
@@ -68,7 +67,9 @@ public class DownloadCacheDialog extends Dialog {
             public void onServiceDisconnected(ComponentName name) {
 
             }
-        }, Context.BIND_AUTO_CREATE);
+        };
+
+        context.bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
 
         findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +98,12 @@ public class DownloadCacheDialog extends Dialog {
         });
     }
 
+    public void unbinderService(Context context) {
+        if (serviceConnection != null)
+            context.unbindService(serviceConnection);
+
+    }
+
     public String getBookId() {
         return bookId;
     }
@@ -119,4 +126,6 @@ public class DownloadCacheDialog extends Dialog {
         downloadTaskBean.setCurrentChapter(0);
         return downloadTaskBean;
     }
+
+
 }

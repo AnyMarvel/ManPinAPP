@@ -1,16 +1,19 @@
 package com.mp.android.apps.monke.readActivity;
 
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.database.ContentObserver;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.os.PowerManager;
 import android.provider.Settings;
@@ -35,6 +38,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.mp.android.apps.FeedbackActivity;
+import com.mp.android.apps.IDownloadBookInterface;
 import com.mp.android.apps.R;
 import com.mp.android.apps.main.ManpinWXActivity;
 import com.mp.android.apps.monke.readActivity.base.BaseMVPActivity;
@@ -789,6 +793,7 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
 
         mPageLoader.closeBook();
         mPageLoader = null;
+        downloadCacheDialog.unbinderService(this);
     }
 
     @Override
@@ -837,4 +842,5 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+
 }

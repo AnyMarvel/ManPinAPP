@@ -111,10 +111,11 @@ public class DownloadService extends BaseService {
 
                     //加载数据
                     int result = loadChapter(taskEvent.getBookId(), bookChapterBean);
-                    if (result == 1) {
-                        taskEvent.setStatus(DownloadTaskBean.STATUS_PAUSE);
-                        break;
-                    }
+                    //去除容错
+//                    if (result == 1) {
+//                        taskEvent.setStatus(DownloadTaskBean.STATUS_PAUSE);
+//                        break;
+//                    }
                     taskEvent.setCurrentChapter(i + 1);
                     Logger.d("=================:" + i);
                     downloadTaskBean.setCurrentChapter(i + 1);

@@ -1,5 +1,6 @@
 package com.mp.android.apps;
 
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;

@@ -21,10 +21,6 @@ import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
 
-/**
- * Created by newbiechen on 17-5-11.
- */
-
 public class FileUtils {
     //采用自己的格式去设置文件，防止文件被系统文件查询到
     public static final String SUFFIX_NB = ".nb";

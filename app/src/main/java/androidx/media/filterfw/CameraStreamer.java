@@ -801,7 +801,7 @@ public class CameraStreamer implements VideoStreamProvider {
             }
             this.mRecorder = new MediaRecorder();
             this.mRecorder.setCamera(this.mCamera);
-            this.mRecorder.setAudioSource(5);
+            this.mRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
             this.mRecorder.setVideoSource(1);
             this.mRecorder.setProfile(profile);
             this.mRecorder.setOutputFile(outputPath);

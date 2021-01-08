@@ -14,9 +14,6 @@ import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by newbiechen on 2018/1/14.
- */
 
 public class LocalFileLoader extends CursorLoader {
     private static final String TAG = "LocalFileLoader";

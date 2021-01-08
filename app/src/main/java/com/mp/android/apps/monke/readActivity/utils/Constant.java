@@ -8,9 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by newbiechen on 17-4-16.
- */
+
 
 public class Constant {
     /*SharedPreference*/

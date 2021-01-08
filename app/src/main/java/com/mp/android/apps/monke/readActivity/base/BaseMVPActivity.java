@@ -1,8 +1,5 @@
 package com.mp.android.apps.monke.readActivity.base;
 
-/**
- * Created by newbiechen on 17-4-25.
- */
 
 public abstract class BaseMVPActivity<T extends BaseContract.BasePresenter> extends BaseActivity{
 

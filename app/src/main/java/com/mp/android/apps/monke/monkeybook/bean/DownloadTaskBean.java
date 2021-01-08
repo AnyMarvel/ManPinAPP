@@ -19,9 +19,6 @@ import com.mp.android.apps.monke.monkeybook.dao.DaoSession;
 import com.mp.android.apps.monke.monkeybook.dao.BookChapterBeanDao;
 import com.mp.android.apps.monke.monkeybook.dao.DownloadTaskBeanDao;
 
-/**
- * Created by newbiechen on 17-5-11.
- */
 @Entity
 public class DownloadTaskBean implements Parcelable {
     public static final int STATUS_LOADING = 1;

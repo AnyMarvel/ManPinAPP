@@ -10,10 +10,6 @@ import com.mp.android.apps.monke.readActivity.base.adapter.ViewHolderImpl;
 import com.mp.android.apps.monke.readActivity.utils.BookManager;
 import com.mp.android.apps.monke.readActivity.view.TxtChapter;
 
-/**
- * Created by newbiechen on 17-5-16.
- */
-
 public class CategoryHolder extends ViewHolderImpl<TxtChapter> {
 
     private TextView mTvChapter;

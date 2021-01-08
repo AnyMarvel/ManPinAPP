@@ -5,9 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.mp.android.apps.monke.monkeybook.dao.DaoMaster;
 import org.greenrobot.greendao.database.Database;
 
-/**
- * Created by newbiechen on 2017/10/9.
- */
+
 
 public class MyOpenHelper extends DaoMaster.DevOpenHelper {
     public MyOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory) {

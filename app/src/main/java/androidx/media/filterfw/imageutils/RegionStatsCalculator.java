@@ -10,7 +10,7 @@ public class RegionStatsCalculator {
     private static final int MEAN_INDEX = 0;
     private static final int STDEV_INDEX = 1;
     private static final String TAG = "RegionStatsCalculator";
-    private static final boolean mLogVerbose = Log.isLoggable(TAG, 2);
+    private static final boolean mLogVerbose = Log.isLoggable(TAG, Log.VERBOSE);
     private final float[] mStats = new float[2];
 
     public static class Statistics {

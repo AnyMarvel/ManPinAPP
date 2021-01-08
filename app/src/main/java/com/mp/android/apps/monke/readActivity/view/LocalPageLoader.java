@@ -33,7 +33,6 @@ import io.reactivex.disposables.Disposable;
 import com.mp.android.apps.monke.readActivity.local.Void;
 
 /**
- * Created by newbiechen on 17-7-1.
  * 问题:
  * 1. 异常处理没有做好
  */

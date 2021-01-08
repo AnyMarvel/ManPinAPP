@@ -19,7 +19,6 @@ import static com.mp.android.apps.monke.readActivity.local.ReadSettingManager.SH
 
 
 /**
- * Created by newbiechen on 17-4-22.
  * 对文字操作的工具类
  */
 

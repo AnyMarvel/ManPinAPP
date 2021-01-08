@@ -13,7 +13,6 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
- * Created by newbiechen on 2018/1/14.
  * 获取媒体库的数据。
  */
 

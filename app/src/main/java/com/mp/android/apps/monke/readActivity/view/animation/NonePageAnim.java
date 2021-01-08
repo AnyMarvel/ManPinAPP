@@ -3,9 +3,6 @@ package com.mp.android.apps.monke.readActivity.view.animation;
 import android.graphics.Canvas;
 import android.view.View;
 
-/**
- * Created by newbiechen on 17-7-24.
- */
 
 public class NonePageAnim extends HorizonPageAnim{
 

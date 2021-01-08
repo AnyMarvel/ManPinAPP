@@ -9,7 +9,6 @@ import android.view.ViewConfiguration;
 import com.mp.android.apps.monke.readActivity.view.animation.PageAnimation;
 
 /**
- * Created by newbiechen on 17-7-24.
  * 横向动画的模板
  */
 

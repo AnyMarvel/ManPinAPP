@@ -12,9 +12,6 @@ import com.mp.android.apps.MyApplication;
 
 import java.lang.reflect.Method;
 
-/**
- * Created by newbiechen on 17-5-1.
- */
 
 public class ScreenUtils {
 

@@ -1,5 +1,6 @@
 package androidx.media.filterpacks.sensors;
 
+import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -25,7 +26,7 @@ public final class MotionSensor extends Filter implements SensorEventListener {
     }
 
     protected void onPrepare() {
-        this.mSensorManager = (SensorManager) getContext().getApplicationContext().getSystemService("sensor");
+        this.mSensorManager = (SensorManager) getContext().getApplicationContext().getSystemService(Context.SENSOR_SERVICE);
         this.mSensor = this.mSensorManager.getDefaultSensor(10);
         this.mSensorManager.registerListener(this, this.mSensor, 2);
     }

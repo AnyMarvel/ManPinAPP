@@ -69,7 +69,7 @@ public class DefaultExploreFragment extends Fragment {
         //设置布局管理器
         recyclerView.setLayoutManager(layoutManager);
         //设置为垂直布局，这也是默认的
-        layoutManager.setOrientation(OrientationHelper.VERTICAL);
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
         exploreSquareAdapter = new ExploreSquareAdapter(getContext());
         //设置Adapter
         recyclerView.setAdapter(exploreSquareAdapter);

@@ -32,9 +32,7 @@ import java.util.Arrays;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by newbiechen on 17-5-18.
- */
+
 
 public class ReadSettingDialog extends Dialog {
     private static final String TAG = "ReadSettingDialog";

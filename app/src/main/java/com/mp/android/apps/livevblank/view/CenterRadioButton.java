@@ -4,10 +4,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.widget.Button;
-import android.widget.RadioButton;
 
-public class CenterRadioButton extends RadioButton {
+
+import androidx.appcompat.widget.AppCompatRadioButton;
+
+public class CenterRadioButton extends AppCompatRadioButton {
     public CenterRadioButton(Context context) {
         super(context);
     }

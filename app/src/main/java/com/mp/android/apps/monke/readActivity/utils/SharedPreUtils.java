@@ -5,9 +5,6 @@ import android.content.SharedPreferences;
 
 import com.mp.android.apps.MyApplication;
 
-/**
- * Created by newbiechen on 17-4-16.
- */
 
 public class SharedPreUtils {
     private static final String SHARED_NAME = "IReader_pref";

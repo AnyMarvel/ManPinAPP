@@ -8,7 +8,6 @@ import android.view.animation.LinearInterpolator;
 import android.widget.Scroller;
 
 /**
- * Created by newbiechen on 17-7-24.
  * 翻页动画抽象类
  */
 

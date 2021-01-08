@@ -5,10 +5,6 @@ import com.mp.android.apps.monke.readActivity.utils.SharedPreUtils;
 import com.mp.android.apps.monke.readActivity.view.PageMode;
 import com.mp.android.apps.monke.readActivity.view.PageStyle;
 
-/**
- * Created by newbiechen on 17-5-17.
- * 阅读器的配置管理
- */
 
 public class ReadSettingManager {
     /*************实在想不出什么好记的命名方式。。******************/

@@ -7,9 +7,6 @@ import android.widget.ImageView;
 import com.mp.android.apps.R;
 import com.mp.android.apps.monke.readActivity.base.adapter.ViewHolderImpl;
 
-/**
- * Created by newbiechen on 17-5-19.
- */
 
 public class PageStyleHolder extends ViewHolderImpl<Drawable> {
 

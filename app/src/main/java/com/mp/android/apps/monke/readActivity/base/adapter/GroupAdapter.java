@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * Created by newbiechen on 17-5-5.
  * 用于头标签 + 表格的布局View
  */
 

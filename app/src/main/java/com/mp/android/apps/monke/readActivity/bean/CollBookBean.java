@@ -23,7 +23,6 @@ import com.mp.android.apps.monke.monkeybook.dao.BookChapterBeanDao;
 import com.mp.android.apps.monke.monkeybook.dao.CollBookBeanDao;
 
 /**
- * Created by newbiechen on 17-5-8.
  * 收藏的书籍
  */
 @Entity

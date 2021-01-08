@@ -8,10 +8,6 @@ import com.mp.android.apps.monke.readActivity.view.TxtChapter;
 
 import java.util.List;
 
-/**
- * Created by newbiechen on 17-5-16.
- */
-
 public interface ReadContract extends BaseContract {
     interface View extends BaseContract.BaseView {
         void showCategory(List<BookChapterBean> bookChapterList);

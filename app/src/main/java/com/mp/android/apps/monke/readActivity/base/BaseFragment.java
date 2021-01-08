@@ -14,9 +14,6 @@ import butterknife.Unbinder;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
-/**
- * Created by newbiechen on 17-3-31.
- */
 
 public abstract class BaseFragment extends Fragment {
 

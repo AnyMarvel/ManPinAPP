@@ -1,8 +1,6 @@
 package com.mp.android.apps.monke.readActivity.view;
 
-/**
- * Created by newbiechen on 17-7-1.
- */
+
 
 public class TxtChapter {
 

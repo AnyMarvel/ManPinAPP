@@ -8,9 +8,6 @@ import com.mp.android.apps.monke.readActivity.base.EasyAdapter;
 import com.mp.android.apps.monke.readActivity.base.adapter.IViewHolder;
 import com.mp.android.apps.monke.readActivity.view.TxtChapter;
 
-/**
- * Created by newbiechen on 17-6-5.
- */
 
 public class CategoryAdapter extends EasyAdapter<TxtChapter> {
     private int currentSelected = 0;

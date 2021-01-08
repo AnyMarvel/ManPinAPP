@@ -41,7 +41,7 @@ public class MediaPlayerSource extends Filter {
     private ImageShader mFrameExtractor;
     private Object mFrameMutex = new Object();
     private int mHeight;
-    private final boolean mLogVerbose = Log.isLoggable(TAG, 2);
+    private final boolean mLogVerbose = Log.isLoggable(TAG, Log.VERBOSE);
     private boolean mLooping = false;
     private TextureSource mMediaFrame;
     private MediaPlayer mMediaPlayer;

@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by newbiechen on 17-3-21.
- */
+
 
 public abstract class BaseListAdapter <T> extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 

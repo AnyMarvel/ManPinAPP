@@ -7,9 +7,6 @@ import com.mp.android.apps.monke.monkeybook.dao.DaoMaster;
 import com.mp.android.apps.monke.monkeybook.dao.DaoSession;
 
 
-/**
- * Created by newbiechen on 17-4-26.
- */
 
 public class DaoDbHelper {
     private static final String DB_NAME = "manpinbook_db";

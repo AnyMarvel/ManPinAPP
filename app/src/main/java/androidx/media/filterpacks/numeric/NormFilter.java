@@ -10,7 +10,7 @@ import androidx.media.filterfw.Signature;
 
 public final class NormFilter extends Filter {
     private static final String TAG = "NormFilter";
-    private static boolean mLogVerbose = Log.isLoggable(TAG, 2);
+    private static boolean mLogVerbose = Log.isLoggable(TAG, Log.VERBOSE);
 
     public NormFilter(MffContext context, String name) {
         super(context, name);

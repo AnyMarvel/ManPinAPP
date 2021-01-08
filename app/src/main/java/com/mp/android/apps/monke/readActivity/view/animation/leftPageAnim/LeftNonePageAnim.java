@@ -5,9 +5,7 @@ import android.view.View;
 
 import com.mp.android.apps.monke.readActivity.view.animation.HorizonPageAnim;
 
-/**
- * Created by newbiechen on 17-7-24.
- */
+
 
 public class LeftNonePageAnim extends LeftHorizonPageAnim {
 

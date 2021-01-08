@@ -6,9 +6,6 @@ import android.net.NetworkInfo;
 
 import com.mp.android.apps.MyApplication;
 
-/**
- * Created by newbiechen on 17-5-11.
- */
 
 public class NetworkUtils {
 

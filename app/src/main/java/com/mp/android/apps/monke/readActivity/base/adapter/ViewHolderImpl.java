@@ -5,10 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by newbiechen on 17-5-17.
- */
-
 public abstract class ViewHolderImpl<T> implements IViewHolder<T> {
     private View view;
     private Context context;

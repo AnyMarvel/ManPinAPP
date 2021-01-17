@@ -114,6 +114,7 @@ public class ReadSettingDialog extends Dialog {
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.gravity = Gravity.BOTTOM;
         window.setAttributes(lp);
+        window.getDecorView().setBackground(null);
     }
 
     private void initData() {

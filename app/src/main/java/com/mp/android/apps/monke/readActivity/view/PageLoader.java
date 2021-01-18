@@ -9,10 +9,12 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.TextPaint;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
 
+import com.mp.android.apps.monke.readActivity.ReadActivity;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
 import com.mp.android.apps.monke.readActivity.local.ReadSettingManager;
 import com.mp.android.apps.monke.readActivity.bean.BookRecordBean;
@@ -34,7 +36,6 @@ import io.reactivex.SingleEmitter;
 import io.reactivex.SingleObserver;
 import io.reactivex.SingleOnSubscribe;
 import io.reactivex.disposables.Disposable;
-
 
 
 public abstract class PageLoader {
@@ -723,6 +724,11 @@ public abstract class PageLoader {
     }
 
     private void drawBackground(Bitmap bitmap, boolean isUpdate) {
+        if (bitmap == null) {
+            Toast.makeText(mContext, "数据源绘制界面错误,请重试或更换源,若无法解决请到我的界面联系漫品小编", Toast.LENGTH_LONG).show();
+            ((ReadActivity) mContext).finish();
+            return;
+        }
         Canvas canvas = new Canvas(bitmap);
         int tipMarginHeight = ScreenUtils.dpToPx(3);
         if (!isUpdate) {

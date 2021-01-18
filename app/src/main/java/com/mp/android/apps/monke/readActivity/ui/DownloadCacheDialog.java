@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import com.mp.android.apps.IDownloadBookInterface;
 import com.mp.android.apps.R;
 import com.mp.android.apps.monke.monkeybook.bean.DownloadTaskBean;
+import com.mp.android.apps.monke.monkeybook.service.DownloadService;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
 import com.mp.android.apps.utils.Logger;
@@ -53,9 +54,9 @@ public class DownloadCacheDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.read_book_cache_download_dialog);
         tv_download = findViewById(R.id.tv_download);
-        Intent serviceIntent = new Intent();
-        serviceIntent.setAction("com.mp.android.apps.monke.monkeybook.service.DownloadService_action");
-        serviceIntent.setPackage(context.getPackageName());
+        Intent serviceIntent = new Intent(context, DownloadService.class);
+//        serviceIntent.setAction("com.mp.android.apps.monke.monkeybook.service.DownloadService_action");
+//        serviceIntent.setPackage(context.getPackageName());
 
         serviceConnection = new ServiceConnection() {
             @Override

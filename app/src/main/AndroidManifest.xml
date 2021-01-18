@@ -64,6 +64,7 @@
             android:launchMode="singleTask" />
 
         <activity android:name=".monke.monkeybook.view.impl.DownloadBookActivity" />
+        <activity android:name=".TranslucentActivity"/>
         <activity
             android:name=".monke.monkeybook.view.impl.SearchActivity"
             android:configChanges="locale|keyboardHidden|orientation|screenSize"

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.multidex.MultiDex;
 
 import com.mp.android.apps.monke.monkeybook.ProxyManager;
+import com.mp.android.apps.monke.monkeybook.service.DownloadService;
 import com.mp.android.apps.utils.Logger;
 import com.tencent.bugly.Bugly;
 
@@ -65,17 +66,17 @@ public class MyApplication extends Application {
     }
 
     private void startDownloadService() {
-        Intent serviceIntent = new Intent();
-        serviceIntent.setAction("com.mp.android.apps.monke.monkeybook.service.DownloadService_action");
-        serviceIntent.setPackage(getPackageName());
+        Intent serviceIntent = new Intent(this, DownloadService.class);
+//        serviceIntent.setAction("com.mp.android.apps.monke.monkeybook.service.DownloadService_action");
+//        serviceIntent.setPackage(getPackageName());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             try {
                 startService(serviceIntent);
             } catch (Exception e) {
                 Logger.d("startDownloadService", Arrays.toString(e.getStackTrace()));
-                Intent activityIntent = new Intent();
-                serviceIntent.setAction("com.mp.android.apps.TranslucentActivity");
-                serviceIntent.setPackage(getPackageName());
+                Intent activityIntent = new Intent(this, TranslucentActivity.class);
+//                serviceIntent.setAction("com.mp.android.apps.TranslucentActivity");
+//                serviceIntent.setPackage(getPackageName());
                 activityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(activityIntent);
             }

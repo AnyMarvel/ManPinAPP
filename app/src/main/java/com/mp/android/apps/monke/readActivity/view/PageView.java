@@ -120,6 +120,7 @@ public class PageView extends View {
                 break;
             default:
                 mPageAnim = new SimulationPageAnim(mViewWidth, mViewHeight, this, mPageAnimListener);
+                break;
         }
     }
 

@@ -1,10 +1,10 @@
 package com.mp.android.apps.welcome;
 
-import android.animation.Animator;
-import android.animation.ValueAnimator;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextPaint;
@@ -15,9 +15,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 
 import com.mp.android.apps.R;
 import com.mp.android.apps.main.MainActivity;
@@ -27,9 +25,8 @@ import com.mp.android.apps.utils.SharedPreferenceUtil;
 
 public class WelcomeActivity extends MBaseActivity {
 
-
-    private ValueAnimator welAnimator;
     private String SP_PRIVACY = "sp_privacy";
+
 
     @Override
     protected IPresenter initInjector() {
@@ -39,23 +36,19 @@ public class WelcomeActivity extends MBaseActivity {
     @Override
     protected void onCreateActivity() {
         setContentView(R.layout.activity_welcome);
-    }
 
-    @Override
-    protected void initData() {
-        welAnimator = ValueAnimator.ofFloat(1f, 0f).setDuration(800);
-        welAnimator.setStartDelay(500);
-    }
-
-
-    @Override
-    protected void firstRequest() {
         if ((boolean) SharedPreferenceUtil.get(WelcomeActivity.this, SP_PRIVACY, false)) {
             startMainActivity();
         } else {
             showPrivacy();
         }
     }
+
+    @Override
+    protected void initData() {
+
+    }
+
 
     private void showPrivacy() {
         final PrivacyDialog dialog = new PrivacyDialog(WelcomeActivity.this);
@@ -143,6 +136,7 @@ public class WelcomeActivity extends MBaseActivity {
      * 启动主界面Activity
      */
     private void startMainActivity() {
-        startActivityByAnim(new Intent(WelcomeActivity.this, MainActivity.class), android.R.anim.fade_in, android.R.anim.fade_out);
+        startActivityByAnim(new Intent(WelcomeActivity.this, MainActivity.class), 1, 0);
+
     }
 }

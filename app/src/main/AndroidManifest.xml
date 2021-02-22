@@ -30,6 +30,7 @@
         <activity
             android:name=".login.LoginActivity"
             android:launchMode="singleTask" />
+        <activity android:name=".main.bookR.view.impl.BookRActivity" />
         <activity
             android:name=".explore.ExploreSquareActivity"
             android:launchMode="singleTask" />
@@ -60,10 +61,6 @@
             android:exported="false"
             android:label="@string/preferences_license_title"
             android:theme="@style/Theme.AppCompat.Light" />
-
-        <activity
-            android:name=".monke.monkeybook.view.impl.BookMainActivity"
-            android:launchMode="singleTask" />
 
         <activity android:name=".monke.monkeybook.view.impl.DownloadBookActivity" />
         <activity android:name=".TranslucentActivity" />

@@ -3,19 +3,17 @@ package com.mp.android.apps.main.home.view.impl;
 import android.Manifest;
 import android.app.ActivityOptions;
 import android.content.Intent;
-
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.google.android.apps.photolab.storyboard.activity.ComicSplash;
 import com.mp.android.apps.R;
 import com.mp.android.apps.livevblank.ChoiceItemActivity;
 import com.mp.android.apps.main.MainActivity;
+import com.mp.android.apps.main.bookR.view.impl.BookRActivity;
 import com.mp.android.apps.main.home.adapter.MainFragmentRecycleAdapter;
 import com.mp.android.apps.main.home.adapter.OnHomeAdapterClickListener;
 import com.mp.android.apps.main.home.bean.HomeDesignBean;
@@ -26,7 +24,6 @@ import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
 import com.mp.android.apps.monke.monkeybook.presenter.impl.BookDetailPresenterImpl;
 import com.mp.android.apps.monke.monkeybook.view.impl.BookDetailActivity;
-import com.mp.android.apps.monke.monkeybook.view.impl.BookMainActivity;
 import com.mp.android.apps.monke.monkeybook.view.impl.SearchActivity;
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
@@ -138,7 +135,7 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
                 startActivity(intentPostcard);
                 break;
             case R.id.xiaoshuo:
-                Intent intentBook = new Intent(getActivity(), BookMainActivity.class);
+                Intent intentBook = new Intent(getActivity(), BookRActivity.class);
                 startActivity(intentBook);
                 break;
             case R.id.guangchang:

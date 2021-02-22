@@ -2,32 +2,25 @@ package com.mp.android.apps.main;
 
 
 import android.Manifest;
-
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.mp.android.apps.R;
-
 import com.mp.android.apps.StoryboardActivity;
 import com.mp.android.apps.explore.ExploreSquareActivity;
 import com.mp.android.apps.login.LoginActivity;
 import com.mp.android.apps.login.utils.LoginManager;
-import com.mp.android.apps.main.bookR.view.impl.BookRFragment;
+import com.mp.android.apps.main.bookR.view.impl.BookCollectionFragment;
 import com.mp.android.apps.main.home.view.impl.MainFragment;
 import com.mp.android.apps.main.personal.PersonFragment;
 import com.mp.android.apps.main.home.view.MyImageTextView;
 import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
-import com.mp.android.apps.monke.readActivity.ReadActivity;
-import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
@@ -38,7 +31,9 @@ import java.util.List;
 public class MainActivity extends StoryboardActivity implements View.OnClickListener {
     MainFragment mainFragment;
     PersonFragment personFragment;
-    BookRFragment bookRFragment;
+    BookCollectionFragment bookCollectionFragment;
+
+
     MyImageTextView zhuye;
     MyImageTextView shujia;
     MyImageTextView quanzi;
@@ -53,8 +48,8 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
         if (personFragment != null) {
             transaction.hide(personFragment);
         }
-        if (bookRFragment != null) {
-            transaction.hide(bookRFragment);
+        if (bookCollectionFragment != null) {
+            transaction.hide(bookCollectionFragment);
         }
     }
 
@@ -79,7 +74,7 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
         LoginManager.getInstance().initSP(this).initData();
         mainFragment = new MainFragment();
         personFragment = new PersonFragment();
-        bookRFragment = new BookRFragment();
+        bookCollectionFragment=new BookCollectionFragment();
         showFragment(mainFragment);
         initViews();
     }
@@ -166,11 +161,8 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
                 showFragment(mainFragment);
                 break;
             case R.id.shujia:
-                //todo 改造书架为fragment
                 changeNavImages(R.id.shujia);
-//                Intent intentBook = new Intent(MainActivity.this, BookMainActivity.class);
-//                startActivity(intentBook);
-                showFragment(bookRFragment);
+                showFragment(bookCollectionFragment);
                 break;
             case R.id.quanzi:
                 //todo  改造圈子为fragment

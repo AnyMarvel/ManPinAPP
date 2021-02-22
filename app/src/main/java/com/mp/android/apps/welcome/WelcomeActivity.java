@@ -27,9 +27,6 @@ import com.mp.android.apps.utils.SharedPreferenceUtil;
 
 public class WelcomeActivity extends MBaseActivity {
 
-    private ImageView ivBg;
-    private ImageView ivIcon;
-    private TextView tvIntro;
 
     private ValueAnimator welAnimator;
     private String SP_PRIVACY = "sp_privacy";
@@ -50,52 +47,11 @@ public class WelcomeActivity extends MBaseActivity {
         welAnimator.setStartDelay(500);
     }
 
-    @Override
-    protected void bindView() {
-        ivBg = (ImageView) findViewById(R.id.iv_bg);
-        ivIcon = (ImageView) findViewById(R.id.iv_icon);
-        tvIntro = (TextView) findViewById(R.id.tv_intro);
-    }
-
-    @Override
-    protected void bindEvent() {
-        welAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float alpha = (Float) animation.getAnimatedValue();
-                ivBg.setAlpha(alpha);
-                ivIcon.setAlpha(alpha);
-                tvIntro.setAlpha(1f - alpha);
-            }
-        });
-        welAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                startActivityByAnim(new Intent(WelcomeActivity.this, MainActivity.class), android.R.anim.fade_in, android.R.anim.fade_out);
-                finish();
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
-    }
 
     @Override
     protected void firstRequest() {
         if ((boolean) SharedPreferenceUtil.get(WelcomeActivity.this, SP_PRIVACY, false)) {
-            welAnimator.start();
+            startMainActivity();
         } else {
             showPrivacy();
         }
@@ -177,10 +133,16 @@ public class WelcomeActivity extends MBaseActivity {
                 dialog.dismiss();
 
                 SharedPreferenceUtil.put(WelcomeActivity.this, SP_PRIVACY, true);
-                welAnimator.start();
+                startMainActivity();
             }
         });
 
     }
 
+    /**
+     * 启动主界面Activity
+     */
+    private void startMainActivity() {
+        startActivityByAnim(new Intent(WelcomeActivity.this, MainActivity.class), android.R.anim.fade_in, android.R.anim.fade_out);
+    }
 }

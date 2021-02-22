@@ -30,14 +30,12 @@ import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implements IMainfragmentView, OnHomeAdapterClickListener {
 
-
     private RecyclerView recyclerView;
-
     private MainFragmentRecycleAdapter mainFragmentRecycleAdapter;
-
     @Override
     protected MainFragmentPresenterImpl initInjector() {
         return new MainFragmentPresenterImpl();
@@ -135,8 +133,7 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
                 startActivity(intentPostcard);
                 break;
             case R.id.xiaoshuo:
-                Intent intentBook = new Intent(getActivity(), BookRActivity.class);
-                startActivity(intentBook);
+                ((MainActivity) Objects.requireNonNull(getActivity())).showShujiaFragment();
                 break;
             case R.id.guangchang:
                 ((MainActivity) getActivity()).gotoExplore("广场");

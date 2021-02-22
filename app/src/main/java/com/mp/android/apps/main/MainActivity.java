@@ -4,13 +4,16 @@ package com.mp.android.apps.main;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentTransaction;
+
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import com.mp.android.apps.R;
 import com.mp.android.apps.StoryboardActivity;
 import com.mp.android.apps.explore.ExploreSquareActivity;
@@ -74,7 +77,7 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
         LoginManager.getInstance().initSP(this).initData();
         mainFragment = new MainFragment();
         personFragment = new PersonFragment();
-        bookCollectionFragment=new BookCollectionFragment();
+        bookCollectionFragment = new BookCollectionFragment();
         showFragment(mainFragment);
         initViews();
     }
@@ -176,6 +179,11 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
             default:
                 break;
         }
+    }
+
+    public void showShujiaFragment() {
+        changeNavImages(R.id.shujia);
+        showFragment(bookCollectionFragment);
     }
 
     private void changeNavImages(int id) {

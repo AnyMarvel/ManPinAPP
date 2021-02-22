@@ -312,7 +312,7 @@ public class BookRepository {
     }
 
     public void saveDownloadTask(DownloadTaskBean bean) {
-        saveBookChaptersWithAsync(bean.getBookChapters());
+//        saveBookChaptersWithAsync(bean.getBookChapters());
         mSession.getDownloadTaskBeanDao()
                 .insertOrReplace(bean);
     }

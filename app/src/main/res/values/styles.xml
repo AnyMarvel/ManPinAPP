@@ -115,4 +115,7 @@
         <item name="android:dividerHeight">0.5dp</item>
     </style>
 
+    <style name="APPTheme.FULL" parent="Theme.Design.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_icon</item>
+    </style>
 </resources>

@@ -10,6 +10,8 @@ import android.text.TextUtils;
 import androidx.annotation.Nullable;
 
 import com.mp.android.apps.IDownloadBookInterface;
+import com.mp.android.apps.monke.basemvplib.impl.BaseActivity;
+import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
 import com.mp.android.apps.monke.monkeybook.bean.DownloadTaskBean;
 import com.mp.android.apps.monke.monkeybook.contentprovider.MyContentProvider;
 import com.mp.android.apps.monke.monkeybook.dao.BookChapterBeanDao;
@@ -18,6 +20,7 @@ import com.mp.android.apps.monke.monkeybook.model.impl.WebBookModelImpl;
 import com.mp.android.apps.monke.monkeybook.utils.NetworkUtils;
 import com.mp.android.apps.monke.readActivity.base.BaseService;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
+import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
 import com.mp.android.apps.monke.readActivity.utils.BookManager;
 import com.mp.android.apps.utils.Logger;
@@ -28,7 +31,16 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
+import io.reactivex.SingleSource;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -39,6 +51,59 @@ public class DownloadService extends BaseService {
 
     //加载队列 //目前无用
     private final List<DownloadTaskBean> mDownloadTaskQueue = Collections.synchronizedList(new ArrayList<>());
+
+//    @Override
+//    public int onStartCommand(Intent intent, int flags, int startId) {
+//        List<CollBookBean> collBookBeanList = BookRepository.getInstance().getCollBooks();
+//
+//        for (CollBookBean collBookBean : collBookBeanList) {
+//            WebBookModelImpl.getInstance().getBookChapters(collBookBean).toObservable().flatMap(new Function<List<BookChapterBean>, ObservableSource<?>>() {
+//                @Override
+//                public ObservableSource<?> apply(@NonNull List<BookChapterBean> bookChapterBeans) throws Exception {
+//                    return Observable.create(new ObservableOnSubscribe<Boolean>() {
+//
+//                        @Override
+//                        public void subscribe(@NonNull ObservableEmitter<Boolean> emitter) throws Exception {
+//                            collBookBean.__setDaoSession(BookRepository.getInstance().getSession());
+//
+//                            List<BookChapterBean> taskChapters = BookRepository.getInstance().getSession()
+//                                    .getBookChapterBeanDao()
+//                                    .queryBuilder()
+//                                    .where(BookChapterBeanDao.Properties.BookId.eq(collBookBean.get_id()))
+//                                    .list();
+//                            if (bookChapterBeans.size() > taskChapters.size()) {
+//                                BookRepository.getInstance().saveBookChaptersWithAsync(bookChapterBeans);
+//                                emitter.onNext(true);
+//                            } else {
+//                                emitter.onNext(false);
+//                            }
+//                        }
+//                    });
+//                }
+//            })
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new SimpleObserver<Boolean>() {
+//                        @Override
+//                        public void onNext(@NonNull Boolean aBoolean) {
+//                            if (aBoolean) {
+//
+//                            } else {
+//
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onError(@NonNull Throwable e) {
+//                            e.printStackTrace();
+//                        }
+//                    });
+//        }
+//
+//
+//        return super.onStartCommand(intent, flags, startId);
+//
+//    }
 
     @Nullable
     @Override

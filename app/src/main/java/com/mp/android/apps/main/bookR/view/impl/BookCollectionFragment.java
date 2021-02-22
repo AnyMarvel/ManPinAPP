@@ -129,7 +129,7 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
             @Override
             public void toSearch() {
                 //点击去选书
-                startActivityByAnim(new Intent(getActivity(), MainActivity.class), 0, 0);
+                startActivityByAnim(new Intent(getActivity(), BookRActivity.class), 0, 0);
             }
 
             @Override

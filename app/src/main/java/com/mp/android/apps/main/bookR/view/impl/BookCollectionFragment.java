@@ -1,23 +1,32 @@
 
-package com.mp.android.apps.monke.monkeybook.view.impl;
+package com.mp.android.apps.main.bookR.view.impl;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import android.view.MotionEvent;
+import android.os.Build;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-import com.mp.android.apps.main.MainActivity;
-import com.mp.android.apps.monke.monkeybook.BitIntentDataManager;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.mp.android.apps.R;
-import com.mp.android.apps.monke.monkeybook.base.MBaseActivity;
+import com.mp.android.apps.main.MainActivity;
+import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
+import com.mp.android.apps.monke.monkeybook.BitIntentDataManager;
 import com.mp.android.apps.monke.monkeybook.presenter.IMainPresenter;
 import com.mp.android.apps.monke.monkeybook.presenter.impl.BookDetailPresenterImpl;
 import com.mp.android.apps.monke.monkeybook.presenter.impl.MainPresenterImpl;
 import com.mp.android.apps.monke.monkeybook.view.IMainView;
 import com.mp.android.apps.monke.monkeybook.view.adapter.BookShelfAdapter;
+import com.mp.android.apps.monke.monkeybook.view.impl.BookDetailActivity;
+import com.mp.android.apps.monke.monkeybook.view.impl.DownloadBookActivity;
+import com.mp.android.apps.monke.monkeybook.view.impl.ImportBookActivity;
 import com.mp.android.apps.monke.monkeybook.view.popupwindow.ProxyPop;
 import com.mp.android.apps.monke.monkeybook.widget.refreshview.OnRefreshWithProgressListener;
 import com.mp.android.apps.monke.monkeybook.widget.refreshview.RefreshRecyclerView;
@@ -26,8 +35,10 @@ import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 
 import java.util.List;
 
-public class BookMainActivity extends MBaseActivity<IMainPresenter> implements IMainView {
-    private ImageView ivBack;
+import static com.mp.android.apps.monke.basemvplib.impl.BaseActivity.start_share_ele;
+
+public class BookCollectionFragment extends BaseFragment<IMainPresenter> implements IMainView {
+
     private ImageButton ibMoney;
     private ImageButton ibSettings;
     private ImageButton ibLibrary;
@@ -48,39 +59,35 @@ public class BookMainActivity extends MBaseActivity<IMainPresenter> implements I
         return new MainPresenterImpl();
     }
 
-
     @Override
-    protected void onCreateActivity() {
-        setContentView(R.layout.activity_book_main);
+    protected View createView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.activity_book_main, container, false);
     }
+
 
     @Override
     protected void initData() {
         bookShelfAdapter = new BookShelfAdapter();
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        return super.dispatchTouchEvent(ev);
-    }
 
     @Override
     protected void bindView() {
-        proxyPop = new ProxyPop(BookMainActivity.this);
+        proxyPop = new ProxyPop(getContext());
 
-        ivBack = findViewById(R.id.iv_back);
-        rfRvShelf = (RefreshRecyclerView) findViewById(R.id.rf_rv_shelf);
 
-        ibMoney = (ImageButton) findViewById(R.id.ib_money);
-        ibSettings = findViewById(R.id.ib_settings);
-        ibLibrary = (ImageButton) findViewById(R.id.ib_library);
-        ibAdd = (ImageButton) findViewById(R.id.ib_add);
-        ibDownload = (ImageButton) findViewById(R.id.ib_download);
+        rfRvShelf = (RefreshRecyclerView) view.findViewById(R.id.rf_rv_shelf);
 
-        rfRvShelf.setRefreshRecyclerViewAdapter(bookShelfAdapter, new LinearLayoutManager(this));
+        ibMoney = (ImageButton) view.findViewById(R.id.ib_money);
+        ibSettings = view.findViewById(R.id.ib_settings);
+        ibLibrary = (ImageButton) view.findViewById(R.id.ib_library);
+        ibAdd = (ImageButton) view.findViewById(R.id.ib_add);
+        ibDownload = (ImageButton) view.findViewById(R.id.ib_download);
 
-        flWarn = (FrameLayout) findViewById(R.id.fl_warn);
-        ivWarnClose = (ImageView) findViewById(R.id.iv_warn_close);
+        rfRvShelf.setRefreshRecyclerViewAdapter(bookShelfAdapter, new LinearLayoutManager(getContext()));
+
+        flWarn = (FrameLayout) view.findViewById(R.id.fl_warn);
+        ivWarnClose = (ImageView) view.findViewById(R.id.iv_warn_close);
     }
 
     @Override
@@ -95,7 +102,7 @@ public class BookMainActivity extends MBaseActivity<IMainPresenter> implements I
         ibDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(BookMainActivity.this, DownloadBookActivity.class));
+                startActivity(new Intent(getActivity(), DownloadBookActivity.class));
             }
         });
         ibMoney.setOnClickListener(new View.OnClickListener() {
@@ -104,35 +111,30 @@ public class BookMainActivity extends MBaseActivity<IMainPresenter> implements I
                 //点击打赏
             }
         });
-        ivBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
         ibLibrary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityByAnim(new Intent(BookMainActivity.this, MainActivity.class), 0, 0);
+                startActivityByAnim(new Intent(getActivity(), BookRActivity.class), 0, 0);
             }
         });
         ibAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //点击更多
-                startActivityByAnim(new Intent(BookMainActivity.this, ImportBookActivity.class), 0, 0);
+                startActivityByAnim(new Intent(getActivity(), ImportBookActivity.class), 0, 0);
             }
         });
         bookShelfAdapter.setItemClickListener(new BookShelfAdapter.OnItemClickListener() {
             @Override
             public void toSearch() {
                 //点击去选书
-                startActivityByAnim(new Intent(BookMainActivity.this, MainActivity.class), 0, 0);
+                startActivityByAnim(new Intent(getActivity(), MainActivity.class), 0, 0);
             }
 
             @Override
             public void onClick(CollBookBean collBookBean, int index) {
-                Intent intent = new Intent(BookMainActivity.this, ReadActivity.class);
+                Intent intent = new Intent(getActivity(), ReadActivity.class);
 
                 intent.putExtra(ReadActivity.EXTRA_COLL_BOOK, collBookBean);
                 intent.putExtra(ReadActivity.EXTRA_IS_COLLECTED, true);
@@ -141,7 +143,7 @@ public class BookMainActivity extends MBaseActivity<IMainPresenter> implements I
 
             @Override
             public void onLongClick(View animView, CollBookBean bookShelfBean, int index) {
-                Intent intent = new Intent(BookMainActivity.this, BookDetailActivity.class);
+                Intent intent = new Intent(getActivity(), BookDetailActivity.class);
                 intent.putExtra("from", BookDetailPresenterImpl.FROM_BOOKSHELF);
                 String key = String.valueOf(System.currentTimeMillis());
                 intent.putExtra("data_key", key);
@@ -177,6 +179,7 @@ public class BookMainActivity extends MBaseActivity<IMainPresenter> implements I
         mPresenter.queryBookShelf(false);
     }
 
+
     @Override
     public void refreshBookShelf(List<CollBookBean> bookShelfBeanList) {
         bookShelfAdapter.replaceAll(bookShelfBeanList);
@@ -196,7 +199,7 @@ public class BookMainActivity extends MBaseActivity<IMainPresenter> implements I
     @Override
     public void refreshError(String error) {
         refreshFinish();
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -209,4 +212,17 @@ public class BookMainActivity extends MBaseActivity<IMainPresenter> implements I
         rfRvShelf.getRpb().setMaxProgress(x);
     }
 
+    private void startActivityByAnim(Intent intent, int animIn, int animExit) {
+        startActivity(intent);
+        getActivity().overridePendingTransition(animIn, animExit);
+    }
+
+    private void startActivityByAnim(Intent intent, @NonNull View view, @NonNull String transitionName, int animIn, int animExit) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            intent.putExtra(start_share_ele, true);
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity(), view, transitionName).toBundle());
+        } else {
+            startActivityByAnim(intent, animIn, animExit);
+        }
+    }
 }

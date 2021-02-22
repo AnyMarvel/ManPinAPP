@@ -29,7 +29,7 @@
         android:layout_marginBottom="10dp"
         android:layout_weight="1"
         imageText:image="@drawable/shujia"
-        imageText:text="书城"
+        imageText:text="书架"
         imageText:textColor="@color/colorGray" />
 
     <com.mp.android.apps.main.home.view.MyImageTextView

@@ -1,10 +1,7 @@
 package com.mp.android.apps.main.bookR.view.impl;
 
 import android.content.Intent;
-import android.media.Image;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,20 +13,21 @@ import com.mp.android.apps.main.bookR.adapter.MybookViewPagerAdapter;
 import com.mp.android.apps.main.bookR.presenter.IBookRFragmentPresenter;
 import com.mp.android.apps.main.bookR.presenter.impl.BookRFragmentPresenterImpl;
 import com.mp.android.apps.main.bookR.view.IBookRFragmentView;
+import com.mp.android.apps.monke.basemvplib.impl.BaseActivity;
 import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
 import com.mp.android.apps.monke.monkeybook.view.impl.SearchActivity;
-import com.mp.android.apps.monke.monkeybook.widget.refreshview.BaseRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookRFragment extends BaseFragment<IBookRFragmentPresenter> implements IBookRFragmentView, View.OnClickListener {
+public class BookRActivity extends BaseActivity<IBookRFragmentPresenter> implements IBookRFragmentView, View.OnClickListener {
     public TextView layoutRecommend;
     public TextView layoutMan;
     public TextView layoutWomen;
     private ViewPager viewPager;
     private List<BaseFragment> sourceList;
     private ImageView searchImage;
+    private ImageView ivBack;
 
     ViewPagerIndicator viewPagerIndicator;
     /**
@@ -53,7 +51,6 @@ public class BookRFragment extends BaseFragment<IBookRFragmentPresenter> impleme
 
     @Override
     protected void initData() {
-        super.initData();
         sourceList = new ArrayList<>();
         recommendFagment = new BookRRecommendFImpl();
         manFragment = new BookRManFImpl();
@@ -63,16 +60,18 @@ public class BookRFragment extends BaseFragment<IBookRFragmentPresenter> impleme
     @Override
     protected void bindView() {
         super.bindView();
-        layoutRecommend = view.findViewById(R.id.mp_bookr_layout_recommend);
+        layoutRecommend = findViewById(R.id.mp_bookr_layout_recommend);
         layoutRecommend.setOnClickListener(this);
-        layoutMan = view.findViewById(R.id.mp_bookr_layout_men);
+        layoutMan = findViewById(R.id.mp_bookr_layout_men);
         layoutMan.setOnClickListener(this);
-        layoutWomen = view.findViewById(R.id.mp_bookr_layout_women);
+        layoutWomen = findViewById(R.id.mp_bookr_layout_women);
         layoutWomen.setOnClickListener(this);
-        viewPager = view.findViewById(R.id.mp_bookr_viewpager);
-        viewPagerIndicator = view.findViewById(R.id.indicator_circle_line);
-        searchImage=view.findViewById(R.id.bookr_fragment_search);
+        viewPager = findViewById(R.id.mp_bookr_viewpager);
+        viewPagerIndicator = findViewById(R.id.indicator_circle_line);
+        searchImage = findViewById(R.id.bookr_fragment_search);
         searchImage.setOnClickListener(this);
+        ivBack = findViewById(R.id.iv_back);
+        ivBack.setOnClickListener(this);
 
     }
 
@@ -82,7 +81,7 @@ public class BookRFragment extends BaseFragment<IBookRFragmentPresenter> impleme
         sourceList.add(recommendFagment);
         sourceList.add(manFragment);
         sourceList.add(womanFragmen);
-        viewPager.setAdapter(new MybookViewPagerAdapter(getFragmentManager(), sourceList));
+        viewPager.setAdapter(new MybookViewPagerAdapter(getSupportFragmentManager(), sourceList));
         viewPager.setOffscreenPageLimit(3);
         viewPager.addOnPageChangeListener(new MybookViewPageChangeListener());
         viewPagerIndicator.setViewPager(viewPager, sourceList.size());
@@ -94,9 +93,10 @@ public class BookRFragment extends BaseFragment<IBookRFragmentPresenter> impleme
     }
 
     @Override
-    protected View createView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.mp_book_r_layout, container, false);
+    protected void onCreateActivity() {
+        setContentView(R.layout.mp_book_r_layout);
     }
+
 
     @Override
     public void onClick(View v) {
@@ -112,8 +112,11 @@ public class BookRFragment extends BaseFragment<IBookRFragmentPresenter> impleme
                 viewPager.setCurrentItem(WOMANFRAGMENT);
                 break;
             case R.id.bookr_fragment_search:
-                Intent searchIntent = new Intent(getActivity(), SearchActivity.class);
+                Intent searchIntent = new Intent(this, SearchActivity.class);
                 startActivity(searchIntent);
+                break;
+            case R.id.iv_back:
+                super.onBackPressed();
                 break;
             default:
                 break;

@@ -121,7 +121,7 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
                     Toast.LENGTH_SHORT).show();
             exitTime = System.currentTimeMillis();
         } else {
-            finish();
+            finishAffinity();
             System.exit(0);
         }
     }

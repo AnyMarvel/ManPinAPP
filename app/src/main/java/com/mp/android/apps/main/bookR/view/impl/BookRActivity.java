@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import androidx.viewpager.widget.ViewPager;
 
-import com.lwj.widget.viewpagerindicator.ViewPagerIndicator;
+import com.google.android.material.tabs.TabLayout;
 import com.mp.android.apps.R;
 import com.mp.android.apps.main.bookR.adapter.MybookViewPagerAdapter;
 import com.mp.android.apps.main.bookR.presenter.IBookRFragmentPresenter;
@@ -29,7 +29,7 @@ public class BookRActivity extends BaseActivity<IBookRFragmentPresenter> impleme
     private ImageView searchImage;
     private ImageView ivBack;
 
-    ViewPagerIndicator viewPagerIndicator;
+    private TabLayout viewPagerIndicator;
     /**
      * 推荐fragment
      */
@@ -67,7 +67,7 @@ public class BookRActivity extends BaseActivity<IBookRFragmentPresenter> impleme
         layoutWomen = findViewById(R.id.mp_bookr_layout_women);
         layoutWomen.setOnClickListener(this);
         viewPager = findViewById(R.id.mp_bookr_viewpager);
-        viewPagerIndicator = findViewById(R.id.indicator_circle_line);
+        viewPagerIndicator = findViewById(R.id.tablayout);
         searchImage = findViewById(R.id.bookr_fragment_search);
         searchImage.setOnClickListener(this);
         ivBack = findViewById(R.id.iv_back);
@@ -84,7 +84,11 @@ public class BookRActivity extends BaseActivity<IBookRFragmentPresenter> impleme
         viewPager.setAdapter(new MybookViewPagerAdapter(getSupportFragmentManager(), sourceList));
         viewPager.setOffscreenPageLimit(3);
         viewPager.addOnPageChangeListener(new MybookViewPageChangeListener());
-        viewPagerIndicator.setViewPager(viewPager, sourceList.size());
+        //设置TabLayout的模式
+        viewPagerIndicator.setTabMode(TabLayout.MODE_SCROLLABLE);
+        //关联ViewPager和TabLayout
+        viewPagerIndicator.setupWithViewPager(viewPager,false);
+
     }
 
     @Override

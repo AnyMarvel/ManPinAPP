@@ -40,12 +40,12 @@ public abstract class LoginBaseFragment<T extends IPresenter> extends BaseFragme
      * fragment返回事件处理
      */
     public void onBackPressed() {
-        Objects.requireNonNull(getActivity()).getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                Objects.requireNonNull(getActivity()).setResult(-1);
-                Objects.requireNonNull(getActivity()).overridePendingTransition(0, 0);
-                Objects.requireNonNull(getActivity()).finish();
+                requireActivity().setResult(-1);
+                requireActivity().overridePendingTransition(0, 0);
+                requireActivity().finish();
             }
         });
 

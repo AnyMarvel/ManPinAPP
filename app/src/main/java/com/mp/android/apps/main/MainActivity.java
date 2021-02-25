@@ -2,6 +2,8 @@ package com.mp.android.apps.main;
 
 
 import android.Manifest;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -122,6 +124,9 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
             exitTime = System.currentTimeMillis();
         } else {
             finishAffinity();
+            //基于任务管理器 退出应用
+            ActivityManager am = (ActivityManager)getSystemService (Context.ACTIVITY_SERVICE);
+            am.killBackgroundProcesses(getPackageName());
             System.exit(0);
         }
     }

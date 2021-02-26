@@ -73,9 +73,11 @@
                     android:layout_height="48dp"
                     android:layout_marginLeft="20dp"
                     android:clickable="true"
-                    android:text="离线下载"
+                    android:drawableTop="@drawable/selector_icon_donwload_main"
+                    android:text="下载"
+                    android:gravity="center"
                     android:textColor="#CBCBCB"
-                    android:textSize="16sp" />
+                    android:textSize="10sp" />
 
                 <RelativeLayout
                     android:layout_width="120dp"

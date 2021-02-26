@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.mp.android.apps">
 
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <application
         android:name=".MyApplication"
         android:allowClearUserData="true"

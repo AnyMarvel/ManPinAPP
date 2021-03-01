@@ -41,10 +41,14 @@ import com.mp.android.apps.FeedbackActivity;
 import com.mp.android.apps.IDownloadBookInterface;
 import com.mp.android.apps.R;
 import com.mp.android.apps.main.ManpinWXActivity;
+import com.mp.android.apps.monke.monkeybook.bean.DownloadTaskBean;
+import com.mp.android.apps.monke.monkeybook.contentprovider.MyContentProvider;
+import com.mp.android.apps.monke.monkeybook.dao.DownloadTaskBeanDao;
 import com.mp.android.apps.monke.readActivity.base.BaseMVPActivity;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
+import com.mp.android.apps.monke.readActivity.local.DaoDbHelper;
 import com.mp.android.apps.monke.readActivity.local.ReadSettingManager;
 import com.mp.android.apps.monke.readActivity.ui.DownloadCacheDialog;
 import com.mp.android.apps.monke.readActivity.ui.ReadSettingDialog;
@@ -60,6 +64,7 @@ import com.mp.android.apps.monke.readActivity.view.category.CategoryAdapter;
 import com.mp.android.apps.utils.BrightnessUtils;
 import com.mp.android.apps.utils.Logger;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -179,7 +184,30 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
         @Override
         public void onChange(boolean selfChange, Uri uri) {
             super.onChange(selfChange);
+            //下载provider时间监听
+            if (uri.equals(MyContentProvider.CONTENT_URI)) {
+                Logger.d(TAG, "图书下载中---");
+                //解决由于Session造成的数据获取不及时问题
+                BookRepository.getInstance().getSession().getDownloadTaskBeanDao().detachAll();
+                DownloadTaskBean downloadTaskBean = DaoDbHelper.getInstance().getSession().getDownloadTaskBeanDao().queryBuilder()
+                        .where(DownloadTaskBeanDao.Properties.BookId.eq(mBookId)).build().unique();
+                if (downloadTaskBean != null) {
+                    int temp = (int) ((float) downloadTaskBean.getCurrentChapter() / (float) downloadTaskBean.getLastChapter() * 100);
+                    if (temp < 99) {
+                        // 创建一个数值格式化对象
+                        NumberFormat numberFormat = NumberFormat.getInstance();
+                        // 设置精确到小数点后2位
+                        numberFormat.setMaximumFractionDigits(2);
+                        String result = numberFormat.format((float) downloadTaskBean.getCurrentChapter() / (float) downloadTaskBean.getLastChapter() * 100) + "%";
+                        Logger.d(TAG, result);
+                        readBookCacheDownload.setText(result);
+                    } else {
+                        readBookCacheDownload.setText("已下载");
+                    }
 
+
+                }
+            }
             // 判断当前是否跟随屏幕亮度，如果不是则返回
             if (selfChange || !mSettingDialog.isBrightFollowSystem()) return;
 
@@ -292,6 +320,23 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
         //初始化离线下载Dialog弹框
         downloadCacheDialog = new DownloadCacheDialog(this);
         downloadCacheDialog.setBookId(mBookId);
+        //初始化下载按钮状态
+        //解决由于Session造成的数据获取不及时问题
+        BookRepository.getInstance().getSession().getDownloadTaskBeanDao().detachAll();
+        DownloadTaskBean downloadTaskBean = DaoDbHelper.getInstance().getSession().getDownloadTaskBeanDao().queryBuilder()
+                .where(DownloadTaskBeanDao.Properties.BookId.eq(mBookId)).build().unique();
+        if (downloadTaskBean != null) {
+            int temp = (int) ((float) downloadTaskBean.getCurrentChapter() / (float) downloadTaskBean.getLastChapter() * 100);
+            if (temp > 99) {
+                readBookCacheDownload.setText("已下载");
+                readBookCacheDownload.setClickable(false);
+            }
+        } else {
+            readBookCacheDownload.setText("下载");
+            readBookCacheDownload.setClickable(true);
+        }
+
+
     }
 
     private void initTopMenu() {
@@ -349,6 +394,7 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
                     cr.registerContentObserver(BRIGHTNESS_MODE_URI, false, mBrightObserver);
                     cr.registerContentObserver(BRIGHTNESS_URI, false, mBrightObserver);
                     cr.registerContentObserver(BRIGHTNESS_ADJ_URI, false, mBrightObserver);
+                    cr.registerContentObserver(MyContentProvider.CONTENT_URI, false, mBrightObserver);
                     isRegistered = true;
                 }
             }
@@ -742,10 +788,6 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
 
     // 退出
     private void exit() {
-//        // 返回给BookDetail。
-//        Intent result = new Intent();
-//        result.putExtra(BookDetailActivity.RESULT_IS_COLLECTED, isCollected);
-//        setResult(Activity.RESULT_OK, result);
         // 退出
         super.onBackPressed();
     }

@@ -73,7 +73,7 @@
                     android:layout_height="48dp"
                     android:layout_marginLeft="20dp"
                     android:clickable="true"
-                    android:drawableTop="@drawable/selector_icon_donwload_main"
+                    android:drawableTop="@drawable/icon_download_main_pre"
                     android:text="下载"
                     android:gravity="center"
                     android:textColor="#CBCBCB"

@@ -22,6 +22,7 @@ import com.mp.android.apps.monke.readActivity.base.BaseService;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
+import com.mp.android.apps.monke.readActivity.local.DaoDbHelper;
 import com.mp.android.apps.monke.readActivity.utils.BookManager;
 import com.mp.android.apps.utils.Logger;
 
@@ -129,6 +130,7 @@ public class DownloadService extends BaseService {
 
                 DownloadTaskBean downloadTaskBean = BookRepository.getInstance().getSession().getDownloadTaskBeanDao()
                         .queryBuilder().where(DownloadTaskBeanDao.Properties.TaskName.eq(taskEvent.getTaskName())).unique();
+
                 taskEvent.setStatus(DownloadTaskBean.STATUS_LOADING);
 
                 if (downloadTaskBean == null) {
@@ -204,6 +206,9 @@ public class DownloadService extends BaseService {
                 //green dao 数据库升级问题需要进行解决才能开启数据状态存储
                 //存储状态
                 downloadTaskBean = taskEvent;
+
+                //Entity is detached from DAO context
+                downloadTaskBean.__setDaoSession(DaoDbHelper.getInstance().getSession());
                 downloadTaskBean.update();
                 getContentResolver().notifyChange(MyContentProvider.CONTENT_URI, null);
                 //轮询下一个事件，用RxBus用来保证事件是在主线程

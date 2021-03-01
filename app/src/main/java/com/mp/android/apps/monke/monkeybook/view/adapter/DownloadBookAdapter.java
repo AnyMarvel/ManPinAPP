@@ -51,7 +51,7 @@ public class DownloadBookAdapter extends RecyclerView.Adapter<DownloadBookAdapte
         NumberFormat numberFormat = NumberFormat.getInstance();
         // 设置精确到小数点后2位
         numberFormat.setMaximumFractionDigits(2);
-        String result = numberFormat.format((float) downloadTaskBean.getCurrentChapter() / (float) downloadTaskBean.getBookChapters().size() * 100) + "%";
+        String result = numberFormat.format((float) downloadTaskBean.getCurrentChapter() / (float) downloadTaskBean.getLastChapter() * 100) + "%";
         holder.tvProgresss.setText(result);
 
 

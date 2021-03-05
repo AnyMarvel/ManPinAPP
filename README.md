@@ -1,6 +1,6 @@
 漫品Android客户端
 
-最新版本 下载地址: https://www.aimanpin.com
+最新版本 下载地址: http://www.aimanpin.com
 
 主要内容为以下三个板块:
 

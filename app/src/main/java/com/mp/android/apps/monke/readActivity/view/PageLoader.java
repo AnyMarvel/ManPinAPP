@@ -168,7 +168,7 @@ public abstract class PageLoader {
         mMarginWidth = ScreenUtils.dpToPx(DEFAULT_MARGIN_WIDTH);
         mMarginHeight = ScreenUtils.dpToPx(DEFAULT_MARGIN_HEIGHT);
         // 配置文字有关的参数
-        setUpTextParams(mSettingManager.getTextSize());
+        setUpTextParams(mSettingManager.getTextSize(), mSettingManager.getTextInterval());
     }
 
     /**
@@ -176,13 +176,13 @@ public abstract class PageLoader {
      *
      * @param textSize
      */
-    private void setUpTextParams(int textSize) {
+    private void setUpTextParams(int textSize, int textInterval) {
         // 文字大小
         mTextSize = textSize;
         mTitleSize = mTextSize + ScreenUtils.spToPx(EXTRA_TITLE_SIZE);
         // 行间距(大小为字体的一半)
-        mTextInterval = mTextSize / 2;
-        mTitleInterval = mTitleSize / 2;
+        mTextInterval = mTextSize / 2 * textInterval;
+        mTitleInterval = mTitleSize / 2 * textInterval;
         // 段落间距(大小为字体的高度)
         mTextPara = mTextSize;
         mTitlePara = mTitleSize;
@@ -364,9 +364,9 @@ public abstract class PageLoader {
      *
      * @param textSize
      */
-    public void setTextSize(int textSize) {
+    public void setTextSize(int textSize, int textInterval) {
         // 设置文字相关参数
-        setUpTextParams(textSize);
+        setUpTextParams(textSize, textInterval);
 
         // 设置画笔的字体大小
         mTextPaint.setTextSize(mTextSize);

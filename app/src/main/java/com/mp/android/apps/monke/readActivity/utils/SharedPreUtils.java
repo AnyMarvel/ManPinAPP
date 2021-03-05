@@ -55,4 +55,5 @@ public class SharedPreUtils {
     public boolean getBoolean(String key, boolean def) {
         return sharedReadable.getBoolean(key, def);
     }
+
 }

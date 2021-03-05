@@ -154,7 +154,7 @@
             android:textColor="#CBCBCB" />
 
         <RadioButton
-            android:id="@+id/reader_selector_line_spacing_small"
+            android:id="@+id/reader_icon_line_spacing_big"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_marginRight="18dp"

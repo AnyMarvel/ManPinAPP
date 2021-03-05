@@ -25,6 +25,7 @@ public class ReadSettingManager {
     public static final String SHARED_READ_VOLUME_TURN_PAGE = "shared_read_volume_turn_page";
     public static final String SHARED_READ_FULL_SCREEN = "shared_read_full_screen";
     public static final String SHARED_READ_CONVERT_TYPE = "shared_read_convert_type";
+    public static final String SHARED_READ_TEXT_INTERVAL = "shared_read_text_interval";
 
     private static volatile ReadSettingManager sInstance;
 
@@ -44,6 +45,15 @@ public class ReadSettingManager {
     private ReadSettingManager() {
         sharedPreUtils = SharedPreUtils.getInstance();
     }
+
+    public void setTextInvterval(int invterval) {
+        sharedPreUtils.putInt(SHARED_READ_TEXT_INTERVAL, invterval);
+    }
+
+    public int getTextInterval() {
+        return sharedPreUtils.getInt(SHARED_READ_TEXT_INTERVAL, 1);
+    }
+
 
     public void setPageStyle(PageStyle pageStyle) {
         sharedPreUtils.putInt(SHARED_READ_BG, pageStyle.ordinal());

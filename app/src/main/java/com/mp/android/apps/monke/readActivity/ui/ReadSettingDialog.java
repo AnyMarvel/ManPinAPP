@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -31,7 +32,6 @@ import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 
 
 public class ReadSettingDialog extends Dialog {
@@ -73,6 +73,16 @@ public class ReadSettingDialog extends Dialog {
     TextView mTvMore;
     @BindView(R.id.read_setting_rb_left)
     RadioButton readSettingRbLeft;
+    @BindView(R.id.reader_icon_line_spacing_small)
+    RadioButton readerIconLineSpacingSmall;
+    @BindView(R.id.reader_icon_line_spacing_middle)
+    RadioButton readerIconLineSpacingMiddle;
+    @BindView(R.id.reader_icon_line_spacing_big)
+    RadioButton readerIconLineSpacingBig;
+    @BindView(R.id.read_setting_line_spacing)
+    RadioGroup readSettingLineSpacing;
+    @BindView(R.id.read_setting_ll_menu)
+    LinearLayout readSettingLlMenu;
     /************************************/
     private PageStyleAdapter mPageStyleAdapter;
     private ReadSettingManager mSettingManager;
@@ -247,6 +257,7 @@ public class ReadSettingDialog extends Dialog {
         );
 
         //字体大小调节
+        //减小字体
         mTvFontMinus.setOnClickListener(
                 (v) -> {
                     if (mCbFontDefault.isChecked()) {
@@ -255,10 +266,10 @@ public class ReadSettingDialog extends Dialog {
                     int fontSize = Integer.valueOf(mTvFont.getText().toString()) - 1;
                     if (fontSize < 0) return;
                     mTvFont.setText(fontSize + "");
-                    mPageLoader.setTextSize(fontSize);
+                    mPageLoader.setTextSize(fontSize, mSettingManager.getTextInterval());
                 }
         );
-
+        //增大字体
         mTvFontPlus.setOnClickListener(
                 (v) -> {
                     if (mCbFontDefault.isChecked()) {
@@ -266,16 +277,16 @@ public class ReadSettingDialog extends Dialog {
                     }
                     int fontSize = Integer.valueOf(mTvFont.getText().toString()) + 1;
                     mTvFont.setText(fontSize + "");
-                    mPageLoader.setTextSize(fontSize);
+                    mPageLoader.setTextSize(fontSize, mSettingManager.getTextInterval());
                 }
         );
-
+        //默认字体
         mCbFontDefault.setOnCheckedChangeListener(
                 (buttonView, isChecked) -> {
                     if (isChecked) {
                         int fontSize = ScreenUtils.dpToPx(DEFAULT_TEXT_SIZE);
                         mTvFont.setText(fontSize + "");
-                        mPageLoader.setTextSize(fontSize);
+                        mPageLoader.setTextSize(fontSize, mSettingManager.getTextInterval());
                     }
                 }
         );
@@ -310,7 +321,30 @@ public class ReadSettingDialog extends Dialog {
                     mPageLoader.setPageMode(pageMode);
                 }
         );
-
+        readSettingLineSpacing.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                int textInterval = 1;
+                switch (checkedId) {
+                    case R.id.reader_icon_line_spacing_small:
+                        textInterval = 1;
+                        break;
+                    case R.id.reader_icon_line_spacing_middle:
+                        textInterval = 2;
+                        break;
+                    case R.id.reader_icon_line_spacing_big:
+                        textInterval = 3;
+                        break;
+                    default:
+                        textInterval = 1;
+                        break;
+                }
+                int fontSize = Integer.valueOf(mTvFont.getText().toString());
+                mTvFont.setText(fontSize + "");
+                mSettingManager.setTextInvterval(textInterval);
+                mPageLoader.setTextSize(fontSize, textInterval);
+            }
+        });
         //背景的点击事件
         mPageStyleAdapter.setOnItemClickListener(
                 (view, pos) -> mPageLoader.setPageStyle(PageStyle.values()[pos])

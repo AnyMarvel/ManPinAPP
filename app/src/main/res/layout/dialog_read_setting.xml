@@ -18,7 +18,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/read_setting_ll_menu"
     android:layout_width="match_parent"
-    android:layout_height="280dp"
+    android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:background="@color/nb.read.menu.bg"
     android:clickable="true"
@@ -122,6 +122,50 @@
             android:textColor="@color/selector_btn_read_setting"
             android:textSize="12dp" />
     </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/read_setting_line_spacing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/reader_icon_line_spacing_small"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="18dp"
+            android:checked="true"
+            android:layout_weight="1"
+            android:background="@drawable/reader_selector_line_spacing_small"
+            android:button="@null"
+            android:gravity="center"
+            android:textColor="#CBCBCB" />
+
+        <RadioButton
+            android:id="@+id/reader_icon_line_spacing_middle"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="18dp"
+            android:layout_weight="1"
+            android:background="@drawable/reader_selector_line_spacing_middle"
+            android:button="@null"
+            android:gravity="center"
+            android:textColor="#CBCBCB" />
+
+        <RadioButton
+            android:id="@+id/reader_selector_line_spacing_small"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="18dp"
+            android:layout_weight="1"
+            android:background="@drawable/reader_selector_line_spacing_big"
+            android:button="@null"
+            android:gravity="center"
+            android:textColor="#CBCBCB" />
+
+
+    </RadioGroup>
 
     <RadioGroup
         android:id="@+id/read_setting_rg_page_mode"

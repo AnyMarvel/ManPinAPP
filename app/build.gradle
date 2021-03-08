@@ -135,7 +135,8 @@ dependencies {
     api 'com.zhangmonke:ImmerseLayout:1.1.1'
     //ProgressBar
     api 'com.zhangmonke:MProgressBar:1.0.1'
-
+    //greenDao的数据库升级
+    api 'io.github.yuweiguocn:GreenDaoUpgradeHelper:v2.2.1'
     //AutofitTextView
     api 'me.grantland:autofittextview:0.2.1'
     //删除粒子效果

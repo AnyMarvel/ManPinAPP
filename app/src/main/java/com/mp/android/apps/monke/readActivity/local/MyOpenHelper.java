@@ -6,7 +6,7 @@ import com.mp.android.apps.monke.monkeybook.dao.DaoMaster;
 import org.greenrobot.greendao.database.Database;
 
 
-
+@Deprecated
 public class MyOpenHelper extends DaoMaster.DevOpenHelper {
     public MyOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory) {
         super(context, name, factory);

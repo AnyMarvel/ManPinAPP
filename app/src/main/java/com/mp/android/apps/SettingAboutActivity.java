@@ -1,18 +1,23 @@
 package com.mp.android.apps;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.libraries.social.licenses.LicenseMenuActivity;
 import com.tencent.bugly.beta.Beta;
@@ -37,6 +42,7 @@ public class SettingAboutActivity extends StoryboardActivity implements View.OnC
     private RelativeLayout kaiyuandizhi;
     private LinearLayout sinalayout;
     private RelativeLayout maillayout;
+    private TextView manpinVersion;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +60,9 @@ public class SettingAboutActivity extends StoryboardActivity implements View.OnC
         openSourceLicense = findViewById(R.id.open_source_license);
         iconImage = findViewById(R.id.iconImage);
         titleBackSetting = findViewById(R.id.title_back_setting);
-        kaiyuandizhi=findViewById(R.id.kaiyuandizhi);
+        kaiyuandizhi = findViewById(R.id.kaiyuandizhi);
+        manpinVersion = findViewById(R.id.manpin_version);
+        manpinVersion.setText(getVersion());
         rectRoundBitmap();
     }
 
@@ -123,5 +131,22 @@ public class SettingAboutActivity extends StoryboardActivity implements View.OnC
         iconImage.setImageDrawable(roundImg);
     }
 
+    /**
+     * 获取版本号    需要在Activity 中使用
+     *
+     * @return 当前应用的版本号
+     */
+
+    public String getVersion() {
+        String version = "";
+        try {
+            PackageManager manager = this.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
+            version = info.versionName;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return version;
+    }
 
 }

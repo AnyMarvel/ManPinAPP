@@ -13,7 +13,7 @@ import java.util.List;
  * 由于 BookChapterBean 做了一次表的大更改，所以需要自定义更新。
  * 作用：将数据库1.0 升级到 2.0
  */
-
+@Deprecated
 public class Update2Helper {
     private static final String TAG = "BookChapterHelper";
     private static final String CONVERSION_CLASS_NOT_FOUND_EXCEPTION = "MIGRATION HELPER - CLASS DOESN'T MATCH WITH THE CURRENT PARAMETERS";

@@ -47,6 +47,16 @@
         android:src="@drawable/launch" />
 
     <TextView
+        android:id="@+id/manpin_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20.0dip"
+        android:text="版本号"
+        android:textColor="#ff333333"
+        android:textSize="14.0sp" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -59,8 +69,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="10.0dip"
         android:layout_marginTop="12.0dip"
+        android:layout_marginBottom="10.0dip"
         android:textColor="#ff999999"
         android:textSize="12.0sp" />
 
@@ -75,10 +85,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingBottom="16.0dip"
             android:paddingLeft="10.0dip"
+            android:paddingTop="16.0dip"
             android:paddingRight="10.0dip"
-            android:paddingTop="16.0dip">
+            android:paddingBottom="16.0dip">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -109,10 +119,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingBottom="16.0dip"
             android:paddingLeft="10.0dip"
+            android:paddingTop="16.0dip"
             android:paddingRight="10.0dip"
-            android:paddingTop="16.0dip">
+            android:paddingBottom="16.0dip">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -132,15 +142,16 @@
                 android:layout_gravity="center"
                 android:src="@drawable/entry_arrow" />
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/kaiyuandizhi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingBottom="16.0dip"
             android:paddingLeft="10.0dip"
+            android:paddingTop="16.0dip"
             android:paddingRight="10.0dip"
-            android:paddingTop="16.0dip">
+            android:paddingBottom="16.0dip">
 
             <TextView
                 android:layout_width="wrap_content"

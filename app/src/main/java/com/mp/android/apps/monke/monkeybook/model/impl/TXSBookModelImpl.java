@@ -10,13 +10,18 @@ import com.mp.android.apps.monke.monkeybook.model.IReaderBookModel;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.ChapterInfoBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -25,11 +30,15 @@ import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
 import io.reactivex.SingleSource;
+
 import io.reactivex.functions.Function;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 
 public class TXSBookModelImpl extends MBaseModelImpl implements IReaderBookModel {
     public static final String TAG = "https://www.9txs.com";
+    public static final String SEARCH_TAG = "https://so.9txs.org";
 
     public static final String ORIGIN = "9txs.com";
 
@@ -41,16 +50,37 @@ public class TXSBookModelImpl extends MBaseModelImpl implements IReaderBookModel
 
     }
 
+    //比如可以这样生成Map<String, RequestBody> requestBodyMap
+    //Map<String, String> requestDataMap这里面放置上传数据的键值对。
+    private Map<String, RequestBody> generateRequestBody(Map<String, String> requestDataMap) {
+        Map<String, RequestBody> requestBodyMap = new HashMap<>();
+        for (String key : requestDataMap.keySet()) {
+            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),
+                    requestDataMap.get(key) == null ? "" : requestDataMap.get(key));
+            requestBodyMap.put(key, requestBody);
+        }
+        return requestBodyMap;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public Observable<List<SearchBookBean>> searchBook(String content, int page) {
 
-        return getRetrofitObject(TAG).create(TXSAPI.class).searchBook(content).flatMap(new Function<String, ObservableSource<List<SearchBookBean>>>() {
-            @Override
-            public ObservableSource<List<SearchBookBean>> apply(String s) throws Exception {
-                return analySearchBook(s);
-            }
-        });
+        try {
+            Map<String, String> requestDataMap = new HashMap<>();
+            requestDataMap.put("searchkey", content);
+            return getRetrofitObject(SEARCH_TAG).create(TXSAPI.class).searchBook(generateRequestBody(requestDataMap)).flatMap(new Function<String, ObservableSource<List<SearchBookBean>>>() {
+                @Override
+                public ObservableSource<List<SearchBookBean>> apply(String s) throws Exception {
+                    return analySearchBook(s);
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     //todo 修改搜索后跳转详情问题

@@ -2,6 +2,7 @@ package com.mp.android.apps.monke.monkeybook.base;
 
 import com.mp.android.apps.monke.basemvplib.EncodoConverter;
 
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
@@ -11,12 +12,14 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public abstract class MBaseModelImpl {
     protected OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
+//            .protocols(Collections.singletonList(Protocol.HTTP_1_1)).retryOnConnectionFailure(true)
             .connectTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
             .readTimeout(10, TimeUnit.SECONDS);

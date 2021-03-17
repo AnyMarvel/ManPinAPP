@@ -129,7 +129,7 @@ public class ContentYb3ModelImpl extends MBaseModelImpl implements IReaderBookMo
                 String lastChapter = resultE.getElementById("info").getElementsByTag("p").get(3).getElementsByTag("a").get(0).text();
                 collBookBean.setLastChapter(lastChapter);
                 try {
-//            ObtainBookInfoImpl.getInstance().senMessageManpin(bookInfoBean, "", lastChapter);
+                    ObtainBookInfoImpl.getInstance().senMessageManpin(collBookBean, "", lastChapter);
                 } catch (Exception e1) {
 
                 }
@@ -157,7 +157,7 @@ public class ContentYb3ModelImpl extends MBaseModelImpl implements IReaderBookMo
                 });
     }
 
-    private List<BookChapterBean> analyChapterlist(String s,CollBookBean collBookBean) {
+    private List<BookChapterBean> analyChapterlist(String s, CollBookBean collBookBean) {
         List<BookChapterBean> chapterBeans = new ArrayList<BookChapterBean>();
         Document doc = Jsoup.parse(s);
         Elements chapterlist = doc.getElementById("list").getElementsByTag("dd");

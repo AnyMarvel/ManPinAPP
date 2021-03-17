@@ -178,7 +178,7 @@ public class TXSBookModelImpl extends MBaseModelImpl implements IReaderBookModel
 
                 try {
                     String kind = resultE.getElementsByTag("p").get(0).getElementsByTag("a").get(1).text().toString().trim();
-//                    ObtainBookInfoImpl.getInstance().senMessageManpin(collBookBean, kind, lastChapter);
+                    ObtainBookInfoImpl.getInstance().senMessageManpin(collBookBean, kind, lastChapter);
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }

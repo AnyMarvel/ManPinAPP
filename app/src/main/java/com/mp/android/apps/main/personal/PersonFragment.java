@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
-import com.mp.android.apps.FeedbackActivity;
 import com.mp.android.apps.R;
 import com.mp.android.apps.SettingAboutActivity;
 import com.mp.android.apps.login.LoginActivity;
@@ -26,7 +25,6 @@ import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
 import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -71,7 +69,7 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
 
         if (LoginManager.getInstance().checkLoginInfo()) {
             Data loginInfo = LoginManager.getInstance().getLoginInfo();
-            Glide.with(getContext()).load(loginInfo.getUsericon()).into(mUserLogo);
+
             person_text.setText(loginInfo.getNickname());
         } else {
             person_text.setText("未登录");
@@ -82,7 +80,6 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
 
     RelativeLayout weibo_sina;
     RelativeLayout maillayout;
-    RelativeLayout yijianfankui;
     TextView person_text;
     LinearLayout person_login_statu;
     CircleImageView mUserLogo;
@@ -98,8 +95,7 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
         weibo_sina.setOnClickListener(this);
         maillayout = view.findViewById(R.id.maillayout);
         maillayout.setOnClickListener(this);
-        yijianfankui = view.findViewById(R.id.yijianfankui);
-        yijianfankui.setOnClickListener(this);
+
         person_text = view.findViewById(R.id.person_text);
         mUserLogo = view.findViewById(R.id.mUserLogo);
         person_login_statu = view.findViewById(R.id.person_login_statu);
@@ -128,9 +124,6 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
                 data.putExtra(Intent.EXTRA_TEXT, ((MainActivity) getActivity()).getHandSetInfo());
                 startActivity(data);
                 break;
-            case R.id.yijianfankui:
-                Intent feedbackIntent = new Intent(getActivity(), FeedbackActivity.class);
-                startActivity(feedbackIntent);
             case R.id.person_login_statu:
                 if (!LoginManager.getInstance().checkLoginInfo()) {
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
@@ -153,7 +146,7 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PERSON_LOGIN_REQUEST && resultCode == 0) {
             Data loginInfo = LoginManager.getInstance().getLoginInfo();
-            Glide.with(Objects.requireNonNull(getContext())).load(loginInfo.getUsericon()).into(mUserLogo);
+            Glide.with(requireContext()).load(loginInfo.getUsericon()).into(mUserLogo);
             person_text.setText(loginInfo.getNickname());
         }
     }

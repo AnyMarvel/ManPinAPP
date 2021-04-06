@@ -40,7 +40,6 @@
             android:launchMode="singleTask" />
         <activity android:name=".livevblank.ChoiceItemActivity" />
         <activity android:name=".SettingAboutActivity" />
-        <activity android:name=".FeedbackActivity" />
         <activity android:name=".livevblank.EditCardActivity" />
         <activity android:name=".livevblank.PreviewActivity" />
         <activity android:name=".livevblank.SearchPeopleActivity" />

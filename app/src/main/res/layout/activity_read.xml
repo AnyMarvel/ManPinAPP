@@ -95,15 +95,6 @@
                         android:textColor="#CBCBCB"
                         android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/read_tv_community"
-                        android:layout_width="50dp"
-                        android:layout_height="match_parent"
-                        android:layout_toLeftOf="@id/read_tv_brief"
-                        android:gravity="center"
-                        android:text="反馈"
-                        android:textColor="#CBCBCB"
-                        android:textSize="16sp" />
                 </RelativeLayout>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>

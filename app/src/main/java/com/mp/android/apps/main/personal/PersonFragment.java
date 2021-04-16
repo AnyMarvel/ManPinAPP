@@ -23,6 +23,7 @@ import com.mp.android.apps.main.home.model.IMainFragmentModelImpl;
 import com.mp.android.apps.monke.basemvplib.IPresenter;
 import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
 import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
+import com.mp.android.apps.monke.monkeybook.view.impl.BookSourceActivity;
 
 import java.util.List;
 import java.util.Random;
@@ -84,6 +85,7 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
     LinearLayout person_login_statu;
     CircleImageView mUserLogo;
     RelativeLayout manpin_weixin_xiaobian_layout;
+    RelativeLayout booksource;
 
     @Override
     protected void bindView() {
@@ -102,6 +104,9 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
         person_login_statu.setOnClickListener(this);
         manpin_weixin_xiaobian_layout = view.findViewById(R.id.manpin_weixin_xiaobian_layout);
         manpin_weixin_xiaobian_layout.setOnClickListener(this);
+
+        booksource = view.findViewById(R.id.person_booksource_layout);
+        booksource.setOnClickListener(this);
     }
 
     @Override
@@ -133,6 +138,10 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
             case R.id.manpin_weixin_xiaobian_layout:
                 Intent intent = new Intent(getActivity(), ManpinWXActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.person_booksource_layout:
+                Intent intent2 = new Intent(getActivity(), BookSourceActivity.class);
+                startActivity(intent2);
                 break;
             default:
                 break;

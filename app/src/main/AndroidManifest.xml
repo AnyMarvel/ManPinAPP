@@ -26,7 +26,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".main.MainActivity" android:launchMode="singleTask"/>
+        <activity
+            android:name=".main.MainActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name=".login.LoginActivity"
             android:launchMode="singleTask" />
@@ -44,6 +46,7 @@
         <activity android:name=".livevblank.PreviewActivity" />
         <activity android:name=".livevblank.SearchPeopleActivity" />
         <activity android:name=".monke.readActivity.ReadActivity" />
+        <activity android:name=".monke.monkeybook.view.impl.BookSourceActivity" />
         <activity android:name="com.xinlan.imageeditlibrary.picchooser.SelectPictureActivity" />
         <activity
             android:name="com.xinlan.imageeditlibrary.editimage.EditImageActivity"
@@ -144,6 +147,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
 
 </manifest>

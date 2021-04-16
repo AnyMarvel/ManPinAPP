@@ -79,7 +79,43 @@
                 android:layout_centerVertical="true"
                 android:src="@drawable/entry_arrow" />
         </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/person_booksource_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:paddingLeft="10.0dip"
+            android:paddingTop="10.0dip"
+            android:paddingRight="10.0dip"
+            android:paddingBottom="10.0dip">
 
+            <ImageView
+                android:id="@+id/booksource_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/yijianfankui" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10.0dip"
+                android:layout_toRightOf="@id/booksource_image"
+                android:ellipsize="marquee"
+                android:fadingEdge="horizontal"
+                android:singleLine="true"
+                android:text="书源选择"
+                android:textColor="@color/mtrl_chip_ripple_color" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/entry_arrow" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/maillayout"

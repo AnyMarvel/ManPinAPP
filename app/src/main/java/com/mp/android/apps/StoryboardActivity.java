@@ -11,9 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-//import com.google.android.apps.photolab.storyboard.telemetry.Telemetry;
-//import com.google.firebase.analytics.FirebaseAnalytics.Event;
-
 
 public class StoryboardActivity extends AppCompatActivity {
     public static final int PICK_VIDEO_REQUEST = 12321;

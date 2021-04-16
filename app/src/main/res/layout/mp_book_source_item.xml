@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/book_source_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="九桃小说"
+            android:textColor="@color/black"
+            android:textSize="16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="推荐指数"
+                android:textColor="@color/book_source_color"
+                android:textSize="12dp" />
+
+            <RatingBar
+                android:id="@+id/book_source_score"
+                style="?attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:isIndicator="true"
+                android:rating="5"
+                android:stepSize="0.01"
+                android:theme="@style/RatingBar_CustomColor" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="来源:  "
+                android:textColor="@color/book_source_color"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/book_source_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="www.9txs.com"
+                android:textColor="@color/book_source_color"
+                android:textSize="12dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <Switch
+        android:id="@+id/book_source_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|right"
+        android:layout_marginRight="10dp" />
+
+    <View
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:layout_gravity="bottom"
+        android:background="@color/book_source_color"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp" />
+</FrameLayout>

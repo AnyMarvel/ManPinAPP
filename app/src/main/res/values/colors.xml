@@ -150,4 +150,5 @@
     <color name="light_translucent">#23000000</color>
     <color name="nb.widget.button.selected">#E3E3E3</color>
 
+    <color name="book_source_color">#5E5D5D</color>
 </resources>

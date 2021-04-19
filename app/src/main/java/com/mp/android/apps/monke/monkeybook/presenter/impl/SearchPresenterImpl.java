@@ -67,10 +67,6 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
         if (temp != null && temp.size() > 0) {
             collBookBeans.addAll(temp);
         }
-
-        //搜索引擎初始化
-        searchEngine = new ArrayList<>();
-        WebBookModelImpl.getInstance().registerSearchEngine(searchEngine);
     }
 
 
@@ -342,6 +338,10 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
     @Override
     public void attachView(@NonNull IView iView) {
         super.attachView(iView);
+        //搜索引擎初始化
+        searchEngine = new ArrayList<>();
+        WebBookModelImpl.getInstance().registerSearchEngine(searchEngine, mView.getContext());
+        //注册 eventBus
         RxBus.get().register(this);
     }
 

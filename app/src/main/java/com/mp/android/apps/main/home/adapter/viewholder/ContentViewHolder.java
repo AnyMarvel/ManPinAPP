@@ -22,6 +22,11 @@ import com.mp.android.apps.utils.RadiusUtils;
 
 import java.util.List;
 
+/**
+ * 首页规避线上书城检查，去除书城相关推荐内容
+ */
+
+@Deprecated
 public class ContentViewHolder extends RecyclerView.ViewHolder {
     private ImageView cardTitleImage;
     private ImageView cardFristImage;

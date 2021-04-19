@@ -1,8 +1,11 @@
 
 package com.mp.android.apps.monke.monkeybook.presenter.impl;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 
+import com.alibaba.fastjson.JSON;
 import com.hwangjr.rxbus.RxBus;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
@@ -10,12 +13,15 @@ import com.hwangjr.rxbus.thread.EventThread;
 import com.mp.android.apps.monke.basemvplib.IView;
 import com.mp.android.apps.monke.basemvplib.impl.BasePresenterImpl;
 import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
+import com.mp.android.apps.monke.monkeybook.bean.BookSourceBean;
 import com.mp.android.apps.monke.monkeybook.common.RxBusTag;
 import com.mp.android.apps.monke.monkeybook.presenter.IMainPresenter;
 import com.mp.android.apps.monke.monkeybook.utils.NetworkUtil;
 import com.mp.android.apps.monke.monkeybook.view.IMainView;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.monke.readActivity.local.BookRepository;
+import com.mp.android.apps.utils.AssertFileUtils;
+import com.mp.android.apps.utils.SharedPreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +65,27 @@ public class MainPresenterImpl extends BasePresenterImpl<IMainView> implements I
                         mView.refreshError(NetworkUtil.getErrorTip(NetworkUtil.ERROR_CODE_ANALY));
                     }
                 });
+    }
+
+    //    图书源数据源
+    private String localBookSource;
+    private List<BookSourceBean> sourceBeans;
+
+    @Override
+    public boolean bookSourceSwitch() {
+        localBookSource = AssertFileUtils.getJson(mView.getContext(), "booksource.json");
+        if (!TextUtils.isEmpty(localBookSource)) {
+            sourceBeans = JSON.parseArray(localBookSource, BookSourceBean.class);
+        }
+        boolean sourceSwitch = false;
+        if (sourceBeans != null) {
+            for (BookSourceBean sourceBean : sourceBeans) {
+                if ((boolean) SharedPreferenceUtil.get(mView.getContext(), sourceBean.getBookSourceAddress(), false)) {
+                    sourceSwitch = true;
+                }
+            }
+        }
+        return sourceSwitch;
     }
 
     public void startRefreshBook(List<CollBookBean> value) {

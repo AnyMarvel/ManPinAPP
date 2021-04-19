@@ -2,21 +2,13 @@ package com.mp.android.apps.monke.monkeybook.view.impl;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentActivity;
-
-import com.alibaba.fastjson.JSON;
 import com.mp.android.apps.R;
 import com.mp.android.apps.StoryboardActivity;
-import com.mp.android.apps.monke.monkeybook.bean.BookSourceBean;
-import com.mp.android.apps.utils.AssertFileUtils;
 
-import java.util.List;
 
 public class BookSourceGuideActivity extends StoryboardActivity implements View.OnClickListener {
     private ImageView ivBack;

@@ -26,7 +26,9 @@ import com.mp.android.apps.main.home.view.IMainfragmentView;
 import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
 import com.mp.android.apps.monke.monkeybook.presenter.impl.BookDetailPresenterImpl;
+import com.mp.android.apps.monke.monkeybook.utils.BookSourceCheckUtils;
 import com.mp.android.apps.monke.monkeybook.view.impl.BookDetailActivity;
+import com.mp.android.apps.monke.monkeybook.view.impl.BookSourceGuideActivity;
 import com.mp.android.apps.monke.monkeybook.view.impl.SearchActivity;
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
@@ -143,8 +145,11 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
                 ((MainActivity) getActivity()).gotoExplore("广场");
                 break;
             case R.id.search_image:
-                Intent searchIntent = new Intent(getActivity(), SearchActivity.class);
-                startActivity(searchIntent);
+                if (BookSourceCheckUtils.bookSourceSwitch(this.getContext())) {
+                    startActivity(new Intent(getActivity(), SearchActivity.class));
+                } else {
+                    startActivity(new Intent(getActivity(), BookSourceGuideActivity.class));
+                }
                 break;
             default:
                 break;

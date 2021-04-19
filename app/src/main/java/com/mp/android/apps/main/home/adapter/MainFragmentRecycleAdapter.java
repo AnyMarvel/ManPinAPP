@@ -25,8 +25,7 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
 
     // 首先定义几个常量标记item的类型
     private static final int ITEM_TYPE_HEADER = 0;
-    private static final int ITEM_TYPE_CONTENT = 1;
-    private static final int ITEM_TYPE_RECOMMEND = 2;
+    private static final int ITEM_TYPE_RECOMMEND = 1;
 
     private Context context;
     private List<HomeDesignBean> listContent;
@@ -85,12 +84,9 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
         if (viewType == ITEM_TYPE_HEADER) {
             view = LayoutInflater.from(context).inflate(R.layout.main_fragment_layout_header, parent, false);
             return new HeaderViewHolder(view);
-        } else if (viewType == ITEM_TYPE_RECOMMEND) {
+        } else {
             view = LayoutInflater.from(context).inflate(R.layout.main_fragment_recycle_item_recommend, parent, false);
             return new ClassicRecommendHolder(view);
-        } else {
-            view = LayoutInflater.from(context).inflate(R.layout.mian_fragment_recycle_item, parent, false);
-            return new ContentViewHolder(view);
         }
     }
 
@@ -100,33 +96,24 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
         if (isHeaderView(position)) {
             // 头部View
             return ITEM_TYPE_HEADER;
-        } else if (isRecommendView(position)) {
-            return ITEM_TYPE_RECOMMEND;
         } else {
-            // 内容View
-            return ITEM_TYPE_CONTENT;
+            return ITEM_TYPE_RECOMMEND;
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
-        mContentPosition = position - mHeaderCount - mRecommendCount;
         if (holder instanceof HeaderViewHolder) {
             ((HeaderViewHolder) holder).handleClassicRecommendEvent(carouselImages, listener);
-        } else if (holder instanceof ClassicRecommendHolder) {
-            ((ClassicRecommendHolder) holder).handleClassicRecommendEvent(context, recommendList, null, listener);
-        } else if (holder instanceof ContentViewHolder) {
-            ((ContentViewHolder) holder).handleContentEvent(context, listContent, mContentPosition, listener);
         } else {
-
+            ((ClassicRecommendHolder) holder).handleClassicRecommendEvent(context, recommendList, null, listener);
         }
 
     }
 
     @Override
     public int getItemCount() {
-        return listContent.size() + mHeaderCount + mRecommendCount;
+        return  mHeaderCount + mRecommendCount;
     }
 
     /**

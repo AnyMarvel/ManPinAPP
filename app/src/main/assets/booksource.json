@@ -1,5 +1,10 @@
 [
   {
+    "bookTitle": "漫品推荐",
+    "bookSourceScore": "5",
+    "bookSourceAddress": "http://aimanpin.com",
+    "bookSourceSwitch": false
+  },{
     "bookTitle": "九桃小说网",
     "bookSourceScore": "5",
     "bookSourceAddress": "https://www.9txs.com",

@@ -47,6 +47,7 @@
         <activity android:name=".livevblank.SearchPeopleActivity" />
         <activity android:name=".monke.readActivity.ReadActivity" />
         <activity android:name=".monke.monkeybook.view.impl.BookSourceActivity" />
+        <activity android:name=".monke.monkeybook.view.impl.BookSourceGuideActivity" />
         <activity android:name="com.xinlan.imageeditlibrary.picchooser.SelectPictureActivity" />
         <activity
             android:name="com.xinlan.imageeditlibrary.editimage.EditImageActivity"

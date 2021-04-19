@@ -1,6 +1,7 @@
 
 package com.mp.android.apps.monke.monkeybook.model.impl;
 
+import android.content.Context;
 import android.net.Uri;
 
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
@@ -8,6 +9,7 @@ import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.ChapterInfoBean;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 import com.mp.android.apps.utils.Logger;
+import com.mp.android.apps.utils.SharedPreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -143,19 +145,26 @@ public class WebBookModelImpl {
 
     /**
      * 新增jsoup分析网站需要这里进行注册
+     * 基于用户选择书源对书籍搜索进行动态管理
      *
      * @param searchEngine
      */
-    public void registerSearchEngine(List<Map> searchEngine) {
+    public void registerSearchEngine(List<Map> searchEngine, Context context) {
         //搜索引擎初始化
-        newSearchEngine(searchEngine, ContentAimanpinModeImpl.TAG);
-        newSearchEngine(searchEngine, TXSBookModelImpl.TAG);
-        newSearchEngine(searchEngine, ContentWxguanModelImpl.TAG);
-        newSearchEngine(searchEngine, ContentYb3ModelImpl.TAG);
-        newSearchEngine(searchEngine, GxwztvBookModelImpl.TAG);
-//
-//
-//
+        if ((Boolean) SharedPreferenceUtil.get(context, ContentAimanpinModeImpl.TAG, false))
+            newSearchEngine(searchEngine, ContentAimanpinModeImpl.TAG);
+
+        if ((Boolean) SharedPreferenceUtil.get(context, TXSBookModelImpl.TAG, false))
+            newSearchEngine(searchEngine, TXSBookModelImpl.TAG);
+
+        if ((Boolean) SharedPreferenceUtil.get(context, ContentWxguanModelImpl.TAG, false))
+            newSearchEngine(searchEngine, ContentWxguanModelImpl.TAG);
+
+        if ((Boolean) SharedPreferenceUtil.get(context, ContentYb3ModelImpl.TAG, false))
+            newSearchEngine(searchEngine, ContentYb3ModelImpl.TAG);
+
+        if ((Boolean) SharedPreferenceUtil.get(context, GxwztvBookModelImpl.TAG, false))
+            newSearchEngine(searchEngine, GxwztvBookModelImpl.TAG);
 
     }
 

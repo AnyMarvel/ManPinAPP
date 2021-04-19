@@ -70,7 +70,6 @@
         <activity
             android:name=".monke.monkeybook.view.impl.SearchActivity"
             android:configChanges="locale|keyboardHidden|orientation|screenSize"
-
             android:theme="@style/CAppTransparentTheme"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 

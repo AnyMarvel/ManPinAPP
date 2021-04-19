@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:text="1. 支持导入TXT本地图书\n2. 支持使用书源读取在线图书"
+        android:text="1. 支持导入TXT本地图书\n2. 支持使用书源读取在线图书\n3. 搜索功能需要开启对应源"
         android:textColor="@color/black"
         android:textSize="20dp"
         android:textStyle="bold" />

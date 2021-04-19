@@ -16,6 +16,7 @@ import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
 import com.mp.android.apps.monke.monkeybook.bean.BookSourceBean;
 import com.mp.android.apps.monke.monkeybook.common.RxBusTag;
 import com.mp.android.apps.monke.monkeybook.presenter.IMainPresenter;
+import com.mp.android.apps.monke.monkeybook.utils.BookSourceCheckUtils;
 import com.mp.android.apps.monke.monkeybook.utils.NetworkUtil;
 import com.mp.android.apps.monke.monkeybook.view.IMainView;
 import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
@@ -67,25 +68,9 @@ public class MainPresenterImpl extends BasePresenterImpl<IMainView> implements I
                 });
     }
 
-    //    图书源数据源
-    private String localBookSource;
-    private List<BookSourceBean> sourceBeans;
-
     @Override
     public boolean bookSourceSwitch() {
-        localBookSource = AssertFileUtils.getJson(mView.getContext(), "booksource.json");
-        if (!TextUtils.isEmpty(localBookSource)) {
-            sourceBeans = JSON.parseArray(localBookSource, BookSourceBean.class);
-        }
-        boolean sourceSwitch = false;
-        if (sourceBeans != null) {
-            for (BookSourceBean sourceBean : sourceBeans) {
-                if ((boolean) SharedPreferenceUtil.get(mView.getContext(), sourceBean.getBookSourceAddress(), false)) {
-                    sourceSwitch = true;
-                }
-            }
-        }
-        return sourceSwitch;
+        return BookSourceCheckUtils.bookSourceSwitch(mView.getContext());
     }
 
     public void startRefreshBook(List<CollBookBean> value) {

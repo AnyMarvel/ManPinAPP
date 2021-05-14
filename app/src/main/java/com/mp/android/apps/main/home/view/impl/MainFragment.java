@@ -16,26 +16,24 @@ import com.google.android.apps.photolab.storyboard.activity.ComicSplash;
 import com.mp.android.apps.R;
 import com.mp.android.apps.livevblank.ChoiceItemActivity;
 import com.mp.android.apps.main.MainActivity;
-import com.mp.android.apps.main.bookR.view.impl.BookRActivity;
 import com.mp.android.apps.main.home.adapter.MainFragmentRecycleAdapter;
 import com.mp.android.apps.main.home.adapter.OnHomeAdapterClickListener;
 import com.mp.android.apps.main.home.bean.HomeDesignBean;
 import com.mp.android.apps.main.home.bean.SourceListContent;
 import com.mp.android.apps.main.home.presenter.impl.MainFragmentPresenterImpl;
 import com.mp.android.apps.main.home.view.IMainfragmentView;
-import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
-import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
-import com.mp.android.apps.monke.monkeybook.presenter.impl.BookDetailPresenterImpl;
-import com.mp.android.apps.monke.monkeybook.utils.BookSourceCheckUtils;
-import com.mp.android.apps.monke.monkeybook.view.impl.BookDetailActivity;
-import com.mp.android.apps.monke.monkeybook.view.impl.BookSourceGuideActivity;
-import com.mp.android.apps.monke.monkeybook.view.impl.SearchActivity;
+import com.mp.android.apps.basemvplib.impl.BaseFragment;
+import com.mp.android.apps.book.bean.SearchBookBean;
+import com.mp.android.apps.book.presenter.impl.BookDetailPresenterImpl;
+import com.mp.android.apps.book.utils.BookSourceCheckUtils;
+import com.mp.android.apps.book.view.impl.BookDetailActivity;
+import com.mp.android.apps.book.view.impl.BookSourceGuideActivity;
+import com.mp.android.apps.book.view.impl.SearchActivity;
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
 
 import java.util.List;
-import java.util.Objects;
 
 public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implements IMainfragmentView, OnHomeAdapterClickListener {
 

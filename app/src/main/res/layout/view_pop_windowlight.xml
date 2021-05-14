@@ -53,7 +53,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="7dp"
                 android:layout_marginLeft="7dp" />
-            <com.mp.android.apps.monke.monkeybook.widget.checkbox.SmoothCheckBox
+            <com.mp.android.apps.book.widget.checkbox.SmoothCheckBox
                 android:id="@+id/scb_follow_sys"
                 android:layout_width="17dp"
                 android:layout_height="17dp"

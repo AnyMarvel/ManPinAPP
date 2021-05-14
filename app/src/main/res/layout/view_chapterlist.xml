@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="none"/>
-            <com.mp.android.apps.monke.monkeybook.widget.RecyclerViewBar
+            <com.mp.android.apps.book.widget.RecyclerViewBar
                 android:id="@+id/rvb_slider"
                 android:layout_width="35dp"
                 android:layout_height="match_parent"

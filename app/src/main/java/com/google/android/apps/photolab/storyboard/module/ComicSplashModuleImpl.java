@@ -1,6 +1,6 @@
 package com.google.android.apps.photolab.storyboard.module;
 
-import com.mp.android.apps.monke.monkeybook.base.MBaseModelImpl;
+import com.mp.android.apps.book.base.MBaseModelImpl;
 
 
 import io.reactivex.Observable;

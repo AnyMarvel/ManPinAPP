@@ -20,10 +20,10 @@ import com.mp.android.apps.login.utils.LoginManager;
 import com.mp.android.apps.main.MainActivity;
 import com.mp.android.apps.main.ManpinWXActivity;
 import com.mp.android.apps.main.home.model.IMainFragmentModelImpl;
-import com.mp.android.apps.monke.basemvplib.IPresenter;
-import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
-import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
-import com.mp.android.apps.monke.monkeybook.view.impl.BookSourceActivity;
+import com.mp.android.apps.basemvplib.IPresenter;
+import com.mp.android.apps.basemvplib.impl.BaseFragment;
+import com.mp.android.apps.book.base.observer.SimpleObserver;
+import com.mp.android.apps.book.view.impl.BookSourceActivity;
 
 import java.util.List;
 import java.util.Random;

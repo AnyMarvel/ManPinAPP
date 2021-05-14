@@ -91,7 +91,7 @@
                 android:src="@drawable/selector_icon_setting_main"/>
         </LinearLayout>
 
-        <com.mp.android.apps.monke.monkeybook.widget.refreshview.RefreshRecyclerView
+        <com.mp.android.apps.book.widget.refreshview.RefreshRecyclerView
             android:id="@+id/rf_rv_shelf"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -6,14 +6,14 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
-import com.mp.android.apps.monke.monkeybook.service.DownloadService;
+import com.mp.android.apps.book.service.DownloadService;
 
 public class TranslucentActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent serviceIntent = new Intent(this, DownloadService.class);
-//        serviceIntent.setAction("com.mp.android.apps.monke.monkeybook.service.DownloadService_action");
+//        serviceIntent.setAction("com.mp.android.apps.monkeybook.service.DownloadService_action");
 //        serviceIntent.setPackage(getPackageName());
         startService(serviceIntent);
         finish();

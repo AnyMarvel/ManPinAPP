@@ -15,7 +15,7 @@
         <include
             layout="@layout/toolbar_edit_profile" />
 
-        <com.mp.android.apps.monke.monkeybook.widget.refreshview.RefreshProgressBar
+        <com.mp.android.apps.book.widget.refreshview.RefreshProgressBar
             android:id="@+id/rpb_progress"
             android:layout_width="match_parent"
             android:layout_height="3dp"

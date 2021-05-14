@@ -10,9 +10,9 @@ import com.mp.android.apps.main.bookR.presenter.IBookRManFPresenter;
 import com.mp.android.apps.main.bookR.view.IBookRManFView;
 import com.mp.android.apps.main.home.bean.HomeDesignBean;
 import com.mp.android.apps.main.home.bean.SourceListContent;
-import com.mp.android.apps.monke.basemvplib.impl.BasePresenterImpl;
-import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
-import com.mp.android.apps.monke.monkeybook.cache.ACache;
+import com.mp.android.apps.basemvplib.impl.BasePresenterImpl;
+import com.mp.android.apps.book.base.observer.SimpleObserver;
+import com.mp.android.apps.book.cache.ACache;
 import com.mp.android.apps.utils.AssertFileUtils;
 
 import java.util.List;

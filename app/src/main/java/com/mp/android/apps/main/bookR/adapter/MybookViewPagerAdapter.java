@@ -1,12 +1,11 @@
 package com.mp.android.apps.main.bookR.adapter;
 
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
+import com.mp.android.apps.basemvplib.impl.BaseFragment;
 
 import java.util.List;
 

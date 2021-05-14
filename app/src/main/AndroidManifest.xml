@@ -45,9 +45,9 @@
         <activity android:name=".livevblank.EditCardActivity" />
         <activity android:name=".livevblank.PreviewActivity" />
         <activity android:name=".livevblank.SearchPeopleActivity" />
-        <activity android:name=".monke.readActivity.ReadActivity" />
-        <activity android:name=".monke.monkeybook.view.impl.BookSourceActivity" />
-        <activity android:name=".monke.monkeybook.view.impl.BookSourceGuideActivity" />
+        <activity android:name=".readActivity.ReadActivity" />
+        <activity android:name=".book.view.impl.BookSourceActivity" />
+        <activity android:name=".book.view.impl.BookSourceGuideActivity" />
         <activity android:name="com.xinlan.imageeditlibrary.picchooser.SelectPictureActivity" />
         <activity
             android:name="com.xinlan.imageeditlibrary.editimage.EditImageActivity"
@@ -65,21 +65,21 @@
             android:label="@string/preferences_license_title"
             android:theme="@style/Theme.AppCompat.Light" />
 
-        <activity android:name=".monke.monkeybook.view.impl.DownloadBookActivity" />
+        <activity android:name=".book.view.impl.DownloadBookActivity" />
         <activity android:name=".TranslucentActivity" />
         <activity
-            android:name=".monke.monkeybook.view.impl.SearchActivity"
+            android:name=".book.view.impl.SearchActivity"
             android:configChanges="locale|keyboardHidden|orientation|screenSize"
             android:theme="@style/CAppTransparentTheme"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <activity
-            android:name=".monke.monkeybook.view.impl.BookDetailActivity"
+            android:name=".book.view.impl.BookDetailActivity"
 
             android:theme="@style/CAppTransparentTheme" />
         <activity android:name=".main.ManpinWXActivity" />
         <activity
-            android:name=".monke.monkeybook.view.impl.ImportBookActivity"
+            android:name=".book.view.impl.ImportBookActivity"
 
             android:theme="@style/CAppTransparentTheme" />
 
@@ -104,7 +104,7 @@
             android:exported="false"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <service
-            android:name=".monke.monkeybook.service.DownloadService"
+            android:name=".book.service.DownloadService"
             android:exported="false"
             android:process=":mp_download">
             <intent-filter>
@@ -113,7 +113,7 @@
         </service>
 
         <provider
-            android:name="com.mp.android.apps.monke.monkeybook.contentprovider.MyContentProvider"
+            android:name=".book.contentprovider.MyContentProvider"
             android:authorities="com.mp.android.apps.download.provider" />
     </application>
 

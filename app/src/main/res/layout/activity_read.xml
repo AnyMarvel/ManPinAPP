@@ -15,7 +15,7 @@
         android:background="@drawable/theme_leather_bg">
 
         <!--阅读页面-->
-        <com.mp.android.apps.monke.readActivity.view.PageView
+        <com.mp.android.apps.readActivity.view.PageView
             android:id="@+id/read_pv_page"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

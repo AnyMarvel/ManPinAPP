@@ -18,10 +18,10 @@ import com.mp.android.apps.main.bookR.presenter.impl.BookRRecommendFPresenterImp
 import com.mp.android.apps.main.bookR.view.IBookRRecommendFView;
 import com.mp.android.apps.main.home.adapter.OnHomeAdapterClickListener;
 import com.mp.android.apps.main.home.bean.SourceListContent;
-import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
-import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
-import com.mp.android.apps.monke.monkeybook.presenter.impl.BookDetailPresenterImpl;
-import com.mp.android.apps.monke.monkeybook.view.impl.BookDetailActivity;
+import com.mp.android.apps.basemvplib.impl.BaseFragment;
+import com.mp.android.apps.book.bean.SearchBookBean;
+import com.mp.android.apps.book.presenter.impl.BookDetailPresenterImpl;
+import com.mp.android.apps.book.view.impl.BookDetailActivity;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;

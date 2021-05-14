@@ -4,7 +4,7 @@ import android.os.Environment;
 import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.mp.android.apps.monke.monkeybook.base.MBaseModelImpl;
+import com.mp.android.apps.book.base.MBaseModelImpl;
 import com.mp.android.apps.utils.Logger;
 
 import java.io.File;

@@ -1,10 +1,14 @@
 
-package com.mp.android.apps.book.model.impl;
+package com.mp.android.apps.book.model;
 
 import android.content.Context;
 import android.net.Uri;
 
 import com.mp.android.apps.book.bean.SearchBookBean;
+import com.mp.android.apps.book.model.impl.ContentAimanpinModeImpl;
+import com.mp.android.apps.book.model.impl.ContentIdeaJainImpl;
+import com.mp.android.apps.book.model.impl.ContentYb3ModelImpl;
+import com.mp.android.apps.book.model.impl.TXSBookModelImpl;
 import com.mp.android.apps.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.readActivity.bean.ChapterInfoBean;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
@@ -26,17 +30,17 @@ import static com.mp.android.apps.book.presenter.impl.SearchPresenterImpl.TAG_KE
 /**
  * 图书内容获取 加载，解析，章节处理，内容处理等问题
  */
-public class WebBookModelImpl {
-    private static WebBookModelImpl webBookModel;
+public class WebBookModelControl {
+    private static WebBookModelControl webBookModel;
 
-    private WebBookModelImpl() {
+    private WebBookModelControl() {
     }
 
-    public static WebBookModelImpl getInstance() {
+    public static WebBookModelControl getInstance() {
         if (webBookModel == null) {
-            synchronized (WebBookModelImpl.class) {
+            synchronized (WebBookModelControl.class) {
                 if (webBookModel == null) {
-                    webBookModel = new WebBookModelImpl();
+                    webBookModel = new WebBookModelControl();
                 }
             }
         }

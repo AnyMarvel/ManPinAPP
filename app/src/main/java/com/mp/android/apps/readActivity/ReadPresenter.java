@@ -2,7 +2,7 @@ package com.mp.android.apps.readActivity;
 
 
 import com.google.android.apps.photolab.storyboard.download.MD5Utils;
-import com.mp.android.apps.book.model.impl.WebBookModelImpl;
+import com.mp.android.apps.book.model.WebBookModelControl;
 import com.mp.android.apps.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.readActivity.bean.ChapterInfoBean;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
@@ -33,7 +33,7 @@ public class ReadPresenter extends RxPresenter<ReadContract.View>
 
     @Override
     public void loadCategory(CollBookBean collBookBean) {
-        Disposable disposable = WebBookModelImpl.getInstance()
+        Disposable disposable = WebBookModelControl.getInstance()
                 .getBookChapters(collBookBean)
                 .doOnSuccess(new Consumer<List<BookChapterBean>>() {
                     @Override
@@ -71,7 +71,7 @@ public class ReadPresenter extends RxPresenter<ReadContract.View>
         for (int i = 0; i < size; ++i) {
             TxtChapter bookChapter = bookChapters.get(i);
             // 网络中获取数据
-            Single<ChapterInfoBean> chapterInfoSingle = WebBookModelImpl.getInstance()
+            Single<ChapterInfoBean> chapterInfoSingle = WebBookModelControl.getInstance()
                     .getChapterInfo(bookChapter.getLink());
 
             chapterInfos.add(chapterInfoSingle);

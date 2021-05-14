@@ -6,34 +6,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mp.android.apps.R;
 import com.mp.android.apps.main.bookR.adapter.BookManFAdapter;
-import com.mp.android.apps.main.bookR.adapter.BookRRecommendFRecyclerAdapter;
 import com.mp.android.apps.main.bookR.presenter.IBookRManFPresenter;
-import com.mp.android.apps.main.bookR.presenter.IBookRRecommendFPresenter;
 import com.mp.android.apps.main.bookR.presenter.impl.BookRManFPresenterImpl;
-import com.mp.android.apps.main.bookR.presenter.impl.BookRRecommendFPresenterImpl;
 import com.mp.android.apps.main.bookR.view.IBookRManFView;
-import com.mp.android.apps.main.bookR.view.IBookRRecommendFView;
 import com.mp.android.apps.main.home.adapter.OnHomeAdapterClickListener;
 import com.mp.android.apps.main.home.bean.HomeDesignBean;
 import com.mp.android.apps.main.home.bean.SourceListContent;
-import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
-import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
-import com.mp.android.apps.monke.monkeybook.presenter.impl.BookDetailPresenterImpl;
-import com.mp.android.apps.monke.monkeybook.view.impl.BookDetailActivity;
-import com.scwang.smart.refresh.footer.ClassicsFooter;
-import com.scwang.smart.refresh.layout.SmartRefreshLayout;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.mp.android.apps.basemvplib.impl.BaseFragment;
+import com.mp.android.apps.book.bean.SearchBookBean;
+import com.mp.android.apps.book.presenter.impl.BookDetailPresenterImpl;
+import com.mp.android.apps.book.view.impl.BookDetailActivity;
 
 import java.util.List;
-import java.util.Objects;
 
 public class BookRManFImpl extends BaseFragment<IBookRManFPresenter> implements IBookRManFView, OnHomeAdapterClickListener {
     private RecyclerView recommendRecyclerView;

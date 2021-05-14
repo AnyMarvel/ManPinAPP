@@ -25,7 +25,7 @@ import com.mp.android.apps.main.bookR.view.impl.BookCollectionFragment;
 import com.mp.android.apps.main.home.view.impl.MainFragment;
 import com.mp.android.apps.main.personal.PersonFragment;
 import com.mp.android.apps.main.home.view.MyImageTextView;
-import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
+import com.mp.android.apps.basemvplib.impl.BaseFragment;
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;

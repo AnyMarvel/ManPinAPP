@@ -12,11 +12,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.google.android.apps.photolab.storyboard.download.DownloadListener;
 import com.google.android.apps.photolab.storyboard.download.DownloadUtil;
-import com.google.android.apps.photolab.storyboard.download.FileUtils;
 import com.google.android.apps.photolab.storyboard.download.ZipUtils;
 import com.google.android.apps.photolab.storyboard.module.ComicSplashModuleImpl;
 import com.google.android.apps.photolab.storyboard.pipeline.ComicIO;
@@ -28,7 +25,7 @@ import com.google.android.apps.photolab.storyboard.views.FlikerProgressBar;
 import com.google.android.apps.photolab.storyboard.views.StoryAlterDialog;
 import com.mp.android.apps.StoryboardActivity;
 import com.mp.android.apps.R;
-import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
+import com.mp.android.apps.book.base.observer.SimpleObserver;
 import com.mp.android.apps.utils.Logger;
 import com.google.android.apps.photolab.storyboard.download.MD5Utils;
 import com.mylhyl.acp.Acp;
@@ -37,7 +34,6 @@ import com.mylhyl.acp.AcpOptions;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 import java.util.List;
 

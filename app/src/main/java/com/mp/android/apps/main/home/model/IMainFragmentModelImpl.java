@@ -1,6 +1,6 @@
 package com.mp.android.apps.main.home.model;
 
-import com.mp.android.apps.monke.monkeybook.base.MBaseModelImpl;
+import com.mp.android.apps.book.base.MBaseModelImpl;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;

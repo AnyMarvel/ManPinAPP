@@ -59,7 +59,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.mp.android.apps.monke.monkeybook.widget.refreshview.RefreshRecyclerView
+        <com.mp.android.apps.book.widget.refreshview.RefreshRecyclerView
             android:id="@+id/rfRv_search_books"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -113,7 +113,7 @@
                     android:textColor="@drawable/selector_tv_black"
                     android:textSize="16sp" />
             </LinearLayout>
-            <com.mp.android.apps.monke.monkeybook.widget.flowlayout.TagFlowLayout
+            <com.mp.android.apps.book.widget.flowlayout.TagFlowLayout
                 android:id="@+id/tfl_search_history"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
                 android:clickable="false">
-            </com.mp.android.apps.monke.monkeybook.widget.flowlayout.TagFlowLayout>
+            </com.mp.android.apps.book.widget.flowlayout.TagFlowLayout>
         </LinearLayout>
         <View
             android:layout_width="match_parent"

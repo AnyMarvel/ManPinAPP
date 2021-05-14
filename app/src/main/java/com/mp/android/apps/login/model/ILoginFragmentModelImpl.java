@@ -1,7 +1,7 @@
 package com.mp.android.apps.login.model;
 
 import com.alibaba.fastjson.JSON;
-import com.mp.android.apps.monke.monkeybook.base.MBaseModelImpl;
+import com.mp.android.apps.book.base.MBaseModelImpl;
 
 import java.util.HashMap;
 import java.util.Map;

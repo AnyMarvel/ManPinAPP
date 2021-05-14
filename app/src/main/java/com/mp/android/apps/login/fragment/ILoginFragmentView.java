@@ -1,6 +1,6 @@
 package com.mp.android.apps.login.fragment;
 
-import com.mp.android.apps.monke.basemvplib.IView;
+import com.mp.android.apps.basemvplib.IView;
 
 public interface ILoginFragmentView extends IView {
     void updateViewByverification(boolean result);

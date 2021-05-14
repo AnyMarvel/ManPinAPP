@@ -1,9 +1,6 @@
 package com.mp.android.apps.main.bookR.presenter;
 
-import com.mp.android.apps.main.home.bean.SourceListContent;
-import com.mp.android.apps.monke.basemvplib.IPresenter;
-
-import java.util.List;
+import com.mp.android.apps.basemvplib.IPresenter;
 
 public interface IBookRRecommendFPresenter extends IPresenter {
     void initBookRRcommendData();

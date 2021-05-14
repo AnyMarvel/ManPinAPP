@@ -1,7 +1,6 @@
 package com.google.android.apps.photolab.storyboard.download;
 
-import com.mp.android.apps.monke.basemvplib.EncodoConverter;
-import com.mp.android.apps.monke.monkeybook.base.ProxyInterceptor;
+import com.mp.android.apps.basemvplib.EncodoConverter;
 
 import java.util.concurrent.TimeUnit;
 

@@ -7,9 +7,8 @@ import com.mp.android.apps.login.fragment.ILoginFragmentNormalView;
 import com.mp.android.apps.login.model.ILoginFragmentModelImpl;
 import com.mp.android.apps.login.presenter.ILoginFragmentNormalPresenter;
 import com.mp.android.apps.login.utils.LoginManager;
-import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
-import com.mp.android.apps.monke.basemvplib.impl.BasePresenterImpl;
-import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
+import com.mp.android.apps.basemvplib.impl.BasePresenterImpl;
+import com.mp.android.apps.book.base.observer.SimpleObserver;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;

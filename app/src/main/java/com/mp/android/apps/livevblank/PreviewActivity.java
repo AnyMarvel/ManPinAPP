@@ -33,7 +33,7 @@ import com.mp.android.apps.livevblank.util.ScreenUtil;
 import com.mp.android.apps.login.LoginActivity;
 import com.mp.android.apps.login.bean.login.Data;
 import com.mp.android.apps.login.utils.LoginManager;
-import com.mp.android.apps.monke.monkeybook.widget.refreshview.RefreshProgressBar;
+import com.mp.android.apps.book.widget.refreshview.RefreshProgressBar;
 import com.mp.android.apps.networkutils.FastJsonConverterFactory;
 import com.mp.android.apps.utils.GPSUtils;
 import com.mp.android.apps.utils.ManBitmapUtils;

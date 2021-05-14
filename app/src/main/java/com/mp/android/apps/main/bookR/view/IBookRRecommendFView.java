@@ -1,8 +1,7 @@
 package com.mp.android.apps.main.bookR.view;
 
-import com.mp.android.apps.main.home.bean.HomeDesignBean;
 import com.mp.android.apps.main.home.bean.SourceListContent;
-import com.mp.android.apps.monke.basemvplib.IView;
+import com.mp.android.apps.basemvplib.IView;
 
 import java.util.List;
 

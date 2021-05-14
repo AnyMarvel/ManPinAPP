@@ -13,9 +13,9 @@ import com.mp.android.apps.main.bookR.adapter.MybookViewPagerAdapter;
 import com.mp.android.apps.main.bookR.presenter.IBookRFragmentPresenter;
 import com.mp.android.apps.main.bookR.presenter.impl.BookRFragmentPresenterImpl;
 import com.mp.android.apps.main.bookR.view.IBookRFragmentView;
-import com.mp.android.apps.monke.basemvplib.impl.BaseActivity;
-import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
-import com.mp.android.apps.monke.monkeybook.view.impl.SearchActivity;
+import com.mp.android.apps.basemvplib.impl.BaseActivity;
+import com.mp.android.apps.basemvplib.impl.BaseFragment;
+import com.mp.android.apps.book.view.impl.SearchActivity;
 
 import java.util.ArrayList;
 import java.util.List;

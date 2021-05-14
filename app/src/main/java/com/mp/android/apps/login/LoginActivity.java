@@ -23,7 +23,7 @@ import com.mp.android.apps.StoryboardActivity;
 import com.mp.android.apps.login.fragment.imple.LoginForgetFragment;
 import com.mp.android.apps.login.fragment.imple.LoginFragment;
 import com.mp.android.apps.login.fragment.imple.LoginFragmentNormal;
-import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
+import com.mp.android.apps.basemvplib.impl.BaseFragment;
 import com.umeng.socialize.UMShareAPI;
 
 import java.lang.ref.WeakReference;

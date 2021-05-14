@@ -4,7 +4,6 @@ package com.mp.android.apps.main.bookR.view.impl;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,34 +15,28 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.alibaba.fastjson.JSON;
 import com.mp.android.apps.R;
-import com.mp.android.apps.main.MainActivity;
-import com.mp.android.apps.monke.basemvplib.impl.BaseFragment;
-import com.mp.android.apps.monke.monkeybook.BitIntentDataManager;
-import com.mp.android.apps.monke.monkeybook.bean.BookSourceBean;
-import com.mp.android.apps.monke.monkeybook.presenter.IMainPresenter;
-import com.mp.android.apps.monke.monkeybook.presenter.impl.BookDetailPresenterImpl;
-import com.mp.android.apps.monke.monkeybook.presenter.impl.MainPresenterImpl;
-import com.mp.android.apps.monke.monkeybook.view.IMainView;
-import com.mp.android.apps.monke.monkeybook.view.adapter.BookShelfAdapter;
-import com.mp.android.apps.monke.monkeybook.view.impl.BookDetailActivity;
-import com.mp.android.apps.monke.monkeybook.view.impl.BookSourceActivity;
-import com.mp.android.apps.monke.monkeybook.view.impl.BookSourceGuideActivity;
-import com.mp.android.apps.monke.monkeybook.view.impl.DownloadBookActivity;
-import com.mp.android.apps.monke.monkeybook.view.impl.ImportBookActivity;
-import com.mp.android.apps.monke.monkeybook.view.popupwindow.ProxyPop;
-import com.mp.android.apps.monke.monkeybook.widget.refreshview.OnRefreshWithProgressListener;
-import com.mp.android.apps.monke.monkeybook.widget.refreshview.RefreshRecyclerView;
-import com.mp.android.apps.monke.readActivity.ReadActivity;
-import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
-import com.mp.android.apps.utils.AssertFileUtils;
-import com.mp.android.apps.utils.SharedPreferenceUtil;
+import com.mp.android.apps.basemvplib.impl.BaseFragment;
+import com.mp.android.apps.book.BitIntentDataManager;
+import com.mp.android.apps.book.presenter.IMainPresenter;
+import com.mp.android.apps.book.presenter.impl.BookDetailPresenterImpl;
+import com.mp.android.apps.book.presenter.impl.MainPresenterImpl;
+import com.mp.android.apps.book.view.IMainView;
+import com.mp.android.apps.book.view.adapter.BookShelfAdapter;
+import com.mp.android.apps.book.view.impl.BookDetailActivity;
+import com.mp.android.apps.book.view.impl.BookSourceActivity;
+import com.mp.android.apps.book.view.impl.BookSourceGuideActivity;
+import com.mp.android.apps.book.view.impl.DownloadBookActivity;
+import com.mp.android.apps.book.view.impl.ImportBookActivity;
+import com.mp.android.apps.book.view.popupwindow.ProxyPop;
+import com.mp.android.apps.book.widget.refreshview.OnRefreshWithProgressListener;
+import com.mp.android.apps.book.widget.refreshview.RefreshRecyclerView;
+import com.mp.android.apps.readActivity.ReadActivity;
+import com.mp.android.apps.readActivity.bean.CollBookBean;
 
 import java.util.List;
-import java.util.Objects;
 
-import static com.mp.android.apps.monke.basemvplib.impl.BaseActivity.start_share_ele;
+import static com.mp.android.apps.basemvplib.impl.BaseActivity.start_share_ele;
 
 public class BookCollectionFragment extends BaseFragment<IMainPresenter> implements IMainView {
 

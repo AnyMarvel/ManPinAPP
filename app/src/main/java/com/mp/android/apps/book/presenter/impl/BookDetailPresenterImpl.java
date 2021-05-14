@@ -20,7 +20,7 @@ import com.mp.android.apps.book.base.observer.SimpleObserver;
 import com.mp.android.apps.book.bean.SearchBookBean;
 import com.mp.android.apps.book.common.RxBusTag;
 import com.mp.android.apps.book.dao.CollBookBeanDao;
-import com.mp.android.apps.book.model.impl.WebBookModelImpl;
+import com.mp.android.apps.book.model.WebBookModelControl;
 import com.mp.android.apps.book.presenter.IBookDetailPresenter;
 import com.mp.android.apps.book.view.IBookDetailView;
 import com.mp.android.apps.MyApplication;
@@ -108,7 +108,7 @@ public class BookDetailPresenterImpl extends BasePresenterImpl<IBookDetailView> 
             }).flatMap(new Function<CollBookBean, ObservableSource<CollBookBean>>() {
                 @Override
                 public ObservableSource<CollBookBean> apply(CollBookBean collBookBean) throws Exception {
-                    return WebBookModelImpl.getInstance().getBookInfo(collBookBean);
+                    return WebBookModelControl.getInstance().getBookInfo(collBookBean);
                 }
             }).subscribeOn(Schedulers.io())
                     .compose(((BaseActivity) mView.getContext()).<CollBookBean>bindUntilEvent(ActivityEvent.DESTROY))

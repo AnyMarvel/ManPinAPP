@@ -8,7 +8,7 @@ import com.mp.android.apps.basemvplib.IView;
 import com.mp.android.apps.basemvplib.impl.BaseActivity;
 import com.mp.android.apps.book.base.observer.SimpleObserver;
 import com.mp.android.apps.book.common.RxBusTag;
-import com.mp.android.apps.book.model.impl.WebBookModelImpl;
+import com.mp.android.apps.book.model.WebBookModelControl;
 import com.mp.android.apps.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
 import com.mp.android.apps.readActivity.local.BookRepository;
@@ -50,7 +50,7 @@ public class BookShelUtils {
      * @param mView
      */
     public void addToBookShelfUtils(CollBookBean collBookBean, IView mView) {
-        WebBookModelImpl.getInstance().getBookChapters(collBookBean)
+        WebBookModelControl.getInstance().getBookChapters(collBookBean)
                 .toObservable()
                 .flatMap(new Function<List<BookChapterBean>, ObservableSource<Boolean>>() {
                     @Override

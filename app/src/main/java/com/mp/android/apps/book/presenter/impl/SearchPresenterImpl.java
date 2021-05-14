@@ -17,7 +17,7 @@ import com.mp.android.apps.book.bean.SearchBookBean;
 import com.mp.android.apps.book.bean.SearchHistoryBean;
 import com.mp.android.apps.book.common.RxBusTag;
 import com.mp.android.apps.book.dao.SearchHistoryBeanDao;
-import com.mp.android.apps.book.model.impl.WebBookModelImpl;
+import com.mp.android.apps.book.model.WebBookModelControl;
 import com.mp.android.apps.book.presenter.ISearchPresenter;
 import com.mp.android.apps.book.view.ISearchView;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
@@ -234,7 +234,7 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
                     }
                 } else {
                     final int finalSearchEngineIndex = searchEngineIndex;
-                    WebBookModelImpl.getInstance().searchOtherBook(content, page, (String) searchEngine.get(searchEngineIndex).get(TAG_KEY))
+                    WebBookModelControl.getInstance().searchOtherBook(content, page, (String) searchEngine.get(searchEngineIndex).get(TAG_KEY))
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
                             .subscribe(new SimpleObserver<List<SearchBookBean>>() {
@@ -311,7 +311,7 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
             if (collBookBean.getBookChapterUrl() != null) {
                 BookShelUtils.getInstance().addToBookShelfUtils(collBookBean, mView);
             } else {
-                WebBookModelImpl.getInstance().getBookInfo(collBookBean).subscribeOn(Schedulers.io())
+                WebBookModelControl.getInstance().getBookInfo(collBookBean).subscribeOn(Schedulers.io())
                         .compose(((BaseActivity) mView.getContext()).<CollBookBean>bindUntilEvent(ActivityEvent.DESTROY))
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new SimpleObserver<CollBookBean>() {
@@ -338,7 +338,7 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
         super.attachView(iView);
         //搜索引擎初始化
         searchEngine = new ArrayList<>();
-        WebBookModelImpl.getInstance().registerSearchEngine(searchEngine, mView.getContext());
+        WebBookModelControl.getInstance().registerSearchEngine(searchEngine, mView.getContext());
         //注册 eventBus
         RxBus.get().register(this);
     }

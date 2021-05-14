@@ -14,7 +14,7 @@ import com.mp.android.apps.book.bean.DownloadTaskBean;
 import com.mp.android.apps.book.contentprovider.MyContentProvider;
 import com.mp.android.apps.book.dao.BookChapterBeanDao;
 import com.mp.android.apps.book.dao.DownloadTaskBeanDao;
-import com.mp.android.apps.book.model.impl.WebBookModelImpl;
+import com.mp.android.apps.book.model.WebBookModelControl;
 import com.mp.android.apps.book.utils.NetworkUtils;
 import com.mp.android.apps.readActivity.base.BaseService;
 import com.mp.android.apps.readActivity.bean.BookChapterBean;
@@ -58,7 +58,7 @@ public class DownloadService extends BaseService {
         List<CollBookBean> collBookBeanList = BookRepository.getInstance().getCollBooks();
 
         for (CollBookBean collBookBean : collBookBeanList) {
-            WebBookModelImpl.getInstance().getBookChapters(collBookBean).toObservable().flatMap(new Function<List<BookChapterBean>, Observable<?>>() {
+            WebBookModelControl.getInstance().getBookChapters(collBookBean).toObservable().flatMap(new Function<List<BookChapterBean>, Observable<?>>() {
                 @Override
                 public Observable<?> apply(@NonNull List<BookChapterBean> bookChapterBeans) throws Exception {
                     return Observable.create(new ObservableOnSubscribe<Boolean>() {
@@ -212,7 +212,7 @@ public class DownloadService extends BaseService {
         final int[] result = {0};
 
         //问题:(这里有个问题，就是body其实比较大，如何获取数据流而不是对象，)是不是直接使用OkHttpClient交互会更好一点
-        Disposable disposable = WebBookModelImpl.getInstance()
+        Disposable disposable = WebBookModelControl.getInstance()
                 .getChapterInfo(bean.getLink())
                 .subscribeOn(Schedulers.io())
                 //表示在当前环境下执行

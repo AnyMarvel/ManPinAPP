@@ -66,6 +66,7 @@ public class CollBookBean implements Parcelable {
     private boolean isLocal = false;
     //数据源地址标识
     private String bookTag;
+    //章节集合地址
     private String bookChapterUrl;
 
     public String getBookChapterUrl() {
@@ -118,6 +119,10 @@ public class CollBookBean implements Parcelable {
         return _id;
     }
 
+    /** searchBookBean.getNoteUrl()
+     * 默认设置为
+     * @param _id
+     */
     public void set_id(String _id) {
         this._id = _id;
     }

@@ -33,6 +33,10 @@ import io.reactivex.SingleOnSubscribe;
 import io.reactivex.SingleSource;
 import io.reactivex.functions.Function;
 
+/**
+ * 文学馆地址已废弃
+ */
+@Deprecated
 public class ContentWxguanModelImpl extends MBaseModelImpl implements IReaderBookModel {
     public static final String TAG = "https://www.wxguan.com";
     public static final String TAG_SEARCH = "https://so.biqusoso.com";

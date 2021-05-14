@@ -48,12 +48,12 @@ public class WebBookModelImpl {
         switch (collBookBean.getBookTag()) {
             case TXSBookModelImpl.TAG:
                 return TXSBookModelImpl.getInstance().getBookInfo(collBookBean);
-            case ContentWxguanModelImpl.TAG:
-                return ContentWxguanModelImpl.getInstance().getBookInfo(collBookBean);
-            case GxwztvBookModelImpl.TAG:
-                return GxwztvBookModelImpl.getInstance().getBookInfo(collBookBean);
+
             case ContentYb3ModelImpl.TAG:
                 return ContentYb3ModelImpl.getInstance().getBookInfo(collBookBean);
+
+            case ContentIdeaJainImpl.TAG:
+                return ContentIdeaJainImpl.getInstance().getBookInfo(collBookBean);
             default:
                 return null;
         }
@@ -73,12 +73,11 @@ public class WebBookModelImpl {
         switch (TAG) {
             case TXSBookModelImpl.TAG:
                 return TXSBookModelImpl.getInstance().getBookChapters(collBookBean);
-            case ContentWxguanModelImpl.TAG:
-                return ContentWxguanModelImpl.getInstance().getBookChapters(collBookBean);
-            case GxwztvBookModelImpl.TAG:
-                return GxwztvBookModelImpl.getInstance().getBookChapters(collBookBean);
+
             case ContentYb3ModelImpl.TAG:
                 return ContentYb3ModelImpl.getInstance().getBookChapters(collBookBean);
+            case ContentIdeaJainImpl.TAG:
+                return ContentIdeaJainImpl.getInstance().getBookChapters(collBookBean);
             default:
                 return null;
         }
@@ -101,12 +100,11 @@ public class WebBookModelImpl {
         switch (TAG) {
             case TXSBookModelImpl.TAG:
                 return TXSBookModelImpl.getInstance().getChapterInfo(url);
-            case ContentWxguanModelImpl.TAG:
-                return ContentWxguanModelImpl.getInstance().getChapterInfo(url);
-            case GxwztvBookModelImpl.TAG:
-                return GxwztvBookModelImpl.getInstance().getChapterInfo(url);
+
             case ContentYb3ModelImpl.TAG:
                 return ContentYb3ModelImpl.getInstance().getChapterInfo(url);
+            case ContentIdeaJainImpl.TAG:
+                return ContentIdeaJainImpl.getInstance().getChapterInfo(url);
             default:
                 return null;
         }
@@ -121,14 +119,13 @@ public class WebBookModelImpl {
         switch (tag) {
             case TXSBookModelImpl.TAG:
                 return TXSBookModelImpl.getInstance().searchBook(content, page);
-            case ContentWxguanModelImpl.TAG:
-                return ContentWxguanModelImpl.getInstance().searchBook(content, page);
-            case GxwztvBookModelImpl.TAG:
-                return GxwztvBookModelImpl.getInstance().searchBook(content, page);
+
             case ContentYb3ModelImpl.TAG:
                 return ContentYb3ModelImpl.getInstance().searchBook(content, page);
             case ContentAimanpinModeImpl.TAG:
                 return ContentAimanpinModeImpl.getInstance().searchBook(content, page);
+            case ContentIdeaJainImpl.TAG:
+                return ContentIdeaJainImpl.getInstance().searchBook(content, page);
             default:
                 return Observable.create(new ObservableOnSubscribe<List<SearchBookBean>>() {
                     @Override
@@ -157,14 +154,12 @@ public class WebBookModelImpl {
         if ((Boolean) SharedPreferenceUtil.get(context, TXSBookModelImpl.TAG, false))
             newSearchEngine(searchEngine, TXSBookModelImpl.TAG);
 
-        if ((Boolean) SharedPreferenceUtil.get(context, ContentWxguanModelImpl.TAG, false))
-            newSearchEngine(searchEngine, ContentWxguanModelImpl.TAG);
-
         if ((Boolean) SharedPreferenceUtil.get(context, ContentYb3ModelImpl.TAG, false))
             newSearchEngine(searchEngine, ContentYb3ModelImpl.TAG);
 
-        if ((Boolean) SharedPreferenceUtil.get(context, GxwztvBookModelImpl.TAG, false))
-            newSearchEngine(searchEngine, GxwztvBookModelImpl.TAG);
+        if ((Boolean) SharedPreferenceUtil.get(context, ContentIdeaJainImpl.TAG, false))
+            newSearchEngine(searchEngine, ContentIdeaJainImpl.TAG);
+
 
     }
 

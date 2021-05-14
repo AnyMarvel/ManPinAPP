@@ -102,6 +102,11 @@ public class ContentAimanpinModeImpl extends MBaseModelImpl implements IReaderBo
         return null;
     }
 
+    @Override
+    public String getTAG() {
+        return TAG;
+    }
+
 
     interface SearchManpin {
         @GET("/appview/searchBook")

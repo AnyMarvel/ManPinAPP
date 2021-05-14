@@ -7,6 +7,7 @@ import com.mp.android.apps.book.base.MBaseModelImpl;
 import com.mp.android.apps.book.bean.SearchBookBean;
 import com.mp.android.apps.book.common.api.TXSAPI;
 import com.mp.android.apps.book.model.IReaderBookModel;
+import com.mp.android.apps.book.model.ObtainBookInfoUtils;
 import com.mp.android.apps.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.readActivity.bean.ChapterInfoBean;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
@@ -178,7 +179,7 @@ public class TXSBookModelImpl extends MBaseModelImpl implements IReaderBookModel
 
                 try {
                     String kind = resultE.getElementsByTag("p").get(0).getElementsByTag("a").get(1).text().toString().trim();
-                    ObtainBookInfoImpl.getInstance().senMessageManpin(collBookBean, kind, lastChapter);
+                    ObtainBookInfoUtils.getInstance().senMessageManpin(collBookBean, kind, lastChapter);
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
@@ -239,6 +240,11 @@ public class TXSBookModelImpl extends MBaseModelImpl implements IReaderBookModel
                 });
             }
         });
+    }
+
+    @Override
+    public String getTAG() {
+        return TAG;
     }
 
     private ChapterInfoBean analysisChapterInfo(String s, String url) {

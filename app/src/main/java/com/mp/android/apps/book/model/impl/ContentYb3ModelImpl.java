@@ -6,6 +6,7 @@ import com.mp.android.apps.book.base.MBaseModelImpl;
 import com.mp.android.apps.book.bean.SearchBookBean;
 import com.mp.android.apps.book.common.api.IYb3API;
 import com.mp.android.apps.book.model.IReaderBookModel;
+import com.mp.android.apps.book.model.ObtainBookInfoUtils;
 import com.mp.android.apps.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.readActivity.bean.ChapterInfoBean;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
@@ -129,7 +130,7 @@ public class ContentYb3ModelImpl extends MBaseModelImpl implements IReaderBookMo
                 String lastChapter = resultE.getElementById("info").getElementsByTag("p").get(3).getElementsByTag("a").get(0).text();
                 collBookBean.setLastChapter(lastChapter);
                 try {
-                    ObtainBookInfoImpl.getInstance().senMessageManpin(collBookBean, "", lastChapter);
+                    ObtainBookInfoUtils.getInstance().senMessageManpin(collBookBean, "", lastChapter);
                 } catch (Exception e1) {
 
                 }
@@ -195,6 +196,11 @@ public class ContentYb3ModelImpl extends MBaseModelImpl implements IReaderBookMo
                 });
             }
         });
+    }
+
+    @Override
+    public String getTAG() {
+        return TAG;
     }
 
     private ChapterInfoBean analysisChapterInfo(String s, String url) {

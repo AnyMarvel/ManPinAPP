@@ -1,4 +1,4 @@
-package com.mp.android.apps.book.model.impl;
+package com.mp.android.apps.book.model;
 
 import com.mp.android.apps.book.base.MBaseModelImpl;
 import com.mp.android.apps.book.base.observer.SimpleObserver;
@@ -9,10 +9,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 
 import io.reactivex.schedulers.Schedulers;
 
-public class ObtainBookInfoImpl extends MBaseModelImpl {
+public class ObtainBookInfoUtils extends MBaseModelImpl {
 
-    public static ObtainBookInfoImpl getInstance() {
-        return new ObtainBookInfoImpl();
+    public static ObtainBookInfoUtils getInstance() {
+        return new ObtainBookInfoUtils();
     }
 
     public void senMessageManpin(CollBookBean collBookBean, String kind, String lastChapter) {

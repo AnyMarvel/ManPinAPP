@@ -4,16 +4,11 @@
     "bookSourceScore": "5",
     "bookSourceAddress": "http://aimanpin.com",
     "bookSourceSwitch": false
-  },{
-    "bookTitle": "九桃小说网",
-    "bookSourceScore": "5",
-    "bookSourceAddress": "https://www.9txs.com",
-    "bookSourceSwitch": false
   },
   {
-    "bookTitle": "文学馆",
-    "bookSourceScore": "4.5",
-    "bookSourceAddress": "https://www.wxguan.com",
+    "bookTitle": "九桃小说网",
+    "bookSourceScore": "5",
+    "bookSourceAddress": "https://www.9txs.org",
     "bookSourceSwitch": false
   },
   {
@@ -23,9 +18,9 @@
     "bookSourceSwitch": false
   },
   {
-    "bookTitle": "梧桐中文网",
-    "bookSourceScore": "3.5",
-    "bookSourceAddress": "http://www.wzzw.la",
+    "bookTitle": "得间小说",
+    "bookSourceScore": "5",
+    "bookSourceAddress": "https://www.idejian.com",
     "bookSourceSwitch": false
   }
 ]

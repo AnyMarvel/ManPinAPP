@@ -31,6 +31,12 @@ import io.reactivex.SingleSource;
 import io.reactivex.functions.Function;
 //梧桐中文网 http://www.ztv.la/28/28945/ 添加了反扒策略 需要重新适配
 
+/**
+ * 梧桐中文网地址网站已废弃
+ * http://www.wzzw.la 已废弃
+ */
+
+@Deprecated
 public class GxwztvBookModelImpl extends MBaseModelImpl implements IReaderBookModel {
     public static final String TAG = "http://www.wzzw.la";
 

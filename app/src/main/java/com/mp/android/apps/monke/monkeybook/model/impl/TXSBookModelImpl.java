@@ -37,7 +37,7 @@ import okhttp3.RequestBody;
 
 
 public class TXSBookModelImpl extends MBaseModelImpl implements IReaderBookModel {
-    public static final String TAG = "https://www.9txs.com";
+    public static final String TAG = "https://www.9txs.org";
     public static final String SEARCH_TAG = "https://so.9txs.org";
 
     public static final String ORIGIN = "9txs.com";

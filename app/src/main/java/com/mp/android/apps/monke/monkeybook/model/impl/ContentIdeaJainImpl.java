@@ -4,10 +4,9 @@ package com.mp.android.apps.monke.monkeybook.model.impl;
 
 import com.google.android.apps.photolab.storyboard.download.MD5Utils;
 import com.mp.android.apps.monke.monkeybook.base.MBaseModelImpl;
-
-
+import com.mp.android.apps.monke.monkeybook.base.observer.SimpleObserver;
 import com.mp.android.apps.monke.monkeybook.bean.SearchBookBean;
-import com.mp.android.apps.monke.monkeybook.common.api.IWxguanAPI;
+import com.mp.android.apps.monke.monkeybook.common.api.IIdeaJianAPI;
 import com.mp.android.apps.monke.monkeybook.model.IReaderBookModel;
 import com.mp.android.apps.monke.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.monke.readActivity.bean.ChapterInfoBean;
@@ -15,7 +14,6 @@ import com.mp.android.apps.monke.readActivity.bean.CollBookBean;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
@@ -27,33 +25,35 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
+import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
 import io.reactivex.SingleSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
- * 文学馆地址已废弃
+ * 得间小说
  */
-@Deprecated
-public class ContentWxguanModelImpl extends MBaseModelImpl implements IReaderBookModel {
-    public static final String TAG = "https://www.wxguan.com";
-    public static final String TAG_SEARCH = "https://so.biqusoso.com";
-    public static final String ORIGIN = "wxguan.com";
 
-    public static ContentWxguanModelImpl getInstance() {
-        return new ContentWxguanModelImpl();
+public class ContentIdeaJainImpl extends MBaseModelImpl implements IReaderBookModel {
+    public static final String TAG = "https://www.idejian.com";
+    public static final String ORIGIN = "idejian.com";
+
+    public static ContentIdeaJainImpl getInstance() {
+        return new ContentIdeaJainImpl();
     }
 
-    private ContentWxguanModelImpl() {
+    private ContentIdeaJainImpl() {
 
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public Observable<List<SearchBookBean>> searchBook(String content, int page) {
-        return getRetrofitObject(TAG_SEARCH).create(IWxguanAPI.class).searchBook("xwxguan.com", content, "utf-8").flatMap(new Function<String, ObservableSource<List<SearchBookBean>>>() {
+        return getRetrofitObject(TAG).create(IIdeaJianAPI.class).searchBook(content).flatMap(new Function<String, ObservableSource<List<SearchBookBean>>>() {
             @Override
             public ObservableSource<List<SearchBookBean>> apply(String s) throws Exception {
                 return analySearchBook(s);
@@ -68,20 +68,19 @@ public class ContentWxguanModelImpl extends MBaseModelImpl implements IReaderBoo
             public void subscribe(ObservableEmitter<List<SearchBookBean>> e) throws Exception {
                 try {
                     Document doc = Jsoup.parse(s);
-                    Elements booksE = doc.getElementsByClass("search-list").get(0).getElementsByTag("li");
+                    Elements booksE = doc.getElementsByClass("rank_ullist").get(0).getElementsByTag("li");
                     if (null != booksE && booksE.size() > 1) {
                         List<SearchBookBean> books = new ArrayList<SearchBookBean>();
                         for (int i = 1; i < booksE.size(); i++) {
                             SearchBookBean item = new SearchBookBean();
                             item.setTag(TAG);
-                            item.setAuthor(booksE.get(i).getElementsByClass("s4").get(0).text());
-                            item.setKind("文学馆小说");
+                            item.setAuthor(booksE.get(i).getElementsByClass("author").get(0).text());
+                            item.setKind("得间小说");
 //                            item.setState();
                             item.setOrigin(ORIGIN);
-                            item.setName(booksE.get(i).getElementsByClass("s2").get(0).getElementsByTag("a").get(0).text());
-                            String href = booksE.get(i).getElementsByClass("s2").get(0).getElementsByTag("a").get(0).attr("href");
-                            item.setNoteUrl(TAG + "/wenzhang/" + Integer.parseInt(href.substring(href.lastIndexOf("/") + 1)) / 2 + "/" + href.substring(href.lastIndexOf("/") + 1));
-                            item.setCoverUrl("noimage");
+                            item.setName(booksE.get(i).getElementsByClass("rank_bkname").get(0).getElementsByTag("a").get(0).text());
+                            item.setNoteUrl(TAG + booksE.get(i).getElementsByClass("rank_bkname").get(0).getElementsByTag("a").get(0).attr("href"));
+                            item.setCoverUrl(booksE.get(i).getElementsByClass("items_l").get(0).getElementsByTag("a").get(0).getElementsByTag("img").get(0).attr("src"));
                             books.add(item);
                         }
                         e.onNext(books);
@@ -101,7 +100,7 @@ public class ContentWxguanModelImpl extends MBaseModelImpl implements IReaderBoo
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public Observable<CollBookBean> getBookInfo(CollBookBean collBookBean) {
-        return getRetrofitObject(TAG).create(IWxguanAPI.class).getBookInfo(collBookBean.get_id().replace(TAG, "")).flatMap(new Function<String, ObservableSource<CollBookBean>>() {
+        return getRetrofitObject(TAG).create(IIdeaJianAPI.class).getBookInfo(collBookBean.get_id().replace(TAG, "")).flatMap(new Function<String, ObservableSource<CollBookBean>>() {
             @Override
             public ObservableSource<CollBookBean> apply(String s) throws Exception {
                 return analyBookInfo(s, collBookBean);
@@ -116,21 +115,22 @@ public class ContentWxguanModelImpl extends MBaseModelImpl implements IReaderBoo
             public void subscribe(ObservableEmitter<CollBookBean> e) throws Exception {
                 collBookBean.setBookTag(TAG);
                 Document doc = Jsoup.parse(s);
-                Element resultE = doc.getElementsByClass("book").get(0);
 
-                collBookBean.setCover(TAG + resultE.getElementsByTag("img").get(0).attr("src"));
+                Element bookInfo = doc.getElementsByClass("detail_bkinfo").get(0);
+                collBookBean.setCover(bookInfo.getElementsByClass("info_bookimg").get(0).getElementsByTag("img").attr("src"));
 
-                collBookBean.setTitle(resultE.getElementsByTag("img").get(0).attr("alt"));
-                String author = resultE.getElementsByClass("small").get(0).getElementsByTag("span").get(0).text().toString().trim();
-                author = author.replace(" ", "").replace("  ", "").replace("作者：", "");
+                collBookBean.setTitle(bookInfo.getElementsByClass("detail_bkname").get(0).getElementsByTag("a").get(0).text());
+                String author = bookInfo.getElementsByClass("detail_bkauthor").get(0).text().toString().trim();
+                author = author.replace(" ", "").replace("  ", "").replace("\"", "");
                 collBookBean.setAuthor(author);
-                String updatedTime = resultE.getElementsByClass("small").get(0).getElementsByTag("span").get(4).text().toString().trim();
-                updatedTime = updatedTime.replace(" ", "").replace("  ", "").replace("更新时间：", "");
+                Element bookPage = doc.getElementsByClass("book_page").get(0);
+                String updatedTime = bookPage.getElementsByTag("span").get(0).text().toString().trim();
+                updatedTime = updatedTime.replace(" ", "").replace("  ", "");
 
                 collBookBean.setUpdated(updatedTime);
 
-                collBookBean.setLastChapter(resultE.getElementsByClass("small").get(0).getElementsByTag("span").get(5).text().toString().trim());
-                List<TextNode> contentEs = resultE.getElementsByClass("intro").get(0).textNodes();
+                collBookBean.setLastChapter(bookPage.getElementsByClass("link_name").get(0).text().toString().trim());
+                List<TextNode> contentEs = doc.getElementsByClass("brief_con").get(0).textNodes();
                 StringBuilder content = new StringBuilder();
                 for (int i = 0; i < contentEs.size(); i++) {
                     String temp = contentEs.get(i).text().trim();
@@ -146,8 +146,8 @@ public class ContentWxguanModelImpl extends MBaseModelImpl implements IReaderBoo
                 collBookBean.setShortIntro(content.toString());
                 collBookBean.setBookChapterUrl(collBookBean.get_id());
                 try {
-                    String kind = resultE.getElementsByClass("small").get(0).getElementsByTag("span").get(1).text().replace("分类：", "");
-                    String lastChapter = resultE.getElementsByClass("small").get(0).getElementsByTag("span").get(5).getElementsByTag("a").text();
+                    String kind = bookInfo.getElementsByClass("detail_bkgrade").get(0).getElementsByTag("span").get(1).text();
+                    String lastChapter = bookPage.getElementsByClass("link_name").get(0).text().toString().trim();
                     ObtainBookInfoImpl.getInstance().senMessageManpin(collBookBean, kind, lastChapter);
                 } catch (Exception e1) {
                     e1.printStackTrace();
@@ -161,7 +161,7 @@ public class ContentWxguanModelImpl extends MBaseModelImpl implements IReaderBoo
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////    @Override
     public Single<List<BookChapterBean>> getBookChapters(CollBookBean collBookBean) {
-        return getRetrofitObject(TAG).create(IWxguanAPI.class).getChapterLists(collBookBean.getBookChapterUrl())
+        return getRetrofitObject(TAG).create(IIdeaJianAPI.class).getChapterLists(collBookBean.getBookChapterUrl())
                 .flatMap(new Function<String, Single<List<BookChapterBean>>>() {
 
                     @Override
@@ -178,15 +178,15 @@ public class ContentWxguanModelImpl extends MBaseModelImpl implements IReaderBoo
 
     private List<BookChapterBean> analyChapterlist(String s, CollBookBean collBookBean) {
         Document doc = Jsoup.parse(s);
-        Elements chapterlist = doc.getElementsByClass("listmain").get(0).getElementsByTag("dd");
+        Elements chapterlist = doc.getElementsByClass("catelog_list").get(0).getElementsByTag("li");
         List<BookChapterBean> chapterBeans = new ArrayList<BookChapterBean>();
-        for (int i = 11; i < chapterlist.size(); i++) {
+        for (int i = 0; i < chapterlist.size(); i++) {
             BookChapterBean temp = new BookChapterBean();
             String linkUrl = TAG + chapterlist.get(i).getElementsByTag("a").get(0).attr("href");
             temp.setId(MD5Utils.strToMd5By16(linkUrl));
             temp.setTitle(chapterlist.get(i).getElementsByTag("a").get(0).text());
             temp.setLink(linkUrl);   //id
-            temp.setPosition(i - 11);
+            temp.setPosition(i);
             temp.setBookId(collBookBean.get_id());
             temp.setUnreadble(false);
             chapterBeans.add(temp);
@@ -198,7 +198,8 @@ public class ContentWxguanModelImpl extends MBaseModelImpl implements IReaderBoo
     //==================================获取章节内容(具体的阅读内容)
     @Override
     public Single<ChapterInfoBean> getChapterInfo(String url) {
-        return getRetrofitObject(TAG).create(IWxguanAPI.class).getChapterInfo(url).flatMap(new Function<String, SingleSource<? extends ChapterInfoBean>>() {
+
+        return getRetrofitObject(TAG).create(IIdeaJianAPI.class).getChapterInfo(url).flatMap(new Function<String, SingleSource<? extends ChapterInfoBean>>() {
             @Override
             public SingleSource<? extends ChapterInfoBean> apply(String s) throws Exception {
                 return Single.create(new SingleOnSubscribe<ChapterInfoBean>() {
@@ -215,7 +216,7 @@ public class ContentWxguanModelImpl extends MBaseModelImpl implements IReaderBoo
         ChapterInfoBean chapterInfoBean = new ChapterInfoBean();
         try {
             Document doc = Jsoup.parse(s);
-            List<TextNode> contentEs = doc.getElementById("content").textNodes();
+            List<Element> contentEs = doc.getElementsByClass("read_content").get(0).getElementsByClass("bodytext");
             StringBuilder content = new StringBuilder();
             for (int i = 0; i < contentEs.size(); i++) {
                 String temp = contentEs.get(i).text().trim();
@@ -230,6 +231,7 @@ public class ContentWxguanModelImpl extends MBaseModelImpl implements IReaderBoo
             chapterInfoBean.setBody(content.toString());
 
         } catch (Exception ex) {
+            System.out.println(ex.getStackTrace());
             ex.printStackTrace();
 
         }

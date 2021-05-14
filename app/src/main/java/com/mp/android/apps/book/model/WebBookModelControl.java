@@ -29,11 +29,19 @@ import static com.mp.android.apps.book.presenter.impl.SearchPresenterImpl.TAG_KE
 
 /**
  * 图书内容获取 加载，解析，章节处理，内容处理等问题
+ * 引擎增加只需要修改initModels 添加实体类，减少代码建设量
  */
 public class WebBookModelControl {
+    /**
+     * 解析引擎队列
+     */
+    private List<IReaderBookModel> models = new ArrayList<>();
+
+
     private static WebBookModelControl webBookModel;
 
     private WebBookModelControl() {
+
     }
 
     public static WebBookModelControl getInstance() {
@@ -41,6 +49,7 @@ public class WebBookModelControl {
             synchronized (WebBookModelControl.class) {
                 if (webBookModel == null) {
                     webBookModel = new WebBookModelControl();
+                    webBookModel.initModels();
                 }
             }
         }
@@ -48,20 +57,26 @@ public class WebBookModelControl {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * 增加引擎
+     */
+    private void initModels() {
+        models.add(ContentAimanpinModeImpl.getInstance());//只具有搜索功能的下发服务器,为用户点击的上报数据
+        models.add(TXSBookModelImpl.getInstance());
+        models.add(ContentYb3ModelImpl.getInstance());
+        models.add(ContentIdeaJainImpl.getInstance());
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public Observable<CollBookBean> getBookInfo(CollBookBean collBookBean) {
-        switch (collBookBean.getBookTag()) {
-            case TXSBookModelImpl.TAG:
-                return TXSBookModelImpl.getInstance().getBookInfo(collBookBean);
-
-            case ContentYb3ModelImpl.TAG:
-                return ContentYb3ModelImpl.getInstance().getBookInfo(collBookBean);
-
-            case ContentIdeaJainImpl.TAG:
-                return ContentIdeaJainImpl.getInstance().getBookInfo(collBookBean);
-            default:
-                return null;
+        for (IReaderBookModel model : models) {
+            if (model.getTAG().equals(collBookBean.getBookTag())) {
+                return model.getBookInfo(collBookBean);
+            }
         }
-
+        return null;
     }
 
     /**
@@ -74,18 +89,13 @@ public class WebBookModelControl {
         Uri uri = Uri.parse(collBookBean.getBookChapterUrl());
         String TAG = uri.getScheme() + "://" + uri.getHost();
         Logger.d("Current website:  " + TAG);
-        switch (TAG) {
-            case TXSBookModelImpl.TAG:
-                return TXSBookModelImpl.getInstance().getBookChapters(collBookBean);
 
-            case ContentYb3ModelImpl.TAG:
-                return ContentYb3ModelImpl.getInstance().getBookChapters(collBookBean);
-            case ContentIdeaJainImpl.TAG:
-                return ContentIdeaJainImpl.getInstance().getBookChapters(collBookBean);
-            default:
-                return null;
+        for (IReaderBookModel model : models) {
+            if (model.getTAG().equals(TAG)) {
+                return model.getBookChapters(collBookBean);
+            }
         }
-
+        return null;
 
     }
 
@@ -101,18 +111,13 @@ public class WebBookModelControl {
         Uri uri = Uri.parse(url);
         String TAG = uri.getScheme() + "://" + uri.getHost();
         Logger.d("Current website" + TAG);
-        switch (TAG) {
-            case TXSBookModelImpl.TAG:
-                return TXSBookModelImpl.getInstance().getChapterInfo(url);
 
-            case ContentYb3ModelImpl.TAG:
-                return ContentYb3ModelImpl.getInstance().getChapterInfo(url);
-            case ContentIdeaJainImpl.TAG:
-                return ContentIdeaJainImpl.getInstance().getChapterInfo(url);
-            default:
-                return null;
+        for (IReaderBookModel model : models) {
+            if (model.getTAG().equals(TAG)) {
+                return model.getChapterInfo(url);
+            }
         }
-
+        return null;
 
     }
 
@@ -120,26 +125,21 @@ public class WebBookModelControl {
      * 其他站点集合搜索
      */
     public Observable<List<SearchBookBean>> searchOtherBook(String content, int page, String tag) {
-        switch (tag) {
-            case TXSBookModelImpl.TAG:
-                return TXSBookModelImpl.getInstance().searchBook(content, page);
 
-            case ContentYb3ModelImpl.TAG:
-                return ContentYb3ModelImpl.getInstance().searchBook(content, page);
-            case ContentAimanpinModeImpl.TAG:
-                return ContentAimanpinModeImpl.getInstance().searchBook(content, page);
-            case ContentIdeaJainImpl.TAG:
-                return ContentIdeaJainImpl.getInstance().searchBook(content, page);
-            default:
-                return Observable.create(new ObservableOnSubscribe<List<SearchBookBean>>() {
-                    @Override
-                    public void subscribe(ObservableEmitter<List<SearchBookBean>> e) throws Exception {
-                        e.onNext(new ArrayList<SearchBookBean>());
-                        e.onComplete();
-                    }
-                });
-
+        for (IReaderBookModel model : models) {
+            if (model.getTAG().equals(tag)) {
+                return model.searchBook(content, page);
+            }
         }
+
+        return Observable.create(new ObservableOnSubscribe<List<SearchBookBean>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<SearchBookBean>> e) throws Exception {
+                e.onNext(new ArrayList<SearchBookBean>());
+                e.onComplete();
+            }
+        });
+
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -151,24 +151,17 @@ public class WebBookModelControl {
      * @param searchEngine
      */
     public void registerSearchEngine(List<Map> searchEngine, Context context) {
+
         //搜索引擎初始化
-        if ((Boolean) SharedPreferenceUtil.get(context, ContentAimanpinModeImpl.TAG, false))
-            newSearchEngine(searchEngine, ContentAimanpinModeImpl.TAG);
-
-        if ((Boolean) SharedPreferenceUtil.get(context, TXSBookModelImpl.TAG, false))
-            newSearchEngine(searchEngine, TXSBookModelImpl.TAG);
-
-        if ((Boolean) SharedPreferenceUtil.get(context, ContentYb3ModelImpl.TAG, false))
-            newSearchEngine(searchEngine, ContentYb3ModelImpl.TAG);
-
-        if ((Boolean) SharedPreferenceUtil.get(context, ContentIdeaJainImpl.TAG, false))
-            newSearchEngine(searchEngine, ContentIdeaJainImpl.TAG);
-
-
+        for (IReaderBookModel model : models) {
+            if ((Boolean) SharedPreferenceUtil.get(context, model.getTAG(), false)) {
+                newSearchEngine(searchEngine, model.getTAG());
+            }
+        }
     }
 
     private void newSearchEngine(List<Map> searchEngine, String ImplTAG) {
-        Map map = new HashMap();
+        Map<String,String> map = new HashMap<String,String>();
         map.put(TAG_KEY, ImplTAG);
         searchEngine.add(map);
     }

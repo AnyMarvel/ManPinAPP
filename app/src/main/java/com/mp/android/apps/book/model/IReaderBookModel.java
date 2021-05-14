@@ -14,6 +14,7 @@ public interface IReaderBookModel {
 
     /**
      * 搜索图书
+     *
      * @param content 搜索图书内容
      * @param page
      * @return
@@ -22,6 +23,7 @@ public interface IReaderBookModel {
 
     /**
      * 获取图书详情
+     *
      * @param collBookBean
      * @return
      */
@@ -29,6 +31,7 @@ public interface IReaderBookModel {
 
     /**
      * 获取图书章节
+     *
      * @param collBookBean
      * @return
      */
@@ -36,10 +39,19 @@ public interface IReaderBookModel {
 
     /**
      * 获取当前章节详细内容
+     *
      * @param url
      * @return
      */
     Single<ChapterInfoBean> getChapterInfo(String url);
+
+    /**
+     * 返回当前model TAG
+     * example: http://www.baidu.com
+     * 注意： 地址后缀不能加/
+     * @return
+     */
+    String getTAG();
 
 
 }

@@ -7,6 +7,7 @@ import com.mp.android.apps.book.base.MBaseModelImpl;
 import com.mp.android.apps.book.bean.SearchBookBean;
 import com.mp.android.apps.book.common.api.IIdeaJianAPI;
 import com.mp.android.apps.book.model.IReaderBookModel;
+import com.mp.android.apps.book.model.ObtainBookInfoUtils;
 import com.mp.android.apps.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.readActivity.bean.ChapterInfoBean;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
@@ -144,7 +145,7 @@ public class ContentIdeaJainImpl extends MBaseModelImpl implements IReaderBookMo
                 try {
                     String kind = bookInfo.getElementsByClass("detail_bkgrade").get(0).getElementsByTag("span").get(1).text();
                     String lastChapter = bookPage.getElementsByClass("link_name").get(0).text().toString().trim();
-                    ObtainBookInfoImpl.getInstance().senMessageManpin(collBookBean, kind, lastChapter);
+                    ObtainBookInfoUtils.getInstance().senMessageManpin(collBookBean, kind, lastChapter);
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
@@ -208,6 +209,11 @@ public class ContentIdeaJainImpl extends MBaseModelImpl implements IReaderBookMo
         });
     }
 
+    @Override
+    public String getTAG() {
+        return TAG;
+    }
+
     private ChapterInfoBean analysisChapterInfo(String s, String url) {
         ChapterInfoBean chapterInfoBean = new ChapterInfoBean();
         try {
@@ -227,7 +233,6 @@ public class ContentIdeaJainImpl extends MBaseModelImpl implements IReaderBookMo
             chapterInfoBean.setBody(content.toString());
 
         } catch (Exception ex) {
-            System.out.println(ex.getStackTrace());
             ex.printStackTrace();
 
         }

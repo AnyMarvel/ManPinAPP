@@ -51,17 +51,7 @@ public class TXSBookModelImpl extends MBaseModelImpl implements IReaderBookModel
 
     }
 
-    //比如可以这样生成Map<String, RequestBody> requestBodyMap
-    //Map<String, String> requestDataMap这里面放置上传数据的键值对。
-    private Map<String, RequestBody> generateRequestBody(Map<String, String> requestDataMap) {
-        Map<String, RequestBody> requestBodyMap = new HashMap<>();
-        for (String key : requestDataMap.keySet()) {
-            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),
-                    requestDataMap.get(key) == null ? "" : requestDataMap.get(key));
-            requestBodyMap.put(key, requestBody);
-        }
-        return requestBodyMap;
-    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
@@ -229,7 +219,8 @@ public class TXSBookModelImpl extends MBaseModelImpl implements IReaderBookModel
     //==================================获取章节内容(具体的阅读内容)
     @Override
     public Single<ChapterInfoBean> getChapterInfo(String url) {
-        return getRetrofitObject(TAG).create(TXSAPI.class).getChapterInfo(url).flatMap(new Function<String, SingleSource<? extends ChapterInfoBean>>() {
+        return getRetrofitObject(TAG).create(TXSAPI.class).getChapterInfo(url)
+                .flatMap(new Function<String, SingleSource<? extends ChapterInfoBean>>() {
             @Override
             public SingleSource<? extends ChapterInfoBean> apply(String s) throws Exception {
                 return Single.create(new SingleOnSubscribe<ChapterInfoBean>() {

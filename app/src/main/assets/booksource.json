@@ -22,6 +22,12 @@
     "bookSourceScore": "5",
     "bookSourceAddress": "https://www.idejian.com",
     "bookSourceSwitch": false
+  },
+  {
+    "bookTitle": "塔读文学",
+    "bookSourceScore": "5",
+    "bookSourceAddress": "http://www.tadu.com",
+    "bookSourceSwitch": false
   }
 ]
 

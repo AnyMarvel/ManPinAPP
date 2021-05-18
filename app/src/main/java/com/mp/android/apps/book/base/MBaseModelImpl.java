@@ -2,6 +2,9 @@ package com.mp.android.apps.book.base;
 
 import com.mp.android.apps.basemvplib.EncodoConverter;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
@@ -10,7 +13,9 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
@@ -78,6 +83,19 @@ public abstract class MBaseModelImpl {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(clientBuilder.build())
                 .build();
+    }
+
+    //比如可以这样生成Map<String, RequestBody> requestBodyMap
+    //Map<String, String> requestDataMap这里面放置上传数据的键值对。
+    //https://blog.csdn.net/weixin_41633457/article/details/105226728
+    protected Map<String, RequestBody> generateRequestBody(Map<String, String> requestDataMap) {
+        Map<String, RequestBody> requestBodyMap = new HashMap<>();
+        for (String key : requestDataMap.keySet()) {
+            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),
+                    requestDataMap.get(key) == null ? "" : Objects.requireNonNull(requestDataMap.get(key)));
+            requestBodyMap.put(key, requestBody);
+        }
+        return requestBodyMap;
     }
 
 

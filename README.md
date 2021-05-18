@@ -35,11 +35,11 @@
 
 目前漫品客户端支持小说网站:
 
-- [零点读书](https://www.lingdiankanshu.co)
-- [梧桐中文网](http://www.wzzw.la)
 - [ABC小说网](https://www.yb3.cc)
-- [文学馆](https://www.xwxguan.com)
-- [九桃小说](https://www.9txs.com/)
+- [九桃小说](https://www.9txs.com)
+- [塔读文学](http://www.tadu.com)
+- [得间小说](https://www.idejian.com)
+
 
 持续更新中
 
@@ -48,6 +48,12 @@
 </div>
 
 更新记录：
+1.8.0
+1. 修改书源
+2. 优化搜索引擎
+3. 优化下载引擎
+
+
 1.7.5
 1. 修复本地图书智能导入功能(优化本地文件查找算法,基于txt文件大小进行排队展示)
 2. 修复阅读界面不能保持长亮功能
@@ -57,7 +63,7 @@
 6. 基于无翻页模式增加左手滑动模式(基于屏幕两侧(左侧下一页,右侧上一页)(滑动操作与右手模式操作相同,左滑上一页,右滑下一页))
 
 
-#2. 漫画模块
+#2. 漫画模块（暂不维护）
 
 基于tensorflow生成漫画,内置3000+种模板,基于人脸识别和目标识别分析等多种手段自动拼接漫画,效果如图:
 
@@ -65,7 +71,7 @@
 <img src="pictures/manhua.png" width="150"/> <img src="pictures/manhua_1.png" width="150"/> <img src="pictures/manhua_2.png" width="150"/> <img src="pictures/manhua_3.png" width="150"/> <img src="pictures/manhua_4.png" width="150"/>
 </div>
 
-#3. 明信片
+#3. 明信片（暂不维护）
 
 本模块提供多种模板提供用户使用如图,效果如图
 

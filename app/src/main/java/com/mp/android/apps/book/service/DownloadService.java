@@ -55,37 +55,44 @@ public class DownloadService extends BaseService {
     public void onCreate() {
         super.onCreate();
         Logger.d("======onCreate 同步本地数据,同步书架数据");
-        List<CollBookBean> collBookBeanList = BookRepository.getInstance().getCollBooks();
+        try {
+            List<CollBookBean> collBookBeanList = BookRepository.getInstance().getCollBooks();
+            if (collBookBeanList != null && collBookBeanList.size() > 0) {
+                for (CollBookBean collBookBean : collBookBeanList) {
+                    WebBookModelControl.getInstance().getBookChapters(collBookBean).toObservable()
+                            .flatMap(new Function<List<BookChapterBean>, Observable<?>>() {
+                                @Override
+                                public Observable<?> apply(@NonNull List<BookChapterBean> bookChapterBeans) throws Exception {
+                                    return Observable.create(new ObservableOnSubscribe<Boolean>() {
 
-        for (CollBookBean collBookBean : collBookBeanList) {
-            WebBookModelControl.getInstance().getBookChapters(collBookBean).toObservable().flatMap(new Function<List<BookChapterBean>, Observable<?>>() {
-                @Override
-                public Observable<?> apply(@NonNull List<BookChapterBean> bookChapterBeans) throws Exception {
-                    return Observable.create(new ObservableOnSubscribe<Boolean>() {
+                                        @Override
+                                        public void subscribe(@NonNull ObservableEmitter<Boolean> emitter) throws Exception {
+                                            collBookBean.__setDaoSession(BookRepository.getInstance().getSession());
 
-                        @Override
-                        public void subscribe(@NonNull ObservableEmitter<Boolean> emitter) throws Exception {
-                            collBookBean.__setDaoSession(BookRepository.getInstance().getSession());
-
-                            List<BookChapterBean> taskChapters = BookRepository.getInstance().getSession()
-                                    .getBookChapterBeanDao()
-                                    .queryBuilder()
-                                    .where(BookChapterBeanDao.Properties.BookId.eq(collBookBean.get_id()))
-                                    .list();
-                            if (bookChapterBeans.size() > taskChapters.size()) {
-                                BookRepository.getInstance().saveBookChaptersWithAsync(bookChapterBeans);
-                                emitter.onNext(true);
-                            } else {
-                                emitter.onNext(false);
-                            }
-                            emitter.onComplete();
-                        }
-                    });
+                                            List<BookChapterBean> taskChapters = BookRepository.getInstance().getSession()
+                                                    .getBookChapterBeanDao()
+                                                    .queryBuilder()
+                                                    .where(BookChapterBeanDao.Properties.BookId.eq(collBookBean.get_id()))
+                                                    .list();
+                                            if (bookChapterBeans.size() > taskChapters.size()) {
+                                                BookRepository.getInstance().saveBookChaptersWithAsync(bookChapterBeans);
+                                                emitter.onNext(true);
+                                            } else {
+                                                emitter.onNext(false);
+                                            }
+                                            emitter.onComplete();
+                                        }
+                                    });
+                                }
+                            })
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe();
                 }
-            })
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe();
+
+            }
+        } catch (Exception e) {
+
         }
 
     }

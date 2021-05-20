@@ -2,6 +2,8 @@ package com.mp.android.apps.main.personal;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +12,21 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.hwangjr.rxbus.RxBus;
+import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.annotation.Tag;
+import com.hwangjr.rxbus.thread.EventThread;
 import com.mp.android.apps.R;
 import com.mp.android.apps.SettingAboutActivity;
+import com.mp.android.apps.book.common.RxBusTag;
+import com.mp.android.apps.livevblank.PreviewActivity;
 import com.mp.android.apps.login.LoginActivity;
 import com.mp.android.apps.login.bean.login.Data;
+import com.mp.android.apps.login.fragment.imple.LoginBaseFragment;
 import com.mp.android.apps.login.utils.LoginManager;
 import com.mp.android.apps.main.MainActivity;
 import com.mp.android.apps.main.ManpinWXActivity;
@@ -24,6 +35,10 @@ import com.mp.android.apps.basemvplib.IPresenter;
 import com.mp.android.apps.basemvplib.impl.BaseFragment;
 import com.mp.android.apps.book.base.observer.SimpleObserver;
 import com.mp.android.apps.book.view.impl.BookSourceActivity;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import java.util.List;
 import java.util.Random;
@@ -32,9 +47,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class PersonFragment extends BaseFragment implements View.OnClickListener {
-    ImageView personBackground;
-    RelativeLayout guanyuwomen;
+public class PersonFragment extends LoginBaseFragment implements View.OnClickListener {
+
 
     @Override
     protected IPresenter initInjector() {
@@ -42,71 +56,60 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        RxBus.get().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RxBus.get().unregister(this);
+    }
+
+    @Override
     protected View createView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.person_fragment, container, false);
     }
 
-    @Override
-    protected void bindEvent() {
-        super.bindEvent();
-        IMainFragmentModelImpl.getInstance().getCycleImages().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleObserver<String>() {
-            @Override
-            public void onNext(String s) {
-                List<String> list = (List<String>) JSON.parseObject(s).get("data");
-                if (list != null && list.size() > 0) {
-                    Random random = new Random();
-                    int result = random.nextInt(list.size());
-                    Glide.with(PersonFragment.this.getContext()).load(list.get(result)).into(personBackground);
-
-                }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Glide.with(PersonFragment.this.getContext()).load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1591101217238&di=3ceb9a70573c3da62c42579d111c6319&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201401%2F04%2F114458foyo99odqb8qjzg4.jpg").into(personBackground);
-            }
-        });
-
-
-        if (LoginManager.getInstance().checkLoginInfo()) {
-            Data loginInfo = LoginManager.getInstance().getLoginInfo();
-
-            person_text.setText(loginInfo.getNickname());
-        } else {
-            person_text.setText("未登录");
-            mUserLogo.setImageResource(R.drawable.ic_camera_beauty);
-        }
-
-    }
-
-    RelativeLayout weibo_sina;
-    RelativeLayout maillayout;
-    TextView person_text;
-    LinearLayout person_login_statu;
     CircleImageView mUserLogo;
     RelativeLayout manpin_weixin_xiaobian_layout;
     RelativeLayout booksource;
+    RelativeLayout guanyuwomen;
+    RelativeLayout fenxiang;
+    LinearLayout personExternalLoginLayout;
+    TextView personFragmentUsername;
 
     @Override
     protected void bindView() {
         super.bindView();
-        personBackground = view.findViewById(R.id.person_backgroundImage);
+
         guanyuwomen = view.findViewById(R.id.guanyuwomen);
         guanyuwomen.setOnClickListener(this);
-        weibo_sina = view.findViewById(R.id.weibo_sina);
-        weibo_sina.setOnClickListener(this);
-        maillayout = view.findViewById(R.id.maillayout);
-        maillayout.setOnClickListener(this);
-
-        person_text = view.findViewById(R.id.person_text);
         mUserLogo = view.findViewById(R.id.mUserLogo);
-        person_login_statu = view.findViewById(R.id.person_login_statu);
-        person_login_statu.setOnClickListener(this);
+
         manpin_weixin_xiaobian_layout = view.findViewById(R.id.manpin_weixin_xiaobian_layout);
         manpin_weixin_xiaobian_layout.setOnClickListener(this);
+        fenxiang = view.findViewById(R.id.person_fenxiang_layout);
+        fenxiang.setOnClickListener(this);
+
 
         booksource = view.findViewById(R.id.person_booksource_layout);
         booksource.setOnClickListener(this);
+
+        personExternalLoginLayout = view.findViewById(R.id.person_external_login_layout);
+        personExternalLoginLayout.setVisibility(View.VISIBLE);
+
+        personFragmentUsername = view.findViewById(R.id.person_fragment_username);
+        personFragmentUsername.setVisibility(View.GONE);
+
+        OnClickListener(view, requireActivity());
+    }
+
+    @Override
+    protected void firstRequest() {
+        super.firstRequest();
+        loginSuccess(LoginManager.getInstance().getLoginInfo());
     }
 
     @Override
@@ -115,25 +118,7 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
         switch (id) {
             case R.id.guanyuwomen:
                 Intent settingIntent = new Intent(getActivity(), SettingAboutActivity.class);
-                getActivity().startActivity(settingIntent);
-                break;
-            case R.id.weibo_sina:
-                Intent intent1 = new Intent("android.intent.action.VIEW");
-                intent1.setData(Uri.parse("https://weibo.com/lijuntaosky/home"));
-                startActivity(intent1);
-                break;
-            case R.id.maillayout:
-                Intent data = new Intent(Intent.ACTION_SENDTO);
-                data.setData(Uri.parse("mailto:314599558@qq.com"));
-                data.putExtra(Intent.EXTRA_SUBJECT, "漫品客户端使用问题反馈");
-                data.putExtra(Intent.EXTRA_TEXT, ((MainActivity) getActivity()).getHandSetInfo());
-                startActivity(data);
-                break;
-            case R.id.person_login_statu:
-                if (!LoginManager.getInstance().checkLoginInfo()) {
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    startActivityForResult(intent, PERSON_LOGIN_REQUEST);
-                }
+                requireActivity().startActivity(settingIntent);
                 break;
             case R.id.manpin_weixin_xiaobian_layout:
                 Intent intent = new Intent(getActivity(), ManpinWXActivity.class);
@@ -143,21 +128,55 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
                 Intent intent2 = new Intent(getActivity(), BookSourceActivity.class);
                 startActivity(intent2);
                 break;
+            case R.id.person_fenxiang_layout:
+                UMWeb weburl = new UMWeb("http://aimanpin.com");
+                weburl.setDescription("官方网址:\n \n http://aimanpin.com ");
+                weburl.setTitle("漫品官网");
+                weburl.setThumb(new UMImage(requireContext(), R.drawable.ic_launcher_share_background));
+                new ShareAction(requireActivity()).withMedia(weburl)
+                        .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE
+                                , SHARE_MEDIA.WEIXIN_FAVORITE, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE
+                                , SHARE_MEDIA.SINA
+                        ).open();
+                break;
             default:
                 break;
         }
     }
 
-    private final int PERSON_LOGIN_REQUEST = 10010;
+    /**
+     * 基于RXBus获取登陆成功通知消息
+     */
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
+                    @Tag(RxBusTag.LOGIN_SUCCESS)
+            }
+    )
+    public void loginSuccess(Data loginInfo) {
+        if (loginInfo != null) {
+            if (!TextUtils.isEmpty(loginInfo.getNickname())) {
+                personExternalLoginLayout.setVisibility(View.GONE);
+                personFragmentUsername.setVisibility(View.VISIBLE);
+                personFragmentUsername.setText(loginInfo.getNickname());
+            }
+            if (!TextUtils.isEmpty(loginInfo.getUsericon())) {
+                mUserLogo.setVisibility(View.VISIBLE);
+                Glide.with(requireContext()).load(loginInfo.getUsericon()).into(mUserLogo);
+            }
+        }else {
+            personExternalLoginLayout.setVisibility(View.VISIBLE);
+            personFragmentUsername.setVisibility(View.GONE);
+            mUserLogo.setVisibility(View.GONE);
+
+        }
+
+    }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PERSON_LOGIN_REQUEST && resultCode == 0) {
-            Data loginInfo = LoginManager.getInstance().getLoginInfo();
-            Glide.with(requireContext()).load(loginInfo.getUsericon()).into(mUserLogo);
-            person_text.setText(loginInfo.getNickname());
-        }
+    public void onResume() {
+        super.onResume();
+        loginSuccess(LoginManager.getInstance().getLoginInfo());
     }
 }
 

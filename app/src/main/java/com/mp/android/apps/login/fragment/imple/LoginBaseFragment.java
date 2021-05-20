@@ -7,7 +7,9 @@ import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 
+import com.hwangjr.rxbus.RxBus;
 import com.mp.android.apps.R;
+import com.mp.android.apps.book.common.RxBusTag;
 import com.mp.android.apps.login.LoginActivity;
 import com.mp.android.apps.login.bean.login.Data;
 import com.mp.android.apps.login.bean.login.LoginRootBean;
@@ -36,6 +38,7 @@ public abstract class LoginBaseFragment<T extends IPresenter> extends BaseFragme
         super.bindEvent();
         onBackPressed();
     }
+
     /**
      * fragment返回事件处理
      */
@@ -52,10 +55,8 @@ public abstract class LoginBaseFragment<T extends IPresenter> extends BaseFragme
     }
 
 
-
     public void OnClickListener(View view, Activity activity) {
 
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(80, 80);
         view.findViewById(R.id.weibo_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,7 +85,7 @@ public abstract class LoginBaseFragment<T extends IPresenter> extends BaseFragme
          */
         @Override
         public void onStart(SHARE_MEDIA platform) {
-
+            System.out.println("start");
         }
 
         /**
@@ -95,8 +96,6 @@ public abstract class LoginBaseFragment<T extends IPresenter> extends BaseFragme
          */
         @Override
         public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
-
-
             Map<String, String> loginInfo = new HashMap<>();
             for (Map.Entry<String, String> entry : data.entrySet()) {
                 loginInfo.put(entry.getKey(), entry.getValue());
@@ -121,12 +120,17 @@ public abstract class LoginBaseFragment<T extends IPresenter> extends BaseFragme
                     LoginRootBean loginRootBean = response.body();
                     Data data = loginRootBean.getData();
                     LoginManager.getInstance().editLoginInfo(data);
-                    ((LoginActivity) Objects.requireNonNull(getActivity())).startActivity();
+                    if (requireActivity() instanceof LoginActivity) {
+                        ((LoginActivity) requireActivity()).startActivity();
+                    } else {
+                        RxBus.get().post(RxBusTag.LOGIN_SUCCESS, LoginManager.getInstance().getLoginInfo());
+                    }
+
                 }
 
                 @Override
                 public void onFailure(Call<LoginRootBean> call, Throwable t) {
-
+                    System.out.println("ssssssss");
                 }
             });
         }

@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.hwangjr.rxbus.RxBus;
 import com.mp.android.apps.R;
 import com.mp.android.apps.StoryboardActivity;
 import com.mp.android.apps.explore.ExploreSquareActivity;
@@ -29,6 +30,7 @@ import com.mp.android.apps.basemvplib.impl.BaseFragment;
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
+import com.umeng.socialize.UMShareAPI;
 
 import java.util.List;
 
@@ -155,6 +157,7 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
         if (requestCode == EXPLORESQUARE_LOGIN && resultCode == 0) {
             gotoExplore("广场");
         }
@@ -213,4 +216,5 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
                 break;
         }
     }
+
 }

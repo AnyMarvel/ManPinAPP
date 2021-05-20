@@ -67,6 +67,8 @@ public class LoginManager {
             data.setSex(sex);
             data.setUsericon(usericon);
             data.setUniqueID(uniqueID);
+        } else {
+            data = null;
         }
         return data;
     }

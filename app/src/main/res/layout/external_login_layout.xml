@@ -16,11 +16,4 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:src="@drawable/ic_login_xl" />
-
-<!--    <ImageView-->
-<!--        android:id="@+id/twitter_login"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:src="@drawable/ic_login_twitter" />-->
-
 </LinearLayout>

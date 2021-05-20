@@ -172,6 +172,7 @@
                 android:src="@drawable/entry_arrow" />
         </RelativeLayout>
 
+
     </LinearLayout>
 
     <LinearLayout

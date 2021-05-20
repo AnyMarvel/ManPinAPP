@@ -13,6 +13,7 @@
             android:id="@+id/person_backgroundImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/person_background"
             android:scaleType="centerCrop" />
     </com.mp.android.apps.main.home.view.CarouselLayout>
 
@@ -20,33 +21,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="230dp"
         android:layout_marginRight="30dp"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/person_login_statu"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@color/colorWhite"
-            android:gravity="center_horizontal"
-
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/person_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="50dp"
-                android:text="未登录" />
-        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/manpin_weixin_xiaobian_layout"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:background="@color/white"
             android:paddingLeft="10.0dip"
             android:paddingTop="10.0dip"
@@ -79,6 +62,45 @@
                 android:layout_centerVertical="true"
                 android:src="@drawable/entry_arrow" />
         </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/person_fenxiang_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:paddingLeft="-5dip"
+            android:paddingTop="10.0dip"
+            android:paddingRight="10.0dip"
+            android:paddingBottom="10.0dip">
+
+            <ImageView
+                android:id="@+id/person_fenxiang_layout_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/bt_share" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10.0dip"
+                android:layout_toRightOf="@id/person_fenxiang_layout_image"
+                android:ellipsize="marquee"
+                android:fadingEdge="horizontal"
+                android:singleLine="true"
+                android:text="分享漫品"
+                android:textColor="@color/mtrl_chip_ripple_color" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/entry_arrow" />
+        </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/person_booksource_layout"
             android:layout_width="fill_parent"
@@ -117,83 +139,6 @@
                 android:src="@drawable/entry_arrow" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/maillayout"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/white"
-
-            android:paddingLeft="10.0dip"
-            android:paddingTop="10.0dip"
-            android:paddingRight="10.0dip"
-            android:paddingBottom="10.0dip">
-
-            <ImageView
-                android:id="@+id/email_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/setting_email" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10.0dip"
-                android:layout_toRightOf="@id/email_image"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:singleLine="true"
-                android:text="给我们发邮件"
-                android:textColor="@color/mtrl_chip_ripple_color" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/entry_arrow" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/weibo_sina"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/white"
-
-            android:paddingLeft="10.0dip"
-            android:paddingTop="10.0dip"
-            android:paddingRight="10.0dip"
-            android:paddingBottom="10.0dip">
-
-            <ImageView
-                android:id="@+id/weibo_sina_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/setting_share_weibo_icon" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10.0dip"
-                android:layout_toRightOf="@id/weibo_sina_image"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:singleLine="true"
-                android:text="微博关注"
-                android:textColor="@color/mtrl_chip_ripple_color" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/entry_arrow" />
-        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/guanyuwomen"
@@ -235,15 +180,35 @@
 
     </LinearLayout>
 
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="150dp"
+        android:layout_marginBottom="16dp">
+
+        <include
+            android:id="@+id/person_external_login_layout"
+            layout="@layout/external_login_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/person_fragment_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:textSize="28dp"
+            android:textStyle="bold" />
+
+    </FrameLayout>
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/mUserLogo"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@+id/mImage1"
-        android:src="@drawable/ic_camera_beauty" />
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp" />
 
 </FrameLayout>

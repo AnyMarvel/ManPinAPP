@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.libraries.social.licenses.LicenseMenuActivity;
+import com.mp.android.apps.login.utils.LoginManager;
 import com.tencent.bugly.beta.Beta;
 
 public class SettingAboutActivity extends StoryboardActivity implements View.OnClickListener {
@@ -40,8 +41,6 @@ public class SettingAboutActivity extends StoryboardActivity implements View.OnC
      */
     private ImageView titleBackSetting;
     private RelativeLayout kaiyuandizhi;
-    private LinearLayout sinalayout;
-    private RelativeLayout maillayout;
     private TextView manpinVersion;
 
     @Override
@@ -63,6 +62,7 @@ public class SettingAboutActivity extends StoryboardActivity implements View.OnC
         kaiyuandizhi = findViewById(R.id.kaiyuandizhi);
         manpinVersion = findViewById(R.id.manpin_version);
         manpinVersion.setText(getVersion());
+
         rectRoundBitmap();
     }
 
@@ -74,8 +74,7 @@ public class SettingAboutActivity extends StoryboardActivity implements View.OnC
         openSourceLicense.setOnClickListener(this);
         titleBackSetting.setOnClickListener(this);
         kaiyuandizhi.setOnClickListener(this);
-//        sinalayout.setOnClickListener(this);
-//        maillayout.setOnClickListener(this);
+
     }
 
     @Override
@@ -96,18 +95,7 @@ public class SettingAboutActivity extends StoryboardActivity implements View.OnC
                 intent1.setData(Uri.parse("https://github.com/AnyMarvel/ManPinAPP"));
                 startActivity(intent1);
                 break;
-//            case R.id.sinalayout:
-//                Intent intent1 = new Intent("android.intent.action.VIEW");
-//                intent1.setData(Uri.parse("https://weibo.com/lijuntaosky/home"));
-//                startActivity(intent1);
-//                break;
-//            case R.id.maillayout:
-//                Intent data = new Intent(Intent.ACTION_SENDTO);
-//                data.setData(Uri.parse("mailto:314599558@qq.com"));
-//                data.putExtra(Intent.EXTRA_SUBJECT, "漫品客户端使用问题反馈");
-//                data.putExtra(Intent.EXTRA_TEXT, getHandSetInfo());
-//                startActivity(data);
-//                break;
+
             default:
                 break;
 

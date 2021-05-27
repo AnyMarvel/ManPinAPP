@@ -1,39 +1,67 @@
 package com.mp.android.apps.main;
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
+import com.google.gson.JsonObject;
 import com.mp.android.apps.R;
 import com.mp.android.apps.StoryboardActivity;
+import com.mp.android.apps.book.base.observer.SimpleObserver;
 import com.mp.android.apps.login.LoginActivity;
 import com.mp.android.apps.login.utils.LoginManager;
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
 import com.xinlan.imageeditlibrary.editimage.utils.BitmapUtils;
+import com.xinlan.imageeditlibrary.picchooser.SquareImageView;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
+import retrofit2.http.GET;
+import retrofit2.http.Url;
 
 public class ManpinWXActivity extends StoryboardActivity implements View.OnClickListener {
     TextView textView;
     Button button;
     ImageView iv_back;
     ImageView weixinImage;
+    String imageWXUrl;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +74,43 @@ public class ManpinWXActivity extends StoryboardActivity implements View.OnClick
         iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(this);
         weixinImage = findViewById(R.id.manpin_weixin_image);
+
+        setWeixinImage();
+
+    }
+
+    private void setWeixinImage() {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://aimanpin.com")
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // 支持RxJava
+                .build();
+
+        retrofit.create(urlImageInterface.class).getWXImageUrl("/appview/wxImageUrl").
+                subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SimpleObserver<String>() {
+                    @Override
+                    public void onNext(String s) {
+                        if (!TextUtils.isEmpty(s)) {
+                            JSONObject jsonObject = JSON.parseObject(s);
+                            String urlimage = jsonObject.getJSONObject("data").getString("wxImageUrl");
+                            if (!TextUtils.isEmpty(urlimage)) {
+                                imageWXUrl = urlimage;
+                                Glide.with(ManpinWXActivity.this).load(urlimage).into(weixinImage);
+                            }else {
+                                Glide.with(ManpinWXActivity.this).load(R.drawable.manpin_weixin).into(weixinImage);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Glide.with(ManpinWXActivity.this).load(R.drawable.manpin_weixin).into(weixinImage);
+                    }
+                });
+
     }
 
 
@@ -58,9 +123,33 @@ public class ManpinWXActivity extends StoryboardActivity implements View.OnClick
                         .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE).build(), new AcpListener() {
                     @Override
                     public void onGranted() {
-                        Bitmap bitmap = ((BitmapDrawable) weixinImage.getDrawable()).getBitmap();
-                        String filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString() + "/manpin_" + System.currentTimeMillis() + ".png";
-                        BitmapUtils.saveBitmap(bitmap, filePath);
+                        String filePath = getExternalFilesDir(Environment.DIRECTORY_DCIM) + "/manpin_" + System.currentTimeMillis() + ".png";
+
+                        if (!TextUtils.isEmpty(imageWXUrl)) {
+                            Glide.with(ManpinWXActivity.this).asBitmap().load(imageWXUrl).into(new SimpleTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                    BitmapUtils.saveBitmap(resource, filePath);
+                                }
+                            });
+
+                        } else {
+                            Glide.with(ManpinWXActivity.this).asBitmap().load(R.drawable.manpin_weixin).into(new SimpleTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                    BitmapUtils.saveBitmap(resource, filePath);
+                                }
+                            });
+                        }
+
+                        ContentValues values = new ContentValues();
+                        values.put(MediaStore.Images.Media.DATA, filePath);
+                        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+                        Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                        intent.setData(uri);
+                        sendBroadcast(intent);
+
 
                         if (isWeixinAvilible()) {
                             Toast.makeText(ManpinWXActivity.this, "二维码保存成功,请使用微信扫描添加好友", Toast.LENGTH_LONG).show();
@@ -110,5 +199,10 @@ public class ManpinWXActivity extends StoryboardActivity implements View.OnClick
             }
         }
         return false;
+    }
+
+    interface urlImageInterface {
+        @GET
+        Observable<String> getWXImageUrl(@Url String url);
     }
 }

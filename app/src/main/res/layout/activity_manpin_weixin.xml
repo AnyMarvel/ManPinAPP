@@ -10,11 +10,11 @@
 
     <ImageView
         android:id="@+id/manpin_weixin_image"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
-        android:src="@drawable/manpin_weixin" />
+        android:scaleType="centerInside" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -55,22 +55,13 @@
         android:textColor="@color/black"
         android:textSize="16dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:text="4. 漫品小编留言&quot;问题内容,或拉我进群&quot;"
-        android:textColor="@color/black"
-        android:textSize="16dp" />
 
     <Button
         android:id="@+id/manpin_save_open_weixin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/bg_weixin_button"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"

@@ -12,6 +12,7 @@
    >
 
     <TextView
+        android:id="@+id/manpin_download_tips"
         android:layout_weight="1"
         android:orientation="vertical"
         android:paddingTop="15dp"
@@ -27,7 +28,7 @@
         android:layout_height="14dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="离线下载全本资源\n 边下载边阅读\n可到书架查看下载进度"
+        android:text="离线下载全本资源\n \n边下载边阅读\n"
         android:textColor="@color/black"
         android:textSize="14sp" />
     <View

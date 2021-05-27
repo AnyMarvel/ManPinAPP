@@ -26,6 +26,7 @@ import com.mp.android.apps.readActivity.local.BookRepository;
 public class DownloadCacheDialog extends Dialog {
     private TextView tv_download;
     private IDownloadBookInterface downloadBookInterface;
+    private TextView manpinDownloadTips;
 
     private String bookId;
     private Context context;
@@ -51,10 +52,13 @@ public class DownloadCacheDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.read_book_cache_download_dialog);
         tv_download = findViewById(R.id.tv_download);
+        manpinDownloadTips = findViewById(R.id.manpin_download_tips);
         Intent serviceIntent = new Intent(context, DownloadService.class);
 //        serviceIntent.setAction("com.mp.android.apps.monkeybook.service.DownloadService_action");
 //        serviceIntent.setPackage(context.getPackageName());
+        CollBookBean collBookBean = BookRepository.getInstance().getCollBook(getBookId());
 
+        manpinDownloadTips.setText(String.format("《%s》", collBookBean.getTitle()));
         serviceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
@@ -79,7 +83,7 @@ public class DownloadCacheDialog extends Dialog {
             @Override
             public void onClick(View v) {
 
-                CollBookBean collBookBean = BookRepository.getInstance().getCollBook(getBookId());
+
                 if (collBookBean != null) {
                     try {
                         downloadBookInterface.addTask(translateCollBooBean(collBookBean));

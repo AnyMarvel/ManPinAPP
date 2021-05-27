@@ -91,7 +91,7 @@
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:gravity="center"
-                        android:text="联系作者"
+                        android:text="加入群聊"
                         android:textColor="#CBCBCB"
                         android:textSize="16sp" />
 

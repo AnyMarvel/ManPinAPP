@@ -68,7 +68,7 @@ public class ManpinWXActivity extends StoryboardActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manpin_weixin);
         textView = findViewById(R.id.tv_title);
-        textView.setText("微信的联系漫品小编");
+        textView.setText("微信群聊");
         button = findViewById(R.id.manpin_save_open_weixin);
         button.setOnClickListener(this);
         iv_back = findViewById(R.id.iv_back);

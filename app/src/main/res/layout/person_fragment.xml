@@ -52,7 +52,7 @@
                 android:ellipsize="marquee"
                 android:fadingEdge="horizontal"
                 android:singleLine="true"
-                android:text="联系漫品小编"
+                android:text="微信群聊"
                 android:textColor="@color/mtrl_chip_ripple_color" />
 
             <ImageView
@@ -85,7 +85,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10.0dip"
                 android:layout_toRightOf="@id/person_fenxiang_layout_image"
                 android:ellipsize="marquee"
                 android:fadingEdge="horizontal"

@@ -43,6 +43,7 @@ import com.mylhyl.acp.AcpOptions;
 import com.xinlan.imageeditlibrary.editimage.utils.BitmapUtils;
 import com.xinlan.imageeditlibrary.picchooser.SquareImageView;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -99,7 +100,7 @@ public class ManpinWXActivity extends StoryboardActivity implements View.OnClick
                             if (!TextUtils.isEmpty(urlimage)) {
                                 imageWXUrl = urlimage;
                                 Glide.with(ManpinWXActivity.this).load(urlimage).into(weixinImage);
-                            }else {
+                            } else {
                                 Glide.with(ManpinWXActivity.this).load(R.drawable.manpin_weixin).into(weixinImage);
                             }
                         }
@@ -123,13 +124,11 @@ public class ManpinWXActivity extends StoryboardActivity implements View.OnClick
                         .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE).build(), new AcpListener() {
                     @Override
                     public void onGranted() {
-                        String filePath = getExternalFilesDir(Environment.DIRECTORY_DCIM) + "/manpin_" + System.currentTimeMillis() + ".png";
-
                         if (!TextUtils.isEmpty(imageWXUrl)) {
                             Glide.with(ManpinWXActivity.this).asBitmap().load(imageWXUrl).into(new SimpleTarget<Bitmap>() {
                                 @Override
                                 public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                    BitmapUtils.saveBitmap(resource, filePath);
+                                    MediaStore.Images.Media.insertImage(getContentResolver(), resource, "manpin_wx", "manpin_wx_picture");
                                 }
                             });
 
@@ -137,18 +136,10 @@ public class ManpinWXActivity extends StoryboardActivity implements View.OnClick
                             Glide.with(ManpinWXActivity.this).asBitmap().load(R.drawable.manpin_weixin).into(new SimpleTarget<Bitmap>() {
                                 @Override
                                 public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                    BitmapUtils.saveBitmap(resource, filePath);
+                                    MediaStore.Images.Media.insertImage(getContentResolver(), resource, "manpin_wx", "manpin_wx_picture");
                                 }
                             });
                         }
-
-                        ContentValues values = new ContentValues();
-                        values.put(MediaStore.Images.Media.DATA, filePath);
-                        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-                        Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                        intent.setData(uri);
-                        sendBroadcast(intent);
 
 
                         if (isWeixinAvilible()) {

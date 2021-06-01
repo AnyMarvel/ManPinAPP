@@ -115,6 +115,13 @@ public abstract class PageLoader {
     //应用的宽高
     private int mDisplayWidth;
     private int mDisplayHeight;
+
+    public void setmSafeInsetTop(int mSafeInsetTop) {
+        this.mSafeInsetTop = mSafeInsetTop;
+    }
+
+    private int mSafeInsetTop;
+
     //间距
     private int mMarginWidth;
     private int mMarginHeight;
@@ -738,7 +745,7 @@ public abstract class PageLoader {
             if (!mChapterList.isEmpty()) {
                 /*****初始化标题的参数********/
                 //需要注意的是:绘制text的y的起始点是text的基准线的位置，而不是从text的头部的位置
-                float tipTop = tipMarginHeight - mTipPaint.getFontMetrics().top;
+                float tipTop = tipMarginHeight - mTipPaint.getFontMetrics().top+mSafeInsetTop;
                 //根据状态不一样，数据不一样
                 if (mStatus != STATUS_FINISH) {
                     if (isChapterListPrepare) {
@@ -855,9 +862,9 @@ public abstract class PageLoader {
             float top;
 
             if (mPageMode == PageMode.SCROLL) {
-                top = -mTextPaint.getFontMetrics().top;
+                top = -mTextPaint.getFontMetrics().top+mSafeInsetTop;
             } else {
-                top = mMarginHeight - mTextPaint.getFontMetrics().top;
+                top = mMarginHeight - mTextPaint.getFontMetrics().top+mSafeInsetTop;
             }
 
             //设置总距离
@@ -911,7 +918,7 @@ public abstract class PageLoader {
 
         // 获取内容显示位置的大小
         mVisibleWidth = mDisplayWidth - mMarginWidth * 2;
-        mVisibleHeight = mDisplayHeight - mMarginHeight * 2;
+        mVisibleHeight = mDisplayHeight - mMarginHeight * 2-mSafeInsetTop;
 
         // 重置 PageMode
         mPageView.setPageMode(mPageMode);

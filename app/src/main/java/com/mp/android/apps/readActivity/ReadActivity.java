@@ -15,14 +15,18 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.DisplayCutout;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowInsets;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +57,7 @@ import com.mp.android.apps.readActivity.utils.ScreenUtils;
 import com.mp.android.apps.readActivity.utils.StringUtils;
 import com.mp.android.apps.readActivity.utils.SystemBarUtils;
 import com.mp.android.apps.readActivity.view.PageLoader;
+import com.mp.android.apps.readActivity.view.PageStyle;
 import com.mp.android.apps.readActivity.view.PageView;
 import com.mp.android.apps.readActivity.view.TxtChapter;
 import com.mp.android.apps.readActivity.view.category.CategoryAdapter;
@@ -861,8 +866,28 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+        if (Build.VERSION.SDK_INT >= 28) {
+            WindowManager.LayoutParams params = getWindow().getAttributes();
+            params.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+            getWindow().setAttributes(params);
+
+            mPvPage.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+                @Override
+                public WindowInsets onApplyWindowInsets(View v, WindowInsets windowInsets) {
+                    DisplayCutout displayCutout = windowInsets.getDisplayCutout();
+                    if (displayCutout != null) {
+                        int top = displayCutout.getSafeInsetTop();
+                        mPageLoader.setmSafeInsetTop(top);
+                        mPvPage.invalidate();
+                    }
+
+                    return windowInsets.consumeSystemWindowInsets();
+                }
+            });
+
+
+        }
+
     }
 
 }

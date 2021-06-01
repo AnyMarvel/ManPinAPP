@@ -45,7 +45,11 @@
         <activity android:name=".livevblank.EditCardActivity" />
         <activity android:name=".livevblank.PreviewActivity" />
         <activity android:name=".livevblank.SearchPeopleActivity" />
-        <activity android:name=".readActivity.ReadActivity" />
+        <activity
+            android:name=".readActivity.ReadActivity"
+            android:resizeableActivity="false"
+
+            />
         <activity android:name=".book.view.impl.BookSourceActivity" />
         <activity android:name=".book.view.impl.BookSourceGuideActivity" />
         <activity android:name="com.xinlan.imageeditlibrary.picchooser.SelectPictureActivity" />

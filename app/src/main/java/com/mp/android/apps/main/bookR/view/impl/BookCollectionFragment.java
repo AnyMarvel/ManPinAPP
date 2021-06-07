@@ -40,7 +40,7 @@ import static com.mp.android.apps.basemvplib.impl.BaseActivity.start_share_ele;
 
 public class BookCollectionFragment extends BaseFragment<IMainPresenter> implements IMainView {
 
-    private ImageButton ibMoney;
+
     private ImageButton ibSettings;
     private ImageButton ibLibrary;
     private ImageButton ibAdd;
@@ -80,7 +80,6 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
 
         rfRvShelf = (RefreshRecyclerView) view.findViewById(R.id.rf_rv_shelf);
 
-        ibMoney = (ImageButton) view.findViewById(R.id.ib_money);
         ibSettings = view.findViewById(R.id.ib_settings);
         ibLibrary = (ImageButton) view.findViewById(R.id.ib_library);
         ibAdd = (ImageButton) view.findViewById(R.id.ib_add);
@@ -107,12 +106,6 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), DownloadBookActivity.class));
-            }
-        });
-        ibMoney.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //点击打赏
             }
         });
 

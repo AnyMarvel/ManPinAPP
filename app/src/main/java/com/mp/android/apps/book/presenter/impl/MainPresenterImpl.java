@@ -30,12 +30,19 @@ import io.reactivex.schedulers.Schedulers;
 public class MainPresenterImpl extends BasePresenterImpl<IMainView> implements IMainPresenter {
 
     public void queryBookShelf(final Boolean needRefresh) {
-        if (needRefresh)
+        if (needRefresh) {
             mView.activityRefreshView();
+        }
         Observable.create(new ObservableOnSubscribe<List<CollBookBean>>() {
             @Override
             public void subscribe(ObservableEmitter<List<CollBookBean>> e) throws Exception {
-                List<CollBookBean> bookShelfes = BookRepository.getInstance().getCollBooks();
+                List<CollBookBean> bookShelfes;
+                try {
+                    bookShelfes = BookRepository.getInstance().getCollBooks();
+                } catch (Exception e1) {
+                    bookShelfes = null;
+                }
+
                 e.onNext(bookShelfes == null ? new ArrayList<CollBookBean>() : bookShelfes);
             }
         })

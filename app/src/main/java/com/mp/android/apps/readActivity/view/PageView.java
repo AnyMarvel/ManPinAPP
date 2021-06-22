@@ -113,7 +113,7 @@ public class PageView extends View {
                 break;
             case SCROLL:
                 mPageAnim = new ScrollPageAnim(mViewWidth, mViewHeight, 0,
-                        mPageLoader.getMarginHeight(), this, mPageAnimListener);
+                        mPageLoader.getMarginHeight(), this, mPageAnimListener, mPageLoader.mSafeInsetTop);
                 break;
             case LEFT_HAND:
                 mPageAnim = new LeftNonePageAnim(mViewWidth, mViewHeight, this, mPageAnimListener);

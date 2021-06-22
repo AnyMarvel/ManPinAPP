@@ -888,7 +888,7 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
                     DisplayCutout displayCutout = windowInsets.getDisplayCutout();
                     if (displayCutout != null) {
                         int top = displayCutout.getSafeInsetTop();
-                        mPageLoader.setmSafeInsetTop(top);
+                        mPageLoader.mSafeInsetTop = top;
                         mPvPage.invalidate();
                     }
 

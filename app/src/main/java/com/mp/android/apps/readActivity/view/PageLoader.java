@@ -116,11 +116,7 @@ public abstract class PageLoader {
     private int mDisplayWidth;
     private int mDisplayHeight;
 
-    public void setmSafeInsetTop(int mSafeInsetTop) {
-        this.mSafeInsetTop = mSafeInsetTop;
-    }
-
-    private int mSafeInsetTop;
+    public int mSafeInsetTop;
 
     //间距
     private int mMarginWidth;

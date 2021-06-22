@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import androidx.multidex.MultiDex;
 
-import com.mp.android.apps.book.ProxyManager;
 import com.mp.android.apps.book.service.DownloadService;
 import com.mp.android.apps.utils.Logger;
 import com.tencent.bugly.Bugly;
@@ -54,7 +53,6 @@ public class MyApplication extends Application {
         PlatformConfig.setSinaWeibo("1928616164", "36e5f497bc6b20cb73ff7138e0e1cbe5", "http://sns.whalecloud.com");
 
         instance = this;
-        ProxyManager.initProxy();
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //            startForegroundService(new Intent(this, DownloadService.class));
 //        } else {

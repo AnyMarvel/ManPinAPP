@@ -28,7 +28,6 @@ import com.mp.android.apps.book.view.impl.BookSourceActivity;
 import com.mp.android.apps.book.view.impl.BookSourceGuideActivity;
 import com.mp.android.apps.book.view.impl.DownloadBookActivity;
 import com.mp.android.apps.book.view.impl.ImportBookActivity;
-import com.mp.android.apps.book.view.popupwindow.ProxyPop;
 import com.mp.android.apps.book.widget.refreshview.OnRefreshWithProgressListener;
 import com.mp.android.apps.book.widget.refreshview.RefreshRecyclerView;
 import com.mp.android.apps.readActivity.ReadActivity;
@@ -53,7 +52,7 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
     private ImageView ivWarnClose;
 
 
-    private ProxyPop proxyPop;
+
 
     @Override
     protected IMainPresenter initInjector() {
@@ -75,8 +74,6 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
 
     @Override
     protected void bindView() {
-        proxyPop = new ProxyPop(getContext());
-
 
         rfRvShelf = (RefreshRecyclerView) view.findViewById(R.id.rf_rv_shelf);
 

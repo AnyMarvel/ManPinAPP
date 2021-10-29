@@ -117,7 +117,7 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
             @Override
             public void onClick(View v) {
                 if (mPresenter.bookSourceSwitch())
-                    startActivityByAnim(new Intent(getActivity(), BookRActivity.class), 0, 0);
+                    startActivityByAnim(new Intent(getActivity(), BookRFragment.class), 0, 0);
                 else
                     startActivityByAnim(new Intent(getActivity(), BookSourceGuideActivity.class), 0, 0);
             }
@@ -134,7 +134,7 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
             public void toSearch() {
                 //点击去选书
                 if (mPresenter.bookSourceSwitch())
-                    startActivityByAnim(new Intent(getActivity(), BookRActivity.class), 0, 0);
+                    startActivityByAnim(new Intent(getActivity(), BookRFragment.class), 0, 0);
                 else
                     startActivityByAnim(new Intent(getActivity(), BookSourceGuideActivity.class), 0, 0);
 

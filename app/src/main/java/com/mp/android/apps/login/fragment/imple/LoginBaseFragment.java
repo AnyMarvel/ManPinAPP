@@ -130,7 +130,7 @@ public abstract class LoginBaseFragment<T extends IPresenter> extends BaseFragme
 
                 @Override
                 public void onFailure(Call<LoginRootBean> call, Throwable t) {
-                    System.out.println("ssssssss");
+
                 }
             });
         }

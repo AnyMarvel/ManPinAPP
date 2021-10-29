@@ -1,7 +1,9 @@
 package com.mp.android.apps.main.bookR.view.impl;
 
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,16 +22,14 @@ import com.mp.android.apps.book.view.impl.SearchActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookRActivity extends BaseActivity<IBookRFragmentPresenter> implements IBookRFragmentView, View.OnClickListener {
+public class BookRFragment extends BaseFragment<IBookRFragmentPresenter> implements IBookRFragmentView, View.OnClickListener {
     public TextView layoutRecommend;
     public TextView layoutMan;
     public TextView layoutWomen;
     private ViewPager viewPager;
     private List<BaseFragment> sourceList;
     private ImageView searchImage;
-    private ImageView ivBack;
 
-    private TabLayout viewPagerIndicator;
     /**
      * 推荐fragment
      */
@@ -58,20 +58,23 @@ public class BookRActivity extends BaseActivity<IBookRFragmentPresenter> impleme
     }
 
     @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.mp_book_r_layout,container,false);
+    }
+
+    @Override
     protected void bindView() {
         super.bindView();
-        layoutRecommend = findViewById(R.id.mp_bookr_layout_recommend);
+        layoutRecommend = view.findViewById(R.id.mp_bookr_layout_recommend);
         layoutRecommend.setOnClickListener(this);
-        layoutMan = findViewById(R.id.mp_bookr_layout_men);
+        layoutMan = view.findViewById(R.id.mp_bookr_layout_men);
         layoutMan.setOnClickListener(this);
-        layoutWomen = findViewById(R.id.mp_bookr_layout_women);
+        layoutWomen = view.findViewById(R.id.mp_bookr_layout_women);
         layoutWomen.setOnClickListener(this);
-        viewPager = findViewById(R.id.mp_bookr_viewpager);
-        viewPagerIndicator = findViewById(R.id.tablayout);
-        searchImage = findViewById(R.id.bookr_fragment_search);
+        viewPager = view.findViewById(R.id.mp_bookr_viewpager);
+
+        searchImage = view.findViewById(R.id.bookr_fragment_search);
         searchImage.setOnClickListener(this);
-        ivBack = findViewById(R.id.iv_back);
-        ivBack.setOnClickListener(this);
 
     }
 
@@ -81,13 +84,9 @@ public class BookRActivity extends BaseActivity<IBookRFragmentPresenter> impleme
         sourceList.add(recommendFagment);
         sourceList.add(manFragment);
         sourceList.add(womanFragmen);
-        viewPager.setAdapter(new MybookViewPagerAdapter(getSupportFragmentManager(), sourceList));
+        viewPager.setAdapter(new MybookViewPagerAdapter(getActivity().getSupportFragmentManager(), sourceList));
         viewPager.setOffscreenPageLimit(3);
         viewPager.addOnPageChangeListener(new MybookViewPageChangeListener());
-        //设置TabLayout的模式
-        viewPagerIndicator.setTabMode(TabLayout.MODE_SCROLLABLE);
-        //关联ViewPager和TabLayout
-        viewPagerIndicator.setupWithViewPager(viewPager,false);
 
     }
 
@@ -95,12 +94,6 @@ public class BookRActivity extends BaseActivity<IBookRFragmentPresenter> impleme
     protected IBookRFragmentPresenter initInjector() {
         return new BookRFragmentPresenterImpl();
     }
-
-    @Override
-    protected void onCreateActivity() {
-        setContentView(R.layout.mp_book_r_layout);
-    }
-
 
     @Override
     public void onClick(View v) {
@@ -116,11 +109,8 @@ public class BookRActivity extends BaseActivity<IBookRFragmentPresenter> impleme
                 viewPager.setCurrentItem(WOMANFRAGMENT);
                 break;
             case R.id.bookr_fragment_search:
-                Intent searchIntent = new Intent(this, SearchActivity.class);
+                Intent searchIntent = new Intent(getActivity(), SearchActivity.class);
                 startActivity(searchIntent);
-                break;
-            case R.id.iv_back:
-                super.onBackPressed();
                 break;
             default:
                 break;

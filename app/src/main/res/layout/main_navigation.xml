@@ -42,7 +42,7 @@
         android:layout_marginBottom="10dp"
         android:layout_weight="1"
         imageText:image="@drawable/quanzi"
-        imageText:text="圈子"
+        imageText:text="书城"
         imageText:textColor="@color/colorGray" />
 
     <com.mp.android.apps.main.home.view.MyImageTextView

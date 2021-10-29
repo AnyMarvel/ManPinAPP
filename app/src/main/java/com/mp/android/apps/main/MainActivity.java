@@ -1,45 +1,33 @@
 package com.mp.android.apps.main;
 
-
-import android.Manifest;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.hwangjr.rxbus.RxBus;
 import com.mp.android.apps.R;
 import com.mp.android.apps.StoryboardActivity;
-import com.mp.android.apps.explore.ExploreSquareActivity;
-import com.mp.android.apps.login.LoginActivity;
 import com.mp.android.apps.login.utils.LoginManager;
 import com.mp.android.apps.main.bookR.view.impl.BookCollectionFragment;
+import com.mp.android.apps.main.bookR.view.impl.BookRFragment;
 import com.mp.android.apps.main.home.view.impl.MainFragment;
 import com.mp.android.apps.main.personal.PersonFragment;
 import com.mp.android.apps.main.home.view.MyImageTextView;
 import com.mp.android.apps.basemvplib.impl.BaseFragment;
-import com.mylhyl.acp.Acp;
-import com.mylhyl.acp.AcpListener;
-import com.mylhyl.acp.AcpOptions;
 import com.umeng.socialize.UMShareAPI;
-
-import java.util.List;
 
 
 public class MainActivity extends StoryboardActivity implements View.OnClickListener {
     MainFragment mainFragment;
     PersonFragment personFragment;
     BookCollectionFragment bookCollectionFragment;
-
+    BookRFragment mBookRFragment;
 
     MyImageTextView zhuye;
     MyImageTextView shujia;
@@ -57,6 +45,9 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
         }
         if (bookCollectionFragment != null) {
             transaction.hide(bookCollectionFragment);
+        }
+        if (mBookRFragment!=null){
+            transaction.hide(mBookRFragment);
         }
     }
 
@@ -82,6 +73,7 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
         mainFragment = new MainFragment();
         personFragment = new PersonFragment();
         bookCollectionFragment = new BookCollectionFragment();
+        mBookRFragment=new BookRFragment();
         showFragment(mainFragment);
         initViews();
     }
@@ -133,34 +125,31 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
         }
     }
 
-    public void gotoExplore(String toExplore) {
-        Intent intent = new Intent(this, ExploreSquareActivity.class);
-        intent.putExtra("toExplore", toExplore);
-        Acp.getInstance(this).request(new AcpOptions.Builder()
-                .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION).build(), new AcpListener() {
-            @Override
-            public void onGranted() {
-                if (LoginManager.getInstance().checkLoginInfo()) {
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivityForResult(intent, EXPLORESQUARE_LOGIN);
-                }
-            }
-
-            @Override
-            public void onDenied(List<String> permissions) {
-            }
-        });
-    }
+//    public void gotoExplore(String toExplore) {
+//        Intent intent = new Intent(this, ExploreSquareActivity.class);
+//        intent.putExtra("toExplore", toExplore);
+//        Acp.getInstance(this).request(new AcpOptions.Builder()
+//                .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION).build(), new AcpListener() {
+//            @Override
+//            public void onGranted() {
+//                if (LoginManager.getInstance().checkLoginInfo()) {
+//                    startActivity(intent);
+//                } else {
+//                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+//                    startActivityForResult(intent, EXPLORESQUARE_LOGIN);
+//                }
+//            }
+//
+//            @Override
+//            public void onDenied(List<String> permissions) {
+//            }
+//        });
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
-        if (requestCode == EXPLORESQUARE_LOGIN && resultCode == 0) {
-            gotoExplore("广场");
-        }
     }
 
     @Override
@@ -177,8 +166,8 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
                 break;
             case R.id.quanzi:
                 //todo  改造圈子为fragment
-//                changeNavImages(R.id.quanzi);
-                gotoExplore("广场");
+                changeNavImages(R.id.quanzi);
+                showFragment(mBookRFragment);
                 break;
             case R.id.gerenzhongxin:
                 changeNavImages(R.id.gerenzhongxin);

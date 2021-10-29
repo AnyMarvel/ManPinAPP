@@ -140,7 +140,7 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
                 ((MainActivity) requireActivity()).showShujiaFragment();
                 break;
             case R.id.guangchang:
-                ((MainActivity) getActivity()).gotoExplore("广场");
+//                ((MainActivity) getActivity()).gotoExplore("广场");
                 break;
             case R.id.search_image:
                 if (BookSourceCheckUtils.bookSourceSwitch(this.getContext())) {

@@ -35,6 +35,7 @@ import com.mp.android.apps.basemvplib.IPresenter;
 import com.mp.android.apps.basemvplib.impl.BaseFragment;
 import com.mp.android.apps.book.base.observer.SimpleObserver;
 import com.mp.android.apps.book.view.impl.BookSourceActivity;
+import com.mp.android.apps.main.home.view.MyImageTextView;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
@@ -73,10 +74,10 @@ public class PersonFragment extends LoginBaseFragment implements View.OnClickLis
     }
 
     CircleImageView mUserLogo;
-    RelativeLayout manpin_weixin_xiaobian_layout;
-    RelativeLayout booksource;
-    RelativeLayout guanyuwomen;
-    RelativeLayout fenxiang;
+    MyImageTextView manpin_weixin_xiaobian_layout;
+    MyImageTextView booksource;
+    MyImageTextView guanyuwomen;
+    MyImageTextView fenxiang;
     LinearLayout personExternalLoginLayout;
     TextView personFragmentUsername;
 

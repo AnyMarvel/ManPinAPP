@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.hwangjr.rxbus.RxBus;
 import com.mp.android.apps.R;
 import com.mp.android.apps.StoryboardActivity;
 import com.mp.android.apps.login.utils.LoginManager;
@@ -161,13 +163,10 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
                 showFragment(mainFragment);
                 break;
             case R.id.shujia:
-                changeNavImages(R.id.shujia);
-                showFragment(bookCollectionFragment);
+                showShujiaFragment();
                 break;
             case R.id.quanzi:
-                //todo  改造圈子为fragment
-                changeNavImages(R.id.quanzi);
-                showFragment(mBookRFragment);
+                showBookStore();
                 break;
             case R.id.gerenzhongxin:
                 changeNavImages(R.id.gerenzhongxin);
@@ -183,6 +182,10 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
         showFragment(bookCollectionFragment);
     }
 
+    public void showBookStore(){
+        changeNavImages(R.id.quanzi);
+        showFragment(mBookRFragment);
+    }
     private void changeNavImages(int id) {
         zhuye.setImgResource(R.drawable.zhuye);
         shujia.setImgResource(R.drawable.shujia);

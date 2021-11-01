@@ -1,213 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:imageText="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:layout_gravity="center_horizontal"
     android:background="#fff3f5f9">
-
-    <com.mp.android.apps.main.home.view.CarouselLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="230dp">
-
-        <ImageView
-            android:id="@+id/person_backgroundImage"
+        android:layout_height="wrap_content">
+        <com.mp.android.apps.main.home.view.CarouselLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/person_background"
-            android:scaleType="centerCrop" />
-    </com.mp.android.apps.main.home.view.CarouselLayout>
+            android:layout_height="230dp">
+
+            <ImageView
+                android:id="@+id/person_backgroundImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/person_background"
+                android:scaleType="centerCrop" />
+        </com.mp.android.apps.main.home.view.CarouselLayout>
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="150dp"
+            android:layout_marginBottom="16dp">
+
+            <include
+                android:id="@+id/person_external_login_layout"
+                layout="@layout/external_login_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/person_fragment_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:textSize="28dp"
+                android:textStyle="bold" />
+
+        </FrameLayout>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/mUserLogo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="230dp"
-        android:layout_marginRight="30dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/shape_radius_black"
         android:orientation="vertical">
-
-        <RelativeLayout
-            android:id="@+id/manpin_weixin_xiaobian_layout"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/white"
-            android:paddingLeft="10.0dip"
-            android:paddingTop="10.0dip"
-            android:paddingRight="10.0dip"
-            android:paddingBottom="10.0dip">
-
-            <ImageView
-                android:id="@+id/manpin_weixin_xiaobian"
-                android:layout_width="29dp"
-                android:layout_height="29dp"
-                android:layout_gravity="center"
-                android:background="@drawable/umeng_socialize_wechat" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10.0dip"
-                android:layout_toRightOf="@id/manpin_weixin_xiaobian"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:singleLine="true"
-                android:text="微信群聊"
-                android:textColor="@color/mtrl_chip_ripple_color" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/entry_arrow" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/person_fenxiang_layout"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="个人服务"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:textSize="16dp"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@color/white"
-            android:paddingLeft="-5dip"
-            android:paddingTop="10.0dip"
-            android:paddingRight="10.0dip"
-            android:paddingBottom="10.0dip">
 
-            <ImageView
-                android:id="@+id/person_fenxiang_layout_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/bt_share" />
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/person_fenxiang_layout_image"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:singleLine="true"
-                android:text="分享漫品"
-                android:textColor="@color/mtrl_chip_ripple_color" />
+            <com.mp.android.apps.main.home.view.MyImageTextView
+                android:id="@+id/manpin_weixin_xiaobian_layout"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                imageText:image="@drawable/baseline_chat"
+                imageText:text="微信群聊"
+                imageText:textColor="@color/white" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/entry_arrow" />
-        </RelativeLayout>
+            <com.mp.android.apps.main.home.view.MyImageTextView
+                android:id="@+id/person_fenxiang_layout"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="20dp"
 
-        <RelativeLayout
-            android:id="@+id/person_booksource_layout"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
+                android:layout_weight="1"
+                imageText:image="@drawable/bt_share"
+                imageText:text="分享漫品"
+                imageText:textColor="@color/white" />
+
+            <com.mp.android.apps.main.home.view.MyImageTextView
+                android:id="@+id/person_booksource_layout"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+
+                imageText:image="@drawable/yijianfankui"
+                imageText:text="书源选择"
+                imageText:textColor="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@color/white"
-            android:paddingLeft="10.0dip"
-            android:paddingTop="10.0dip"
-            android:paddingRight="10.0dip"
-            android:paddingBottom="10.0dip">
+            android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/booksource_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/yijianfankui" />
+            <com.mp.android.apps.main.home.view.MyImageTextView
+                android:id="@+id/guanyuwomen"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                imageText:image="@drawable/baseline_settings"
+                imageText:text="关于我们"
+                imageText:textColor="@color/white" />
+            <com.mp.android.apps.main.home.view.MyImageTextView
+                android:id="@+id/manpin_gaoqing_yingshi_layout"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                imageText:image="@drawable/baseline_movie_white"
+                imageText:text="高清影视"
+                imageText:textColor="@color/white" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10.0dip"
-                android:layout_toRightOf="@id/booksource_image"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:singleLine="true"
-                android:text="书源选择"
-                android:textColor="@color/mtrl_chip_ripple_color" />
+            <com.mp.android.apps.main.home.view.MyImageTextView
+                android:id="@+id/manpin_person_music_layout"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                imageText:image="@drawable/baseline_headset_mic_white"
+                imageText:text="无损音乐"
+                imageText:textColor="@color/white" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/entry_arrow" />
-        </RelativeLayout>
+        </LinearLayout>
 
-
-        <RelativeLayout
-            android:id="@+id/guanyuwomen"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@color/white"
-            android:paddingLeft="10.0dip"
-            android:paddingTop="10.0dip"
-            android:paddingRight="10.0dip"
-            android:paddingBottom="10.0dip">
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/guanyuwomen_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/pianhaoshezhi" />
+            <com.mp.android.apps.main.home.view.MyImageTextView
+                android:id="@+id/manpin_person_travel"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10.0dip"
-                android:layout_toRightOf="@id/guanyuwomen_image"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:singleLine="true"
-                android:text="关于我们"
-                android:textColor="@color/mtrl_chip_ripple_color" />
+                imageText:image="@drawable/baseline_radio_button_white"
+                imageText:text="全景旅游"
+                imageText:textColor="@color/white" />
+            <com.mp.android.apps.main.home.view.MyImageTextView
+                android:id="@+id/manpin_person_wallpaper"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/entry_arrow" />
-        </RelativeLayout>
+                imageText:image="@drawable/baseline_image_white"
+                imageText:text="高清壁纸"
+                imageText:textColor="@color/white" />
+
+            <com.mp.android.apps.main.home.view.MyImageTextView
+                android:id="@+id/manpin_person_games"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+
+                imageText:image="@drawable/baseline_sports_esports_white"
+                imageText:text="经典游戏"
+                imageText:textColor="@color/white" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="150dp"
-        android:layout_marginBottom="16dp">
 
-        <include
-            android:id="@+id/person_external_login_layout"
-            layout="@layout/external_login_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/person_fragment_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@color/black"
-            android:textSize="28dp"
-            android:textStyle="bold" />
-
-    </FrameLayout>
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/mUserLogo"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp" />
-
-</FrameLayout>
+</LinearLayout>

@@ -34,6 +34,7 @@ import com.mylhyl.acp.AcpOptions;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import java.util.List;
 
@@ -163,69 +164,73 @@ public class ComicSplash extends StoryboardActivity implements OnClickListener {
                     @Override
                     public void onNext(String s) {
                         Document doc = Jsoup.parse(s);
-                        String downloadUrl = doc.getElementsByClass("directDownload").get(0).getElementsByTag("a").attr("href");
-                        Uri uri = Uri.parse(downloadUrl);
-                        String host = uri.getScheme() + "://" + uri.getHost();
-                        String path = downloadUrl.replace(host, "");
-                        Logger.d("hostname", host);
-                        Logger.d("path", path);
+                        Elements elements = doc.getElementsByClass("directDownload");
+                        if (elements != null && elements.size() > 0) {
+                            String downloadUrl = doc.getElementsByClass("directDownload").get(0).getElementsByTag("a").attr("href");
+                            Uri uri = Uri.parse(downloadUrl);
+                            String host = uri.getScheme() + "://" + uri.getHost();
+                            String path = downloadUrl.replace(host, "");
+                            Logger.d("hostname", host);
+                            Logger.d("path", path);
 
-                        new DownloadUtil(host).downloadFile(path, downloadFileName, new DownloadListener() {
-                            @Override
-                            public void onStart() {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        flikerProgressBar.setVisibility(View.VISIBLE);
-                                        button.setVisibility(View.GONE);
-                                    }
-                                });
-                                Logger.d("******************************" + "onStart");
-                            }
+                            new DownloadUtil(host).downloadFile(path, downloadFileName, new DownloadListener() {
+                                @Override
+                                public void onStart() {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            flikerProgressBar.setVisibility(View.VISIBLE);
+                                            button.setVisibility(View.GONE);
+                                        }
+                                    });
+                                    Logger.d("******************************" + "onStart");
+                                }
 
-                            @Override
-                            public void onProgress(int currentLength) {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        flikerProgressBar.setProgress(currentLength);
-                                    }
-                                });
+                                @Override
+                                public void onProgress(int currentLength) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            flikerProgressBar.setProgress(currentLength);
+                                        }
+                                    });
 
-                                Logger.d("******************************" + "onProgress:" + currentLength);
-                            }
+                                    Logger.d("******************************" + "onProgress:" + currentLength);
+                                }
 
-                            @Override
-                            public void onFinish(String localPath) {
-                                Logger.d("******************************" + "localPath" + localPath);
-                                reloadSoFile(localPath, true);
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        flikerProgressBar.finishLoad();
-                                        flikerProgressBar.setVisibility(View.GONE);
-                                        button.setVisibility(View.VISIBLE);
-                                    }
-                                });
+                                @Override
+                                public void onFinish(String localPath) {
+                                    Logger.d("******************************" + "localPath" + localPath);
+                                    reloadSoFile(localPath, true);
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            flikerProgressBar.finishLoad();
+                                            flikerProgressBar.setVisibility(View.GONE);
+                                            button.setVisibility(View.VISIBLE);
+                                        }
+                                    });
 
 
-                            }
+                                }
 
-                            @Override
-                            public void onFailure() {
-                                Logger.d("******************************" + "onFailure");
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(getApplicationContext(), "加载组件失败,请点击重试", Toast.LENGTH_SHORT).show();
-                                        flikerProgressBar.finishLoad();
-                                        flikerProgressBar.setVisibility(View.GONE);
-                                        button.setVisibility(View.VISIBLE);
-                                    }
-                                });
+                                @Override
+                                public void onFailure() {
+                                    Logger.d("******************************" + "onFailure");
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(getApplicationContext(), "加载组件失败,请点击重试", Toast.LENGTH_SHORT).show();
+                                            flikerProgressBar.finishLoad();
+                                            flikerProgressBar.setVisibility(View.GONE);
+                                            button.setVisibility(View.VISIBLE);
+                                        }
+                                    });
 
-                            }
-                        });
+                                }
+                            });
+                        }
+
                     }
 
                     @Override

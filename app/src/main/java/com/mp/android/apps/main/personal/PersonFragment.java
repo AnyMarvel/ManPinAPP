@@ -35,6 +35,7 @@ import com.mp.android.apps.basemvplib.IPresenter;
 import com.mp.android.apps.basemvplib.impl.BaseFragment;
 import com.mp.android.apps.book.base.observer.SimpleObserver;
 import com.mp.android.apps.book.view.impl.BookSourceActivity;
+import com.mp.android.apps.main.home.view.MyImageTextView;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
@@ -73,16 +74,37 @@ public class PersonFragment extends LoginBaseFragment implements View.OnClickLis
     }
 
     CircleImageView mUserLogo;
-    RelativeLayout manpin_weixin_xiaobian_layout;
-    RelativeLayout booksource;
-    RelativeLayout guanyuwomen;
-    RelativeLayout fenxiang;
+    MyImageTextView manpin_weixin_xiaobian_layout;
+    MyImageTextView booksource;
+    MyImageTextView guanyuwomen;
+    MyImageTextView fenxiang;
+
+    MyImageTextView yingshilayout;
+    MyImageTextView musiclayout;
+    MyImageTextView travelLayout;
+    MyImageTextView wallpaperLayout;
+    MyImageTextView gamesLayout;
+
     LinearLayout personExternalLoginLayout;
     TextView personFragmentUsername;
 
     @Override
     protected void bindView() {
         super.bindView();
+        yingshilayout=view.findViewById(R.id.manpin_gaoqing_yingshi_layout);
+        yingshilayout.setOnClickListener(this);
+
+        musiclayout=view.findViewById(R.id.manpin_person_music_layout);
+        musiclayout.setOnClickListener(this);
+
+        travelLayout=view.findViewById(R.id.manpin_person_travel);
+        travelLayout.setOnClickListener(this);
+
+        wallpaperLayout=view.findViewById(R.id.manpin_person_wallpaper);
+        wallpaperLayout.setOnClickListener(this);
+
+        gamesLayout=view.findViewById(R.id.manpin_person_games);
+        gamesLayout.setOnClickListener(this);
 
         guanyuwomen = view.findViewById(R.id.guanyuwomen);
         guanyuwomen.setOnClickListener(this);
@@ -115,6 +137,7 @@ public class PersonFragment extends LoginBaseFragment implements View.OnClickLis
     @Override
     public void onClick(View v) {
         int id = v.getId();
+        String linkUrl;
         switch (id) {
             case R.id.guanyuwomen:
                 Intent settingIntent = new Intent(getActivity(), SettingAboutActivity.class);
@@ -139,11 +162,34 @@ public class PersonFragment extends LoginBaseFragment implements View.OnClickLis
                                 , SHARE_MEDIA.SINA
                         ).open();
                 break;
+
+            case R.id.manpin_gaoqing_yingshi_layout:
+                jumpLinkUrl("https://lab.liumingye.cn/");
+                break;
+            case R.id.manpin_person_music_layout:
+                jumpLinkUrl("http://tool.liumingye.cn/music/?page=searchPage");
+                break;
+            case R.id.manpin_person_travel:
+                jumpLinkUrl("http://quanjingke.com/vmindex");
+                break;
+            case R.id.manpin_person_wallpaper:
+                jumpLinkUrl("https://www.logosc.cn/so/");
+                break;
+            case R.id.manpin_person_games:
+                jumpLinkUrl("https://www.yikm.net");
+                break;
+
             default:
                 break;
         }
     }
-
+    private void jumpLinkUrl(String linkUrl){
+        Intent intentUrl= new Intent();
+        intentUrl.setAction("android.intent.action.VIEW");
+        Uri content_url = Uri.parse(linkUrl);
+        intentUrl.setData(content_url);
+        startActivity(intentUrl);
+    }
     /**
      * 基于RXBus获取登陆成功通知消息
      */

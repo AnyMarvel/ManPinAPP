@@ -2,6 +2,7 @@ package com.mp.android.apps.readActivity.ui;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -21,6 +22,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mp.android.apps.R;
+import com.mp.android.apps.book.view.impl.MoreSettingActivity;
+import com.mp.android.apps.readActivity.ReadActivity;
 import com.mp.android.apps.readActivity.local.ReadSettingManager;
 import com.mp.android.apps.readActivity.utils.ScreenUtils;
 import com.mp.android.apps.readActivity.view.PageLoader;
@@ -353,8 +356,9 @@ public class ReadSettingDialog extends Dialog {
         //更多设置
         mTvMore.setOnClickListener(
                 (v) -> {
-//                    Intent intent = new Intent(getContext(), MoreSettingActivity.class);
+                    Intent intent = new Intent(getContext(), MoreSettingActivity.class);
 //                    mActivity.startActivityForResult(intent, ReadActivity.REQUEST_MORE_SETTING);
+                    mActivity.startActivity(intent);
                     //关闭当前设置
                     dismiss();
                 }

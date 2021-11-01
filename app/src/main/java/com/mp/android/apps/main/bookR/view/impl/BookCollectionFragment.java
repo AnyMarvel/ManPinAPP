@@ -28,9 +28,10 @@ import com.mp.android.apps.book.view.impl.BookSourceActivity;
 import com.mp.android.apps.book.view.impl.BookSourceGuideActivity;
 import com.mp.android.apps.book.view.impl.DownloadBookActivity;
 import com.mp.android.apps.book.view.impl.ImportBookActivity;
-import com.mp.android.apps.book.view.popupwindow.ProxyPop;
 import com.mp.android.apps.book.widget.refreshview.OnRefreshWithProgressListener;
 import com.mp.android.apps.book.widget.refreshview.RefreshRecyclerView;
+import com.mp.android.apps.main.MainActivity;
+import com.mp.android.apps.main.bookR.view.popupwindow.BCSettingPopupwindow;
 import com.mp.android.apps.readActivity.ReadActivity;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
 
@@ -45,15 +46,12 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
     private ImageButton ibLibrary;
     private ImageButton ibAdd;
     private ImageButton ibDownload;
-
     private RefreshRecyclerView rfRvShelf;
     private BookShelfAdapter bookShelfAdapter;
-
     private FrameLayout flWarn;
     private ImageView ivWarnClose;
 
-
-    private ProxyPop proxyPop;
+    private BCSettingPopupwindow bcSettingPopupwindow;
 
     @Override
     protected IMainPresenter initInjector() {
@@ -69,14 +67,12 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
     @Override
     protected void initData() {
         bookShelfAdapter = new BookShelfAdapter();
-
+        bcSettingPopupwindow=new BCSettingPopupwindow(getContext());
     }
 
 
     @Override
     protected void bindView() {
-        proxyPop = new ProxyPop(getContext());
-
 
         rfRvShelf = (RefreshRecyclerView) view.findViewById(R.id.rf_rv_shelf);
 
@@ -94,12 +90,11 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
     @Override
     protected void bindEvent() {
         bindRvShelfEvent();
+
         ibSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityByAnim(new Intent(getActivity(), BookSourceActivity.class), 0, 0);
-
-//                proxyPop.showAsDropDown(ibSettings);
+                bcSettingPopupwindow.showAsDropDown(ibSettings);
             }
         });
         ibDownload.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +108,7 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
             @Override
             public void onClick(View v) {
                 if (mPresenter.bookSourceSwitch())
-                    startActivityByAnim(new Intent(getActivity(), BookRActivity.class), 0, 0);
+                    ((MainActivity) requireActivity()).showBookStore();
                 else
                     startActivityByAnim(new Intent(getActivity(), BookSourceGuideActivity.class), 0, 0);
             }
@@ -129,10 +124,12 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
             @Override
             public void toSearch() {
                 //点击去选书
-                if (mPresenter.bookSourceSwitch())
-                    startActivityByAnim(new Intent(getActivity(), BookRActivity.class), 0, 0);
-                else
+                if (mPresenter.bookSourceSwitch()){
+                    ((MainActivity) requireActivity()).showBookStore();
+                }
+                else{
                     startActivityByAnim(new Intent(getActivity(), BookSourceGuideActivity.class), 0, 0);
+                }
 
             }
 

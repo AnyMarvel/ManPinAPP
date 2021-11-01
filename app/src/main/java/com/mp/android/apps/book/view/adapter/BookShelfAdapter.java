@@ -418,6 +418,10 @@ public class BookShelfAdapter extends RefreshRecyclerViewAdapter {
         abstract void onAnimStart(Animation animation);
     }
 
+    /**
+     * 修改数据源
+     * @param newDatas
+     */
     public synchronized void replaceAll(List<CollBookBean> newDatas) {
         books.clear();
         if (null != newDatas && newDatas.size() > 0) {
@@ -428,6 +432,9 @@ public class BookShelfAdapter extends RefreshRecyclerViewAdapter {
         notifyDataSetChanged();
     }
 
+    /**
+     * 基于最后读书时间对图书进行重新排序
+     */
     private void order() {
         if (books != null && books.size() > 0) {
             for (int i = 0; i < books.size(); i++) {

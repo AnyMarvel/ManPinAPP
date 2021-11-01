@@ -20,5 +20,8 @@ public class BCSettingModel extends MBaseModelImpl {
         return getRetrofitObject(TAG).create(BCAPI.class).userBookCorrespondence(generateRequestBody(userBookCorrespondenceBean));
     }
 
+    public Observable<String> backUserBookCollections(String  uniqueID) {
+        return getRetrofitObject(TAG).create(BCAPI.class).backUserBookCollections(uniqueID);
+    }
 
 }

@@ -28,6 +28,8 @@ public class ObtainBookInfoUtils extends MBaseModelImpl {
         return sourceListContent;
     }
 
+
+
     public void senMessageManpin(CollBookBean collBookBean, String kind, String lastChapter) {
         try {
             if (collBookBean.get_id().contains("http")) {

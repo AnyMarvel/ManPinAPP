@@ -139,7 +139,7 @@ public class BookDetailPresenterImpl extends BasePresenterImpl<IBookDetailView> 
     @Override
     public void addToBookShelf() {
         if (collBookBean != null) {
-            BookShelUtils.getInstance().addToBookShelfUtils(collBookBean, mView);
+            BookShelUtils.getInstance().addToBookShelfUtils(collBookBean);
         }
     }
 

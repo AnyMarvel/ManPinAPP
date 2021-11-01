@@ -1,5 +1,6 @@
 package com.mp.android.apps.book.presenter.impl;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.hwangjr.rxbus.RxBus;
@@ -47,9 +48,8 @@ public class BookShelUtils {
      * 适用于搜索到的书籍，主页推荐书籍
      *
      * @param collBookBean
-     * @param mView
      */
-    public void addToBookShelfUtils(CollBookBean collBookBean, IView mView) {
+    public void addToBookShelfUtils(CollBookBean collBookBean) {
         WebBookModelControl.getInstance().getBookChapters(collBookBean)
                 .toObservable()
                 .flatMap(new Function<List<BookChapterBean>, ObservableSource<Boolean>>() {
@@ -80,23 +80,28 @@ public class BookShelUtils {
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(((BaseActivity) mView.getContext()).<Boolean>bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(new SimpleObserver<Boolean>() {
                     @Override
                     public void onNext(Boolean value) {
                         if (value) {
                             RxBus.get().post(RxBusTag.HAD_ADD_BOOK, collBookBean);
                         } else {
-                            Toast.makeText(MyApplication.getInstance(), "放入书架失败!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MyApplication.getInstance(), collBookBean.getTitle()+"放入书架失败!", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        Toast.makeText(MyApplication.getInstance(), "放入书架失败!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MyApplication.getInstance(), collBookBean.getTitle()+"放入书架失败!", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    public Observable<CollBookBean>  getBookInfoUtils(CollBookBean collBookBean){
+        return WebBookModelControl.getInstance().getBookInfo(collBookBean);
 
     }
+
+
 }

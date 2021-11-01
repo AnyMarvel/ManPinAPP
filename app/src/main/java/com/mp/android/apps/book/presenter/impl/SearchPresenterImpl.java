@@ -309,7 +309,7 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
         CollBookBean collBookBean = new CollBookBean().getCollBookBeanFromSearch(searchBookBean);
         if (collBookBean != null) {
             if (collBookBean.getBookChapterUrl() != null) {
-                BookShelUtils.getInstance().addToBookShelfUtils(collBookBean, mView);
+                BookShelUtils.getInstance().addToBookShelfUtils(collBookBean);
             } else {
                 WebBookModelControl.getInstance().getBookInfo(collBookBean).subscribeOn(Schedulers.io())
                         .compose(((BaseActivity) mView.getContext()).<CollBookBean>bindUntilEvent(ActivityEvent.DESTROY))
@@ -317,7 +317,7 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
                         .subscribe(new SimpleObserver<CollBookBean>() {
                             @Override
                             public void onNext(CollBookBean collBookBean) {
-                                BookShelUtils.getInstance().addToBookShelfUtils(collBookBean, mView);
+                                BookShelUtils.getInstance().addToBookShelfUtils(collBookBean);
                             }
 
                             @Override

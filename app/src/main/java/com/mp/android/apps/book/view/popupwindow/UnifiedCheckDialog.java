@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.UiThread;
+
 import com.mp.android.apps.R;
 
 /**
@@ -21,11 +23,9 @@ public class UnifiedCheckDialog extends Dialog {
     private TextView tvExit;
     private TextView tvConfirm;
     private CheckDialogListener mCheckDialogListener;
-
     public UnifiedCheckDialog(@NonNull Context context,CheckDialogListener mCheckDialogListener) {
         super(context);
         this.mCheckDialogListener=mCheckDialogListener;
-
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -2,18 +2,23 @@ package com.mp.android.apps.main.bookR.view.popupwindow;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.Toast;
-
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
+import com.mp.android.apps.MyApplication;
 import com.mp.android.apps.R;
 import com.mp.android.apps.book.base.observer.SimpleObserver;
 import com.mp.android.apps.book.bean.BaseResponseBean;
 import com.mp.android.apps.book.model.ObtainBookInfoUtils;
+import com.mp.android.apps.book.model.WebBookModelControl;
+import com.mp.android.apps.book.presenter.impl.BookShelUtils;
 import com.mp.android.apps.book.view.impl.BookSourceActivity;
 import com.mp.android.apps.book.view.popupwindow.UnifiedCheckDialog;
 import com.mp.android.apps.login.utils.LoginManager;
@@ -22,13 +27,15 @@ import com.mp.android.apps.main.bookR.view.popupwindow.utils.BCSettingModel;
 import com.mp.android.apps.main.home.bean.SourceListContent;
 import com.mp.android.apps.readActivity.bean.BookRecordBean;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
+import com.mp.android.apps.readActivity.local.BookRepository;
 import com.mp.android.apps.readActivity.local.DaoDbHelper;
 
+import java.net.URI;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -45,7 +52,9 @@ public class BCSettingPopupwindow extends PopupWindow {
     private Context context;
     private  BCSettingModel bcSettingModel;
 
-    private UnifiedCheckDialog unifiedCheckDialog;
+    private UnifiedCheckDialog backUnifiedCheckDialog;
+    private UnifiedCheckDialog reconverUnifiedCheckDialog;
+
 
     public BCSettingPopupwindow(Context context) {
         super(context);
@@ -63,9 +72,8 @@ public class BCSettingPopupwindow extends PopupWindow {
             backBooks=rootView.findViewById(R.id.manpin_back_book_collection);
             recoveryBooks=rootView.findViewById(R.id.manpin_recovery_book_collection);
             setBookSource=rootView.findViewById(R.id.manpin_setting_book_source);
-
-        if (unifiedCheckDialog==null){
-            unifiedCheckDialog=new UnifiedCheckDialog(context, new UnifiedCheckDialog.CheckDialogListener() {
+        if (backUnifiedCheckDialog==null){
+            backUnifiedCheckDialog=new UnifiedCheckDialog(context,new UnifiedCheckDialog.CheckDialogListener() {
                 @Override
                 public String getContent() {
                     return "备份书架将覆盖线上数据，请谨慎操作";
@@ -74,30 +82,50 @@ public class BCSettingPopupwindow extends PopupWindow {
                 @Override
                 public void confirmDialog() {
                     handleBackBooks();
-                    unifiedCheckDialog.dismiss();
+                    backUnifiedCheckDialog.dismiss();
                 }
             });
         }
+        if (reconverUnifiedCheckDialog ==null){
+            reconverUnifiedCheckDialog=new UnifiedCheckDialog(context,new UnifiedCheckDialog.CheckDialogListener() {
+                @Override
+                public String getContent() {
+                    return "恢复书架将会覆盖本地数据，请谨慎操作";
+                }
+
+                @Override
+                public void confirmDialog() {
+                    handleRecoveryBooks();
+                    reconverUnifiedCheckDialog.dismiss();
+                }
+            });
+        }
+
 
         //备份图书
             backBooks.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (LoginManager.getInstance().checkLoginInfo()){
-                        unifiedCheckDialog.show();
-                        BCSettingPopupwindow.this.dismiss();
 
+                        backUnifiedCheckDialog.show();
+                        BCSettingPopupwindow.this.dismiss();
                     }else {
                         Toast.makeText(context,"当前未登陆,请到先登陆",Toast.LENGTH_LONG).show();
                     }
+
                 }
             });
             //还原图书
             recoveryBooks.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    handleRecoveryBooks();
-                    BCSettingPopupwindow.this.dismiss();
+                    if (LoginManager.getInstance().checkLoginInfo()){
+                        reconverUnifiedCheckDialog.show();
+                        BCSettingPopupwindow.this.dismiss();
+                    }else {
+                        Toast.makeText(context,"当前未登陆,请到先登陆",Toast.LENGTH_LONG).show();
+                    }
                 }
             });
 
@@ -118,6 +146,74 @@ public class BCSettingPopupwindow extends PopupWindow {
      */
     private void handleRecoveryBooks(){
 
+        List<CollBookBean> collBookBeanList = DaoDbHelper.getInstance().getSession().getCollBookBeanDao().queryBuilder().list();
+        List<String> localCollBooks=new ArrayList<>();
+
+        for (CollBookBean collBookBean:collBookBeanList) {
+            localCollBooks.add(collBookBean.get_id());
+        }
+
+        bcSettingModel.backUserBookCollections(LoginManager.getInstance().getLoginInfo().getUniqueID())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io()).subscribe(new SimpleObserver<String>() {
+            @Override
+            public void onNext(String s) {
+                if (!TextUtils.isEmpty(s)){
+                    JSONObject jsonObject=JSON.parseObject(s);
+                    if (jsonObject!=null){
+                        JSONObject data = (JSONObject) jsonObject.get("data");
+                        if (data!=null){
+                        UserBookCorrespondenceBean userBookCorrespondence= JSON.parseObject(data.toJSONString(),UserBookCorrespondenceBean.class);
+                            if (userBookCorrespondence != null) {
+                                for (SourceListContent sourceListContent : userBookCorrespondence.getBookList()) {
+                                    if (!TextUtils.isEmpty(sourceListContent.getNoteUrl()) && !localCollBooks.contains(sourceListContent.getNoteUrl())) {
+                                        //添加进书架
+                                        CollBookBean collBookBean = new CollBookBean();
+                                        collBookBean.set_id(sourceListContent.getNoteUrl());
+                                        collBookBean.setTitle(sourceListContent.getName());
+                                        Uri uri=Uri.parse(sourceListContent.getNoteUrl());
+                                        String bookTag=uri.getScheme()+"://"+uri.getHost();
+                                        collBookBean.setBookTag(bookTag);
+                                        WebBookModelControl.getInstance().getBookInfo(collBookBean)
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribeOn(Schedulers.io()).subscribe(new SimpleObserver<CollBookBean>() {
+                                            @Override
+                                            public void onNext(CollBookBean collBookBean) {
+                                                BookShelUtils.getInstance().addToBookShelfUtils(collBookBean);
+                                                HashMap<String, Integer> booksRecord=userBookCorrespondence.getUserBookRelay();
+                                                if (booksRecord!=null && booksRecord.size()>0){
+                                                    for (HashMap.Entry<String, Integer> entry:booksRecord.entrySet()) {
+                                                        BookRecordBean bookRecordBean=new BookRecordBean();
+                                                        bookRecordBean.setBookId(entry.getKey());
+                                                        bookRecordBean.setChapter(entry.getValue());
+                                                        BookRepository.getInstance().saveBookRecord(bookRecordBean);
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onError(Throwable e) {
+                                                Toast.makeText(MyApplication.getInstance(), collBookBean.getTitle() + "放入书架失败!", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+                                    }
+                                }
+                            }
+                            //刷新书架列表
+
+                        }
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Toast.makeText(context,"恢复失败，请稍后重试或联系小编",Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     /**
@@ -173,8 +269,6 @@ public class BCSettingPopupwindow extends PopupWindow {
         }else {
             Toast.makeText(context,"书架为空",Toast.LENGTH_LONG).show();
         }
-
-
 
     }
 

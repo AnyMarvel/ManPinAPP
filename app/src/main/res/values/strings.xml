@@ -77,7 +77,7 @@
     <string name="tv_read_durprogress">观看至:%s</string>
     <string name="tv_book_name">《%s》</string>
     <string name="tv_searchbook_lastest">最新章节:%s</string>
-    <string name="tv_pop_checkaddshelf">是否将《%s》放入书架？</string>
+
     <string name="tv_importbook_count">共%s个Text文件</string>
 
 

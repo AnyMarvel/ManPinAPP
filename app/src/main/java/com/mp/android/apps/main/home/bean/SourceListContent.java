@@ -5,11 +5,15 @@ package com.mp.android.apps.main.home.bean;
 
 import java.util.Date;
 
+/**
+ * 对应server BookInfo
+ */
 public class SourceListContent {
 
     private String author;
     private String kind;
     private String origin;
+    //server上传事件，不需要客户端上传
     private Date updateTime;
     private String lastChapter;
     private String coverUrl;

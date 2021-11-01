@@ -1,5 +1,9 @@
 package com.mp.android.apps.book.base;
 
+import com.alibaba.fastjson.JSON;
+import com.ihsanbal.logging.Level;
+import com.ihsanbal.logging.LoggingInterceptor;
+import com.mp.android.apps.BuildConfig;
 import com.mp.android.apps.basemvplib.EncodoConverter;
 
 import java.util.HashMap;
@@ -16,17 +20,27 @@ import javax.net.ssl.X509TrustManager;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
+import okhttp3.internal.platform.Platform;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public abstract class MBaseModelImpl {
+
+    private LoggingInterceptor loggingInterceptor=new LoggingInterceptor.Builder()
+            .loggable(BuildConfig.DEBUG)
+            .setLevel(Level.BASIC)
+            .log(Platform.INFO)
+            .request("Request")
+            .response("Response")
+            .build();
+
     protected OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
-//            .protocols(Collections.singletonList(Protocol.HTTP_1_1)).retryOnConnectionFailure(true)
             .connectTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
-            .readTimeout(10, TimeUnit.SECONDS);
-//    .addInterceptor(new ProxyInterceptor())
+            .readTimeout(10, TimeUnit.SECONDS)
+            .addInterceptor(loggingInterceptor);
+
 
     TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
         @Override
@@ -96,6 +110,11 @@ public abstract class MBaseModelImpl {
             requestBodyMap.put(key, requestBody);
         }
         return requestBodyMap;
+    }
+
+    // 创建json类型的requestBody
+    protected RequestBody generateRequestBody(Object object){
+        return RequestBody.create(MediaType.parse("Content-Type, application/json"), JSON.toJSONString(object));
     }
 
 

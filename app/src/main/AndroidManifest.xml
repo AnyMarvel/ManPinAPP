@@ -44,6 +44,7 @@
         <activity android:name=".livevblank.EditCardActivity" />
         <activity android:name=".livevblank.PreviewActivity" />
         <activity android:name=".livevblank.SearchPeopleActivity" />
+        <activity android:name=".book.view.impl.MoreSettingActivity"/>
         <activity
             android:name=".readActivity.ReadActivity"
             android:resizeableActivity="false"

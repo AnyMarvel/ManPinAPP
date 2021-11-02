@@ -113,4 +113,14 @@
             android:layout_gravity="center_vertical|right"
             android:src="@drawable/icon_close"/>
     </FrameLayout>
+
+    <com.victor.loading.rotate.RotateLoading
+        android:id="@+id/rl_loading"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:loading_width="2dp"
+        app:loading_color="@color/tv_text_addshelf_pre"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center"/>
+
 </FrameLayout>

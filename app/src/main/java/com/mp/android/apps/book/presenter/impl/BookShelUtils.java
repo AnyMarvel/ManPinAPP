@@ -85,6 +85,7 @@ public class BookShelUtils {
                     public void onNext(Boolean value) {
                         if (value) {
                             RxBus.get().post(RxBusTag.HAD_ADD_BOOK, collBookBean);
+                            RxBus.get().post(RxBusTag.HIDE_COLLECTION_RLLODING,new Object());
                         } else {
                             Toast.makeText(MyApplication.getInstance(), collBookBean.getTitle()+"放入书架失败!", Toast.LENGTH_SHORT).show();
                         }
@@ -93,6 +94,7 @@ public class BookShelUtils {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
+                        RxBus.get().post(RxBusTag.HIDE_COLLECTION_RLLODING,new Object());
                         Toast.makeText(MyApplication.getInstance(), collBookBean.getTitle()+"放入书架失败!", Toast.LENGTH_SHORT).show();
                     }
                 });

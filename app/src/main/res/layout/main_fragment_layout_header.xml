@@ -95,7 +95,7 @@
                 android:layout_weight="1"
                 android:stateListAnimator="@drawable/anim_state_list_m01"
                 app:image="@drawable/fenlei"
-                app:text="广场"
+                app:text="音乐"
                 app:textColor="@color/colorGray" />
 
         </LinearLayout>

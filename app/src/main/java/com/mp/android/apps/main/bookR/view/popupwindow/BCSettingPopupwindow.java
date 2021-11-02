@@ -12,10 +12,12 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.JsonObject;
+import com.hwangjr.rxbus.RxBus;
 import com.mp.android.apps.MyApplication;
 import com.mp.android.apps.R;
 import com.mp.android.apps.book.base.observer.SimpleObserver;
 import com.mp.android.apps.book.bean.BaseResponseBean;
+import com.mp.android.apps.book.common.RxBusTag;
 import com.mp.android.apps.book.model.ObtainBookInfoUtils;
 import com.mp.android.apps.book.model.WebBookModelControl;
 import com.mp.android.apps.book.presenter.impl.BookShelUtils;
@@ -41,6 +43,7 @@ import io.reactivex.schedulers.Schedulers;
 
 
 /**
+ * 书架备份还原
  * 图书的设置界面
  */
 
@@ -76,7 +79,7 @@ public class BCSettingPopupwindow extends PopupWindow {
             backUnifiedCheckDialog=new UnifiedCheckDialog(context,new UnifiedCheckDialog.CheckDialogListener() {
                 @Override
                 public String getContent() {
-                    return "备份书架将覆盖线上数据，请谨慎操作";
+                    return "备份书架 会覆盖线上数据，请谨慎操作";
                 }
 
                 @Override
@@ -90,11 +93,12 @@ public class BCSettingPopupwindow extends PopupWindow {
             reconverUnifiedCheckDialog=new UnifiedCheckDialog(context,new UnifiedCheckDialog.CheckDialogListener() {
                 @Override
                 public String getContent() {
-                    return "恢复书架将会覆盖本地数据，请谨慎操作";
+                    return "恢复书架 备份数据会合并本地，请谨慎操作";
                 }
 
                 @Override
                 public void confirmDialog() {
+                    RxBus.get().post(RxBusTag.SHOW_COLLECTION_RLLODING,new Object());
                     handleRecoveryBooks();
                     reconverUnifiedCheckDialog.dismiss();
                 }
@@ -194,9 +198,13 @@ public class BCSettingPopupwindow extends PopupWindow {
                                             @Override
                                             public void onError(Throwable e) {
                                                 Toast.makeText(MyApplication.getInstance(), collBookBean.getTitle() + "放入书架失败!", Toast.LENGTH_SHORT).show();
+                                                RxBus.get().post(RxBusTag.HIDE_COLLECTION_RLLODING,new Object());
                                             }
                                         });
 
+                                    }else {
+                                        Toast.makeText(context,"远端备份不存在新内容",Toast.LENGTH_LONG).show();
+                                        RxBus.get().post(RxBusTag.HIDE_COLLECTION_RLLODING,new Object());
                                     }
                                 }
                             }

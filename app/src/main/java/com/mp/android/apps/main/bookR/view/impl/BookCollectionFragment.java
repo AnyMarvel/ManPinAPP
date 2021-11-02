@@ -15,9 +15,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.hwangjr.rxbus.RxBus;
+import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.annotation.Tag;
+import com.hwangjr.rxbus.thread.EventThread;
 import com.mp.android.apps.R;
 import com.mp.android.apps.basemvplib.impl.BaseFragment;
 import com.mp.android.apps.book.BitIntentDataManager;
+import com.mp.android.apps.book.common.RxBusTag;
 import com.mp.android.apps.book.presenter.IMainPresenter;
 import com.mp.android.apps.book.presenter.impl.BookDetailPresenterImpl;
 import com.mp.android.apps.book.presenter.impl.MainPresenterImpl;
@@ -34,6 +39,7 @@ import com.mp.android.apps.main.MainActivity;
 import com.mp.android.apps.main.bookR.view.popupwindow.BCSettingPopupwindow;
 import com.mp.android.apps.readActivity.ReadActivity;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
+import com.victor.loading.rotate.RotateLoading;
 
 import java.util.List;
 
@@ -50,8 +56,11 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
     private BookShelfAdapter bookShelfAdapter;
     private FrameLayout flWarn;
     private ImageView ivWarnClose;
+    private RotateLoading rlLoading;
 
     private BCSettingPopupwindow bcSettingPopupwindow;
+
+
 
     @Override
     protected IMainPresenter initInjector() {
@@ -85,6 +94,7 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
 
         flWarn = (FrameLayout) view.findViewById(R.id.fl_warn);
         ivWarnClose = (ImageView) view.findViewById(R.id.iv_warn_close);
+        rlLoading = (RotateLoading) view.findViewById(R.id.rl_loading);
     }
 
     @Override
@@ -226,4 +236,33 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
             startActivityByAnim(intent, animIn, animExit);
         }
     }
+
+
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
+                    @Tag(RxBusTag.SHOW_COLLECTION_RLLODING)
+            }
+    )
+    public void startRlLoading(Object o){
+        if (rlLoading!=null){
+            rlLoading.setVisibility(View.VISIBLE);
+            rlLoading.start();
+        }
+
+    }
+
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
+                    @Tag(RxBusTag.HIDE_COLLECTION_RLLODING)
+            }
+    )
+    public void stopRlLoading(Object o){
+        if (rlLoading!=null){
+            rlLoading.stop();
+            rlLoading.setVisibility(View.GONE);
+        }
+    }
+
 }

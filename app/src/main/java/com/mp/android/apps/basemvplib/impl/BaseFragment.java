@@ -21,6 +21,7 @@ public abstract class BaseFragment<T extends IPresenter> extends Fragment implem
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        RxBus.get().register(this);
         this.savedInstanceState = savedInstanceState;
         initSDK();
         view = createView(inflater, container);
@@ -45,6 +46,7 @@ public abstract class BaseFragment<T extends IPresenter> extends Fragment implem
     @Override
     public void onDestroy() {
         super.onDestroy();
+        RxBus.get().unregister(this);
         if (null != mPresenter) {
             mPresenter.detachView();
         }

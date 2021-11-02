@@ -20,4 +20,15 @@ public class RxBusTag {
      * 登陆成功通知
      */
     public final static String LOGIN_SUCCESS = "rxbus_login_success";
+
+
+    /**
+     * 书架界面展示loading动画
+     */
+    public final static String SHOW_COLLECTION_RLLODING = "rxbus_show_collection_rlloding";
+
+    /**
+     * 书架界面隐藏loading动画
+     */
+    public final static String HIDE_COLLECTION_RLLODING = "rxbus_hide_collection_rlloding";
 }

@@ -126,15 +126,6 @@
                 imageText:image="@drawable/baseline_settings"
                 imageText:text="关于我们"
                 imageText:textColor="@color/white" />
-            <com.mp.android.apps.main.home.view.MyImageTextView
-                android:id="@+id/manpin_gaoqing_yingshi_layout"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="1"
-                imageText:image="@drawable/baseline_movie_white"
-                imageText:text="高清影视"
-                imageText:textColor="@color/white" />
 
             <com.mp.android.apps.main.home.view.MyImageTextView
                 android:id="@+id/manpin_person_music_layout"

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -140,8 +141,12 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
                 ((MainActivity) requireActivity()).showShujiaFragment();
                 break;
             case R.id.guangchang:
-//                ((MainActivity) getActivity()).gotoExplore("广场");
-                break;
+                Intent intentUrl= new Intent();
+                intentUrl.setAction("android.intent.action.VIEW");
+                Uri content_url = Uri.parse("http://tool.liumingye.cn/music/?page=searchPage");
+                intentUrl.setData(content_url);
+                startActivity(intentUrl);
+            break;
             case R.id.search_image:
                 if (BookSourceCheckUtils.bookSourceSwitch(this.getContext())) {
                     startActivity(new Intent(getActivity(), SearchActivity.class));

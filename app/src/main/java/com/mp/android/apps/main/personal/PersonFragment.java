@@ -56,17 +56,6 @@ public class PersonFragment extends LoginBaseFragment implements View.OnClickLis
         return null;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        RxBus.get().register(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        RxBus.get().unregister(this);
-    }
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container) {
@@ -79,7 +68,7 @@ public class PersonFragment extends LoginBaseFragment implements View.OnClickLis
     MyImageTextView guanyuwomen;
     MyImageTextView fenxiang;
 
-    MyImageTextView yingshilayout;
+
     MyImageTextView musiclayout;
     MyImageTextView travelLayout;
     MyImageTextView wallpaperLayout;
@@ -91,8 +80,7 @@ public class PersonFragment extends LoginBaseFragment implements View.OnClickLis
     @Override
     protected void bindView() {
         super.bindView();
-        yingshilayout=view.findViewById(R.id.manpin_gaoqing_yingshi_layout);
-        yingshilayout.setOnClickListener(this);
+
 
         musiclayout=view.findViewById(R.id.manpin_person_music_layout);
         musiclayout.setOnClickListener(this);
@@ -163,9 +151,6 @@ public class PersonFragment extends LoginBaseFragment implements View.OnClickLis
                         ).open();
                 break;
 
-            case R.id.manpin_gaoqing_yingshi_layout:
-                jumpLinkUrl("https://lab.liumingye.cn/");
-                break;
             case R.id.manpin_person_music_layout:
                 jumpLinkUrl("http://tool.liumingye.cn/music/?page=searchPage");
                 break;

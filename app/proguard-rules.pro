@@ -325,7 +325,7 @@ public static java.lang.String TABLENAME;
 -keep class com.mp.android.apps.explore.bean.**{*;}
 -keep class com.mp.android.apps.main.home.bean.**{*;}
 -keep class com.mp.android.apps.main.bookR.bean.**{*;}
-
+-keep class com.mp.android.apps.main.bookR.view.popupwindow.bean.**{*;}
 -keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
     public static void dropTable(org.greenrobot.greendao.database.Database, boolean);
     public static void createTable(org.greenrobot.greendao.database.Database, boolean);

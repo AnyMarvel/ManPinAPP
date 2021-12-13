@@ -13,7 +13,7 @@
   },
   {
     "bookTitle": "ABC小说",
-    "bookSourceScore": "4.5",
+    "bookSourceScore": "4",
     "bookSourceAddress": "https://www.yb3.cc",
     "bookSourceSwitch": false
   },
@@ -27,6 +27,12 @@
     "bookTitle": "塔读文学",
     "bookSourceScore": "5",
     "bookSourceAddress": "http://www.tadu.com",
+    "bookSourceSwitch": false
+  },
+  {
+    "bookTitle": "笔趣阁",
+    "bookSourceScore": "5",
+    "bookSourceAddress": "https://www.xxbiqudu.com",
     "bookSourceSwitch": false
   }
 ]

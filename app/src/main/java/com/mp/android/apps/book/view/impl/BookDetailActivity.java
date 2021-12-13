@@ -3,6 +3,7 @@ package com.mp.android.apps.book.view.impl;
 
 import android.content.Intent;
 import android.os.Build;
+import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.animation.Animation;
@@ -127,8 +128,10 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
             }
             if (mPresenter.getCollBookBean().getBookTag() != null) {
                 tvOrigin.setVisibility(View.VISIBLE);
-                String sourceWebsit = "来源:" + mPresenter.getCollBookBean().getBookTag();
-                tvOrigin.setText(sourceWebsit);
+                if (TextUtils.isEmpty(tvOrigin.getText())){
+                    String sourceWebsit = "来源:" + mPresenter.getCollBookBean().getBookTag();
+                    tvOrigin.setText(sourceWebsit);
+                }
             } else {
                 tvOrigin.setVisibility(View.GONE);
             }

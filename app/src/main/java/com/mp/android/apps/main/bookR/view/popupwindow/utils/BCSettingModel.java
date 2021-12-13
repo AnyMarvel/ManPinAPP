@@ -7,11 +7,7 @@ import com.mp.android.apps.main.bookR.view.popupwindow.bean.UserBookCorresponden
 import io.reactivex.Observable;
 
 
-/**
- * @author ShuiYu
- * Created on 11/1/21
- * Copyright © 2021 Alibaba-inc. All rights reserved.
- */
+
 
 public class BCSettingModel extends MBaseModelImpl {
     private final String TAG = "http://aimanpin.com";

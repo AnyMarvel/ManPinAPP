@@ -7,11 +7,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
-/**
- * @author ShuiYu
- * Created on 11/1/21
- * Copyright © 2021 Alibaba-inc. All rights reserved.
- */
+
 
 public interface BCAPI {
     /**

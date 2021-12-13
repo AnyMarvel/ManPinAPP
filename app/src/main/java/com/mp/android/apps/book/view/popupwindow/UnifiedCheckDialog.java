@@ -11,11 +11,7 @@ import androidx.annotation.UiThread;
 
 import com.mp.android.apps.R;
 
-/**
- * @author ShuiYu
- * Created on 11/1/21
- * Copyright © 2021 Alibaba-inc. All rights reserved.
- */
+
 
 public class UnifiedCheckDialog extends Dialog {
 

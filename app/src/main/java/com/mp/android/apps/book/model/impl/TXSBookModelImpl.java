@@ -92,7 +92,7 @@ public class TXSBookModelImpl extends MBaseModelImpl implements IReaderBookModel
                             item.setOrigin(ORIGIN);
                             item.setName(booksE.get(i).getElementsByClass("bookname").get(0).text());
                             String href = booksE.get(i).getElementsByClass("bookname").get(0).attr("href");
-                            item.setNoteUrl(TAG + href);
+                            item.setNoteUrl(href);
                             item.setCoverUrl(booksE.get(i).getElementsByClass("bookimg").get(0).getElementsByTag("img").get(0).attr("src"));
                             item.setKind(booksE.get(i).getElementsByTag("p").get(0).getElementsByTag("a").get(1).text());
                             item.setLastChapter(booksE.get(i).getElementsByClass("chapter").get(0).text().replace("最新章节：", ""));

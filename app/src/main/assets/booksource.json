@@ -19,13 +19,13 @@
   },
   {
     "bookTitle": "得间小说",
-    "bookSourceScore": "5",
+    "bookSourceScore": "4",
     "bookSourceAddress": "https://www.idejian.com",
     "bookSourceSwitch": false
   },
   {
     "bookTitle": "塔读文学",
-    "bookSourceScore": "5",
+    "bookSourceScore": "3",
     "bookSourceAddress": "http://www.tadu.com",
     "bookSourceSwitch": false
   },
@@ -33,6 +33,12 @@
     "bookTitle": "笔趣阁",
     "bookSourceScore": "5",
     "bookSourceAddress": "https://www.xxbiqudu.com",
+    "bookSourceSwitch": false
+  },
+  {
+    "bookTitle": "3040文学",
+    "bookSourceScore": "5",
+    "bookSourceAddress": "https://www.130140.com",
     "bookSourceSwitch": false
   }
 ]

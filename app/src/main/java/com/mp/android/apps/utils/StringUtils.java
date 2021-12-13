@@ -10,6 +10,7 @@ import com.mp.android.apps.readActivity.utils.SharedPreUtils;
 import com.zqc.opencc.android.lib.ChineseConverter;
 import com.zqc.opencc.android.lib.ConversionType;
 
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -183,4 +184,5 @@ public class StringUtils {
 
         return (convertType != 0)? ChineseConverter.convert(input, currentConversionType, context):input;
     }
+
 }

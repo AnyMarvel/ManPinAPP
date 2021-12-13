@@ -33,9 +33,7 @@ import io.reactivex.SingleSource;
 import io.reactivex.functions.Function;
 
 /**
- * @author ShuiYu
- * Created on 12/13/21
- * Copyright © 2021 Alibaba-inc. All rights reserved.
+ * 笔趣阁
  */
 
 public class ContentXXBiQuGeModelImpl extends MBaseModelImpl implements IReaderBookModel {

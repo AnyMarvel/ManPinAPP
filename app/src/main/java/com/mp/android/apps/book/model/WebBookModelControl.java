@@ -6,7 +6,7 @@ import android.net.Uri;
 
 import com.mp.android.apps.book.bean.SearchBookBean;
 import com.mp.android.apps.book.model.impl.ContentAimanpinModeImpl;
-import com.mp.android.apps.book.model.impl.ContentIdeaJainImpl;
+
 import com.mp.android.apps.book.model.impl.Content3040ModelImpl;
 import com.mp.android.apps.book.model.impl.ContentTaduImpl;
 import com.mp.android.apps.book.model.impl.ContentXXBiQuGeModelImpl;
@@ -68,7 +68,7 @@ public class WebBookModelControl {
         models.add(ContentAimanpinModeImpl.getInstance());//只具有搜索功能的下发服务器,为用户点击的上报数据
         models.add(TXSBookModelImpl.getInstance());
         models.add(ContentYb3ModelImpl.getInstance());
-        models.add(ContentIdeaJainImpl.getInstance());
+
         models.add(ContentTaduImpl.getInstance());
         models.add(ContentXXBiQuGeModelImpl.getInstance());
         models.add(Content3040ModelImpl.getInstance());

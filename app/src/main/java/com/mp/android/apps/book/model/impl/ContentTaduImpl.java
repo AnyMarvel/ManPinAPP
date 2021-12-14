@@ -45,7 +45,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class ContentTaduImpl extends MBaseModelImpl implements IReaderBookModel {
-    public static final String TAG = "http://www.tadu.com";
+    public static final String TAG = "https://www.tadu.com";
     public static final String ORIGIN = "tadu.com";
 
     public static ContentTaduImpl getInstance() {
@@ -147,8 +147,8 @@ public class ContentTaduImpl extends MBaseModelImpl implements IReaderBookModel 
                 String updatedTime = "获取失败";
                 String lastchapter = "获取失败";
                 try {
-                    updatedTime = doc.getElementsByClass("newUpdate").get(0).getElementsByTag("span").text().trim().replace(" ", "").replace("  ", "");
-                    lastchapter = doc.getElementsByClass("newUpdate").get(0).text().toString().trim();
+                    updatedTime = doc.getElementsByClass("upDate").get(0).getElementsByTag("span").get(0).text().trim().replace(" ", "").replace("  ", "");
+                    lastchapter = doc.getElementsByClass("upDate").get(0).getElementsByClass("chapter").get(0).text().trim().replace(" ", "").replace("  ", "");
                 } catch (Exception e1) {
                 }
 
@@ -156,20 +156,9 @@ public class ContentTaduImpl extends MBaseModelImpl implements IReaderBookModel 
 
                 collBookBean.setLastChapter(lastchapter);
 
-                List<TextNode> contentEs = bookInfo.getElementsByTag("p").get(0).textNodes();
-                StringBuilder content = new StringBuilder();
-                for (int i = 0; i < contentEs.size(); i++) {
-                    String temp = contentEs.get(i).text().trim();
-                    temp = temp.replaceAll(" ", "").replaceAll(" ", "");
-                    if (temp.length() > 0) {
-                        content.append("\u3000\u3000" + temp);
-                        if (i < contentEs.size() - 1) {
-                            content.append("\r\n");
-                        }
-                    }
-                }
+                String contentEs = doc.getElementsByClass("lfO").get(0).getElementsByClass("intro").get(0).text();
 
-                collBookBean.setShortIntro(content.toString());
+                collBookBean.setShortIntro(contentEs);
                 collBookBean.setBookChapterUrl(collBookBean.get_id());
                 try {
                     String kind = bookInfo.getElementsByClass("sortList").get(0).getElementsByTag("a").get(0).text();

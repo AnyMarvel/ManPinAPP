@@ -18,15 +18,9 @@
     "bookSourceSwitch": false
   },
   {
-    "bookTitle": "得间小说",
-    "bookSourceScore": "4",
-    "bookSourceAddress": "https://www.idejian.com",
-    "bookSourceSwitch": false
-  },
-  {
     "bookTitle": "塔读文学",
     "bookSourceScore": "3",
-    "bookSourceAddress": "http://www.tadu.com",
+    "bookSourceAddress": "https://www.tadu.com",
     "bookSourceSwitch": false
   },
   {

@@ -2,7 +2,10 @@
 package com.mp.android.apps.book.model.impl;
 
 import android.text.TextUtils;
+import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.android.apps.photolab.storyboard.download.MD5Utils;
 import com.mp.android.apps.book.base.MBaseModelImpl;
 import com.mp.android.apps.book.bean.SearchBookBean;
@@ -12,6 +15,7 @@ import com.mp.android.apps.book.model.ObtainBookInfoUtils;
 import com.mp.android.apps.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.readActivity.bean.ChapterInfoBean;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -209,7 +213,7 @@ public class ContentSoDuModelImpl extends MBaseModelImpl implements IReaderBookM
                                                     chaptersMap.put(finalJ,singleChapterMap);
                                                     long endTime = System.currentTimeMillis();
 
-                                                    if (chaptersMap.size() == finalPageNumber || endTime-startTime>20000){
+                                                    if (chaptersMap.size() == finalPageNumber || endTime-startTime>60000){
                                                         object.notify();
                                                     }
 
@@ -262,7 +266,14 @@ public class ContentSoDuModelImpl extends MBaseModelImpl implements IReaderBookM
 
     @Override
     public Single<ChapterInfoBean> getChapterInfo(String url) {
-        return getRetrofitObject(TAG).create(ISoduApi.class).getChapterInfo(url).flatMap(new Function<String, SingleSource<? extends ChapterInfoBean>>() {
+        String cid=url.substring(url.lastIndexOf("/")+1,url.lastIndexOf(".html"));
+
+        String bid=url.substring(url.lastIndexOf("_")+1,url.lastIndexOf("/"));
+        Map<String,String> map=new HashMap<>();
+        map.put("bid",bid);
+        map.put("cid",cid);
+
+        return getRetrofitObject(TAG).create(ISoduApi.class).getChapterInfo(map).flatMap(new Function<String, SingleSource<? extends ChapterInfoBean>>() {
             @Override
             public SingleSource<? extends ChapterInfoBean> apply(String s) throws Exception {
                 return Single.create(new SingleOnSubscribe<ChapterInfoBean>() {
@@ -284,8 +295,10 @@ public class ContentSoDuModelImpl extends MBaseModelImpl implements IReaderBookM
         ChapterInfoBean chapterInfoBean = new ChapterInfoBean();
 
         try {
-            Document doc = Jsoup.parse(s);
-            List<TextNode> contentEs = doc.getElementsByClass("content").get(1).textNodes();
+            JSONObject jsonObject= JSON.parseObject(s);
+            String info=jsonObject.getString("info");
+            Document doc = Jsoup.parse(info);
+            List<TextNode> contentEs = doc.getElementsByTag("body").get(0).textNodes();
             StringBuilder content = new StringBuilder();
             for (int i = 0; i < contentEs.size(); i++) {
                 String temp = contentEs.get(i).text().trim();
@@ -301,7 +314,7 @@ public class ContentSoDuModelImpl extends MBaseModelImpl implements IReaderBookM
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            chapterInfoBean.setBody("站点暂时不支持解析，请反馈给Monke QQ:314599558,半小时内解决，超级效率的程序员");
+            chapterInfoBean.setBody("章节解析失败，请翻页尝试，或到我的界面。联系管理员");
         }
         return chapterInfoBean;
     }

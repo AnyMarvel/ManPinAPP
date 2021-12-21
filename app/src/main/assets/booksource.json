@@ -34,7 +34,12 @@
     "bookSourceScore": "5",
     "bookSourceAddress": "https://www.130140.com",
     "bookSourceSwitch": false
-  }
+  }, {
+  "bookTitle": "Sodu",
+  "bookSourceScore": "5",
+  "bookSourceAddress": "http://www.soduzw.com",
+  "bookSourceSwitch": false
+}
 ]
 
 

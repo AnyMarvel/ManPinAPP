@@ -67,13 +67,14 @@ public class WebBookModelControl {
      */
     private void initModels() {
         models.add(ContentAimanpinModeImpl.getInstance());//只具有搜索功能的下发服务器,为用户点击的上报数据
-        models.add(TXSBookModelImpl.getInstance());
-        models.add(ContentYb3ModelImpl.getInstance());
-
-        models.add(ContentTaduImpl.getInstance());
+        models.add(ContentSoDuModelImpl.getInstance());
         models.add(ContentXXBiQuGeModelImpl.getInstance());
         models.add(Content3040ModelImpl.getInstance());
-        models.add(ContentSoDuModelImpl.getInstance());
+        models.add(TXSBookModelImpl.getInstance());
+        models.add(ContentYb3ModelImpl.getInstance());
+        models.add(ContentTaduImpl.getInstance());
+
+
 
     }
 

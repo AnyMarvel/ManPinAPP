@@ -41,11 +41,12 @@ public interface ISoduApi {
             "Cache-Control:no-cache"})
     Single<String> getChapterLists(@Url String url);
 
-    @GET
+    @FormUrlEncoded
+    @POST("/novelsearch/chapter/transcode.html")
     @Headers({"Accept:text/html,application/xhtml+xml,application/xml",
             "User-Agent:Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3",
             "Accept-Charset:UTF-8",
             "Connection:close",
             "Cache-Control:no-cache"})
-    Single<String> getChapterInfo(@Url String url);
+    Single<String> getChapterInfo(@FieldMap Map<String, String> requestBodyMap);
 }

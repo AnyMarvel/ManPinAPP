@@ -226,7 +226,7 @@ public class ContentXXBiQuGeModelImpl extends MBaseModelImpl implements IReaderB
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            chapterInfoBean.setBody("站点暂时不支持解析，请反馈给Monke QQ:314599558,半小时内解决，超级效率的程序员");
+            chapterInfoBean.setBody("章节解析失败，请翻页尝试，或到我的界面。联系管理员");
         }
         return chapterInfoBean;
     }

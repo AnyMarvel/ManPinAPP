@@ -233,8 +233,18 @@ public class BookRepository {
     public String getRecordBookChapterTitle(CollBookBean book) {
         BookRecordBean bookRecordBeans = mSession.getBookRecordBeanDao().queryBuilder().where(BookRecordBeanDao.Properties.BookId.eq(book.get_id())).unique();
         if (bookRecordBeans != null) {
-            BookChapterBean currentBookChapterBean = mSession.getBookChapterBeanDao().queryBuilder()
-                    .where(BookChapterBeanDao.Properties.BookId.eq(book.get_id()), BookChapterBeanDao.Properties.Position.eq(bookRecordBeans.getChapter())).unique();
+            BookChapterBean currentBookChapterBean = null;
+            try {
+                 currentBookChapterBean = mSession.getBookChapterBeanDao().queryBuilder()
+                        .where(BookChapterBeanDao.Properties.BookId.eq(book.get_id()), BookChapterBeanDao.Properties.Position.eq(bookRecordBeans.getChapter())).unique();
+
+            }catch (Exception e){
+                List<BookChapterBean> lists=mSession.getBookChapterBeanDao().queryBuilder()
+                        .where(BookChapterBeanDao.Properties.BookId.eq(book.get_id())).list();
+                if (lists!=null && lists.size()>0){
+                    currentBookChapterBean= lists.get(0);
+                }
+            }
             if (currentBookChapterBean != null) {
                 return currentBookChapterBean.getTitle();
             }

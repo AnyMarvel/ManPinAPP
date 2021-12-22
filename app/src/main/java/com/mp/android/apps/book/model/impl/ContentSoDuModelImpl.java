@@ -205,7 +205,6 @@ public class ContentSoDuModelImpl extends MBaseModelImpl implements IReaderBookM
                                                     String linkUrl = TAG + chapterlist.get(i).getElementsByClass("chapterlist1").get(0).getElementsByTag("a").get(0).attr("href");
                                                     temp.setId(MD5Utils.strToMd5By16(linkUrl));
                                                     temp.setTitle(chapterlist.get(i).getElementsByClass("chapterlist1").get(0).getElementsByTag("a").get(0).text());
-                                                    temp.setPosition(i);
                                                     temp.setLink(linkUrl);
                                                     temp.setBookId(collBookBean.get_id());
                                                     temp.setUnreadble(false);
@@ -255,6 +254,10 @@ public class ContentSoDuModelImpl extends MBaseModelImpl implements IReaderBookM
                     }
                 }
         Collections.reverse(chapterBeans);
+
+        for (int i = 0; i < chapterBeans.size(); i++) {
+            chapterBeans.get(i).setPosition(i);
+        }
 
         return chapterBeans;
 

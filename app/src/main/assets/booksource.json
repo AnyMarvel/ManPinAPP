@@ -39,6 +39,12 @@
     "bookSourceScore": "5",
     "bookSourceAddress": "https://www.130140.com",
     "bookSourceSwitch": false
+  },
+  {
+    "bookTitle": "零点看书",
+    "bookSourceScore": "5",
+    "bookSourceAddress": "https://www.soudu.org",
+    "bookSourceSwitch": false
   }
 ]
 

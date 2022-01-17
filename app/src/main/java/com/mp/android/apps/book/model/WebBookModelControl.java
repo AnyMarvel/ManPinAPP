@@ -8,6 +8,7 @@ import com.mp.android.apps.book.bean.SearchBookBean;
 import com.mp.android.apps.book.model.impl.ContentAimanpinModeImpl;
 
 import com.mp.android.apps.book.model.impl.Content3040ModelImpl;
+import com.mp.android.apps.book.model.impl.ContentLingDianModelImpl;
 import com.mp.android.apps.book.model.impl.ContentSoDuModelImpl;
 import com.mp.android.apps.book.model.impl.ContentTaduImpl;
 import com.mp.android.apps.book.model.impl.ContentXXBiQuGeModelImpl;
@@ -73,7 +74,7 @@ public class WebBookModelControl {
         models.add(TXSBookModelImpl.getInstance());
         models.add(ContentYb3ModelImpl.getInstance());
         models.add(ContentTaduImpl.getInstance());
-
+        models.add(ContentLingDianModelImpl.getInstance());
 
 
     }

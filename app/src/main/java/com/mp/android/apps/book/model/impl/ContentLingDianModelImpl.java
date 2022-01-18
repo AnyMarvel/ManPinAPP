@@ -3,6 +3,7 @@ package com.mp.android.apps.book.model.impl;
 
 import com.google.android.apps.photolab.storyboard.download.MD5Utils;
 import com.mp.android.apps.book.base.MBaseModelImpl;
+import com.mp.android.apps.book.base.observer.SimpleObserver;
 import com.mp.android.apps.book.bean.SearchBookBean;
 import com.mp.android.apps.book.common.api.ILingDianAPI;
 import com.mp.android.apps.book.model.IReaderBookModel;
@@ -26,9 +27,13 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
+import io.reactivex.SingleObserver;
 import io.reactivex.SingleOnSubscribe;
 import io.reactivex.SingleSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 零点小说源
@@ -188,23 +193,69 @@ public class ContentLingDianModelImpl extends MBaseModelImpl implements IReaderB
 
     @Override
     public Single<ChapterInfoBean> getChapterInfo(String url) {
-        return getRetrofitObject(TAG).create(ILingDianAPI.class).getChapterInfo(url).flatMap(new Function<String, SingleSource<? extends ChapterInfoBean>>() {
-            @Override
-            public SingleSource<? extends ChapterInfoBean> apply(String s) throws Exception {
-                return Single.create(new SingleOnSubscribe<ChapterInfoBean>() {
+        final StringBuilder[] content = {new StringBuilder()};
+        return getRetrofitObject(TAG).create(ILingDianAPI.class).getChapterInfo(url)
+                .flatMap(new Function<String, SingleSource<String>>() {
                     @Override
-                    public void subscribe(SingleEmitter<ChapterInfoBean> emitter) throws Exception {
-                        emitter.onSuccess(analysisChapterInfo(s, url));
+                    public SingleSource<String> apply(String s) throws Exception {
+                        Document doc = Jsoup.parse(s);
+                        String nextTip=doc.getElementsByClass("section-opt").get(1).getElementsByTag("a").get(2).text();
+                        String nextHref=doc.getElementsByClass("section-opt").get(1).getElementsByTag("a").get(2).attr("href");
+                        if ("下一页".equals(nextTip)){
+                            addChapterInfoStr(s, content[0]);
+                            return getRetrofitObject(TAG).create(ILingDianAPI.class).getChapterInfo(nextHref);
+                        }else {
+                            content[0] =new StringBuilder();
+                            return getRetrofitObject(TAG).create(ILingDianAPI.class).getChapterInfo(url);
+                        }
+
+                    }
+                }).flatMap(new Function<String, SingleSource<? extends ChapterInfoBean>>() {
+                    @Override
+                    public SingleSource<? extends ChapterInfoBean> apply(String s) throws Exception {
+
+                        return Single.create(new SingleOnSubscribe<ChapterInfoBean>() {
+                            @Override
+                            public void subscribe(SingleEmitter<ChapterInfoBean> emitter) throws Exception {
+                                addChapterInfoStr(s, content[0]);
+                                ChapterInfoBean chapterInfoBean = new ChapterInfoBean();
+                                chapterInfoBean.setBody(content[0].toString());
+                                emitter.onSuccess(chapterInfoBean);
+                            }
+                        });
                     }
                 });
-            }
-        });
     }
+
+
+
 
     @Override
     public String getTAG() {
         return TAG;
     }
+
+    private void addChapterInfoStr(String s,StringBuilder content){
+        try {
+            Document doc = Jsoup.parse(s);
+            List<TextNode> contentEs = doc.getElementById("content").textNodes();
+
+            for (int i = 0; i < contentEs.size(); i++) {
+                String temp = contentEs.get(i).text().trim();
+                temp = temp.replaceAll(" ", "").replaceAll(" ", "");
+                if (temp.length() > 0) {
+                    content.append("\u3000\u3000" + temp);
+                    if (i < contentEs.size() - 1) {
+                        content.append("\r\n");
+                    }
+                }
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
 
     private ChapterInfoBean analysisChapterInfo(String s, String url) {
         ChapterInfoBean chapterInfoBean = new ChapterInfoBean();
@@ -224,7 +275,6 @@ public class ContentLingDianModelImpl extends MBaseModelImpl implements IReaderB
                 }
             }
             chapterInfoBean.setBody(content.toString());
-
         } catch (Exception ex) {
             ex.printStackTrace();
             chapterInfoBean.setBody("章节解析失败，请翻页尝试，或到我的界面。联系管理员");

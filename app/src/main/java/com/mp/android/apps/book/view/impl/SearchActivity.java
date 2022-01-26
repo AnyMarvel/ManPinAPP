@@ -501,10 +501,14 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
     public Boolean checkIsExist(SearchBookBean searchBookBean) {
         Boolean result = false;
         for (int i = 0; i < searchBookAdapter.getItemcount(); i++) {
-            if (searchBookAdapter.getSearchBooks().get(i).getNoteUrl().equals(searchBookBean.getNoteUrl()) &&
+            if (searchBookAdapter.getSearchBooks().get(i).getNoteUrl()!=null &&
+                    searchBookAdapter.getSearchBooks().get(i).getNoteUrl().equals(searchBookBean.getNoteUrl()) &&
+                    searchBookAdapter.getSearchBooks().get(i).getTag()!=null &&
                     searchBookAdapter.getSearchBooks().get(i).getTag().equals(searchBookBean.getTag())) {
                 result = true;
                 break;
+            }else {
+                result = true;
             }
         }
         return result;

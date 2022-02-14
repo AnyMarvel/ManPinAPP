@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.google.android.apps.photolab.storyboard.download.MD5Utils;
 import com.mp.android.apps.book.base.MBaseModelImpl;
+import com.mp.android.apps.book.base.observer.SimpleObserver;
 import com.mp.android.apps.book.bean.SearchBookBean;
 import com.mp.android.apps.book.common.api.I3040API;
 import com.mp.android.apps.book.model.IReaderBookModel;
@@ -31,12 +32,16 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
+import io.reactivex.SingleObserver;
 import io.reactivex.SingleOnSubscribe;
 import io.reactivex.SingleSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
- * 飘天文学网
+ * 3040文学
  */
 public class Content3040ModelImpl extends MBaseModelImpl implements IReaderBookModel {
     public static final String TAG = "https://www.130140.com";
@@ -197,28 +202,65 @@ public class Content3040ModelImpl extends MBaseModelImpl implements IReaderBookM
         return getRetrofitObject(TAG).create(I3040API.class).getChapterInfo(url).flatMap(new Function<String, SingleSource<? extends ChapterInfoBean>>() {
             @Override
             public SingleSource<? extends ChapterInfoBean> apply(String s) throws Exception {
-                return Single.create(new SingleOnSubscribe<ChapterInfoBean>() {
-                    @Override
-                    public void subscribe(SingleEmitter<ChapterInfoBean> emitter) throws Exception {
-                        emitter.onSuccess(analysisChapterInfo(s, url));
-                    }
-                });
+
+               StringBuilder content=new StringBuilder();
+               Object object=new Object();
+               getNextPageContent(object,s,content);
+               synchronized (object){
+                   object.wait();
+
+                   return Single.create(new SingleOnSubscribe<ChapterInfoBean>() {
+                       @Override
+                       public void subscribe(SingleEmitter<ChapterInfoBean> emitter) throws Exception {
+                           ChapterInfoBean chapterInfoBean = new ChapterInfoBean();
+                           chapterInfoBean.setBody(content.toString());
+                           emitter.onSuccess(chapterInfoBean);
+                       }
+                   });
+
+               }
             }
         });
     }
 
-    @Override
-    public String getTAG() {
-        return TAG;
+    private void getNextPageContent(Object localObject,String s,StringBuilder content){
+        synchronized (localObject) {
+            content.append(analysisChapterInfo(s));
+            Document doc = Jsoup.parse(s);
+            Element linkNext = doc.getElementById("linkNext");
+            if (linkNext != null && linkNext.text() != null && linkNext.text().contains("下一页")) {
+                String nextPageUrl = linkNext.attr("href").replace(TAG, "");
+                getRetrofitObject(TAG).create(I3040API.class).getChapterInfo(nextPageUrl)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new SingleObserver<String>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(String s) {
+                                getNextPageContent(localObject, s, content);
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+                        });
+            } else {
+                localObject.notify();
+            }
+        }
+
     }
-
-    private ChapterInfoBean analysisChapterInfo(String s, String url) {
-        ChapterInfoBean chapterInfoBean = new ChapterInfoBean();
-
+    private String analysisChapterInfo(String s){
+        StringBuilder content = new StringBuilder();
         try {
             Document doc = Jsoup.parse(s);
             List<TextNode> contentEs = doc.getElementById("wudidexiaoxiao").textNodes();
-            StringBuilder content = new StringBuilder();
+
             for (int i = 0; i < contentEs.size(); i++) {
                 String temp = contentEs.get(i).text().trim();
                 temp = temp.replaceAll(" ", "").replaceAll(" ", "");
@@ -229,15 +271,17 @@ public class Content3040ModelImpl extends MBaseModelImpl implements IReaderBookM
                     }
                 }
             }
-            chapterInfoBean.setBody(content.toString());
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            chapterInfoBean.setBody("章节解析失败，请翻页尝试，或到我的界面。联系管理员");
+
+            content.append("部分章节解析失败，请翻页尝试，或到我的界面。联系管理员");
         }
-        return chapterInfoBean;
+        return  content.toString();
     }
 
-
-
+    @Override
+    public String getTAG() {
+        return TAG;
+    }
 }

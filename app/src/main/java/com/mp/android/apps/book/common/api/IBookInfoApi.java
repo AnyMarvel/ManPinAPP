@@ -14,5 +14,6 @@ public interface IBookInfoApi {
             , @Query("lastChapter") String lastChapter
             , @Query("tag") String tag
             , @Query("origin") String origin
-            , @Query("kind") String kind);
+            , @Query("kind") String kind
+            , @Query("desc") String desc);
 }

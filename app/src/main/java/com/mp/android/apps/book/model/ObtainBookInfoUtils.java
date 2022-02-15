@@ -41,7 +41,7 @@ public class ObtainBookInfoUtils extends MBaseModelImpl {
                                 lastChapter,
                                 collBookBean.getBookTag(),
                                 collBookBean.getBookTag(),
-                                kind)
+                                kind,collBookBean.getShortIntro())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new SimpleObserver<String>() {

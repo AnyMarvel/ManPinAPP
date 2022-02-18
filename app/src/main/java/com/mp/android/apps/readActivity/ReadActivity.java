@@ -189,20 +189,22 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
                 DownloadTaskBean downloadTaskBean = DaoDbHelper.getInstance().getSession().getDownloadTaskBeanDao().queryBuilder()
                         .where(DownloadTaskBeanDao.Properties.BookId.eq(mBookId)).build().unique();
                 if (downloadTaskBean != null) {
-                    int temp = (int) ((float) downloadTaskBean.getCurrentChapter() / (float) downloadTaskBean.getLastChapter() * 100);
-                    if (temp < 99) {
-                        // 创建一个数值格式化对象
-                        NumberFormat numberFormat = NumberFormat.getInstance();
-                        // 设置精确到小数点后2位
-                        numberFormat.setMaximumFractionDigits(2);
-                        String result = numberFormat.format((float) downloadTaskBean.getCurrentChapter() / (float) downloadTaskBean.getLastChapter() * 100) + "%";
-                        Logger.d(TAG, result);
-                        readBookCacheDownload.setText(result);
-                    } else {
+                    if (downloadTaskBean.getStatus()==DownloadTaskBean.STATUS_LOADING){
+                        int temp = (int) ((float) downloadTaskBean.getCurrentChapter() / (float) downloadTaskBean.getLastChapter() * 100);
+                        if (temp < 99) {
+                            // 创建一个数值格式化对象
+                            NumberFormat numberFormat = NumberFormat.getInstance();
+                            // 设置精确到小数点后2位
+                            numberFormat.setMaximumFractionDigits(2);
+                            String result = numberFormat.format((float) downloadTaskBean.getCurrentChapter() / (float) downloadTaskBean.getLastChapter() * 100) + "%";
+                            Logger.d(TAG, result);
+                            readBookCacheDownload.setText(result);
+                        }
+                    }else if (downloadTaskBean.getStatus()==DownloadTaskBean.STATUS_PAUSE){
+                        readBookCacheDownload.setText("已暂停");
+                    }else if (downloadTaskBean.getStatus()==DownloadTaskBean.STATUS_FINISH){
                         readBookCacheDownload.setText("已下载");
                     }
-
-
                 }
             }
             // 判断当前是否跟随屏幕亮度，如果不是则返回

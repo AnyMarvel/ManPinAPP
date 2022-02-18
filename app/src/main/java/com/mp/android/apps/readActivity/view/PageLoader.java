@@ -1040,6 +1040,7 @@ public abstract class PageLoader {
         }
 
         if (!hasNextChapter()) {
+            Toast.makeText(mContext,"已经到最后一章了",Toast.LENGTH_SHORT).show();
             return false;
         }
 

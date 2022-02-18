@@ -125,6 +125,7 @@ public class DownloadCacheDialog extends Dialog {
         downloadTaskBean.setBookId(collBookBean.get_id());
         downloadTaskBean.setTaskName(collBookBean.getTitle());
         downloadTaskBean.setCoverUrl(collBookBean.getCover());
+//        downloadTaskBean.setBookChapters(collBookBean.getBookChapterList());
         downloadTaskBean.setCurrentChapter(0);
         return downloadTaskBean;
     }

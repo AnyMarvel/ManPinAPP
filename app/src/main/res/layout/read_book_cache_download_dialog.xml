@@ -28,7 +28,7 @@
         android:layout_height="14dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="离线下载全本资源\n \n边下载边阅读\n"
+        android:text="离线下载全本资源 \n可重复下载\n"
         android:textColor="@color/black"
         android:textSize="14sp" />
     <View

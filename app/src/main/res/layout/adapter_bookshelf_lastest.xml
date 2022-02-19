@@ -54,6 +54,23 @@
                     android:textSize="12sp"
                     android:textColor="#ffffff"/>
             </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_update_notify_last"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:textSize="7dp"
+                android:ems="1"
+                android:text="有更新"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_gravity="right"
+                android:background="@drawable/shape_update_notify"
+                />
+
         </FrameLayout>
 
         <LinearLayout

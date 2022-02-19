@@ -132,6 +132,11 @@ public class BookShelfAdapter extends RefreshRecyclerViewAdapter {
                 dontAnimate().diskCacheStrategy(DiskCacheStrategy.RESOURCE).
                 centerCrop().placeholder(R.drawable.img_cover_default).into(holder.ivCover_1);
         holder.tvName_1.setText(books.get(index_1).getTitle());
+        if (books.get(index_1).getIsUpdate()){
+            holder.tvUpdateNotify_1.setVisibility(View.VISIBLE);
+        }else {
+            holder.tvUpdateNotify_1.setVisibility(View.GONE);
+        }
 
         holder.ibContent_1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,7 +181,11 @@ public class BookShelfAdapter extends RefreshRecyclerViewAdapter {
                     .dontAnimate().diskCacheStrategy(DiskCacheStrategy.RESOURCE).centerCrop()
                     .placeholder(R.drawable.img_cover_default).into(holder.ivCover_2);
             holder.tvName_2.setText(books.get(index_2).getTitle());
-
+            if (books.get(index_2).getIsUpdate()){
+                holder.tvUpdateNotify_2.setVisibility(View.VISIBLE);
+            }else {
+                holder.tvUpdateNotify_2.setVisibility(View.GONE);
+            }
             holder.ibContent_2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -219,7 +228,11 @@ public class BookShelfAdapter extends RefreshRecyclerViewAdapter {
                 }
                 Glide.with(holder.ivCover_3.getContext()).load(books.get(index_3).getCover()).dontAnimate().diskCacheStrategy(DiskCacheStrategy.RESOURCE).centerCrop().placeholder(R.drawable.img_cover_default).into(holder.ivCover_3);
                 holder.tvName_3.setText(books.get(index_3).getTitle());
-
+                if (books.get(index_3).getIsUpdate()){
+                    holder.tvUpdateNotify_3.setVisibility(View.VISIBLE);
+                }else {
+                    holder.tvUpdateNotify_3.setVisibility(View.GONE);
+                }
                 holder.ibContent_3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -315,6 +328,12 @@ public class BookShelfAdapter extends RefreshRecyclerViewAdapter {
             } else {
                 holder.mpbDurprogress.setDurProgress(currentCharterCount);
             }
+
+            if (books.get(index).getIsUpdate()){
+                holder.tvUpdateNotifyLast.setVisibility(View.VISIBLE);
+            }else {
+                holder.tvUpdateNotifyLast.setVisibility(View.GONE);
+            }
             holder.tvWatch.setText("继续阅读");
             holder.tvWatch.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -350,6 +369,8 @@ public class BookShelfAdapter extends RefreshRecyclerViewAdapter {
          * 去选书
          */
         TextView tvWatch;
+        //最新一本书更新提示
+        TextView tvUpdateNotifyLast;
 
         public LastestViewHolder(View itemView) {
             super(itemView);
@@ -360,6 +381,7 @@ public class BookShelfAdapter extends RefreshRecyclerViewAdapter {
             llDurcursor = (LinearLayout) itemView.findViewById(R.id.ll_durcursor);
             mpbDurprogress = (MHorProgressBar) itemView.findViewById(R.id.mpb_durprogress);
             tvWatch = (TextView) itemView.findViewById(R.id.tv_watch);
+            tvUpdateNotifyLast=(TextView)itemView.findViewById(R.id.tv_update_notify_last);
         }
     }
 
@@ -368,16 +390,19 @@ public class BookShelfAdapter extends RefreshRecyclerViewAdapter {
         ImageView ivCover_1;
         AutofitTextView tvName_1;
         ImageButton ibContent_1;
+        TextView tvUpdateNotify_1;
 
         FrameLayout flContent_2;
         ImageView ivCover_2;
         AutofitTextView tvName_2;
         ImageButton ibContent_2;
+        TextView tvUpdateNotify_2;
 
         FrameLayout flContent_3;
         ImageView ivCover_3;
         AutofitTextView tvName_3;
         ImageButton ibContent_3;
+        TextView tvUpdateNotify_3;
 
         public OtherViewHolder(View itemView) {
             super(itemView);
@@ -385,16 +410,19 @@ public class BookShelfAdapter extends RefreshRecyclerViewAdapter {
             ivCover_1 = (ImageView) itemView.findViewById(R.id.iv_cover_1);
             tvName_1 = (AutofitTextView) itemView.findViewById(R.id.tv_name_1);
             ibContent_1 = (ImageButton) itemView.findViewById(R.id.ib_content_1);
+            tvUpdateNotify_1=(TextView) itemView.findViewById(R.id.tv_update_notify_1);
 
             flContent_2 = (FrameLayout) itemView.findViewById(R.id.fl_content_2);
             ivCover_2 = (ImageView) itemView.findViewById(R.id.iv_cover_2);
             tvName_2 = (AutofitTextView) itemView.findViewById(R.id.tv_name_2);
             ibContent_2 = (ImageButton) itemView.findViewById(R.id.ib_content_2);
+            tvUpdateNotify_2=(TextView) itemView.findViewById(R.id.tv_update_notify_2);
 
             flContent_3 = (FrameLayout) itemView.findViewById(R.id.fl_content_3);
             ivCover_3 = (ImageView) itemView.findViewById(R.id.iv_cover_3);
             tvName_3 = (AutofitTextView) itemView.findViewById(R.id.tv_name_3);
             ibContent_3 = (ImageButton) itemView.findViewById(R.id.ib_content_3);
+            tvUpdateNotify_3=(TextView) itemView.findViewById(R.id.tv_update_notify_3);
         }
     }
 

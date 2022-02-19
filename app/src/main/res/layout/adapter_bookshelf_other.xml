@@ -60,6 +60,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/bg_ib_pre2"/>
+            <TextView
+                android:id="@+id/tv_update_notify_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:textSize="7dp"
+                android:ems="1"
+                android:text="有更新"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_gravity="right"
+                android:background="@drawable/shape_update_notify"
+                />
         </FrameLayout>
         <View
             android:layout_width="0dp"
@@ -100,6 +115,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/bg_ib_pre2"/>
+            <TextView
+                android:id="@+id/tv_update_notify_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:textSize="7dp"
+                android:ems="1"
+                android:text="有更新"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_gravity="right"
+                android:background="@drawable/shape_update_notify"
+                />
+
         </FrameLayout>
         <View
             android:layout_width="0dp"
@@ -140,6 +171,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/bg_ib_pre2"/>
+            <TextView
+                android:id="@+id/tv_update_notify_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:textSize="7dp"
+                android:ems="1"
+                android:text="有更新"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_gravity="right"
+                android:background="@drawable/shape_update_notify"
+                />
+
         </FrameLayout>
         <View
             android:layout_width="0dp"

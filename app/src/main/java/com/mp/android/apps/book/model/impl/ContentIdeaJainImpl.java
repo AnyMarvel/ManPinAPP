@@ -58,7 +58,6 @@ public class ContentIdeaJainImpl extends MBaseModelImpl implements IReaderBookMo
         });
     }
 
-    //todo 修改搜索后跳转详情问题
     public Observable<List<SearchBookBean>> analySearchBook(final String s) {
         return Observable.create(new ObservableOnSubscribe<List<SearchBookBean>>() {
             @Override

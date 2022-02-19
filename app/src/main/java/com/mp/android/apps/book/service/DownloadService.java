@@ -63,45 +63,49 @@ public class DownloadService extends BaseService {
     public void onCreate() {
         super.onCreate();
         Logger.d("======onCreate 同步本地数据,同步书架数据");
-//        try {
-//            List<CollBookBean> collBookBeanList = BookRepository.getInstance().getCollBooks();
-//            if (collBookBeanList != null && collBookBeanList.size() > 0) {
-//                for (CollBookBean collBookBean : collBookBeanList) {
-//                    WebBookModelControl.getInstance().getBookChapters(collBookBean).toObservable()
-//                            .flatMap(new Function<List<BookChapterBean>, Observable<?>>() {
-//                                @Override
-//                                public Observable<?> apply(@NonNull List<BookChapterBean> bookChapterBeans) throws Exception {
-//                                    return Observable.create(new ObservableOnSubscribe<Boolean>() {
-//
-//                                        @Override
-//                                        public void subscribe(@NonNull ObservableEmitter<Boolean> emitter) throws Exception {
-//                                            collBookBean.__setDaoSession(BookRepository.getInstance().getSession());
-//
-//                                            List<BookChapterBean> taskChapters = BookRepository.getInstance().getSession()
-//                                                    .getBookChapterBeanDao()
-//                                                    .queryBuilder()
-//                                                    .where(BookChapterBeanDao.Properties.BookId.eq(collBookBean.get_id()))
-//                                                    .list();
-//                                            if (bookChapterBeans.size() > taskChapters.size()) {
-//                                                BookRepository.getInstance().saveBookChaptersWithAsync(bookChapterBeans);
-//                                                emitter.onNext(true);
-//                                            } else {
-//                                                emitter.onNext(false);
-//                                            }
-//                                            emitter.onComplete();
-//                                        }
-//                                    });
-//                                }
-//                            })
-//                            .subscribeOn(Schedulers.io())
-//                            .observeOn(AndroidSchedulers.mainThread())
-//                            .subscribe();
-//                }
-//
-//            }
-//        } catch (Exception e) {
-//
-//        }
+        try {
+            List<CollBookBean> collBookBeanList = BookRepository.getInstance().getCollBooks();
+            if (collBookBeanList != null && collBookBeanList.size() > 0) {
+                for (CollBookBean collBookBean : collBookBeanList) {
+                    Logger.d("====== 同步本地数据:"+collBookBean.getTitle());
+                    WebBookModelControl.getInstance().getBookChapters(collBookBean).toObservable()
+                            .flatMap(new Function<List<BookChapterBean>, Observable<?>>() {
+                                @Override
+                                public Observable<?> apply(@NonNull List<BookChapterBean> bookChapterBeans) throws Exception {
+                                    return Observable.create(new ObservableOnSubscribe<Boolean>() {
+
+                                        @Override
+                                        public void subscribe(@NonNull ObservableEmitter<Boolean> emitter) throws Exception {
+                                            collBookBean.__setDaoSession(BookRepository.getInstance().getSession());
+
+                                            List<BookChapterBean> taskChapters = BookRepository.getInstance().getSession()
+                                                    .getBookChapterBeanDao()
+                                                    .queryBuilder()
+                                                    .where(BookChapterBeanDao.Properties.BookId.eq(collBookBean.get_id()))
+                                                    .list();
+                                            if (bookChapterBeans.size() > taskChapters.size()) {
+                                                BookRepository.getInstance().saveBookChaptersWithAsync(bookChapterBeans);
+                                                //标记图书已更新
+                                                collBookBean.setUpdate(true);
+                                                collBookBean.update();
+                                                emitter.onNext(true);
+                                            } else {
+                                                emitter.onNext(false);
+                                            }
+                                            emitter.onComplete();
+                                        }
+                                    });
+                                }
+                            })
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe();
+                }
+
+            }
+        } catch (Exception e) {
+
+        }
 
     }
 
@@ -132,11 +136,6 @@ public class DownloadService extends BaseService {
                     if (downloadTaskBean == null) {
                         downloadTaskBean = taskEvent;
                         BookRepository.getInstance().saveDownloadTask(downloadTaskBean);
-                    } else {
-                        //如果数据库中列表内容未更新，且标志位未完成状态，则舍弃当前下载任务
-                        if (downloadTaskBean.getStatus() == DownloadTaskBean.STATUS_FINISH) {
-                            return;
-                        }
                     }
 
                     //下载任务初始化
@@ -156,6 +155,7 @@ public class DownloadService extends BaseService {
                     StringBuilder interrupt = new StringBuilder();
 
                     int totalBookChapterSize = bookChapterBeans.size();
+
                     //缓存全本，下载全本内容
                     for (int i = 0; i < totalBookChapterSize; ++i) {
 
@@ -167,7 +167,6 @@ public class DownloadService extends BaseService {
 
                             //设置任务进度
                             downloadTaskBean.setCurrentChapter(currentDownload.get());
-                            currentDownload.incrementAndGet();
                             //无需进行下一步，跳出当次循环，执行下一次循环
                             continue;
                         }
@@ -239,6 +238,7 @@ public class DownloadService extends BaseService {
                         downloadTaskBean.setCurrentChapter(current);
                         downloadTaskBean.update();
                         Logger.d("======= 下载成功——current:" + String.valueOf(current) + "__totalSize:" + String.valueOf(totalSize));
+
                         if (current == totalSize) {
                             synchronized (object) {
                                 Logger.d("======= 解锁" + String.valueOf(current));

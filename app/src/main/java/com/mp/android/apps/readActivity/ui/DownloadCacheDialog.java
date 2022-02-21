@@ -57,8 +57,10 @@ public class DownloadCacheDialog extends Dialog {
 //        serviceIntent.setAction("com.mp.android.apps.monkeybook.service.DownloadService_action");
 //        serviceIntent.setPackage(context.getPackageName());
         CollBookBean collBookBean = BookRepository.getInstance().getCollBook(getBookId());
+        if (collBookBean!=null){
+            manpinDownloadTips.setText(String.format("《%s》", collBookBean.getTitle()));
+        }
 
-        manpinDownloadTips.setText(String.format("《%s》", collBookBean.getTitle()));
         serviceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {

@@ -164,10 +164,14 @@ public class DownloadService extends BaseService {
                         //首先判断该章节是否曾经被加载过 (从文件中判断)
                         if (BookManager
                                 .isChapterCached(downloadTaskBean.getBookId(), bookChapterBean.getTitle())) {
-
+                            int tempDownload=currentDownload.incrementAndGet();
                             //设置任务进度
-                            downloadTaskBean.setCurrentChapter(currentDownload.get());
+                            downloadTaskBean.setCurrentChapter(tempDownload);
                             //无需进行下一步，跳出当次循环，执行下一次循环
+                            Logger.d("======= XXXXXXX——current:" + String.valueOf(tempDownload) + "__totalSize:" + String.valueOf(totalBookChapterSize));
+                            if (tempDownload==totalBookChapterSize){
+                                getContentResolver().notifyChange(MyContentProvider.CONTENT_URI, null);
+                            }
                             continue;
                         }
 
@@ -187,7 +191,9 @@ public class DownloadService extends BaseService {
                     }
                     Logger.d("======= 加锁 ********");
                     try {
-                        object.wait();
+                        if (currentDownload.get()!=totalBookChapterSize){
+                            object.wait();
+                        }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

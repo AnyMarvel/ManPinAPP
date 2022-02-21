@@ -10,7 +10,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-
+        android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.NoActionBar"
         android:usesCleartextTraffic="true"
@@ -118,7 +118,15 @@
 
         <provider
             android:name=".book.contentprovider.MyContentProvider"
-            android:authorities="com.mp.android.apps.download.provider" />
+            android:authorities="com.mp.android.apps.download.provider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 
     <!--    摄像头依赖生命-->

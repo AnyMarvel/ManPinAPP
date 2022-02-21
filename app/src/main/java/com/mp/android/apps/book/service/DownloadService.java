@@ -86,8 +86,10 @@ public class DownloadService extends BaseService {
                                             if (bookChapterBeans.size() > taskChapters.size()) {
                                                 BookRepository.getInstance().saveBookChaptersWithAsync(bookChapterBeans);
                                                 //标记图书已更新
-                                                collBookBean.setUpdate(true);
-                                                collBookBean.update();
+                                                if (!collBookBean.isLocal()){
+                                                    collBookBean.setUpdate(true);
+                                                    collBookBean.update();
+                                                }
                                                 emitter.onNext(true);
                                             } else {
                                                 emitter.onNext(false);

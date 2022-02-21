@@ -19,7 +19,7 @@ public class LocalFileLoader extends CursorLoader {
     private static final String TAG = "LocalFileLoader";
 
     private static final Uri FILE_URI = Uri.parse("content://media/external/file");
-    private static final String SELECTION = MediaStore.Files.FileColumns.DATA + " like ?";
+    private static final String SELECTION = MediaStore.Files.FileColumns.DISPLAY_NAME + " like ?";
     private static final String SEARCH_TYPE = "%.txt";
     private static final String SORT_ORDER = MediaStore.Files.FileColumns.DISPLAY_NAME + " DESC";
     private static final String[] FILE_PROJECTION = {

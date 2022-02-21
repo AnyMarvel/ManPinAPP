@@ -17,8 +17,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import io.reactivex.ObservableEmitter;
-
 public class ImportBookPresenterImpl extends BasePresenterImpl<IImportBookView> implements IImportBookPresenter {
 
 
@@ -62,20 +60,6 @@ public class ImportBookPresenterImpl extends BasePresenterImpl<IImportBookView> 
         });
     }
 
-    private void searchBook(ObservableEmitter<File> e, File parentFile) {
-        if (null != parentFile && parentFile.listFiles() != null && parentFile.listFiles().length > 0) {
-            File[] childFiles = parentFile.listFiles();
-            for (int i = 0; i < childFiles.length; i++) {
-                if (childFiles[i].isFile() && childFiles[i].getName().substring(childFiles[i].getName().lastIndexOf(".") + 1).equalsIgnoreCase("txt") && childFiles[i].length() > 100 * 1024) {   //100kb
-                    e.onNext(childFiles[i]);
-                    continue;
-                }
-                if (childFiles[i].isDirectory() && childFiles[i].listFiles().length > 0) {
-                    searchBook(e, childFiles[i]);
-                }
-            }
-        }
-    }
 
     @Override
     public void importBooks(List<File> books) {
@@ -111,6 +95,7 @@ public class ImportBookPresenterImpl extends BasePresenterImpl<IImportBookView> 
             collBook.setShortIntro("无");
             collBook.setCover(file.getAbsolutePath());
             collBook.setLocal(true);
+            collBook.setUpdate(false);
             collBook.setLastChapter("开始阅读");
             collBook.setUpdated(StringUtils.dateConvert(file.lastModified(), Constant.FORMAT_BOOK_DATE));
             collBook.setLastRead(StringUtils.

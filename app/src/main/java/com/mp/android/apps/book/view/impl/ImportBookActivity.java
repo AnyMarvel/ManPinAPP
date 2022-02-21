@@ -3,9 +3,19 @@ package com.mp.android.apps.book.view.impl;
 
 import android.Manifest;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -20,6 +30,7 @@ import com.mp.android.apps.R;
 import com.mp.android.apps.book.base.MBaseActivity;
 import com.mp.android.apps.book.presenter.IImportBookPresenter;
 import com.mp.android.apps.book.presenter.impl.ImportBookPresenterImpl;
+import com.mp.android.apps.book.utils.FileUtil;
 import com.mp.android.apps.book.view.IImportBookView;
 import com.mp.android.apps.book.view.adapter.ImportBookAdapter;
 import com.mp.android.apps.book.widget.modialog.MoProgressHUD;
@@ -29,6 +40,7 @@ import com.mylhyl.acp.AcpOptions;
 import com.victor.loading.rotate.RotateLoading;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.provider.Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION;
@@ -54,6 +66,7 @@ public class ImportBookActivity extends MBaseActivity<IImportBookPresenter> impl
 
     private FrameLayout scanContentLayout;
 
+    boolean manualSearch;
     @Override
     protected IImportBookPresenter initInjector() {
         return new ImportBookPresenterImpl();
@@ -63,7 +76,6 @@ public class ImportBookActivity extends MBaseActivity<IImportBookPresenter> impl
     protected void onCreateActivity() {
         setContentView(R.layout.activity_importbook);
     }
-
     @Override
     protected void initData() {
         animIn = AnimationUtils.loadAnimation(this, R.anim.anim_act_importbook_in);
@@ -73,6 +85,12 @@ public class ImportBookActivity extends MBaseActivity<IImportBookPresenter> impl
             @Override
             public void checkBook(int count) {
                 tvAddshelf.setVisibility(count == 0 ? View.INVISIBLE : View.VISIBLE);
+            }
+
+            @Override
+            public void manualClick() {
+                chooseFile();
+                manualSearch=true;
             }
         });
     }
@@ -97,16 +115,60 @@ public class ImportBookActivity extends MBaseActivity<IImportBookPresenter> impl
         scanContentLayout = findViewById(R.id.scan_content_layout);
     }
 
+    private static final int REQUEST_CODE_FILE = 985;
+
+    private void chooseFile() {
+        //如果使用系统文件选择器，可以实现文件类型过滤，三方的文件选择器不可用。腾讯，es等
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        String[] mimeTypes = new String[]{"text/plain"};
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+        startActivityForResult(intent, REQUEST_CODE_FILE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_FILE) {
+            if (data != null) {
+                Uri uri = data.getData();
+                if (uri != null) {
+                    String path;
+                    if ("file".equalsIgnoreCase(uri.getScheme())) {//使用第三方应用打开
+                        path = uri.getPath();
+                    } else {
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {//4.4以后
+                            path = FileUtil.getPath(this, uri);
+                        } else {//4.4以下下系统调用方法
+                            path = FileUtil.getRealPathFromURI(this, uri);
+                        }
+                    }
+
+                    if (!TextUtils.isEmpty(path)) {
+                        File file = new File("/sdcard/七零女配的团宠闺女.txt");
+
+                        importBookAdapter.addData(file);
+
+                        searchFinish();
+                    }
+                }
+            }
+        }
+    }
+
     @Override
     protected void bindEvent() {
         tvScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Acp.getInstance(ImportBookActivity.this).request(new AcpOptions.Builder()
-                        .setPermissions(ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE).build(), new AcpListener() {
+                        .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE).build(), new AcpListener() {
                     @Override
                     public void onGranted() {
+//                        chooseFile();
+                        manualSearch=false;
                         mPresenter.searchLocationBook();
                         tvScan.setVisibility(View.INVISIBLE);
                         rlLoading.start();
@@ -174,8 +236,11 @@ public class ImportBookActivity extends MBaseActivity<IImportBookPresenter> impl
 
     @Override
     public void setSystemBooks(List<File> files) {
-        importBookAdapter.setSystemFiles(files);
-//        tvCount.setText(String.format(getString(R.string.tv_importbook_count), String.valueOf(importBookAdapter.getItemCount())));
+        if (!manualSearch){
+            importBookAdapter.setSystemFiles(files);
+        }
+
+        tvCount.setText(String.format(getString(R.string.tv_importbook_count), String.valueOf(importBookAdapter.getItemCount())));
     }
 
     @Override

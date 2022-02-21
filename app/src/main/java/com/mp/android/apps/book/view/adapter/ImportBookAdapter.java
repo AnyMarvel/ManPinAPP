@@ -6,6 +6,7 @@ import android.os.Environment;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +21,13 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImportBookAdapter extends RecyclerView.Adapter<ImportBookAdapter.Viewholder> {
+public class ImportBookAdapter extends RecyclerView.Adapter {
     private List<File> datas;
     private List<File> selectDatas;
 
     public interface OnCheckBookListener {
         void checkBook(int count);
+        void manualClick();
     }
 
     private OnCheckBookListener checkBookListener;
@@ -37,17 +39,40 @@ public class ImportBookAdapter extends RecyclerView.Adapter<ImportBookAdapter.Vi
     }
 
     @Override
-    public Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new Viewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_adapter_importbook, parent, false));
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == MANUAL_VIEW_TYPE){
+            return new ManualHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_adapter_importbook_manual, parent, false));
+        }else {
+            return new Viewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_adapter_importbook, parent, false));
+        }
+    }
+
+    private final int NORMAL_VIEW_TYPE=1;
+    private final int MANUAL_VIEW_TYPE=2;
+    @Override
+    public int getItemViewType(int position) {
+        if (position == datas.size()){
+            return MANUAL_VIEW_TYPE;
+        }else {
+            return NORMAL_VIEW_TYPE;
+        }
     }
 
     @Override
-    public void onBindViewHolder(final Viewholder holder, final int position) {
-        holder.tvNmae.setText(datas.get(position).getName());
-        holder.tvSize.setText(convertByte(datas.get(position).length()));
-        holder.tvLoc.setText(datas.get(position).getAbsolutePath().replace(Environment.getExternalStorageDirectory().getAbsolutePath(), "存储空间"));
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        if (holder instanceof ManualHolder){
+            ((ManualHolder)holder).tv_scan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checkBookListener.manualClick();
+                }
+            });
+        }else {
+            ((Viewholder)holder).tvNmae.setText(datas.get(position).getName());
+            ((Viewholder)holder).tvSize.setText(convertByte(datas.get(position).length()));
+            ((Viewholder)holder).tvLoc.setText(datas.get(position).getAbsolutePath().replace(Environment.getExternalStorageDirectory().getAbsolutePath(), "存储空间"));
 
-        holder.scbSelect.setOnCheckedChangeListener(new SmoothCheckBox.OnCheckedChangeListener() {
+            ((Viewholder)holder).scbSelect.setOnCheckedChangeListener(new SmoothCheckBox.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SmoothCheckBox checkBox, boolean isChecked) {
                 if (isChecked) {
@@ -59,24 +84,22 @@ public class ImportBookAdapter extends RecyclerView.Adapter<ImportBookAdapter.Vi
             }
         });
         if (canCheck) {
-            holder.scbSelect.setVisibility(View.VISIBLE);
-            holder.llContent.setOnClickListener(new View.OnClickListener() {
+            ((Viewholder)holder).scbSelect.setVisibility(View.VISIBLE);
+            ((Viewholder)holder).llContent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    holder.scbSelect.setChecked(!holder.scbSelect.isChecked(), true);
+                    ((Viewholder)holder).scbSelect.setChecked(!((Viewholder)holder).scbSelect.isChecked(), true);
                 }
             });
         } else {
-            holder.scbSelect.setVisibility(View.INVISIBLE);
-            holder.llContent.setOnClickListener(null);
-        }
+            ((Viewholder)holder).scbSelect.setVisibility(View.INVISIBLE);
+            ((Viewholder)holder).llContent.setOnClickListener(null);
+        }}
     }
 
     public void addData(File newItem) {
-        int position = datas.size();
         datas.add(newItem);
-        notifyItemInserted(position);
-        notifyItemRangeChanged(position, 1);
+        notifyDataSetChanged();
     }
 
     public void setSystemFiles(List<File> files) {
@@ -93,7 +116,7 @@ public class ImportBookAdapter extends RecyclerView.Adapter<ImportBookAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return datas.size();
+        return datas.size()+1;
     }
 
     class Viewholder extends RecyclerView.ViewHolder {
@@ -113,6 +136,14 @@ public class ImportBookAdapter extends RecyclerView.Adapter<ImportBookAdapter.Vi
         }
     }
 
+    class ManualHolder extends RecyclerView.ViewHolder{
+        TextView tv_scan;
+        public ManualHolder(@NonNull View itemView) {
+            super(itemView);
+            tv_scan = (TextView) itemView.findViewById(R.id.tv_scan);
+        }
+
+    }
     public static String convertByte(long size) {
         DecimalFormat df = new DecimalFormat("###.#");
         float f;

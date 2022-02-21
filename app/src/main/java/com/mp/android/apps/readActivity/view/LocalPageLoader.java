@@ -352,7 +352,7 @@ public class LocalPageLoader extends PageLoader {
         // 判断文件是否已经加载过，并具有缓存
         if (!mCollBook.isUpdate() && mCollBook.getUpdated() != null
                 && mCollBook.getUpdated().equals(lastModified)
-                && mCollBook.getBookChapters() != null) {
+                && mCollBook.getBookChapters() != null && mCollBook.getBookChapters().size() != 0) {
 
             mChapterList = convertTxtChapter(mCollBook.getBookChapters());
             isChapterListPrepare = true;

@@ -7,8 +7,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 
-public class MyContentProvider extends ContentProvider {
+public class MyContentProvider extends FileProvider {
     private static final String AUTHORITIES = "com.mp.android.apps.download.provider";
     private static final String PATH = "test";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITIES);

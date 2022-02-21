@@ -31,6 +31,8 @@ import com.victor.loading.rotate.RotateLoading;
 import java.io.File;
 import java.util.List;
 
+import static android.provider.Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION;
+
 public class ImportBookActivity extends MBaseActivity<IImportBookPresenter> implements IImportBookView {
     private LinearLayout llContent;
     private ImageButton ivReturn;
@@ -101,7 +103,8 @@ public class ImportBookActivity extends MBaseActivity<IImportBookPresenter> impl
             @Override
             public void onClick(View v) {
                 Acp.getInstance(ImportBookActivity.this).request(new AcpOptions.Builder()
-                        .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE).build(), new AcpListener() {
+                        .setPermissions(ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE).build(), new AcpListener() {
                     @Override
                     public void onGranted() {
                         mPresenter.searchLocationBook();

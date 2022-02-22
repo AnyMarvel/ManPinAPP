@@ -203,6 +203,13 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        //onresume查询当前书架状态
+        mPresenter.queryBookShelf(true);
+    }
+
+    @Override
     public void refreshFinish() {
         rfRvShelf.finishRefresh(false, true);
     }

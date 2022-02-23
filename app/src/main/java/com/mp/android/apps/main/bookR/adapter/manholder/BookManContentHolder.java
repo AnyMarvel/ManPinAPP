@@ -154,15 +154,17 @@ public class BookManContentHolder extends RecyclerView.ViewHolder {
     private OnHomeAdapterClickListener listener;
 
     private void handleItemCard(LinearLayout linearLayout, ImageView imageView, TextView textView, int position) {
-        textView.setText(sourceContents.get(position).getName());
-        Glide.with(context).load(sourceContents.get(position).getCoverUrl())
-                .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(imageView);
-        linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onLayoutClickListener(v, sourceContents.get(position));
-            }
-        });
+        if (sourceContents.size() > position){
+            textView.setText(sourceContents.get(position).getName());
+            Glide.with(context).load(sourceContents.get(position).getCoverUrl())
+                    .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(imageView);
+            linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onLayoutClickListener(v, sourceContents.get(position));
+                }
+            });
+        }
     }
 
 

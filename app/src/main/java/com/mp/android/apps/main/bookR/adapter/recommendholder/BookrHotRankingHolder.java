@@ -120,16 +120,19 @@ public class BookrHotRankingHolder extends RecyclerView.ViewHolder {
     }
 
     private void setItemEnent(LinearLayout linearLayout, ImageView imageView, TextView name, TextView hot, int position) {
-        Glide.with(context).load(hotRankingList.get(position).getCoverUrl())
-                .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(imageView);
-        name.setText(hotRankingList.get(position).getName());
-        String count = hotRankingList.get(position).getSearCount() + "万热度";
-        hot.setText(count);
-        linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onLayoutClickListener(v, hotRankingList.get(position));
-            }
-        });
+        if (hotRankingList.size()>position){
+            Glide.with(context).load(hotRankingList.get(position).getCoverUrl())
+                    .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(imageView);
+            name.setText(hotRankingList.get(position).getName());
+            String count = hotRankingList.get(position).getSearCount() + "万热度";
+            hot.setText(count);
+            linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onLayoutClickListener(v, hotRankingList.get(position));
+                }
+            });
+        }
+
     }
 }

@@ -766,7 +766,7 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
         }
 
         if (!mCollBook.isLocal() && !isCollected
-                && !mCollBook.getBookChapters().isEmpty()) {
+                &&mCollBook.getBookChapters()!=null &&!mCollBook.getBookChapters().isEmpty()) {
             AlertDialog alertDialog = new AlertDialog.Builder(this)
                     .setTitle("加入书架")
                     .setMessage("喜欢本书就加入书架吧")

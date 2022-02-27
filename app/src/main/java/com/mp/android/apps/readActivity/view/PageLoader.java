@@ -744,13 +744,13 @@ public abstract class PageLoader {
             /****绘制背景****/
             canvas.drawColor(mBgColor);
 
-            if (!mChapterList.isEmpty()) {
+            if (mChapterList!=null && !mChapterList.isEmpty()) {
                 /*****初始化标题的参数********/
                 //需要注意的是:绘制text的y的起始点是text的基准线的位置，而不是从text的头部的位置
                 float tipTop = tipMarginHeight - mTipPaint.getFontMetrics().top + mSafeInsetTop;
                 //根据状态不一样，数据不一样
                 if (mStatus != STATUS_FINISH) {
-                    if (isChapterListPrepare) {
+                    if (isChapterListPrepare && mChapterList.size() > mCurChapterPos) {
                         canvas.drawText(mChapterList.get(mCurChapterPos).getTitle()
                                 , mMarginWidth, tipTop, mTipPaint);
                     }

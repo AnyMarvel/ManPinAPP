@@ -9,6 +9,7 @@ import com.mp.android.apps.utils.AssertFileUtils;
 import com.mp.android.apps.utils.SharedPreferenceUtil;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class BookSourceCheckUtils {
@@ -31,4 +32,8 @@ public class BookSourceCheckUtils {
         }
         return sourceSwitch;
     }
+
+
+
+
 }

@@ -96,4 +96,4 @@ Android开发内容总结,主要针对Android技术,界面,底层,性能优化�
 
 [https://androidsummary.gitbook.io/androidsummary/](https://androidsummary.gitbook.io/androidsummary/)
 
-java -jar buglyqq-upload-symbol.jar -appid 097fb8e660  -appkey 3206cd01-02bd-44f7-8abd-14b9fb2fbf85 -bundleid com.mp.android.apps -version 1.9.5 -platform Android  -inputMapping <mapping file>
+java -jar buglyqq-upload-symbol.jar -appid 097fb8e660  -appkey 3206cd01-02bd-44f7-8abd-14b9fb2fbf85 -bundleid com.mp.android.apps  -platform Android  -version 1.9.5 -inputMapping <mapping file>

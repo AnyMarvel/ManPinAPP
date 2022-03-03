@@ -34,7 +34,7 @@ public interface ISearchView extends IView {
      * 加载更多书籍成功 更新UI
      * @param books
      */
-    void loadMoreSearchBook(List<SearchBookBean> books);
+    void loadMoreSearchBook(String content,List<SearchBookBean> books);
 
     /**
      * 刷新成功
@@ -65,10 +65,4 @@ public interface ISearchView extends IView {
 
     void updateSearchItem(int index);
 
-    /**
-     * 判断书籍是否已经在书架上
-     * @param searchBookBean
-     * @return
-     */
-    Boolean checkIsExist(SearchBookBean searchBookBean);
 }

@@ -44,6 +44,7 @@ import com.mp.android.apps.book.widget.flowlayout.TagFlowLayout;
 import com.mp.android.apps.book.widget.refreshview.OnLoadMoreListener;
 import com.mp.android.apps.book.widget.refreshview.RefreshRecyclerView;
 
+import java.util.HashSet;
 import java.util.List;
 
 import tyrantgit.explosionfield.ExplosionField;
@@ -94,10 +95,8 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
         viewRefreshError.findViewById(R.id.tv_refresh_again).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //刷新失败 ，重试
-                mPresenter.initPage();
-                mPresenter.toSearchBooks(null, true);
-                rfRvSearchBooks.startRefresh();
+                startSearch(null,true);
+
             }
         });
         rfRvSearchBooks.setNoDataAndrRefreshErrorView(LayoutInflater.from(this).inflate(R.layout.view_searchbook_nodata, null),
@@ -182,12 +181,12 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
         rfRvSearchBooks.setLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void startLoadmore() {
-                mPresenter.toSearchBooks(null, false);
+                startSearch(null,false);
             }
 
             @Override
             public void loadMoreErrorTryAgain() {
-                mPresenter.toSearchBooks(null, true);
+                startSearch(null,false);
             }
         });
     }
@@ -209,14 +208,18 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mPresenter.initPage();
-                    mPresenter.toSearchBooks(key, false);
-                    rfRvSearchBooks.startRefresh();
+                    startSearch(key,false);
                 }
             }, 300);
         } else {
             YoYo.with(Techniques.Shake).playOn(flSearchContent);
         }
+    }
+
+    private void startSearch(String key,boolean fromError){
+        mPresenter.initPage();
+        rfRvSearchBooks.startRefresh();
+        mPresenter.toSearchBooks(key, fromError);
     }
 
     private void bindKeyBoardEvent() {
@@ -456,8 +459,11 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
     }
 
     @Override
-    public void loadMoreSearchBook(final List<SearchBookBean> books) {
-        searchBookAdapter.addAll(books);
+    public void loadMoreSearchBook(String content,final List<SearchBookBean> books) {
+
+
+
+        searchBookAdapter.addAll(books,content);
     }
 
     @Override
@@ -495,23 +501,6 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
                 }
             }
         }
-    }
-
-    @Override
-    public Boolean checkIsExist(SearchBookBean searchBookBean) {
-        Boolean result = false;
-        for (int i = 0; i < searchBookAdapter.getItemcount(); i++) {
-            if (searchBookAdapter.getSearchBooks().get(i).getNoteUrl()!=null &&
-                    searchBookAdapter.getSearchBooks().get(i).getNoteUrl().equals(searchBookBean.getNoteUrl()) &&
-                    searchBookAdapter.getSearchBooks().get(i).getTag()!=null &&
-                    searchBookAdapter.getSearchBooks().get(i).getTag().equals(searchBookBean.getTag())) {
-                result = true;
-                break;
-            }else {
-                result = true;
-            }
-        }
-        return result;
     }
 
 

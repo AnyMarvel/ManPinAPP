@@ -20,4 +20,8 @@ public class BCSettingModel extends MBaseModelImpl {
         return getRetrofitObject(TAG).create(BCAPI.class).backUserBookCollections(uniqueID);
     }
 
+
+    public Observable<String> getAppVersion(){
+        return getRetrofitObject(TAG).create(BCAPI.class).getAppVersion();
+    }
 }

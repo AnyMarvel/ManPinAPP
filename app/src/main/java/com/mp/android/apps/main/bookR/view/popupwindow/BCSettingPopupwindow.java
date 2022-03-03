@@ -31,6 +31,9 @@ import com.mp.android.apps.readActivity.bean.BookRecordBean;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
 import com.mp.android.apps.readActivity.local.BookRepository;
 import com.mp.android.apps.readActivity.local.DaoDbHelper;
+import com.mp.android.apps.readActivity.utils.ToastUtils;
+import com.mp.android.apps.utils.GeneralTools;
+import com.tencent.bugly.beta.Beta;
 
 import java.net.URI;
 import java.net.URL;
@@ -110,26 +113,46 @@ public class BCSettingPopupwindow extends PopupWindow {
             backBooks.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (LoginManager.getInstance().checkLoginInfo()){
+                    compareAppVersion(new CompareVersionCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            if (LoginManager.getInstance().checkLoginInfo()){
+                                backUnifiedCheckDialog.show();
+                                BCSettingPopupwindow.this.dismiss();
+                            }else {
+                                Toast.makeText(context,"当前未登陆,请到先登陆",Toast.LENGTH_LONG).show();
+                            }
+                        }
 
-                        backUnifiedCheckDialog.show();
-                        BCSettingPopupwindow.this.dismiss();
-                    }else {
-                        Toast.makeText(context,"当前未登陆,请到先登陆",Toast.LENGTH_LONG).show();
-                    }
-
+                        @Override
+                        public void onFaild() {
+                            ToastUtils.showToastCenter(context,"当前版本不是最新版本,此功能只支持最新版本");
+                        }
+                    });
                 }
             });
             //还原图书
             recoveryBooks.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (LoginManager.getInstance().checkLoginInfo()){
-                        reconverUnifiedCheckDialog.show();
-                        BCSettingPopupwindow.this.dismiss();
-                    }else {
-                        Toast.makeText(context,"当前未登陆,请到先登陆",Toast.LENGTH_LONG).show();
-                    }
+                    compareAppVersion(new CompareVersionCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            if (LoginManager.getInstance().checkLoginInfo()){
+                                reconverUnifiedCheckDialog.show();
+                                BCSettingPopupwindow.this.dismiss();
+                            }else {
+                                Toast.makeText(context,"当前未登陆,请到先登陆",Toast.LENGTH_LONG).show();
+                                Beta.checkUpgrade();
+                            }
+                        }
+
+                        @Override
+                        public void onFaild() {
+                            ToastUtils.showToastCenter(context,"当前版本不是最新版本,此功能只支持最新版本");
+                            Beta.checkUpgrade();
+                        }
+                    });
                 }
             });
 
@@ -144,6 +167,43 @@ public class BCSettingPopupwindow extends PopupWindow {
             });
 
     }
+
+    private void compareAppVersion(CompareVersionCallBack compareVersionCallBack){
+        if (bcSettingModel!=null){
+            bcSettingModel.getAppVersion().observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io()).subscribe(new SimpleObserver<String>() {
+                @Override
+                public void onNext(String s) {
+                    if (!TextUtils.isEmpty(s)){
+                        JSONObject jsonObject=JSONObject.parseObject(s);
+                        if (jsonObject!=null && !TextUtils.isEmpty(jsonObject.getString("msg"))
+                                && GeneralTools.compareVersion(GeneralTools.APP_VERSION,jsonObject.getString("msg"))>=0){
+                            compareVersionCallBack.onSuccess();
+                        }else {
+                            compareVersionCallBack.onFaild();
+                        }
+                    }else {
+                        compareVersionCallBack.onFaild();
+                    }
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    compareVersionCallBack.onFaild();
+                }
+            });
+
+        }
+    }
+
+
+interface CompareVersionCallBack{
+        void onSuccess();
+        void onFaild();
+}
+
+
+
 
     /**
      * 处理的还原逻辑

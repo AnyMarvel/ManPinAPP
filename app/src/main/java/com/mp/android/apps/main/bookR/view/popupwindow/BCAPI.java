@@ -26,4 +26,7 @@ public interface BCAPI {
     @POST("/appview/userBookCorrespondence")
     Observable<String> userBookCorrespondence(@Body RequestBody body);
 
+
+    @GET("/appview/appVersion")
+    Observable<String> getAppVersion();
 }

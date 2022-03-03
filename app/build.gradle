@@ -14,8 +14,8 @@ android {
         applicationId "com.mp.android.apps"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 45
-        versionName "1.9.5"
+        versionCode 46
+        versionName "1.9.6"
         multiDexEnabled true
         multiDexKeepProguard file("multidexKeep.pro")
         ndk {
@@ -116,6 +116,12 @@ dependencies {
     implementation project(':imageeditlibrary')
     implementation project(':UMLibrary')
     implementation files('libs/jcc-bate-0.7.3.jar')
+
+    //https://github.com/xdrop/fuzzywuzzy
+    //https://samperson1997.github.io/2018/05/09/fuzzywuzzy/ 字符串相似度排序
+    implementation 'me.xdrop:fuzzywuzzy:1.4.0'
+
+
     //loading 圈
     implementation 'com.victor:lib:1.0.4'
     //动态权限适配

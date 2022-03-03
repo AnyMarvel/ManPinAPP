@@ -67,7 +67,8 @@ public class WebBookModelControl {
      * 增加引擎
      */
     private void initModels() {
-        models.add(ContentAimanpinModeImpl.getInstance());//只具有搜索功能的下发服务器,为用户点击的上报数据
+//        models.add(ContentAimanpinModeImpl.getInstance());
+        //只具有搜索功能的下发服务器,为用户点击的上报数据
         models.add(ContentSoDuModelImpl.getInstance());
         models.add(ContentXXBiQuGeModelImpl.getInstance());
         models.add(Content3040ModelImpl.getInstance());
@@ -161,7 +162,7 @@ public class WebBookModelControl {
      *
      * @param searchEngine
      */
-    public void registerSearchEngine(List<Map> searchEngine, Context context) {
+    public void registerSearchEngine(List<Map<String,String>> searchEngine, Context context) {
 
         //搜索引擎初始化
         for (IReaderBookModel model : models) {
@@ -171,7 +172,7 @@ public class WebBookModelControl {
         }
     }
 
-    private void newSearchEngine(List<Map> searchEngine, String ImplTAG) {
+    private void newSearchEngine(List<Map<String,String>> searchEngine, String ImplTAG) {
         Map<String,String> map = new HashMap<String,String>();
         map.put(TAG_KEY, ImplTAG);
         searchEngine.add(map);

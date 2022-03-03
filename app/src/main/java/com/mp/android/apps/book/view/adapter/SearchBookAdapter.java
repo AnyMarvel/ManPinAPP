@@ -13,10 +13,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.mp.android.apps.R;
 import com.mp.android.apps.book.bean.SearchBookBean;
+import com.mp.android.apps.book.utils.SearchSortUtils;
 import com.mp.android.apps.book.widget.refreshview.RefreshRecyclerViewAdapter;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class SearchBookAdapter extends RefreshRecyclerViewAdapter {
@@ -154,12 +156,32 @@ public class SearchBookAdapter extends RefreshRecyclerViewAdapter {
         this.itemClickListener = itemClickListener;
     }
 
-    public void addAll(List<SearchBookBean> newDatas) {
+    public void addAll(List<SearchBookBean> newDatas,String content) {
         if(newDatas!=null && newDatas.size()>0){
-            int oldCount = getItemcount();
+
             searchBooks.addAll(newDatas);
-            notifyItemRangeInserted(oldCount,newDatas.size());
+
+            removeDuplicationByHashSet(searchBooks);
+
+            searchBooks = SearchSortUtils.filerSearchTools(searchBooks,content);
+
+            notifyDataSetChanged();
         }
+    }
+
+
+
+    /**使用HashSet实现List去重(无序)
+     *
+     * @param list
+     * */
+    public  List<SearchBookBean> removeDuplicationByHashSet(List<SearchBookBean> list) {
+        HashSet<SearchBookBean> set = new HashSet<SearchBookBean>(list);
+        //把List集合所有元素清空
+        list.clear();
+        //把HashSet对象添加至List集合
+        list.addAll(set);
+        return list;
     }
 
     public void replaceAll(List<SearchBookBean> newData) {

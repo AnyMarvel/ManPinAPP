@@ -24,6 +24,7 @@ import com.mp.android.apps.readActivity.utils.IOUtils;
 import com.mp.android.apps.readActivity.utils.RxUtils;
 import com.mp.android.apps.readActivity.utils.ScreenUtils;
 import com.mp.android.apps.readActivity.utils.StringUtils;
+import com.mp.android.apps.readActivity.utils.ToastUtils;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -1041,7 +1042,7 @@ public abstract class PageLoader {
 
         if (!hasNextChapter()) {
             if (mCurChapterPos+1 == mChapterList.size()){
-                Toast.makeText(mContext,"已经到最后一章了",Toast.LENGTH_SHORT).show();
+                ToastUtils.showToastCenter(mContext,"已经到最后一章了");
             }
             return false;
         }

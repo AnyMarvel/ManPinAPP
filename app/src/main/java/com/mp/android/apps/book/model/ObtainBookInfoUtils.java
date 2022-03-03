@@ -5,6 +5,7 @@ import com.mp.android.apps.book.base.observer.SimpleObserver;
 import com.mp.android.apps.book.common.api.IBookInfoApi;
 import com.mp.android.apps.main.home.bean.SourceListContent;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
+import com.mp.android.apps.utils.GeneralTools;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
@@ -41,7 +42,9 @@ public class ObtainBookInfoUtils extends MBaseModelImpl {
                                 lastChapter,
                                 collBookBean.getBookTag(),
                                 collBookBean.getBookTag(),
-                                kind,collBookBean.getShortIntro())
+                                kind,collBookBean.getShortIntro(),
+                                GeneralTools.APP_VERSION
+                                )
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new SimpleObserver<String>() {

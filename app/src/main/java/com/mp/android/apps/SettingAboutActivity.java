@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.google.android.libraries.social.licenses.LicenseMenuActivity;
 import com.mp.android.apps.login.utils.LoginManager;
+import com.mp.android.apps.utils.GeneralTools;
 import com.tencent.bugly.beta.Beta;
 
 public class SettingAboutActivity extends StoryboardActivity implements View.OnClickListener {
@@ -61,7 +62,7 @@ public class SettingAboutActivity extends StoryboardActivity implements View.OnC
         titleBackSetting = findViewById(R.id.title_back_setting);
         kaiyuandizhi = findViewById(R.id.kaiyuandizhi);
         manpinVersion = findViewById(R.id.manpin_version);
-        manpinVersion.setText(getVersion());
+        manpinVersion.setText(GeneralTools.APP_VERSION);
 
         rectRoundBitmap();
     }
@@ -119,22 +120,6 @@ public class SettingAboutActivity extends StoryboardActivity implements View.OnC
         iconImage.setImageDrawable(roundImg);
     }
 
-    /**
-     * 获取版本号    需要在Activity 中使用
-     *
-     * @return 当前应用的版本号
-     */
 
-    public String getVersion() {
-        String version = "";
-        try {
-            PackageManager manager = this.getPackageManager();
-            PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
-            version = info.versionName;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return version;
-    }
 
 }

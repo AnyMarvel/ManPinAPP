@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.multidex.MultiDex;
 
 import com.mp.android.apps.book.service.DownloadService;
+import com.mp.android.apps.utils.GeneralTools;
 import com.mp.android.apps.utils.Logger;
 import com.tencent.bugly.Bugly;
 
@@ -60,7 +61,7 @@ public class MyApplication extends Application {
 //        }
         startDownloadService();
 
-
+        GeneralTools.getVersion(this);
     }
 
     private void startDownloadService() {

@@ -15,7 +15,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 46
-        versionName "1.9.6"
+        versionName "1.9.7"
         multiDexEnabled true
         multiDexKeepProguard file("multidexKeep.pro")
         ndk {

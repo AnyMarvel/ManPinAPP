@@ -40,6 +40,7 @@ import com.mp.android.apps.book.presenter.impl.SearchPresenterImpl;
 import com.mp.android.apps.book.view.ISearchView;
 import com.mp.android.apps.book.view.adapter.SearchBookAdapter;
 import com.mp.android.apps.book.view.adapter.SearchHistoryAdapter;
+import com.mp.android.apps.book.widget.WrapContentLinearLayoutManager;
 import com.mp.android.apps.book.widget.flowlayout.TagFlowLayout;
 import com.mp.android.apps.book.widget.refreshview.OnLoadMoreListener;
 import com.mp.android.apps.book.widget.refreshview.RefreshRecyclerView;
@@ -49,6 +50,9 @@ import java.util.List;
 
 import tyrantgit.explosionfield.ExplosionField;
 
+/**
+ * //todo WrapContentLinearLayoutManager 替换 LinearLayoutManager
+ */
 public class SearchActivity extends MBaseActivity<ISearchPresenter> implements ISearchView {
     private FrameLayout flSearchContent;
     private EditText edtContent;
@@ -90,7 +94,7 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
         tflSearchHistory = (TagFlowLayout) findViewById(R.id.tfl_search_history);
         tflSearchHistory.setAdapter(searchHistoryAdapter);
         rfRvSearchBooks = (RefreshRecyclerView) findViewById(R.id.rfRv_search_books);
-        rfRvSearchBooks.setRefreshRecyclerViewAdapter(searchBookAdapter, new LinearLayoutManager(this));
+        rfRvSearchBooks.setRefreshRecyclerViewAdapter(searchBookAdapter, new WrapContentLinearLayoutManager(this));
         View viewRefreshError = LayoutInflater.from(this).inflate(R.layout.view_searchbook_refresherror, null);
         viewRefreshError.findViewById(R.id.tv_refresh_again).setOnClickListener(new View.OnClickListener() {
             @Override

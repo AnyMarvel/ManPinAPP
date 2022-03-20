@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -29,7 +30,10 @@ import com.mp.android.apps.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -83,8 +87,13 @@ public class DownloadService extends BaseService {
                                                     .queryBuilder()
                                                     .where(BookChapterBeanDao.Properties.BookId.eq(collBookBean.get_id()))
                                                     .list();
+
+                                            if (taskChapters==null || bookChapterBeans==null){
+                                                return;
+                                            }
+                                            Log.d("taskChapters======size:", "localSize:"+String.valueOf(taskChapters.size())+"netSize:"+String.valueOf(bookChapterBeans.size()));
+
                                             if (bookChapterBeans.size() > taskChapters.size()) {
-                                                BookRepository.getInstance().saveBookChaptersWithAsync(bookChapterBeans);
                                                 //标记图书已更新
                                                 if (!collBookBean.isLocal()){
                                                     collBookBean.setUpdate(true);
@@ -224,6 +233,8 @@ public class DownloadService extends BaseService {
 
         mCachedExecutor.execute(runnable);
     }
+
+
 
     private void loadChapter(AtomicInteger currentDownload,DownloadTaskBean downloadTaskBean,
                              BookChapterBean bean,AtomicInteger errorNumber,int totalSize,Object object, StringBuilder interrupt) {

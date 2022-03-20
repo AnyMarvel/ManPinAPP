@@ -22,13 +22,18 @@ import com.mp.android.apps.utils.SharedPreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Single;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleOnSubscribe;
+import io.reactivex.functions.Function;
 
 import static com.mp.android.apps.book.presenter.impl.SearchPresenterImpl.TAG_KEY;
 
@@ -104,12 +109,36 @@ public class WebBookModelControl {
 
         for (IReaderBookModel model : models) {
             if (model.getTAG().equals(TAG)) {
-                return model.getBookChapters(collBookBean);
+               return model.getBookChapters(collBookBean).map(new Function<List<BookChapterBean>, List<BookChapterBean>>() {
+                    @Override
+                    public List<BookChapterBean> apply(List<BookChapterBean> bookChapterBeans) throws Exception {
+                        return removeDuplication(bookChapterBeans);
+                    }
+                });
             }
         }
         return null;
-
     }
+    private List<BookChapterBean> removeDuplication( List<BookChapterBean> bookChapterSource){
+        CopyOnWriteArrayList<BookChapterBean> result=new CopyOnWriteArrayList<>();
+        for (int i = 0; i < bookChapterSource.size(); i++) {
+
+            Iterator<BookChapterBean> iterator = result.iterator();
+            while (iterator.hasNext()){
+                BookChapterBean bookTemp=iterator.next();
+                if (bookTemp.getId().equals(bookChapterSource.get(i).getId())){
+                    result.remove(bookTemp);
+                }
+            }
+            result.add(bookChapterSource.get(i));
+        }
+        for (int i = 0; i < result.size(); i++) {
+            result.get(i).setPosition(i);
+        }
+
+        return result;
+    }
+
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -6,6 +6,8 @@ import com.ihsanbal.logging.LoggingInterceptor;
 import com.mp.android.apps.BuildConfig;
 import com.mp.android.apps.basemvplib.EncodoConverter;
 
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -42,25 +44,20 @@ public abstract class MBaseModelImpl {
             .addInterceptor(loggingInterceptor);
 
 
-    TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+    final X509TrustManager trustManager = new X509TrustManager() {
         @Override
-        public void checkClientTrusted(
-                java.security.cert.X509Certificate[] x509Certificates,
-                String s) throws java.security.cert.CertificateException {
+        public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
         }
 
         @Override
-        public void checkServerTrusted(
-                java.security.cert.X509Certificate[] x509Certificates,
-                String s) throws java.security.cert.CertificateException {
+        public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
         }
 
         @Override
-        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-            return new java.security.cert.X509Certificate[]{};
+        public X509Certificate[] getAcceptedIssuers() {
+            return new X509Certificate[0];
         }
-    }};
-
+    };
     protected Retrofit getRetrofitObject(String url) {
         clientBuilder.hostnameVerifier(new HostnameVerifier() {
             @Override
@@ -71,10 +68,11 @@ public abstract class MBaseModelImpl {
         //创建管理器
         try {
             SSLContext sslContext = SSLContext.getInstance("TLS");
-            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+            sslContext.init(null, new X509TrustManager[]{trustManager}, new java.security.SecureRandom());
 
             //为OkHttpClient设置sslSocketFactory
-            clientBuilder.sslSocketFactory(sslContext.getSocketFactory());
+//            clientBuilder.sslSocketFactory(sslContext.getSocketFactory());
+            clientBuilder.sslSocketFactory(sslContext.getSocketFactory(),trustManager);
 
         } catch (Exception e) {
             e.printStackTrace();

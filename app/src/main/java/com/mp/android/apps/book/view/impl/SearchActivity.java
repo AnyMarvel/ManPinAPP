@@ -10,6 +10,7 @@ import android.os.Handler;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -50,9 +51,6 @@ import java.util.List;
 
 import tyrantgit.explosionfield.ExplosionField;
 
-/**
- * //todo WrapContentLinearLayoutManager 替换 LinearLayoutManager
- */
 public class SearchActivity extends MBaseActivity<ISearchPresenter> implements ISearchView {
     private FrameLayout flSearchContent;
     private EditText edtContent;
@@ -199,6 +197,22 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
     protected void firstRequest() {
         super.firstRequest();
         mPresenter.querySearchHistory();
+        autoSearch();
+    }
+    private void autoSearch(){
+        Intent intent=getIntent();
+        String searchName=intent.getStringExtra("rankSearchName");
+        if (!TextUtils.isEmpty(searchName)){
+            edtContent.setText(searchName);
+            edtContent.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    toSearch();
+                }
+            },500);
+
+        }
+
     }
 
     //开始搜索

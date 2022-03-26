@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mp.android.apps.R;
+import com.mp.android.apps.book.view.impl.BookRankListActivity;
 import com.mp.android.apps.main.bookR.adapter.BookRRecommendFRecyclerAdapter;
 import com.mp.android.apps.main.bookR.presenter.IBookRRecommendFPresenter;
 import com.mp.android.apps.main.bookR.presenter.impl.BookRRecommendFPresenterImpl;
@@ -73,7 +74,8 @@ public class BookRRecommendFImpl extends BaseFragment<IBookRRecommendFPresenter>
 
     @Override
     public void onItemClickListener(View view) {
-
+        Intent intent=new Intent(getActivity(), BookRankListActivity.class);
+        startActivity(intent);
     }
 
     @Override

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="18dp">
+        <TextView
+            android:id="@+id/mp_book_rank_list_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="推荐排行榜"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+
+        <ImageView
+            android:id="@+id/bookr_fragment_search"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right"
+            android:background="@drawable/im_search_gray"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/dim_foreground_material_dark"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="bottom"
+            />
+    </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include layout="@layout/mp_book_r_recommend_layout"/>
+
+        <com.victor.loading.rotate.RotateLoading
+            android:id="@+id/book_rank_loading"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:loading_color="@color/tv_text_addshelf_pre"
+            app:loading_width="2dp"
+            android:layout_gravity="center" />
+
+        <include layout="@layout/mp_layout_error_tips" />
+    </FrameLayout>
+
+</LinearLayout>

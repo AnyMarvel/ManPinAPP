@@ -50,6 +50,7 @@
             android:resizeableActivity="false"
 
             />
+        <activity android:name=".book.view.impl.BookRankListActivity"/>
         <activity android:name=".book.view.impl.BookSourceActivity" />
         <activity android:name=".book.view.impl.BookSourceGuideActivity" />
         <activity android:name="com.xinlan.imageeditlibrary.picchooser.SelectPictureActivity" />

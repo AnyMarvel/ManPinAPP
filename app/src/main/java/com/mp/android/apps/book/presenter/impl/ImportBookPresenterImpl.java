@@ -1,6 +1,5 @@
 package com.mp.android.apps.book.presenter.impl;
 
-import com.google.android.apps.photolab.storyboard.download.MD5Utils;
 import com.mp.android.apps.basemvplib.impl.BaseActivity;
 import com.mp.android.apps.basemvplib.impl.BasePresenterImpl;
 import com.mp.android.apps.book.presenter.IImportBookPresenter;
@@ -89,7 +88,7 @@ public class ImportBookPresenterImpl extends BasePresenterImpl<IImportBookView> 
             if (!file.exists()) continue;
 
             CollBookBean collBook = new CollBookBean();
-            collBook.set_id(MD5Utils.strToMd5By16(file.getAbsolutePath()));
+//            collBook.set_id(MD5Utils.strToMd5By16(file.getAbsolutePath()));
             collBook.setTitle(file.getName().replace(".txt", ""));
             collBook.setAuthor("");
             collBook.setShortIntro("无");

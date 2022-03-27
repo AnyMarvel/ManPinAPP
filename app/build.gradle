@@ -113,7 +113,7 @@ dependencies {
     implementation 'com.tencent.bugly:crashreport_upgrade:latest.release'
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.0
     implementation 'com.alibaba:fastjson:1.1.70.android'
-    implementation project(':imageeditlibrary')
+//    implementation project(':imageeditlibrary')
     implementation project(':UMLibrary')
     implementation files('libs/jcc-bate-0.7.3.jar')
 

@@ -40,9 +40,6 @@ import com.mp.android.apps.login.utils.LoginManager;
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
-import com.xinlan.imageeditlibrary.editimage.utils.BitmapUtils;
-import com.xinlan.imageeditlibrary.picchooser.SquareImageView;
-
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.ExecutionException;

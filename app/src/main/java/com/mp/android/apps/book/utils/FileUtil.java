@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
@@ -21,6 +22,14 @@ import java.text.DecimalFormat;
  * Created by DB_BOY on 2019/6/24.</br>
  */
 public class FileUtil {
+    public static boolean checkFileExist(final String path) {
+        if (TextUtils.isEmpty(path))
+            return false;
+
+        File file = new File(path);
+        return file.exists();
+    }
+
     public static String readFileSize(String path) {
         return readableFileSize(new File(path).length());
     }

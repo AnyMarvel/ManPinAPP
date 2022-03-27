@@ -2,28 +2,19 @@ package com.mp.android.apps.main.personal;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import androidx.annotation.Nullable;
-
-import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
-import com.hwangjr.rxbus.RxBus;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.mp.android.apps.R;
 import com.mp.android.apps.SettingAboutActivity;
 import com.mp.android.apps.book.common.RxBusTag;
-import com.mp.android.apps.livevblank.PreviewActivity;
 import com.mp.android.apps.login.LoginActivity;
 import com.mp.android.apps.login.bean.login.Data;
 import com.mp.android.apps.login.fragment.imple.LoginBaseFragment;

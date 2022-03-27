@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="538.9万热度"
-                    android:textColor="@color/materialcolorpicker__red" />
+                    android:textColor="@color/light_red" />
             </LinearLayout>
         </LinearLayout>
 
@@ -107,7 +107,7 @@
                     android:layout_marginTop="10dp"
 
                     android:text="538.9万热度"
-                    android:textColor="@color/materialcolorpicker__red" />
+                    android:textColor="@color/light_red" />
             </LinearLayout>
         </LinearLayout>
 
@@ -161,7 +161,7 @@
                     android:layout_marginTop="10dp"
                     android:text="538.9万热度"
 
-                    android:textColor="@color/materialcolorpicker__red" />
+                    android:textColor="@color/light_red" />
             </LinearLayout>
         </LinearLayout>
 
@@ -207,7 +207,7 @@
                     android:layout_marginTop="10dp"
 
                     android:text="538.9万热度"
-                    android:textColor="@color/materialcolorpicker__red" />
+                    android:textColor="@color/light_red" />
             </LinearLayout>
         </LinearLayout>
 
@@ -261,7 +261,7 @@
                     android:layout_marginTop="10dp"
 
                     android:text="538.9万热度"
-                    android:textColor="@color/materialcolorpicker__red" />
+                    android:textColor="@color/light_red" />
             </LinearLayout>
         </LinearLayout>
 
@@ -306,7 +306,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="538.9万热度"
-                    android:textColor="@color/materialcolorpicker__red" />
+                    android:textColor="@color/light_red" />
             </LinearLayout>
         </LinearLayout>
 

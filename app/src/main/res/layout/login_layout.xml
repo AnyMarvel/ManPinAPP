@@ -21,7 +21,6 @@
         android:layout_marginLeft="18dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="18dp"
-        android:background="@drawable/shape_rect"
         android:orientation="horizontal">
 
         <EditText
@@ -74,7 +73,6 @@
         android:layout_marginLeft="18dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="18dp"
-        android:background="@drawable/shape_rect"
         android:ems="19"
         android:hint="短信/邮箱 验证码"
         android:paddingLeft="20dp"

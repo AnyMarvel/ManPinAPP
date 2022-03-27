@@ -1,8 +1,6 @@
 package com.mp.android.apps.networkutils;
 
 import com.alibaba.fastjson.JSON;
-import com.mp.android.apps.explore.bean.JsonRootBean;
-
 
 import java.io.IOException;
 import java.lang.reflect.Type;

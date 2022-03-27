@@ -1,8 +1,0 @@
-syntax = "proto2";
-package com.google.protos.humansensing;
-option java_outer_classname = "FacesProtos";
-import "FaceProtos.proto";
-
-message Faces{
-    repeated Face face=1;
-}

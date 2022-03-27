@@ -18,6 +18,7 @@
         android:paddingTop="10dp">
 
         <TextView
+            android:id="@+id/mp_header_tuijian"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -51,6 +52,7 @@
         android:paddingTop="10dp">
 
         <TextView
+            android:id="@+id/mp_header_collection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

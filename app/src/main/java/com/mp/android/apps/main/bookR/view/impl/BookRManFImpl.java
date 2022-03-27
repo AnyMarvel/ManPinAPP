@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mp.android.apps.R;
+import com.mp.android.apps.book.view.impl.BookRankListActivity;
 import com.mp.android.apps.main.bookR.adapter.BookManFAdapter;
+import com.mp.android.apps.main.bookR.adapter.recommendholder.HeaderViewHolder;
 import com.mp.android.apps.main.bookR.presenter.IBookRManFPresenter;
 import com.mp.android.apps.main.bookR.presenter.impl.BookRManFPresenterImpl;
 import com.mp.android.apps.main.bookR.view.IBookRManFView;
@@ -25,7 +27,7 @@ import com.mp.android.apps.book.view.impl.BookDetailActivity;
 
 import java.util.List;
 
-public class BookRManFImpl extends BaseFragment<IBookRManFPresenter> implements IBookRManFView, OnHomeAdapterClickListener {
+public class BookRManFImpl extends BaseFragment<IBookRManFPresenter> implements IBookRManFView, OnHomeAdapterClickListener, HeaderViewHolder.IRankTitle {
     private RecyclerView recommendRecyclerView;
     private BookManFAdapter recommendRecyclerAdapter;
 
@@ -67,6 +69,7 @@ public class BookRManFImpl extends BaseFragment<IBookRManFPresenter> implements 
     public void notifyRecyclerView(List<SourceListContent> recommendList, List<SourceListContent> hotRankingList, List<HomeDesignBean> listContent, boolean useCache) {
         if (useCache || recommendRecyclerAdapter == null) {
             recommendRecyclerAdapter = new BookManFAdapter(getContext(), this, recommendList, hotRankingList, listContent);
+            recommendRecyclerAdapter.setiRankTitle(this);
             setClassicRecommendTitle("男生推荐");
             recommendRecyclerView.setAdapter(recommendRecyclerAdapter);
         } else {
@@ -82,7 +85,18 @@ public class BookRManFImpl extends BaseFragment<IBookRManFPresenter> implements 
 
     @Override
     public void onItemClickListener(View view) {
+        int id=view.getId();
+        Intent intent=new Intent(getActivity(), BookRankListActivity.class);
+        switch (id){
+            case R.id.mp_bookr_recommend_category:
+                intent.putExtra("rankRouteUrl",BookRankListActivity.RANKFANS);
+                break;
+            case R.id.mp_bookr_recommend_ranking:
+                intent.putExtra("rankRouteUrl",BookRankListActivity.RANKREADINDEX);
+                break;
+        }
 
+        startActivity(intent);
     }
 
     @Override
@@ -113,5 +127,15 @@ public class BookRManFImpl extends BaseFragment<IBookRManFPresenter> implements 
     @Override
     public void notifyContentItemUpdate(int position, List<SourceListContent> sourceListContents) {
         recommendRecyclerAdapter.updateContentByPosition(position, sourceListContents);
+    }
+
+    @Override
+    public String recommendTitle() {
+        return "男生榜";
+    }
+
+    @Override
+    public String collectionTitle() {
+        return "月票榜";
     }
 }

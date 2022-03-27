@@ -62,7 +62,7 @@
                 android:layout_weight="1"
                 android:stateListAnimator="@drawable/anim_state_list_m01"
                 app:image="@drawable/huojian"
-                app:text="动漫制作"
+                app:text="推荐榜单"
                 app:textColor="@color/colorGray" />
 
 
@@ -73,7 +73,7 @@
                 android:layout_weight="1"
                 android:stateListAnimator="@drawable/anim_state_list_m01"
                 app:image="@drawable/jingxuan"
-                app:text="明信片"
+                app:text="收藏榜"
                 app:textColor="@color/colorGray" />
 
 

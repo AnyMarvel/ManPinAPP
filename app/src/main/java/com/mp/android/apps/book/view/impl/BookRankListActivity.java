@@ -57,7 +57,18 @@ public class BookRankListActivity extends BaseActivity<IBookRankListPresenter> i
     @Override
     protected void onCreateActivity() {
         setContentView(R.layout.manpin_book_rank_list_layout);
+        fitSystemWindows();
     }
+    private void fitSystemWindows(){
+        //android 6.0以上适配沉浸式
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getWindow().setStatusBarColor(getResources().getColor(android.R.color.white));
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+    }
+
 
     @Override
     protected void firstRequest() {

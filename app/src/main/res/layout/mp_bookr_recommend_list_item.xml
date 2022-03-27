@@ -18,7 +18,7 @@
 
         <ImageView
             android:id="@+id/mp_bookr_recommend_list_item_image"
-            android:layout_width="wrap_content"
+            android:layout_width="85dp"
             android:layout_height="110dp"
             android:background="@drawable/img_cover_default_circle_1"
             android:scaleType="fitXY" />
@@ -40,8 +40,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:maxLines="2"
-                    android:text="图书名称"
+                    android:maxLines="1"
+                    android:text="图书名称测试测试测试测试测试测试测试"
+                    android:maxEms="8"
                     android:textColor="@color/black"
                     android:textSize="16dp"
                     android:textStyle="bold" />

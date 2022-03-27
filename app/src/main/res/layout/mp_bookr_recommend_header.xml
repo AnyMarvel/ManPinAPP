@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="分类"
+            android:text="推荐榜"
             android:textColor="@color/black"
             android:textSize="20dp"
             android:textStyle="bold" />
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="爽文 升级"
+            android:text="爽文 推荐"
             android:textColor="@color/black"
             android:textSize="14dp" />
 
@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="排行榜"
+            android:text="收藏榜"
             android:textColor="@color/black"
             android:textSize="20dp"
             android:textStyle="bold" />
@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="及时更新"
+            android:text="全网热文"
             android:textColor="@color/black"
             android:textSize="14dp" />
     </LinearLayout>

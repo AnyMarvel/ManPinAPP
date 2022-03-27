@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.google.android.apps.photolab.storyboard.activity.ComicSplash;
 import com.mp.android.apps.R;
+import com.mp.android.apps.book.view.impl.BookRankListActivity;
 import com.mp.android.apps.livevblank.ChoiceItemActivity;
 import com.mp.android.apps.main.MainActivity;
 import com.mp.android.apps.main.home.adapter.MainFragmentRecycleAdapter;
@@ -119,23 +120,30 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
         int id = view.getId();
         switch (id) {
             case R.id.huojian:
-                Acp.getInstance(getActivity()).request(new AcpOptions.Builder()
-                        .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE).build(), new AcpListener() {
-                    @Override
-                    public void onGranted() {
-                        Intent intentComic = new Intent(getActivity(), ComicSplash.class);
-                        startActivity(intentComic);
-                    }
+                Intent intent=new Intent(getActivity(), BookRankListActivity.class);
+                intent.putExtra("rankRouteUrl",BookRankListActivity.RANKRECOM);
+                startActivity(intent);
 
-                    @Override
-                    public void onDenied(List<String> permissions) {
-                    }
-                });
+//                Acp.getInstance(getActivity()).request(new AcpOptions.Builder()
+//                        .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE).build(), new AcpListener() {
+//                    @Override
+//                    public void onGranted() {
+//                        Intent intentComic = new Intent(getActivity(), ComicSplash.class);
+//                        startActivity(intentComic);
+//                    }
+//
+//                    @Override
+//                    public void onDenied(List<String> permissions) {
+//                    }
+//                });
 
                 break;
             case R.id.jingxuan:
-                Intent intentPostcard = new Intent(getActivity(), ChoiceItemActivity.class);
-                startActivity(intentPostcard);
+                Intent intent1=new Intent(getActivity(), BookRankListActivity.class);
+                intent1.putExtra("rankRouteUrl",BookRankListActivity.RANKVIPCOLLECT);
+                startActivity(intent1);
+//                Intent intentPostcard = new Intent(getActivity(), ChoiceItemActivity.class);
+//                startActivity(intentPostcard);
                 break;
             case R.id.xiaoshuo:
                 ((MainActivity) requireActivity()).showShujiaFragment();

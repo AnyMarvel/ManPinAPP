@@ -72,7 +72,10 @@ public class BookRManFPresenterImpl extends BasePresenterImpl<IBookRManFView> im
             notifyRecyclerViewRefresh(recommendCacheJson, true);
         }
 
-        IBookRFragmentModelImpl.getInstance().getBookWomanHomeData().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleObserver<String>() {
+        IBookRFragmentModelImpl.getInstance().getBookWomanHomeData()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SimpleObserver<String>() {
             @Override
             public void onNext(String s) {
                 notifyRecyclerViewRefresh(s, false);

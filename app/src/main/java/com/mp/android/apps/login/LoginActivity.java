@@ -146,23 +146,19 @@ public class LoginActivity extends StoryboardActivity {
     }
 
     private void initAnim() {
-        int width = getResources().getDrawable(R.mipmap.login_bg1).getIntrinsicWidth();
+        int width = 1071;
         if (1071 == width) {
             width = 1224;
         }
         mParams = new FrameLayout.LayoutParams(width, width);
         mTransDistance = getTransDistance(width);
         iv_login1 = new ImageView(this);
-        iv_login1.setImageResource(R.mipmap.login_bg1);
         iv_login1.setBackgroundColor(getResources().getColor(R.color.white));
         iv_login2 = new ImageView(this);
-        iv_login2.setImageResource(R.mipmap.login_bg2);
         iv_login2.setBackgroundColor(getResources().getColor(R.color.white));
         iv_login3 = new ImageView(this);
-        iv_login3.setImageResource(R.mipmap.login_bg3);
         iv_login3.setBackgroundColor(getResources().getColor(R.color.white));
         iv_login4 = new ImageView(this);
-        iv_login4.setImageResource(R.mipmap.login_bg4);
         iv_login4.setBackgroundColor(getResources().getColor(R.color.white));
         mImageViews.add(iv_login4);
         mImageViews.add(iv_login3);

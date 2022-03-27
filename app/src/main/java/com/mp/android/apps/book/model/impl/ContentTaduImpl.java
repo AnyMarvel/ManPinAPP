@@ -41,7 +41,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * 得间小说
+ * 塔读小说
  */
 
 public class ContentTaduImpl extends MBaseModelImpl implements IReaderBookModel {

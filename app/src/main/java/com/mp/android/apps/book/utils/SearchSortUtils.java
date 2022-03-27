@@ -11,11 +11,6 @@ import me.xdrop.fuzzywuzzy.FuzzySearch;
 import me.xdrop.fuzzywuzzy.ToStringFunction;
 import me.xdrop.fuzzywuzzy.model.BoundExtractedResult;
 
-/**
- * @author ShuiYu
- * Created on 3/2/22
- * Copyright © 2022 Alibaba-inc. All rights reserved.
- */
 
 public class SearchSortUtils {
     public static List<SearchBookBean> filerSearchTools(List<SearchBookBean> searchBookBeans,String filter){

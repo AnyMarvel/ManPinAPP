@@ -4,11 +4,6 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
-/**
- * @author ShuiYu
- * Created on 3/3/22
- * Copyright © 2022 Alibaba-inc. All rights reserved.
- */
 
 public class GeneralTools {
     public static String APP_VERSION;

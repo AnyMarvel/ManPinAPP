@@ -4,11 +4,6 @@ import android.content.Context;
 import android.view.Gravity;
 import android.widget.Toast;
 
-/**
- * @author ShuiYu
- * Created on 2/28/22
- * Copyright © 2022 Alibaba-inc. All rights reserved.
- */
 
 public class ToastUtils {
     private static Toast toast;

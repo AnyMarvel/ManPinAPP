@@ -19,16 +19,16 @@
    * 支持在线章节阅读、本地书籍查找。
    * 支持本地书籍加载到页面(支持本地书籍分章、加载速度快、耗费内存少)
 
-**注: 该项目已经上线,市场搜索 <font color=red>漫品</font> 即可下载**
 
 采用了以下开源框架
 
 * [butterknife](https://github.com/JakeWharton/butterknife)    ==>    View注入
-* [rxandroid](https://github.com/ReactiveX/RxAndroid)
-* [rxjava](https://github.com/ReactiveX/RxJava)
+* [rxandroid](https://github.com/ReactiveX/RxAndroid) ==>响应式框架
+* [rxjava](https://github.com/ReactiveX/RxJava) ==>响应式框架
 * [greenDAO](https://github.com/greenrobot/greenDAO)    ==>    数据库
-* [retrofit](https://github.com/square/retrofit)  ==> 网络
-* [Glide](https://github.com/bumptech/glide)    ==>    图片加载
+* [retrofit](https://github.com/square/retrofit) ==> 网络
+* [Glide](https://github.com/bumptech/glide) ==>    图片加载
+* [JavaWuzzy](https://github.com/xdrop/fuzzywuzzy) ==> 相似度算法
 
 
 <font color=red>ps:小说模块本站展示内容均来自网络,如有侵权请联系删除,本站只做技术学习,切勿作为商业使用</font>
@@ -39,7 +39,10 @@
 - [九桃小说](https://www.9txs.com)
 - [塔读文学](http://www.tadu.com)
 - [得间小说](https://www.idejian.com)
-
+- [SoDu小说搜索](http://www.soduzw.com)
+- [笔趣阁](https://www.xxbiqudu.com)
+- [3040文学](https://www.130140.com)
+- [零点小说源](https://www.lingdxsw.com/)
 
 持续更新中
 

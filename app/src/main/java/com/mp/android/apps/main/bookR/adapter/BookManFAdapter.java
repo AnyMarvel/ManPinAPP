@@ -63,6 +63,12 @@ public class BookManFAdapter extends RecyclerView.Adapter {
         }
     }
 
+    private HeaderViewHolder.IRankTitle iRankTitle;
+
+    public void setiRankTitle(HeaderViewHolder.IRankTitle iRankTitle) {
+        this.iRankTitle = iRankTitle;
+    }
+
     /**
      * 随机推荐数据为3条数据
      */
@@ -109,6 +115,9 @@ public class BookManFAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof HeaderViewHolder) {
             ((HeaderViewHolder) holder).handleHeaderView(listener);
+            if (iRankTitle!=null){
+                ((HeaderViewHolder) holder).setiRankTitle(iRankTitle);
+            }
         } else if (holder instanceof ClassicRecommendHolder) {
             ((ClassicRecommendHolder) holder).handleClassicRecommendEvent(context, recommendList, recommendTitle, listener);
         } else if (holder instanceof BookrHotRankingHolder) {

@@ -73,15 +73,36 @@ public class BookRankListActivity extends BaseActivity<IBookRankListPresenter> i
     @Override
     protected void firstRequest() {
         super.firstRequest();
-        if (RANKRECOM.equals(bookRankUrl)){
-            title.setText("推荐排行榜");
-        }else if (RANKVIPCOLLECT.equals(bookRankUrl)){
-            title.setText("收藏排行榜");
-        }
+       setRankTitle();
         bookRankLoading.start();
         mPresenter.initBookRankListData(bookRankUrl);
     }
-
+    private void setRankTitle(){
+        if (bookRankUrl!=null){
+            switch (bookRankUrl){
+                case RANKRECOM:
+                    title.setText("推荐排行榜");
+                    break;
+                case RANKVIPCOLLECT:
+                    title.setText("收藏排行榜");
+                    break;
+                case RANKWOMENRECOM:
+                    title.setText("女生排行榜");
+                    break;
+                case RANKWOMENCOLLECT:
+                    title.setText("女生收藏榜");
+                    break;
+                case RANKFANS:
+                    title.setText("粉丝推荐榜单");
+                    break;
+                case RANKREADINDEX:
+                    title.setText("月票排行榜");
+                    break;
+                default:
+                    title.setText("排行榜");
+            }
+        }
+    }
     @Override
     protected void bindView() {
         super.bindView();
@@ -136,13 +157,36 @@ public class BookRankListActivity extends BaseActivity<IBookRankListPresenter> i
 
     }
     public String bookRankUrl;
+    /**
+     * 推荐榜 /rank/recom
+     */
     public static final String RANKRECOM="/rank/recom";
+    /**
+     * Vip收藏榜 /rank/vipcollect
+     */
     public static final String RANKVIPCOLLECT="/rank/vipcollect";
 
     /**
-     * 推荐榜 /rank/recom
-     * Vip收藏榜 /rank/vipcollect
+     * 女士推荐榜
      */
+    public static final String RANKWOMENRECOM="/rank/mm/recom";
+
+    /**
+     * 女士收藏榜
+     */
+    public static final String RANKWOMENCOLLECT="/rank/mm/collect";
+
+
+    /**
+     * 男生推荐页粉丝榜
+     */
+    public static final String RANKFANS="/rank/newfans/";
+
+    /**
+     * 阅读榜
+     */
+    public static final String RANKREADINDEX="/rank/readindex/";
+
     @Override
     protected void initData() {
         Intent intent=getIntent();

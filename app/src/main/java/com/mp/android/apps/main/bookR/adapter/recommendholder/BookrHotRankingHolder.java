@@ -15,7 +15,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.mp.android.apps.R;
 import com.mp.android.apps.main.home.adapter.OnHomeAdapterClickListener;
 import com.mp.android.apps.main.home.bean.SourceListContent;
-import com.xinlan.imageeditlibrary.editimage.view.imagezoom.easing.Linear;
 
 import java.util.List;
 

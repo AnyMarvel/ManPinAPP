@@ -1,1 +1,1 @@
-include ':app', ':imageeditlibrary',':UMLibrary'
+include ':app',':UMLibrary'

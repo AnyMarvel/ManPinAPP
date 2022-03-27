@@ -123,27 +123,30 @@ public class BookManContentHolder extends RecyclerView.ViewHolder {
                     listener.onContentChangeClickListener(mContentPosition, homeDesignBean.getKind());
                 }
             });
-            Glide.with(context).load(sourceContents.get(0).getCoverUrl())
-                    .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(recommendImage);
-            cardTitle.setText(homeDesignBean.getKind());
-            recommendName.setText(sourceContents.get(0).getName());
-            recommendDesc.setText(sourceContents.get(0).getBookdesc());
-            RadiusUtils.setClipViewCornerRadius(recommendLayout, 10);
-            recommendLayout.setBackgroundColor(Color.parseColor(homeDesignBean.getCardColor()));
-            recommendLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onLayoutClickListener(v, sourceContents.get(0));
-                }
-            });
-            handleItemCard(recommendLayout1, recommendImage1, recommendBookName1, 1);
-            handleItemCard(recommendLayout2, recommendImage2, recommendBookName2, 2);
-            handleItemCard(recommendLayout3, recommendImage3, recommendBookName3, 3);
-            handleItemCard(recommendLayout4, recommendImage4, recommendBookName4, 4);
-            handleItemCard(recommendLayout5, recommendImage5, recommendBookName5, 5);
-            handleItemCard(recommendLayout6, recommendImage6, recommendBookName6, 6);
-            handleItemCard(recommendLayout7, recommendImage7, recommendBookName7, 7);
-            handleItemCard(recommendLayout8, recommendImage8, recommendBookName8, 8);
+            if (sourceContents!=null&& sourceContents.size()>8){
+                Glide.with(context).load(sourceContents.get(0).getCoverUrl())
+                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(10))).into(recommendImage);
+                cardTitle.setText(homeDesignBean.getKind());
+                recommendName.setText(sourceContents.get(0).getName());
+                recommendDesc.setText(sourceContents.get(0).getBookdesc());
+                RadiusUtils.setClipViewCornerRadius(recommendLayout, 10);
+                recommendLayout.setBackgroundColor(Color.parseColor(homeDesignBean.getCardColor()));
+                recommendLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onLayoutClickListener(v, sourceContents.get(0));
+                    }
+                });
+                handleItemCard(recommendLayout1, recommendImage1, recommendBookName1, 1);
+                handleItemCard(recommendLayout2, recommendImage2, recommendBookName2, 2);
+                handleItemCard(recommendLayout3, recommendImage3, recommendBookName3, 3);
+                handleItemCard(recommendLayout4, recommendImage4, recommendBookName4, 4);
+                handleItemCard(recommendLayout5, recommendImage5, recommendBookName5, 5);
+                handleItemCard(recommendLayout6, recommendImage6, recommendBookName6, 6);
+                handleItemCard(recommendLayout7, recommendImage7, recommendBookName7, 7);
+                handleItemCard(recommendLayout8, recommendImage8, recommendBookName8, 8);
+            }
+
 
 
         }

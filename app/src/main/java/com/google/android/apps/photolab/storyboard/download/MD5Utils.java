@@ -2,7 +2,8 @@ package com.google.android.apps.photolab.storyboard.download;
 
 import android.text.TextUtils;
 
-import com.xinlan.imageeditlibrary.editimage.utils.FileUtil;
+
+import com.mp.android.apps.book.utils.FileUtil;
 
 import java.io.File;
 import java.io.FileInputStream;

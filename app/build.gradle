@@ -13,14 +13,10 @@ android {
         applicationId "com.mp.android.apps"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 47
-        versionName "1.9.8"
+        versionCode 48
+        versionName "2.0.0"
         multiDexEnabled true
         multiDexKeepProguard file("multidexKeep.pro")
-        ndk {
-            //设置支持的SO库架构
-            abiFilters 'arm64-v8a' //, 'x86', 'armeabi-v7a', 'x86_64', 'armeabi'
-        }
     }
 
     signingConfigs {

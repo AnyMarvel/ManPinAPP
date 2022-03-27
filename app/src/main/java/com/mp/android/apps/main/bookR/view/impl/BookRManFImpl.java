@@ -74,6 +74,7 @@ public class BookRManFImpl extends BaseFragment<IBookRManFPresenter> implements 
             recommendRecyclerAdapter.setHotRankingList(hotRankingList);
             recommendRecyclerAdapter.setListContent(listContent);
             recommendRecyclerAdapter.notifyDataSetChanged();
+            System.out.println("sssss"+String.valueOf(recommendRecyclerAdapter.getItemCount()));
         }
     }
 

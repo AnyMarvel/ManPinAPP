@@ -109,6 +109,10 @@ public class BookManContentHolder extends RecyclerView.ViewHolder {
     }
 
     public void handleBookManContent(Context context, List<HomeDesignBean> listContent, int mContentPosition, OnHomeAdapterClickListener listener) {
+        if (listContent==null){
+            return;
+        }
+
         if (listContent.size() > mContentPosition) {
             HomeDesignBean homeDesignBean = listContent.get(mContentPosition);
             List<SourceListContent> sourceContents = homeDesignBean.getSourceListContent();

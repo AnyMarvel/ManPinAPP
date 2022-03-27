@@ -109,6 +109,9 @@ public class BookrHotRankingHolder extends RecyclerView.ViewHolder {
         this.context = context;
         this.hotRankingList = hotRankingList;
         this.listener = listener;
+        if (hotRankingList==null){
+            return;
+        }
         setItemEnent(hotBookLayout1, hotBookImage1, hotBookName1, hotBookNumber1, 0);
         setItemEnent(hotBookLayout2, hotBookImage2, hotBookName2, hotBookNumber2, 1);
         setItemEnent(hotBookLayout3, hotBookImage3, hotBookName3, hotBookNumber3, 2);

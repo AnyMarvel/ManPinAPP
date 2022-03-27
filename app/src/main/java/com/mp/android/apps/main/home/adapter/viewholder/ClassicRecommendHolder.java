@@ -62,6 +62,11 @@ public class ClassicRecommendHolder extends RecyclerView.ViewHolder {
     }
 
     public void handleClassicRecommendEvent(Context context, List<SourceListContent> recommendList, String title, OnHomeAdapterClickListener listener) {
+        if (recommendList==null){
+            return;
+        }
+
+
         if (!TextUtils.isEmpty(title)) {
             layoutTitle.setText(title);
         }

@@ -47,7 +47,10 @@ public class BookRManFPresenterImpl extends BasePresenterImpl<IBookRManFView> im
             notifyRecyclerViewRefresh(recommendCacheJson, true);
         }
 
-        IBookRFragmentModelImpl.getInstance().getBookManHomeData().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleObserver<String>() {
+        IBookRFragmentModelImpl.getInstance().getBookManHomeData()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SimpleObserver<String>() {
             @Override
             public void onNext(String s) {
                 notifyRecyclerViewRefresh(s, false);
@@ -129,14 +132,13 @@ public class BookRManFPresenterImpl extends BasePresenterImpl<IBookRManFView> im
                 List<SourceListContent> recommendList = JSON.parseArray(recommendJson, SourceListContent.class);
                 List<SourceListContent> hotRankingList = JSON.parseArray(hotRankingJson, SourceListContent.class);
                 List<HomeDesignBean> contentList = JSON.parseArray(contentListJson, HomeDesignBean.class);
-                if (recommendList != null && recommendList.size() == 3
-                        && hotRankingList != null && hotRankingList.size() == 6
-                        && contentList != null && contentList.size() > 0
-                ) {
-                    mView.notifyRecyclerView(recommendList, hotRankingList, contentList, useCache);
-                } else {
+                if ((recommendList == null || recommendList.size() != 3)&&
+                         (hotRankingList == null || hotRankingList.size() != 6)
+                        && (contentList == null || contentList.size() <= 0)){
                     String localData = AssertFileUtils.getJson(mView.getContext(), "bookRfragment.json");
                     notifyRecyclerViewRefresh(localData, false);
+                }else {
+                    mView.notifyRecyclerView(recommendList, hotRankingList, contentList, useCache);
                 }
             }
         }

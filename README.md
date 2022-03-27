@@ -48,8 +48,13 @@
 </div>
 
 更新记录：
-1.9.9 (待发布)
+1.9.9 (当前版本 发布)
 1. 修复 Okhttp跳过https验证 http://jianboge.com/d436237
+2. 增加6种排行榜，实时获取全网小说排行
+3. 打通排行到阅读流程
+4. 下线漫画，明信片模块，降低包体积
+5. 优化推荐及图书分发内容
+6.bug fix
 
 
 1.9.8优化(已发布)
@@ -62,44 +67,9 @@
 2. 优化toast弹窗逻辑
 3. bugfix
 
-1.9.5
-1. 优化下载器，实现下载器下载校验
-2. 当前最新章节最后一页增加 "已经到最后一章" 提醒
-3. 增加Sodu源，修复源分页获取内容问题
-4. 增加图书更新提示
+更多版本日志 :
 
-
-1.8.0
-1. 修改书源
-2. 优化搜索引擎
-3. 优化下载引擎
-
-
-1.7.5
-1. 修复本地图书智能导入功能(优化本地文件查找算法,基于txt文件大小进行排队展示)
-2. 修复阅读界面不能保持长亮功能
-3. 修复书架界面阅读进度显示错误问题
-4. 仿真,覆盖,无三种模式,默认开启音量键翻页
-5. 增加单线程缓存章节策略,可用户缓存当前书记内容
-6. 基于无翻页模式增加左手滑动模式(基于屏幕两侧(左侧下一页,右侧上一页)(滑动操作与右手模式操作相同,左滑上一页,右滑下一页))
-
-
-#2. 漫画模块（暂不维护）
-
-基于tensorflow生成漫画,内置3000+种模板,基于人脸识别和目标识别分析等多种手段自动拼接漫画,效果如图:
-
-<div align="center">
-<img src="pictures/manhua.png" width="150"/> <img src="pictures/manhua_1.png" width="150"/> <img src="pictures/manhua_2.png" width="150"/> <img src="pictures/manhua_3.png" width="150"/> <img src="pictures/manhua_4.png" width="150"/>
-</div>
-
-#3. 明信片（暂不维护）
-
-本模块提供多种模板提供用户使用如图,效果如图
-
-<div align="center">
-<img src="pictures/pic_template2.jpg" width="150" height="250"/> <img src="pictures/pic_template3.jpg" width="150" height="250"/> <img src="pictures/pic_template5.jpg" width="150" height="250"/> <img src="pictures/pic_template6.jpg" width="150" height="250"/> <img src="pictures/pic_template8.jpg" width="150" height="250"/>
-</div>
-
+[历史版本日志](app/VERSIONMARK.md)
 
 各个模块架构,实现细节等都会逐步补充,期待你的start
 
@@ -108,5 +78,3 @@ Android开发内容总结,主要针对Android技术,界面,底层,性能优化�
 更多技术细节,请参考如下技术总结
 
 [https://androidsummary.gitbook.io/androidsummary/](https://androidsummary.gitbook.io/androidsummary/)
-
-java -jar buglyqq-upload-symbol.jar -appid 097fb8e660  -appkey 3206cd01-02bd-44f7-8abd-14b9fb2fbf85 -bundleid com.mp.android.apps  -platform Android  -version 1.9.5 -inputMapping <mapping file>

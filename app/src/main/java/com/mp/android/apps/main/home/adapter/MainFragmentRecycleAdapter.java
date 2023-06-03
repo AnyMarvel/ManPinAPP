@@ -10,22 +10,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mp.android.apps.R;
-import com.mp.android.apps.main.home.adapter.viewholder.BottomViewHolder;
 import com.mp.android.apps.main.home.adapter.viewholder.ClassicRecommendHolder;
-import com.mp.android.apps.main.home.adapter.viewholder.ContentViewHolder;
 import com.mp.android.apps.main.home.adapter.viewholder.HeaderViewHolder;
+import com.mp.android.apps.main.home.adapter.viewholder.MainRecommendHolder;
 import com.mp.android.apps.main.home.bean.HomeDesignBean;
 import com.mp.android.apps.main.home.bean.SourceListContent;
 
 import java.util.List;
+import java.util.Map;
 
 public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
     private int mHeaderCount = 1;// 头部的数量
-    private int mRecommendCount = 1;//经典推荐的数量
+    private int mRecommendCount = 2;//经典推荐的数量
 
     // 首先定义几个常量标记item的类型
     private static final int ITEM_TYPE_HEADER = 0;
     private static final int ITEM_TYPE_RECOMMEND = 1;
+    private static final int ITEM_TYPE_RECOMMEND_R = 2;
 
     private Context context;
     private List<HomeDesignBean> listContent;
@@ -34,31 +35,17 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
 
     //各种点击时间接口,实现在fragment中
     private OnHomeAdapterClickListener listener;
-    //轮播图数据源
-    private List<String> carouselImages;
-
-    public void setListContent(List<HomeDesignBean> listContent) {
-        this.listContent = listContent;
-    }
-
-    public void setCarouselImages(List<String> carouselImages) {
-        this.carouselImages = carouselImages;
-    }
-
-    public void setRecommendList(List<SourceListContent> recommendList) {
-        this.recommendList = recommendList;
-    }
 
     //推荐位数据源
     private List<SourceListContent> recommendList;
-
-    public MainFragmentRecycleAdapter(Context context, List<HomeDesignBean> listContent
-            , OnHomeAdapterClickListener listener, List<String> carouselImages, List<SourceListContent> recommendList) {
+    private List<Map<String, String>> carouselList;
+    private List<Map<String, String>> recommendInfoList;
+    public MainFragmentRecycleAdapter(Context context, List<Map<String, String>> carouselList, List<Map<String, String>> recommendInfoList
+            , OnHomeAdapterClickListener listener) {
         this.context = context;
-        this.listContent = listContent;
         this.listener = listener;
-        this.carouselImages = carouselImages;
-        this.recommendList = recommendList;
+        this.carouselList = carouselList;
+        this.recommendInfoList = recommendInfoList;
     }
 
     // 中间内容长度
@@ -84,9 +71,9 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
         if (viewType == ITEM_TYPE_HEADER) {
             view = LayoutInflater.from(context).inflate(R.layout.main_fragment_layout_header, parent, false);
             return new HeaderViewHolder(view);
-        } else {
+        }else {
             view = LayoutInflater.from(context).inflate(R.layout.main_fragment_recycle_item_recommend, parent, false);
-            return new ClassicRecommendHolder(view);
+            return new MainRecommendHolder(view);
         }
     }
 
@@ -104,9 +91,15 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof HeaderViewHolder) {
-            ((HeaderViewHolder) holder).handleClassicRecommendEvent(carouselImages, listener);
+            ((HeaderViewHolder) holder).handleClassicRecommendEvent(carouselList, listener);
         } else {
-            ((ClassicRecommendHolder) holder).handleClassicRecommendEvent(context, recommendList, null, listener);
+            List<Map<String, String>> list;
+            if (position==1){
+                list= recommendInfoList.subList(0,3);
+            }else {
+                list = recommendInfoList.subList(3,6);
+            }
+            ((MainRecommendHolder) holder).handleClassicRecommendEvent(context, list, "推荐");
         }
 
     }

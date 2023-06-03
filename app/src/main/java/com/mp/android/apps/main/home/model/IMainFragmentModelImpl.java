@@ -18,8 +18,8 @@ public class IMainFragmentModelImpl extends MBaseModelImpl {
      *
      * @return
      */
-    public Observable<String> getCycleImages() {
-        return getRetrofitObject(TAG).create(IMainFragmentAPI.class).getCycleImages();
+    public Observable<String> getHomeData() {
+        return getRetrofitObject("https://www.qidian.com").create(IMainFragmentAPI.class).getHomeData();
     }
 
     /**
@@ -53,6 +53,9 @@ public class IMainFragmentModelImpl extends MBaseModelImpl {
 
         @GET("/appview/changByBookKind")
         Observable<String> getContentItemData(@Query("kinds") String kinds);
+
+        @GET("/")
+        Observable<String> getHomeData();
     }
 
 }

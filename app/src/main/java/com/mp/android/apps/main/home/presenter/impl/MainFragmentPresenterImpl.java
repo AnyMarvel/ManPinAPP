@@ -16,7 +16,14 @@ import com.mp.android.apps.book.base.observer.SimpleObserver;
 import com.mp.android.apps.book.cache.ACache;
 import com.mp.android.apps.utils.AssertFileUtils;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -36,62 +43,61 @@ public class MainFragmentPresenterImpl extends BasePresenterImpl<IMainfragmentVi
         mCache = ACache.get(MyApplication.getInstance());
     }
 
-    /**
-     * 初始化首页数据
-     */
+
+
     @Override
-    public void initHomeData() {
+    public void initSpiderHomeData() {
         String mainCacheJson = mCache.getAsString(MAINFRAGMENTCACHEDATA);
         if (!TextUtils.isEmpty(mainCacheJson)) {
-            notifyRecyclerViewRefresh(mainCacheJson, true);
+            notifyRecyclerView(mainCacheJson,true);
         }
-        IMainFragmentModelImpl.getInstance().getHomeDatas().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleObserver<String>() {
-            @Override
-            public void onNext(String s) {
-                notifyRecyclerViewRefresh(s, false);
-                mCache.put(MAINFRAGMENTCACHEDATA, s);
-            }
+        IMainFragmentModelImpl.getInstance().getHomeData()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SimpleObserver<String>() {
+                    @Override
+                    public void onNext(String s) {
+                       notifyRecyclerView(s,false);
+                        mCache.put(MAINFRAGMENTCACHEDATA, s);
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                if (TextUtils.isEmpty(mainCacheJson)){
-                    String localData = AssertFileUtils.getJson(mView.getContext(), "localhome.json");
-                    notifyRecyclerViewRefresh(localData, false);
-                }
-            }
-        });
+                    @Override
+                    public void onError(Throwable e) {
+                        if (TextUtils.isEmpty(mainCacheJson)){
+                            String localData = AssertFileUtils.getJson(mView.getContext(), "localhome.json");
+                            notifyRecyclerView(localData,false);
+                        }
+                    }
+                });
+
     }
 
-    /**
-     * 刷新主页数据
-     * 1. 本地有缓存基于缓存刷新数据,本地无缓存,基于网络刷新数据
-     *
-     * @param s
-     */
-    private void notifyRecyclerViewRefresh(String s, boolean useCache) {
-        JSONObject jsonObject = JSON.parseObject(s);
-        JSONObject data = (JSONObject) jsonObject.get("data");
-        if (data != null) {
-            String carouselJson = JSON.toJSONString(data.get("carouselImages"));
-            String homebookJson = JSON.toJSONString(data.get("homeBook"));
-            String recommendJson = JSON.toJSONString(data.get("recommend"));
-            if (!TextUtils.isEmpty(homebookJson) && !TextUtils.isEmpty(recommendJson) && !TextUtils.isEmpty(carouselJson)) {
-                List<String> carouselImages = JSON.parseArray(carouselJson, String.class);
-                List<HomeDesignBean> list = JSON.parseArray(homebookJson, HomeDesignBean.class);
-                List<SourceListContent> recommendList = JSON.parseArray(recommendJson, SourceListContent.class);
-                if (list != null && list.size() > 0
-                        && carouselImages != null && carouselImages.size() > 0
-                        && recommendList != null && recommendList.size() == 3
-                ) {
-                    mView.notifyRecyclerView(list, carouselImages, recommendList, useCache);
-                } else {
-                    String localData = AssertFileUtils.getJson(mView.getContext(), "localhome.json");
-                    notifyRecyclerViewRefresh(localData, false);
-                }
+    private void notifyRecyclerView(String s, boolean useCache){
+        try {
+            Document doc = Jsoup.parse(s);
+            List<Element> elementList=doc.getElementsByClass("load");
+            List<Map<String,String>> carouselList=new ArrayList<>();//首页轮播图图片
+            for (int i = 0; i < elementList.size()-1; i++) {
+                Map<String,String> map=new HashMap<>();
+                map.put("name",elementList.get(i).attr("alt"));
+                map.put("url","https:"+elementList.get(i).attr("data-src").trim());
+                carouselList.add(map);
             }
+            Element wanbenLayout=doc.getElementsByClass("slides").get(0);
+            List<Element> recommendList=wanbenLayout.getElementsByClass("slideItem");
+            List<Map<String,String>> recommendInfoList=new ArrayList<>();//首页轮播图图片
+            for (int i = 0; i < recommendList.size(); i++) {
+                Element recommendElement=recommendList.get(i).getElementsByTag("a").get(0).getElementsByTag("img").get(0);
+                Map<String,String> map=new HashMap<>();
+                map.put("name",recommendElement.attr("alt"));
+                map.put("url","https:"+recommendElement.attr("src").trim());
+                recommendInfoList.add(map);
+            }
+            mView.notifyRecyclerHomePage(carouselList,recommendInfoList);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
-
 
     /**
      * 点击首页Content内容换一换按钮,单个刷新item

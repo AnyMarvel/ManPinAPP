@@ -34,6 +34,7 @@ import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
 
 import java.util.List;
+import java.util.Map;
 
 public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implements IMainfragmentView, OnHomeAdapterClickListener {
 
@@ -67,7 +68,7 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
     @Override
     protected void bindEvent() {
         super.bindEvent();
-        mPresenter.initHomeData();
+        mPresenter.initSpiderHomeData();
     }
 
     /**
@@ -88,28 +89,12 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
         return inflater.inflate(R.layout.main_fragment_layout, container, false);
     }
 
-    /**
-     * 主页列表适配器设置
-     *
-     * @param list           列表主体内容(包含分类和具体详情)
-     * @param carouselImages 主页轮播图的数据
-     * @param listContents   主页推荐位数据
-     * @param useCache       是否使用缓存更新主页
-     */
-    @Override
-    public void notifyRecyclerView(List<HomeDesignBean> list, List<String> carouselImages, List<SourceListContent> listContents, boolean useCache) {
-        if (useCache || mainFragmentRecycleAdapter == null) {
-            mainFragmentRecycleAdapter = new MainFragmentRecycleAdapter(getContext(), list, this, carouselImages, listContents);
-            //设置Adapter
-            recyclerView.setAdapter(mainFragmentRecycleAdapter);
-            recyclerView.setItemViewCacheSize(10);
-        } else {
-            mainFragmentRecycleAdapter.setCarouselImages(carouselImages);
-            mainFragmentRecycleAdapter.setListContent(list);
-            mainFragmentRecycleAdapter.setRecommendList(listContents);
-            mainFragmentRecycleAdapter.notifyDataSetChanged();
-        }
 
+    @Override
+    public void notifyRecyclerHomePage(List<Map<String, String>> carouselList, List<Map<String, String>> recommendInfoList) {
+        mainFragmentRecycleAdapter = new MainFragmentRecycleAdapter(getContext(), carouselList, recommendInfoList,this);
+        //设置Adapter
+        recyclerView.setAdapter(mainFragmentRecycleAdapter);
     }
 
 

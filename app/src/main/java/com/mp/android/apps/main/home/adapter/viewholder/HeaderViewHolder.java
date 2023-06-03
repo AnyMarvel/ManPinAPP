@@ -13,6 +13,7 @@ import com.mp.android.apps.main.home.view.MyImageTextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class HeaderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     /**
@@ -42,27 +43,27 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder implements View.On
 //        searchImage.setOnClickListener(this);
     }
 
-    public void handleClassicRecommendEvent(List<String> carouselImages, OnHomeAdapterClickListener listener) {
+    public void handleClassicRecommendEvent(List<Map<String, String>> carouselList, OnHomeAdapterClickListener listener) {
         this.listener = listener;
         dongman.setOnClickListener(this);
         mingxinpian.setOnClickListener(this);
         xiaoshuo.setOnClickListener(this);
         guangchang.setOnClickListener(this);
         searchImage.setOnClickListener(this);
-        updatemCycleViewPager(carouselImages);
+        updatemCycleViewPager(carouselList);
     }
 
-    public void updatemCycleViewPager(List<String> carouselImages) {
+    public void updatemCycleViewPager(List<Map<String, String>> carouselList) {
         List<BannerInfo> mList = new ArrayList<>();
 
-        for (int i = 0; i < carouselImages.size(); i++) {
-            mList.add(new BannerInfo("", carouselImages.get(i)));
+        for (int i = 0; i < carouselList.size(); i++) {
+            mList.add(new BannerInfo(carouselList.get(i).get("name"), carouselList.get(i).get("url")));
         }
 
         //设置选中和未选中时的图片
         assert mCycleViewPager != null;
         mCycleViewPager.setIndicators(R.mipmap.ad_select, R.mipmap.ad_unselect);
-        mCycleViewPager.setDelay(2000);
+        mCycleViewPager.setDelay(3000);
         mCycleViewPager.setData(mList, new CycleViewPager.ImageCycleViewListener() {
             @Override
             public void onImageClick(BannerInfo info, int position, View imageView) {

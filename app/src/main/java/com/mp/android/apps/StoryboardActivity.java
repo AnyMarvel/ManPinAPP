@@ -32,54 +32,6 @@ public class StoryboardActivity extends AppCompatActivity {
     }
 
     /**
-     * 获取应用版本信息
-     *
-     * @return 返回应用版本信息
-     */
-    public String getAppVersionString() {
-        String result = "0.0.0";
-        try {
-            return getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-        } catch (NameNotFoundException e) {
-            Log.i(TAG, "Unable to read version ID from Manifest.");
-            return result;
-        }
-    }
-
-    /**
-     * 打开相册应用
-     */
-    public void selectVideo() {
-        Intent intent = new Intent("android.intent.action.PICK");
-        intent.setType("video/*");
-        intent.setAction("android.intent.action.GET_CONTENT");
-        startActivityForResult(Intent.createChooser(intent, "Select Video"), PICK_VIDEO_REQUEST);
-    }
-
-    /**
-     * 调用系统相册
-     *
-     * @param requestCode
-     */
-    public void selectImage(int requestCode) {
-        Intent intent = new Intent("android.intent.action.PICK");
-        intent.setType("image/*");
-        intent.setAction("android.intent.action.GET_CONTENT");
-        startActivityForResult(Intent.createChooser(intent, "Select Video"), requestCode);
-    }
-
-    /**
-     * 获取手机基本信息
-     */
-
-    public String getHandSetInfo() {
-        return "手机型号:" + android.os.Build.MODEL +
-                ",SDK版本:" + android.os.Build.VERSION.SDK +
-                ",系统版本:" + android.os.Build.VERSION.RELEASE +
-                ",软件版本:" + getAppVersionString();
-    }
-
-    /**
      * 沉浸式。去除状态栏
      */
     private void UnStatusBarTintUtil() {

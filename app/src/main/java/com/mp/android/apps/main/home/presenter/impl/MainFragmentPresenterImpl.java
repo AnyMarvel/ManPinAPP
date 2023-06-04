@@ -49,7 +49,7 @@ public class MainFragmentPresenterImpl extends BasePresenterImpl<IMainfragmentVi
     public void initSpiderHomeData() {
         String mainCacheJson = mCache.getAsString(MAINFRAGMENTCACHEDATA);
         if (!TextUtils.isEmpty(mainCacheJson)) {
-            notifyRecyclerView(mainCacheJson,true);
+            notifyRecyclerView(mainCacheJson);
         }
         IMainFragmentModelImpl.getInstance().getHomeData()
                 .subscribeOn(Schedulers.io())
@@ -57,7 +57,7 @@ public class MainFragmentPresenterImpl extends BasePresenterImpl<IMainfragmentVi
                 .subscribe(new SimpleObserver<String>() {
                     @Override
                     public void onNext(String s) {
-                       notifyRecyclerView(s,false);
+                       notifyRecyclerView(s);
                         mCache.put(MAINFRAGMENTCACHEDATA, s);
                     }
 
@@ -65,14 +65,14 @@ public class MainFragmentPresenterImpl extends BasePresenterImpl<IMainfragmentVi
                     public void onError(Throwable e) {
                         if (TextUtils.isEmpty(mainCacheJson)){
                             String localData = AssertFileUtils.getJson(mView.getContext(), "localhome.json");
-                            notifyRecyclerView(localData,false);
+                            notifyRecyclerView(localData);
                         }
                     }
                 });
 
     }
 
-    private void notifyRecyclerView(String s, boolean useCache){
+    private void notifyRecyclerView(String s){
         try {
             Document doc = Jsoup.parse(s);
             List<Element> elementList=doc.getElementsByClass("load");
@@ -99,34 +99,7 @@ public class MainFragmentPresenterImpl extends BasePresenterImpl<IMainfragmentVi
         }
     }
 
-    /**
-     * 点击首页Content内容换一换按钮,单个刷新item
-     *
-     * @param mContentPosition
-     * @param kinds
-     */
-    @Override
-    public void getContentPostion(int mContentPosition, String kinds) {
-        IMainFragmentModelImpl.getInstance().getContentItemData(kinds).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleObserver<String>() {
-            @Override
-            public void onNext(String s) {
-                JSONObject jsonObject = JSON.parseObject(s);
-                JSONObject data = (JSONObject) jsonObject.get("data");
-                if (data != null) {
-                    String sourceListContent = JSON.toJSONString(data.get("sourceListContent"));
-                    if (!TextUtils.isEmpty(sourceListContent)) {
-                        List<SourceListContent> sourceListContents = JSON.parseArray(sourceListContent, SourceListContent.class);
-                        mView.notifyContentItemUpdate(mContentPosition, sourceListContents);
-                    }
-                }
-            }
 
-            @Override
-            public void onError(Throwable e) {
-
-            }
-        });
-    }
 
 
 }

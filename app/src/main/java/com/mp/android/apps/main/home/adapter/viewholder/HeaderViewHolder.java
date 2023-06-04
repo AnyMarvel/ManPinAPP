@@ -10,6 +10,7 @@ import com.mp.android.apps.main.home.adapter.OnHomeAdapterClickListener;
 import com.mp.android.apps.main.home.cycleimage.BannerInfo;
 import com.mp.android.apps.main.home.cycleimage.CycleViewPager;
 import com.mp.android.apps.main.home.view.MyImageTextView;
+import com.mp.android.apps.main.home.view.impl.OnMainFragmentClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder implements View.On
     private MyImageTextView xiaoshuo;
     private MyImageTextView guangchang;
     private FrameLayout searchImage;
-    OnHomeAdapterClickListener listener;
+    OnMainFragmentClickListener listener;
 
     public HeaderViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -43,7 +44,7 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder implements View.On
 //        searchImage.setOnClickListener(this);
     }
 
-    public void handleClassicRecommendEvent(List<Map<String, String>> carouselList, OnHomeAdapterClickListener listener) {
+    public void handleClassicRecommendEvent(List<Map<String, String>> carouselList, OnMainFragmentClickListener listener) {
         this.listener = listener;
         dongman.setOnClickListener(this);
         mingxinpian.setOnClickListener(this);
@@ -71,6 +72,7 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder implements View.On
                 if (mCycleViewPager.isCycle()) {
                     position = position - 1;
                 }
+                listener.onLayoutClickListener(info.getTitle());
             }
         });
     }

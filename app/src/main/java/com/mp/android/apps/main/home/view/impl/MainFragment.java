@@ -1,7 +1,5 @@
 package com.mp.android.apps.main.home.view.impl;
 
-import android.Manifest;
-import android.app.ActivityOptions;
 import android.content.Intent;
 
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -9,34 +7,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.net.Uri;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.mp.android.apps.R;
 import com.mp.android.apps.book.view.impl.BookRankListActivity;
 import com.mp.android.apps.main.MainActivity;
 import com.mp.android.apps.main.home.adapter.MainFragmentRecycleAdapter;
-import com.mp.android.apps.main.home.adapter.OnHomeAdapterClickListener;
-import com.mp.android.apps.main.home.bean.HomeDesignBean;
-import com.mp.android.apps.main.home.bean.SourceListContent;
 import com.mp.android.apps.main.home.presenter.impl.MainFragmentPresenterImpl;
 import com.mp.android.apps.main.home.view.IMainfragmentView;
 import com.mp.android.apps.basemvplib.impl.BaseFragment;
-import com.mp.android.apps.book.bean.SearchBookBean;
-import com.mp.android.apps.book.presenter.impl.BookDetailPresenterImpl;
 import com.mp.android.apps.book.utils.BookSourceCheckUtils;
-import com.mp.android.apps.book.view.impl.BookDetailActivity;
 import com.mp.android.apps.book.view.impl.BookSourceGuideActivity;
 import com.mp.android.apps.book.view.impl.SearchActivity;
-import com.mylhyl.acp.Acp;
-import com.mylhyl.acp.AcpListener;
-import com.mylhyl.acp.AcpOptions;
-
 import java.util.List;
 import java.util.Map;
 
-public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implements IMainfragmentView, OnHomeAdapterClickListener {
+public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implements IMainfragmentView, OnMainFragmentClickListener {
 
     private RecyclerView recyclerView;
     private MainFragmentRecycleAdapter mainFragmentRecycleAdapter;
@@ -136,34 +124,12 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
     }
 
     @Override
-    public void onLayoutClickListener(View view, SourceListContent sourceListContent) {
-        SearchBookBean searchBookBean = new SearchBookBean();
-        searchBookBean.setName(sourceListContent.getName());
-        searchBookBean.setCoverUrl(sourceListContent.getCoverUrl());
-        searchBookBean.setNoteUrl(sourceListContent.getNoteUrl());
-        searchBookBean.setAuthor(sourceListContent.getAuthor());
-        searchBookBean.setDesc(sourceListContent.getBookdesc());
-        searchBookBean.setOrigin(sourceListContent.getOrigin());
-        searchBookBean.setKind(sourceListContent.getKind());
-        searchBookBean.setTag(sourceListContent.getTag());
-        searchBookBean.setAdd(false);
-        searchBookBean.setWords(0);
-
-        Intent intent = new Intent(getActivity(), BookDetailActivity.class);
-        intent.putExtra("from", BookDetailPresenterImpl.FROM_SEARCH);
-        intent.putExtra("data", searchBookBean);
-        intent.putExtra("start_with_share_ele", true);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity(), view, "img_cover").toBundle());
-    }
-
-    @Override
-    public void onContentChangeClickListener(int mContentPosition, String kinds) {
-        mPresenter.getContentPostion(mContentPosition, kinds);
-    }
-
-    @Override
-    public void notifyContentItemUpdate(int position, List<SourceListContent> sourceListContents) {
-        mainFragmentRecycleAdapter.updateContentByPosition(position, sourceListContents);
+    public void onLayoutClickListener( String name) {
+        if ( !TextUtils.isEmpty(name)){
+            Intent searchIntent = new Intent(this.getActivity(), SearchActivity.class);
+            searchIntent.putExtra("rankSearchName",name);
+            startActivity(searchIntent);
+        }
     }
 
 }

@@ -10,11 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mp.android.apps.R;
-import com.mp.android.apps.main.home.adapter.viewholder.ClassicRecommendHolder;
 import com.mp.android.apps.main.home.adapter.viewholder.HeaderViewHolder;
 import com.mp.android.apps.main.home.adapter.viewholder.MainRecommendHolder;
-import com.mp.android.apps.main.home.bean.HomeDesignBean;
-import com.mp.android.apps.main.home.bean.SourceListContent;
+import com.mp.android.apps.main.home.view.impl.OnMainFragmentClickListener;
 
 import java.util.List;
 import java.util.Map;
@@ -26,31 +24,18 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
     // 首先定义几个常量标记item的类型
     private static final int ITEM_TYPE_HEADER = 0;
     private static final int ITEM_TYPE_RECOMMEND = 1;
-    private static final int ITEM_TYPE_RECOMMEND_R = 2;
 
     private Context context;
-    private List<HomeDesignBean> listContent;
-    //中间内容位置信息
-    private int mContentPosition;
-
     //各种点击时间接口,实现在fragment中
-    private OnHomeAdapterClickListener listener;
-
-    //推荐位数据源
-    private List<SourceListContent> recommendList;
+    private OnMainFragmentClickListener listener;
     private List<Map<String, String>> carouselList;
     private List<Map<String, String>> recommendInfoList;
     public MainFragmentRecycleAdapter(Context context, List<Map<String, String>> carouselList, List<Map<String, String>> recommendInfoList
-            , OnHomeAdapterClickListener listener) {
+            , OnMainFragmentClickListener listener) {
         this.context = context;
         this.listener = listener;
         this.carouselList = carouselList;
         this.recommendInfoList = recommendInfoList;
-    }
-
-    // 中间内容长度
-    private int getContentItemCount() {
-        return listContent.size();
     }
 
     // 判断当前item是否是头部（根据position来判断）
@@ -58,11 +43,6 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
         return mHeaderCount != 0 && position < mHeaderCount;
     }
 
-
-    // 判断当前item是否为经典推荐位
-    private boolean isRecommendView(int position) {
-        return mRecommendCount != 0 && position == 1;
-    }
 
     @NonNull
     @Override
@@ -94,12 +74,15 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
             ((HeaderViewHolder) holder).handleClassicRecommendEvent(carouselList, listener);
         } else {
             List<Map<String, String>> list;
+            String recommendName;
             if (position==1){
                 list= recommendInfoList.subList(0,3);
+                recommendName="小编推荐";
             }else {
                 list = recommendInfoList.subList(3,6);
+                recommendName="网友推荐";
             }
-            ((MainRecommendHolder) holder).handleClassicRecommendEvent(context, list, "推荐");
+            ((MainRecommendHolder) holder).handleClassicRecommendEvent(context, list, recommendName,listener);
         }
 
     }
@@ -109,17 +92,4 @@ public class MainFragmentRecycleAdapter extends RecyclerView.Adapter {
         return  mHeaderCount + mRecommendCount;
     }
 
-    /**
-     * 基于position修改数据源,刷新单个item
-     *
-     * @param mContentPosition   mContentPosition位置,比list postion大小小两位
-     * @param sourceListContents content内部一个item的数据内容
-     */
-    public void updateContentByPosition(int mContentPosition, List<SourceListContent> sourceListContents) {
-        if (mContentPosition >= 0 && sourceListContents != null) {
-            listContent.get(mContentPosition).setSourceListContent(sourceListContents);
-            notifyItemChanged(mContentPosition + 2);
-        }
-
-    }
 }

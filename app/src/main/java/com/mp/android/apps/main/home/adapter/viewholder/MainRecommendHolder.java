@@ -16,6 +16,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.mp.android.apps.R;
 import com.mp.android.apps.main.home.adapter.OnHomeAdapterClickListener;
 import com.mp.android.apps.main.home.bean.SourceListContent;
+import com.mp.android.apps.main.home.view.impl.OnMainFragmentClickListener;
 
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,8 @@ public class MainRecommendHolder extends RecyclerView.ViewHolder {
 
     private TextView layoutTitle;
 
+
+
     public MainRecommendHolder(@NonNull View itemView) {
         super(itemView);
         recommendFirstImage = itemView.findViewById(R.id.mp_home_recommend_firstImage);
@@ -61,7 +64,8 @@ public class MainRecommendHolder extends RecyclerView.ViewHolder {
         layoutTitle = itemView.findViewById(R.id.cardTitle);
     }
 
-    public void handleClassicRecommendEvent(Context context, List<Map<String,String>> recommendList, String title) {
+    public void handleClassicRecommendEvent(Context context, List<Map<String,String>> recommendList, String title, OnMainFragmentClickListener listener) {
+
         if (recommendList==null){
             return;
         }
@@ -85,19 +89,19 @@ public class MainRecommendHolder extends RecyclerView.ViewHolder {
         recommendFirstLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                listener.onLayoutClickListener(v, recommendList.get(0));
+                listener.onLayoutClickListener( recommendList.get(0).get("name"));
             }
         });
         recommendTowLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                listener.onLayoutClickListener(v, recommendList.get(1));
+                listener.onLayoutClickListener( recommendList.get(1).get("name"));
             }
         });
         recommendThreeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                listener.onLayoutClickListener(v, recommendList.get(2));
+                listener.onLayoutClickListener( recommendList.get(2).get("name"));
             }
         });
 

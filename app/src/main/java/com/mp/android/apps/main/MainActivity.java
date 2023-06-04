@@ -11,8 +11,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.hwangjr.rxbus.RxBus;
 import com.mp.android.apps.R;
 import com.mp.android.apps.StoryboardActivity;
 import com.mp.android.apps.login.utils.LoginManager;
@@ -127,26 +125,6 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
         }
     }
 
-//    public void gotoExplore(String toExplore) {
-//        Intent intent = new Intent(this, ExploreSquareActivity.class);
-//        intent.putExtra("toExplore", toExplore);
-//        Acp.getInstance(this).request(new AcpOptions.Builder()
-//                .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION).build(), new AcpListener() {
-//            @Override
-//            public void onGranted() {
-//                if (LoginManager.getInstance().checkLoginInfo()) {
-//                    startActivity(intent);
-//                } else {
-//                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-//                    startActivityForResult(intent, EXPLORESQUARE_LOGIN);
-//                }
-//            }
-//
-//            @Override
-//            public void onDenied(List<String> permissions) {
-//            }
-//        });
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

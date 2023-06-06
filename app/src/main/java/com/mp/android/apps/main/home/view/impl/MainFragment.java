@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.mp.android.apps.R;
 import com.mp.android.apps.book.view.impl.BookRankListActivity;
 import com.mp.android.apps.main.MainActivity;
+import com.mp.android.apps.main.ManpinWXActivity;
 import com.mp.android.apps.main.home.adapter.MainFragmentRecycleAdapter;
 import com.mp.android.apps.main.home.presenter.impl.MainFragmentPresenterImpl;
 import com.mp.android.apps.main.home.view.IMainfragmentView;
@@ -104,11 +105,8 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
                 ((MainActivity) requireActivity()).showShujiaFragment();
                 break;
             case R.id.guangchang:
-                Intent intentUrl= new Intent();
-                intentUrl.setAction("android.intent.action.VIEW");
-                Uri content_url = Uri.parse("http://tool.liumingye.cn/music/?page=searchPage");
-                intentUrl.setData(content_url);
-                startActivity(intentUrl);
+                Intent intent2 = new Intent(getActivity(), ManpinWXActivity.class);
+                startActivity(intent2);
             break;
             case R.id.search_image:
                 if (BookSourceCheckUtils.bookSourceSwitch(this.getContext())) {

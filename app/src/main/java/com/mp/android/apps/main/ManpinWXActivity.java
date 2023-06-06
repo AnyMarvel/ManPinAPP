@@ -56,9 +56,9 @@ import retrofit2.http.Url;
 
 public class ManpinWXActivity extends StoryboardActivity implements View.OnClickListener {
     TextView textView;
-    Button button;
+
     ImageView iv_back;
-    ImageView weixinImage;
+
     String imageWXUrl;
 
     @Override
@@ -67,11 +67,9 @@ public class ManpinWXActivity extends StoryboardActivity implements View.OnClick
         setContentView(R.layout.activity_manpin_weixin);
         textView = findViewById(R.id.tv_title);
         textView.setText("微信群聊");
-        button = findViewById(R.id.manpin_save_open_weixin);
         button.setOnClickListener(this);
         iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(this);
-        weixinImage = findViewById(R.id.manpin_weixin_image);
 
         setWeixinImage();
 

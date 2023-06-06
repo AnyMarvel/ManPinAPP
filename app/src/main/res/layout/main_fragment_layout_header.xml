@@ -62,7 +62,7 @@
                 android:layout_weight="1"
                 android:stateListAnimator="@drawable/anim_state_list_m01"
                 app:image="@drawable/huojian"
-                app:text="推荐榜单"
+                app:text="网盘"
                 app:textColor="@color/colorGray" />
 
 
@@ -73,7 +73,7 @@
                 android:layout_weight="1"
                 android:stateListAnimator="@drawable/anim_state_list_m01"
                 app:image="@drawable/jingxuan"
-                app:text="收藏榜"
+                app:text="公告"
                 app:textColor="@color/colorGray" />
 
 
@@ -95,7 +95,7 @@
                 android:layout_weight="1"
                 android:stateListAnimator="@drawable/anim_state_list_m01"
                 app:image="@drawable/fenlei"
-                app:text="音乐"
+                app:text="交流群"
                 app:textColor="@color/colorGray" />
 
         </LinearLayout>

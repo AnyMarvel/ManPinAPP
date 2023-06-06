@@ -8,20 +8,13 @@
 
     <include layout="@layout/toolbar_edit_profile" />
 
-    <ImageView
-        android:id="@+id/manpin_weixin_image"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:scaleType="centerInside" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:text="使用微信扫描添加"
+        android:layout_gravity="left"
+        android:layout_marginLeft="20dp"
+        android:text="反馈途径"
         android:textColor="@color/black"
         android:textSize="20dp" />
 
@@ -31,40 +24,132 @@
         android:layout_gravity="left"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
-        android:text="1. 点击保存二维码,将二维码保存到手机"
-        android:textColor="@color/black"
-        android:textSize="16dp" />
+        android:text="请添加小编微信，点击复制并跳转添加小编微信"
+        android:textColor="@color/colorGray"
+        android:textSize="12dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginLeft="20dp"
+        android:orientation="horizontal"
         android:layout_marginTop="10dp"
-        android:text="2. 打开微信&quot;扫一扫&quot;,点击右上角&quot;从相册选取二维码,选择此二维码。"
-        android:textColor="@color/black"
-        android:textSize="16dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:text="3. 扫描后点击&quot;添加到通讯录&quot;即可"
-        android:textColor="@color/black"
-        android:textSize="16dp" />
-
-
-    <Button
-        android:id="@+id/manpin_save_open_weixin"
-        android:layout_width="wrap_content"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="微信01:"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            />
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="maxianer01"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="复制并跳转" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/bg_weixin_button"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="保存并打开微信"
-        android:textSize="20dp" />
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="微信02:"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            />
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="kongkong7119"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="复制并跳转" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="公众号:"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            />
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="码仙儿"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="复制并跳转" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="邮箱:"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            />
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ljtdss5233@gmail.com"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="复制" />
+    </LinearLayout>
+
+
+
+
 </LinearLayout>

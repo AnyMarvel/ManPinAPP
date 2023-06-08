@@ -1,6 +1,8 @@
 package com.mp.android.apps.main;
 
 import android.Manifest;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +42,7 @@ import com.mp.android.apps.login.utils.LoginManager;
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
+
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -56,56 +59,57 @@ import retrofit2.http.Url;
 
 public class ManpinWXActivity extends StoryboardActivity implements View.OnClickListener {
     TextView textView;
-
     ImageView iv_back;
 
-    String imageWXUrl;
+    Button weixin01;
+    Button weixin02;
+    Button btnGZH;
+    Button btnEmail;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manpin_weixin);
         textView = findViewById(R.id.tv_title);
-        textView.setText("微信群聊");
-        button.setOnClickListener(this);
+        textView.setText("联系作者");
         iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(this);
-
-        setWeixinImage();
-
+        initView();
     }
 
-    private void setWeixinImage() {
+    private void initView() {
+        weixin01 = findViewById(R.id.btn_weixin01);
+        weixin01.setOnClickListener(this);
+        weixin02 = findViewById(R.id.btn_weixin02);
+        weixin02.setOnClickListener(this);
+        btnGZH = findViewById(R.id.btn_gongzhonghao);
+        btnGZH.setOnClickListener(this);
+        btnEmail = findViewById(R.id.btn_email);
+        btnEmail.setOnClickListener(this);
+    }
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://aimanpin.com")
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // 支持RxJava
-                .build();
-
-        retrofit.create(urlImageInterface.class).getWXImageUrl("/appview/wxImageUrl").
-                subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SimpleObserver<String>() {
+    private void gotoWX(String text,boolean wx) {
+        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+// 创建普通字符型ClipData
+        ClipData mClipData = ClipData.newPlainText("Label", text);
+// 将ClipData内容放到系统剪贴板里。
+        cm.setPrimaryClip(mClipData);
+        if (wx){
+            if (isWeixinAvilible()) {
+                Toast.makeText(ManpinWXActivity.this, text + "已经复制到粘贴板，正在跳转WX中", Toast.LENGTH_LONG).show();
+                new Handler().postDelayed(new Runnable() {
                     @Override
-                    public void onNext(String s) {
-                        if (!TextUtils.isEmpty(s)) {
-                            JSONObject jsonObject = JSON.parseObject(s);
-                            String urlimage = jsonObject.getJSONObject("data").getString("wxImageUrl");
-                            if (!TextUtils.isEmpty(urlimage)) {
-                                imageWXUrl = urlimage;
-                                Glide.with(ManpinWXActivity.this).load(urlimage).into(weixinImage);
-                            } else {
-                                Glide.with(ManpinWXActivity.this).load(R.drawable.manpin_weixin).into(weixinImage);
-                            }
-                        }
+                    public void run() {
+                        Intent intent = getPackageManager().getLaunchIntentForPackage("com.tencent.mm");
+                        startActivity(intent);
                     }
+                }, 1000);
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Glide.with(ManpinWXActivity.this).load(R.drawable.manpin_weixin).into(weixinImage);
-                    }
-                });
+            } else {
+                Toast.makeText(ManpinWXActivity.this, "微信未安装,请使用微博,意见反馈等联系的作者", Toast.LENGTH_LONG).show();
+            }
+        }
 
     }
 
@@ -114,52 +118,17 @@ public class ManpinWXActivity extends StoryboardActivity implements View.OnClick
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.manpin_save_open_weixin:
-                Acp.getInstance(this).request(new AcpOptions.Builder()
-                        .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE).build(), new AcpListener() {
-                    @Override
-                    public void onGranted() {
-                        if (!TextUtils.isEmpty(imageWXUrl)) {
-                            Glide.with(ManpinWXActivity.this).asBitmap().load(imageWXUrl).into(new SimpleTarget<Bitmap>() {
-                                @Override
-                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                    MediaStore.Images.Media.insertImage(getContentResolver(), resource, "manpin_wx", "manpin_wx_picture");
-                                }
-                            });
-
-                        } else {
-                            Glide.with(ManpinWXActivity.this).asBitmap().load(R.drawable.manpin_weixin).into(new SimpleTarget<Bitmap>() {
-                                @Override
-                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                    MediaStore.Images.Media.insertImage(getContentResolver(), resource, "manpin_wx", "manpin_wx_picture");
-                                }
-                            });
-                        }
-
-
-                        if (isWeixinAvilible()) {
-                            Toast.makeText(ManpinWXActivity.this, "二维码保存成功,请使用微信扫描添加好友", Toast.LENGTH_LONG).show();
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Intent intent = getPackageManager().getLaunchIntentForPackage("com.tencent.mm");
-                                    startActivity(intent);
-                                }
-                            }, 1000);
-
-                        } else {
-                            Toast.makeText(ManpinWXActivity.this, "微信未安装,请使用微博,意见反馈等联系的作者", Toast.LENGTH_LONG).show();
-                        }
-
-                    }
-
-                    @Override
-                    public void onDenied(List<String> permissions) {
-
-                    }
-                });
-
-
+            case R.id.btn_weixin01:
+                gotoWX("maxianer01",true);
+                break;
+            case R.id.btn_weixin02:
+                gotoWX("kongkong7119",true);
+                break;
+            case R.id.btn_gongzhonghao:
+                gotoWX("码仙儿",true);
+                break;
+            case R.id.btn_email:
+                gotoWX("ljtdss5233@gmail.com",false);
                 break;
             case R.id.iv_back:
                 finish();
@@ -185,10 +154,5 @@ public class ManpinWXActivity extends StoryboardActivity implements View.OnClick
             }
         }
         return false;
-    }
-
-    interface urlImageInterface {
-        @GET
-        Observable<String> getWXImageUrl(@Url String url);
     }
 }

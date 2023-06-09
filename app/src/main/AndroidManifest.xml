@@ -29,10 +29,6 @@
         <activity
             android:name=".main.MainActivity"
             android:launchMode="singleTask" />
-        <activity
-            android:name=".login.LoginActivity"
-            android:launchMode="singleTask" />
-
 
         <activity android:name=".SettingAboutActivity" />
 
@@ -46,16 +42,6 @@
         <activity android:name=".book.view.impl.BookSourceActivity" />
         <activity android:name=".book.view.impl.BookSourceGuideActivity" />
 
-        <activity
-            android:name="com.google.android.libraries.social.licenses.LicenseMenuActivity"
-            android:exported="true"
-            android:label="@string/preferences_license_title"
-            android:theme="@style/Theme.AppCompat.Light" />
-        <activity
-            android:name="com.google.android.libraries.social.licenses.LicenseActivity"
-            android:exported="false"
-            android:label="@string/preferences_license_title"
-            android:theme="@style/Theme.AppCompat.Light" />
 
         <activity android:name=".book.view.impl.DownloadBookActivity" />
         <activity android:name=".TranslucentActivity" />

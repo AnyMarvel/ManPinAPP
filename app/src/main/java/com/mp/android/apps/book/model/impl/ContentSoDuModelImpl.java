@@ -2,11 +2,10 @@
 package com.mp.android.apps.book.model.impl;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.android.apps.photolab.storyboard.download.MD5Utils;
+import com.mp.android.apps.utils.MD5Utils;
 import com.mp.android.apps.book.base.MBaseModelImpl;
 import com.mp.android.apps.book.bean.SearchBookBean;
 import com.mp.android.apps.book.common.api.ISoduApi;

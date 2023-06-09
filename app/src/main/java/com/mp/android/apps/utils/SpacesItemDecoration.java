@@ -1,4 +1,4 @@
-package com.mp.android.apps.explore.utils;
+package com.mp.android.apps.utils;
 
 import android.graphics.Rect;
 import androidx.recyclerview.widget.RecyclerView;

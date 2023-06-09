@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSON;
 import com.mp.android.apps.R;
-import com.mp.android.apps.explore.utils.SpacesItemDecoration;
+import com.mp.android.apps.utils.SpacesItemDecoration;
 import com.mp.android.apps.basemvplib.impl.BaseActivity;
 import com.mp.android.apps.book.bean.BookSourceBean;
 import com.mp.android.apps.book.presenter.impl.BookSourcePresenterImpl;

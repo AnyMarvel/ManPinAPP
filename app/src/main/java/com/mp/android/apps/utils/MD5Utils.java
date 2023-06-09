@@ -1,4 +1,4 @@
-package com.google.android.apps.photolab.storyboard.download;
+package com.mp.android.apps.utils;
 
 import android.text.TextUtils;
 

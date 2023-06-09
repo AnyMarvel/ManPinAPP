@@ -6,17 +6,17 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.google.android.libraries.social.licenses.LicenseMenuActivity;
 import com.mp.android.apps.utils.GeneralTools;
 import com.tencent.bugly.beta.Beta;
 
-public class SettingAboutActivity extends StoryboardActivity implements View.OnClickListener {
+public class SettingAboutActivity extends AppCompatActivity implements View.OnClickListener {
     /**
      * 点击检测更新
      */
@@ -77,8 +77,7 @@ public class SettingAboutActivity extends StoryboardActivity implements View.OnC
                 Beta.checkUpgrade();
                 break;
             case R.id.open_source_license:
-                Intent intent = new Intent(this, LicenseMenuActivity.class);
-                startActivity(intent);
+
                 break;
             case R.id.title_back_setting:
                 super.onBackPressed();

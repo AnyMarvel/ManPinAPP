@@ -1,9 +1,8 @@
 
 package com.mp.android.apps.book.model.impl;
 
-import com.google.android.apps.photolab.storyboard.download.MD5Utils;
+import com.mp.android.apps.utils.MD5Utils;
 import com.mp.android.apps.book.base.MBaseModelImpl;
-import com.mp.android.apps.book.base.observer.SimpleObserver;
 import com.mp.android.apps.book.bean.SearchBookBean;
 import com.mp.android.apps.book.common.api.ILingDianAPI;
 import com.mp.android.apps.book.model.IReaderBookModel;
@@ -27,13 +26,9 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
-import io.reactivex.SingleObserver;
 import io.reactivex.SingleOnSubscribe;
 import io.reactivex.SingleSource;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * 零点小说源

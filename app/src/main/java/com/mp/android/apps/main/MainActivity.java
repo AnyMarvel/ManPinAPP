@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
@@ -12,7 +13,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.mp.android.apps.R;
-import com.mp.android.apps.StoryboardActivity;
 import com.mp.android.apps.book.view.impl.BookRankListFragment;
 import com.mp.android.apps.main.bookR.view.impl.BookCollectionFragment;
 import com.mp.android.apps.main.home.view.impl.MainFragment;
@@ -22,7 +22,7 @@ import com.mp.android.apps.basemvplib.impl.BaseFragment;
 import com.umeng.socialize.UMShareAPI;
 
 
-public class MainActivity extends StoryboardActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     MainFragment mainFragment;
     PersonFragment personFragment;
     BookCollectionFragment bookCollectionFragment;

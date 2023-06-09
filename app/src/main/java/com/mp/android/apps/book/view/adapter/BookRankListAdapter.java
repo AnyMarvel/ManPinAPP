@@ -1,6 +1,5 @@
 package com.mp.android.apps.book.view.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mp.android.apps.R;
-import com.mp.android.apps.main.bookR.adapter.recommendholder.BookRRecommendListHolder;
+import com.mp.android.apps.book.view.adapter.viewholder.BookRRecommendListHolder;
 import com.mp.android.apps.main.home.adapter.OnHomeAdapterClickListener;
 import com.mp.android.apps.main.home.bean.SourceListContent;
 

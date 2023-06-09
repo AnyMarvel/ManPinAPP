@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.mp.android.apps.R;
 import com.mp.android.apps.book.view.impl.BookRankListFragment;
-import com.mp.android.apps.main.bookR.view.impl.BookCollectionFragment;
+import com.mp.android.apps.book.view.impl.BookCollectionFragment;
 import com.mp.android.apps.main.home.view.impl.MainFragment;
 import com.mp.android.apps.main.personal.PersonFragment;
 import com.mp.android.apps.main.home.view.MyImageTextView;

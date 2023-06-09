@@ -1,4 +1,4 @@
-package com.mp.android.apps.main.bookR.adapter.recommendholder;
+package com.mp.android.apps.book.view.adapter.viewholder;
 
 import android.content.Context;
 import android.view.View;

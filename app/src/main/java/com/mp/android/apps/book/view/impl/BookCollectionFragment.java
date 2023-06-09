@@ -1,5 +1,5 @@
 
-package com.mp.android.apps.main.bookR.view.impl;
+package com.mp.android.apps.book.view.impl;
 
 import android.app.ActivityOptions;
 import android.content.Intent;

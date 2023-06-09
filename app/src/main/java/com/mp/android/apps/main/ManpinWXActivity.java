@@ -1,17 +1,13 @@
 package com.mp.android.apps.main;
 
-import android.Manifest;
+
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.ContentValues;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -25,37 +21,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.UiThread;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
-import com.google.gson.JsonObject;
 import com.mp.android.apps.R;
 import com.mp.android.apps.StoryboardActivity;
-import com.mp.android.apps.book.base.observer.SimpleObserver;
-import com.mp.android.apps.login.LoginActivity;
-import com.mp.android.apps.login.utils.LoginManager;
-import com.mylhyl.acp.Acp;
-import com.mylhyl.acp.AcpListener;
-import com.mylhyl.acp.AcpOptions;
-
-import java.io.File;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
-import retrofit2.http.GET;
-import retrofit2.http.Url;
 
 public class ManpinWXActivity extends StoryboardActivity implements View.OnClickListener {
     TextView textView;

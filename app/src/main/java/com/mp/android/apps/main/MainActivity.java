@@ -13,9 +13,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.mp.android.apps.R;
 import com.mp.android.apps.StoryboardActivity;
-import com.mp.android.apps.login.utils.LoginManager;
+import com.mp.android.apps.book.view.impl.BookRankListFragment;
 import com.mp.android.apps.main.bookR.view.impl.BookCollectionFragment;
-import com.mp.android.apps.main.bookR.view.impl.BookRFragment;
 import com.mp.android.apps.main.home.view.impl.MainFragment;
 import com.mp.android.apps.main.personal.PersonFragment;
 import com.mp.android.apps.main.home.view.MyImageTextView;
@@ -27,8 +26,7 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
     MainFragment mainFragment;
     PersonFragment personFragment;
     BookCollectionFragment bookCollectionFragment;
-    BookRFragment mBookRFragment;
-
+    BookRankListFragment mBookRankListFragment;
     MyImageTextView zhuye;
     MyImageTextView shujia;
     MyImageTextView quanzi;
@@ -46,8 +44,8 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
         if (bookCollectionFragment != null) {
             transaction.hide(bookCollectionFragment);
         }
-        if (mBookRFragment!=null){
-            transaction.hide(mBookRFragment);
+        if (mBookRankListFragment!=null){
+            transaction.hide(mBookRankListFragment);
         }
     }
 
@@ -69,11 +67,11 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
-        LoginManager.getInstance().initSP(this).initData();
         mainFragment = new MainFragment();
         personFragment = new PersonFragment();
         bookCollectionFragment = new BookCollectionFragment();
-        mBookRFragment=new BookRFragment();
+
+        mBookRankListFragment=new BookRankListFragment();
         showFragment(mainFragment);
         initViews();
     }
@@ -162,7 +160,7 @@ public class MainActivity extends StoryboardActivity implements View.OnClickList
 
     public void showBookStore(){
         changeNavImages(R.id.quanzi);
-        showFragment(mBookRFragment);
+        showFragment(mBookRankListFragment);
     }
     private void changeNavImages(int id) {
         zhuye.setImgResource(R.drawable.zhuye);

@@ -1,12 +1,11 @@
 package com.mp.android.apps.book.view.impl;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,13 +17,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mp.android.apps.R;
-import com.mp.android.apps.basemvplib.impl.BaseActivity;
-import com.mp.android.apps.book.bean.SearchBookBean;
+import com.mp.android.apps.basemvplib.impl.BaseFragment;
 import com.mp.android.apps.book.presenter.IBookRankListPresenter;
 import com.mp.android.apps.book.presenter.impl.BookRankListPresenterImpl;
 import com.mp.android.apps.book.view.IBookRankListView;
 import com.mp.android.apps.book.view.adapter.BookRankListAdapter;
-import com.mp.android.apps.main.bookR.adapter.BookRRecommendFRecyclerAdapter;
 import com.mp.android.apps.main.home.adapter.OnHomeAdapterClickListener;
 import com.mp.android.apps.main.home.bean.SourceListContent;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
@@ -35,12 +32,11 @@ import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import com.victor.loading.rotate.RotateLoading;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 
-public class BookRankListActivity extends BaseActivity<IBookRankListPresenter> implements IBookRankListView , OnHomeAdapterClickListener {
+public class BookRankListFragment extends BaseFragment<IBookRankListPresenter> implements IBookRankListView, OnHomeAdapterClickListener {
     private RecyclerView recommendRecyclerView;
     private BookRankListAdapter bookRankListAdapter;
     private SmartRefreshLayout bookRrefreshLayout;
@@ -49,23 +45,19 @@ public class BookRankListActivity extends BaseActivity<IBookRankListPresenter> i
     private RotateLoading bookRankLoading;
     private TextView title;
     private ImageView searchView;
+
     @Override
     protected IBookRankListPresenter initInjector() {
         return new BookRankListPresenterImpl();
     }
 
-    @Override
-    protected void onCreateActivity() {
-        setContentView(R.layout.manpin_book_rank_list_layout);
-        fitSystemWindows();
-    }
-    private void fitSystemWindows(){
+    private void fitSystemWindows() {
         //android 6.0以上适配沉浸式
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            getWindow().setStatusBarColor(getResources().getColor(android.R.color.white));
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getActivity().getWindow().setStatusBarColor(getResources().getColor(android.R.color.white));
+            getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
 
@@ -73,13 +65,20 @@ public class BookRankListActivity extends BaseActivity<IBookRankListPresenter> i
     @Override
     protected void firstRequest() {
         super.firstRequest();
-       setRankTitle();
+        setRankTitle();
         bookRankLoading.start();
         mPresenter.initBookRankListData(bookRankUrl);
     }
-    private void setRankTitle(){
-        if (bookRankUrl!=null){
-            switch (bookRankUrl){
+
+    @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container) {
+        fitSystemWindows();
+        return inflater.inflate(R.layout.manpin_book_rank_list_layout, container, false);
+    }
+
+    private void setRankTitle() {
+        if (bookRankUrl != null) {
+            switch (bookRankUrl) {
                 case RANKRECOM:
                     title.setText("推荐排行榜");
                     break;
@@ -103,24 +102,25 @@ public class BookRankListActivity extends BaseActivity<IBookRankListPresenter> i
             }
         }
     }
+
     @Override
     protected void bindView() {
         super.bindView();
-        recommendRecyclerView = findViewById(R.id.mp_bookr_recommend_recyclerview);
-        bookRrefreshLayout = findViewById(R.id.bookr_recommend_refreshLayout);
-        bookRrefreshLayout.setRefreshFooter(new ClassicsFooter(Objects.requireNonNull(getContext())));
+        recommendRecyclerView = view.findViewById(R.id.mp_bookr_recommend_recyclerview);
+        bookRrefreshLayout = view.findViewById(R.id.bookr_recommend_refreshLayout);
+        bookRrefreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));
         bookRrefreshLayout.setRefreshHeader(new ClassicsHeader(Objects.requireNonNull(getContext())));
-        title = findViewById(R.id.mp_book_rank_list_title);
-        searchView = findViewById(R.id.bookr_fragment_search);
+        title = view.findViewById(R.id.mp_book_rank_list_title);
+        searchView = view.findViewById(R.id.bookr_fragment_search);
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent searchIntent = new Intent(BookRankListActivity.this, SearchActivity.class);
+                Intent searchIntent = new Intent(getActivity(), SearchActivity.class);
                 startActivity(searchIntent);
             }
         });
-        bookRankLoading=findViewById(R.id.book_rank_loading);
-        errorButton=findViewById(R.id.mp_error_button);
+        bookRankLoading = view.findViewById(R.id.book_rank_loading);
+        errorButton = view.findViewById(R.id.mp_error_button);
         errorButton.setVisibility(View.GONE);
         errorButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,8 +142,8 @@ public class BookRankListActivity extends BaseActivity<IBookRankListPresenter> i
         bookRrefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                if (bookRankListAdapter!=null){
-                    mPresenter.getNextPageContent(bookRankUrl,bookRankListAdapter.getPageNumber()+1);
+                if (bookRankListAdapter != null) {
+                    mPresenter.getNextPageContent(bookRankUrl, bookRankListAdapter.getPageNumber() + 1);
                 }
             }
         });
@@ -156,56 +156,57 @@ public class BookRankListActivity extends BaseActivity<IBookRankListPresenter> i
 
 
     }
+
     public String bookRankUrl;
     /**
      * 推荐榜 /rank/recom
      */
-    public static final String RANKRECOM="/rank/recom";
+    public static final String RANKRECOM = "/rank/recom";
     /**
      * Vip收藏榜 /rank/vipcollect
      */
-    public static final String RANKVIPCOLLECT="/rank/vipcollect";
+    public static final String RANKVIPCOLLECT = "/rank/vipcollect";
 
     /**
      * 女士推荐榜
      */
-    public static final String RANKWOMENRECOM="/rank/mm/recom";
+    public static final String RANKWOMENRECOM = "/rank/mm/recom";
 
     /**
      * 女士收藏榜
      */
-    public static final String RANKWOMENCOLLECT="/rank/mm/collect";
+    public static final String RANKWOMENCOLLECT = "/rank/mm/collect";
 
 
     /**
      * 男生推荐页粉丝榜
      */
-    public static final String RANKFANS="/rank/newfans/";
+    public static final String RANKFANS = "/rank/newfans/";
 
     /**
      * 阅读榜
      */
-    public static final String RANKREADINDEX="/rank/readindex/";
+    public static final String RANKREADINDEX = "/rank/readindex/";
 
     @Override
     protected void initData() {
-        Intent intent=getIntent();
-        bookRankUrl=intent.getStringExtra("rankRouteUrl");
-        if (TextUtils.isEmpty(bookRankUrl)){
-            bookRankUrl=RANKRECOM;
+        Intent intent = getActivity().getIntent();
+        bookRankUrl = intent.getStringExtra("rankRouteUrl");
+        if (TextUtils.isEmpty(bookRankUrl)) {
+            bookRankUrl = RANKRECOM;
         }
     }
 
     @Override
-    public void notifyRecyclerView(List<SourceListContent> contentList, boolean useCache,int pageNumber) {
+    public void notifyRecyclerView(List<SourceListContent> contentList, boolean useCache, int pageNumber) {
         if (useCache || bookRankListAdapter == null) {
-            bookRankListAdapter = new BookRankListAdapter(getContext(), contentList,this);
+            bookRankListAdapter = new BookRankListAdapter(getContext(), contentList, this);
             recommendRecyclerView.setAdapter(bookRankListAdapter);
             bookRankLoading.stop();
-        }else if (pageNumber==1){
+        } else if (pageNumber == 1) {
             bookRankListAdapter.resetContentList(contentList);
             bookRrefreshLayout.finishRefresh();
-        }else {
+        } else {
             bookRankListAdapter.addContentList(contentList);
             bookRankListAdapter.setPageNumber(pageNumber);
             bookRrefreshLayout.finishLoadMore();
@@ -215,7 +216,7 @@ public class BookRankListActivity extends BaseActivity<IBookRankListPresenter> i
 
     @Override
     public void showError(int pageNumber) {
-        if (pageNumber==1){
+        if (pageNumber == 1) {
             errorButton.setVisibility(View.VISIBLE);
         }
     }
@@ -227,9 +228,9 @@ public class BookRankListActivity extends BaseActivity<IBookRankListPresenter> i
 
     @Override
     public void onLayoutClickListener(View view, SourceListContent sourceListContent) {
-        if (sourceListContent!=null && !TextUtils.isEmpty(sourceListContent.getName())){
-            Intent searchIntent = new Intent(BookRankListActivity.this, SearchActivity.class);
-            searchIntent.putExtra("rankSearchName",sourceListContent.getName());
+        if (sourceListContent != null && !TextUtils.isEmpty(sourceListContent.getName())) {
+            Intent searchIntent = new Intent(this.getActivity(), SearchActivity.class);
+            searchIntent.putExtra("rankSearchName", sourceListContent.getName());
             startActivity(searchIntent);
         }
     }

@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.ihsanbal.logging.Level;
 import com.ihsanbal.logging.LoggingInterceptor;
 import com.mp.android.apps.BuildConfig;
-import com.mp.android.apps.basemvplib.EncodoConverter;
 
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -16,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import okhttp3.MediaType;

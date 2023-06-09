@@ -13,7 +13,7 @@ import com.mp.android.apps.book.presenter.IMoreSettingPresenter;
 import com.mp.android.apps.book.presenter.impl.MoreSettingPresenterImpl;
 import com.mp.android.apps.book.view.IMoreSettingView;
 import com.mp.android.apps.book.view.adapter.MoreSettingAdapter;
-import com.mp.android.apps.explore.utils.SpacesItemDecoration;
+import com.mp.android.apps.utils.SpacesItemDecoration;
 import com.mp.android.apps.readActivity.local.ReadSettingManager;
 import java.util.ArrayList;
 import java.util.List;

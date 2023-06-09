@@ -6,11 +6,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.mp.android.apps.R;
-import com.mp.android.apps.StoryboardActivity;
 
 
-public class BookSourceGuideActivity extends StoryboardActivity implements View.OnClickListener {
+
+public class BookSourceGuideActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageView ivBack;
     private TextView title;
     private TextView bookLocal;

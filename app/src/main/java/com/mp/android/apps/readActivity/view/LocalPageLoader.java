@@ -1,7 +1,7 @@
 package com.mp.android.apps.readActivity.view;
 
 
-import com.google.android.apps.photolab.storyboard.download.MD5Utils;
+import com.mp.android.apps.utils.MD5Utils;
 import com.mp.android.apps.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
 import com.mp.android.apps.readActivity.local.BookRepository;

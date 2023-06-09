@@ -2,11 +2,9 @@
 package com.mp.android.apps.book.model.impl;
 
 
-import com.google.android.apps.photolab.storyboard.download.MD5Utils;
+import com.mp.android.apps.utils.MD5Utils;
 import com.mp.android.apps.book.base.MBaseModelImpl;
-import com.mp.android.apps.book.base.observer.SimpleObserver;
 import com.mp.android.apps.book.bean.SearchBookBean;
-import com.mp.android.apps.book.common.api.ITaduAPI;
 import com.mp.android.apps.book.common.api.ITaduAPI;
 import com.mp.android.apps.book.model.IReaderBookModel;
 import com.mp.android.apps.book.model.ObtainBookInfoUtils;
@@ -17,7 +15,6 @@ import com.mp.android.apps.readActivity.bean.CollBookBean;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
@@ -29,16 +26,11 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
-import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
-import io.reactivex.SingleObserver;
 import io.reactivex.SingleOnSubscribe;
 import io.reactivex.SingleSource;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * 塔读小说

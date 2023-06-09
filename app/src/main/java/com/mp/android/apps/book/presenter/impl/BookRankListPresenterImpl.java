@@ -7,7 +7,6 @@ import com.mp.android.apps.book.base.observer.SimpleObserver;
 import com.mp.android.apps.book.model.BookRankListModelImpl;
 import com.mp.android.apps.book.presenter.IBookRankListPresenter;
 import com.mp.android.apps.book.view.IBookRankListView;
-import com.mp.android.apps.main.bookR.model.IBookRFragmentModelImpl;
 import com.mp.android.apps.main.home.bean.SourceListContent;
 
 import org.jsoup.Jsoup;

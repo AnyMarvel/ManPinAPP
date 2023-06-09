@@ -11,11 +11,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import com.hwangjr.rxbus.RxBus;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
@@ -36,7 +33,6 @@ import com.mp.android.apps.book.view.impl.ImportBookActivity;
 import com.mp.android.apps.book.widget.refreshview.OnRefreshWithProgressListener;
 import com.mp.android.apps.book.widget.refreshview.RefreshRecyclerView;
 import com.mp.android.apps.main.MainActivity;
-import com.mp.android.apps.main.bookR.view.popupwindow.BCSettingPopupwindow;
 import com.mp.android.apps.readActivity.ReadActivity;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
 import com.victor.loading.rotate.RotateLoading;
@@ -58,7 +54,6 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
     private ImageView ivWarnClose;
     private RotateLoading rlLoading;
 
-    private BCSettingPopupwindow bcSettingPopupwindow;
 
 
 
@@ -76,7 +71,6 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
     @Override
     protected void initData() {
         bookShelfAdapter = new BookShelfAdapter();
-        bcSettingPopupwindow=new BCSettingPopupwindow(getContext());
     }
 
 
@@ -104,7 +98,7 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
         ibSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bcSettingPopupwindow.showAsDropDown(ibSettings);
+                Toast.makeText(getContext(),"sssssss",Toast.LENGTH_LONG).show();
             }
         });
         ibDownload.setOnClickListener(new View.OnClickListener() {

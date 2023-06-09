@@ -42,7 +42,7 @@
             android:resizeableActivity="false"
 
             />
-        <activity android:name=".book.view.impl.BookRankListActivity"/>
+        <activity android:name=".book.view.impl.BookRankListFragment"/>
         <activity android:name=".book.view.impl.BookSourceActivity" />
         <activity android:name=".book.view.impl.BookSourceGuideActivity" />
 

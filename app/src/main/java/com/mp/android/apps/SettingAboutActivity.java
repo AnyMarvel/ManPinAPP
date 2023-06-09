@@ -1,26 +1,18 @@
 package com.mp.android.apps;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-
 import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.google.android.libraries.social.licenses.LicenseMenuActivity;
-import com.mp.android.apps.login.utils.LoginManager;
 import com.mp.android.apps.utils.GeneralTools;
 import com.tencent.bugly.beta.Beta;
 

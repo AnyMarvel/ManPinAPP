@@ -6,13 +6,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.net.Uri;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.mp.android.apps.R;
-import com.mp.android.apps.book.view.impl.BookRankListActivity;
+import com.mp.android.apps.book.view.impl.BookRankListFragment;
 import com.mp.android.apps.main.MainActivity;
 import com.mp.android.apps.main.ManpinWXActivity;
 import com.mp.android.apps.main.home.adapter.MainFragmentRecycleAdapter;
@@ -92,13 +91,13 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
         int id = view.getId();
         switch (id) {
             case R.id.huojian:
-                Intent intent=new Intent(getActivity(), BookRankListActivity.class);
-                intent.putExtra("rankRouteUrl",BookRankListActivity.RANKRECOM);
+                Intent intent=new Intent(getActivity(), BookRankListFragment.class);
+                intent.putExtra("rankRouteUrl", BookRankListFragment.RANKRECOM);
                 startActivity(intent);
                 break;
             case R.id.jingxuan:
-                Intent intent1=new Intent(getActivity(), BookRankListActivity.class);
-                intent1.putExtra("rankRouteUrl",BookRankListActivity.RANKVIPCOLLECT);
+                Intent intent1=new Intent(getActivity(), BookRankListFragment.class);
+                intent1.putExtra("rankRouteUrl", BookRankListFragment.RANKVIPCOLLECT);
                 startActivity(intent1);
                 break;
             case R.id.xiaoshuo:

@@ -1,4 +1,4 @@
-package com.mp.android.apps.basemvplib;
+package com.mp.android.apps.book.base;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;

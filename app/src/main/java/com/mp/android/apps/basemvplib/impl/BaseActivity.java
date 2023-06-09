@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.mp.android.apps.basemvplib.AppActivityManager;
 import com.mp.android.apps.basemvplib.IPresenter;
 import com.mp.android.apps.basemvplib.IView;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
@@ -34,7 +33,6 @@ public abstract class BaseActivity<T extends IPresenter> extends RxAppCompatActi
         if (getIntent() != null) {
             startShareAnim = getIntent().getBooleanExtra(start_share_ele, false);
         }
-        AppActivityManager.getInstance().add(this);
         initSDK();
         onCreateActivity();
         mPresenter = initInjector();
@@ -124,7 +122,6 @@ public abstract class BaseActivity<T extends IPresenter> extends RxAppCompatActi
         super.onDestroy();
         detachView();
         unbinder.unbind();
-        AppActivityManager.getInstance().remove(this);
     }
 
     ////////////////////////////////启动Activity转场动画/////////////////////////////////////////////

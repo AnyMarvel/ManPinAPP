@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="abc_input_method_navigation_guard">@android:color/black</color>
     <color name="abc_search_url_text_normal">#ff7fa87f</color>
     <color name="abc_search_url_text_pressed">@android:color/black</color>
     <color name="abc_search_url_text_selected">@android:color/black</color>
@@ -27,7 +26,6 @@
     <color name="colorAccent">#ffff4081</color>
     <color name="colorPrimary">#ff3f51b5</color>
     <color name="colorPrimaryDark">#ff303f9f</color>
-    <color name="liubaikeyboardColor">#404040</color>
     <color name="design_bottom_navigation_shadow_color">#14000000</color>
     <color name="design_default_color_primary">#ff3f51b5</color>
     <color name="design_default_color_primary_dark">#ff303f9f</color>
@@ -46,7 +44,6 @@
     <color name="foreground_material_light">@android:color/black</color>
     <color name="highlighted_text_material_dark">#6680cbc4</color>
     <color name="highlighted_text_material_light">#66009688</color>
-    <color name="logoColor">#59000000</color>
     <color name="material_blue_grey_800">#ff37474f</color>
     <color name="material_blue_grey_900">#ff263238</color>
     <color name="material_blue_grey_950">#ff21272b</color>
@@ -87,22 +84,11 @@
     <color name="switch_thumb_normal_material_light">#fff1f1f1</color>
     <color name="tooltip_background_dark">#e6616161</color>
     <color name="tooltip_background_light">#e6ffffff</color>
-    <color name="transparent_black">#80000000</color>
     <color name="white">#ffffffff</color>
-    <color name="split_line">#dedede</color>
-    <color name="colorCursor">#cccccc</color>
     <!--launcherView need-->
-    <color name="load_red">#fa007a</color>
-    <color name="load_purple">#935fe7</color>
-    <color name="load_yellow">#f9b11f</color>
-    <color name="load_blue">#009cfa</color>
-    <color name="camera_take_pic_btn_press">#33000000</color>
-    <color name="colorSecond">#ededed</color>
 
 
-
-
-<!--    <color name="colorPrimary">#3F51B5</color>-->
+    <!--    <color name="colorPrimary">#3F51B5</color>-->
 <!--    <color name="colorPrimaryDark">#303F9F</color>-->
 <!--    <color name="colorAccent">#FF4081</color>-->
 
@@ -143,7 +129,6 @@
     <color name="nb.read.bg_3">#AAAAAA</color>
     <color name="nb.read.bg_4">#D1CEC5</color>
     <color name="nb.read.bg_5">#001C27</color>
-    <color name="nb.read.bg_6">#DDCEC29C</color>
 
     <color name="light_red">#EC4A48</color>
     <color name="transparent">#00000000</color>

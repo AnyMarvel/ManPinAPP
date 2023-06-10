@@ -12,16 +12,6 @@
 
     <style name="TextAppearance.Compat.Notification.Media" parent="@style/TextAppearance.Compat.Notification" />
 
-    <style name="KeyboardIconStyle">
-        <item name="android:textSize">@dimen/edit_card_keyboard_textsize</item>
-        <item name="android:textColor">@color/liubaikeyboardColor</item>
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:layout_width">0.0dip</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:drawablePadding">@dimen/edit_card_keyboard_drawable_padding</item>
-        <item name="android:layout_weight">1.0</item>
-    </style>
-
     <!-- Base application theme. -->
     <style name="CAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
@@ -34,11 +24,6 @@
         <!-- Customize your theme here. -->
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-    </style>
-
-    <style name="anim_pop_checkaddshelf">
-        <item name="android:windowEnterAnimation">@anim/anim_pop_checkaddshelf_in</item>
-        <item name="android:windowExitAnimation">@anim/anim_pop_checkaddshelf_out</item>
     </style>
 
     '

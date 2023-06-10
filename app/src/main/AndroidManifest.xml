@@ -38,7 +38,6 @@
             android:resizeableActivity="false"
 
             />
-        <activity android:name=".book.view.impl.BookRankListFragment"/>
         <activity android:name=".book.view.impl.BookSourceActivity" />
         <activity android:name=".book.view.impl.BookSourceGuideActivity" />
 
@@ -134,5 +133,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <queries>
+        <package android:name="com.tencent.mm" />
+    </queries>
 
 </manifest>

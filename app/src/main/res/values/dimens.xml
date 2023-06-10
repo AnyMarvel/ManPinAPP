@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="edit_card_keyboard_textsize">12dp</dimen>
-    <dimen name="edit_card_keyboard_drawable_padding">5dp</dimen>
-
     <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="edit_card_preview_btn_in_margin">30dp</dimen>
-    <dimen name="edit_card_preview_btn_size">48dp</dimen>
 
 
 </resources>

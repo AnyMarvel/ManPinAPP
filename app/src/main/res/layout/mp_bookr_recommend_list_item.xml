@@ -48,7 +48,6 @@
                     android:textStyle="bold" />
 
                 <RatingBar
-                    android:id="@+id/mp_content_card_ratingbar"
                     style="?attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

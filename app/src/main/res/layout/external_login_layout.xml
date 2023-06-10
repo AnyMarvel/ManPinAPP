@@ -5,13 +5,11 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/qq_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_login_qq" />
 
     <ImageView
-        android:id="@+id/weibo_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"

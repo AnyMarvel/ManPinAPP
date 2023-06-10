@@ -65,7 +65,7 @@ public class ManpinWXActivity extends AppCompatActivity implements View.OnClickL
         cm.setPrimaryClip(mClipData);
         if (wx){
             if (isWeixinAvilible()) {
-                Toast.makeText(ManpinWXActivity.this, text + "已经复制到粘贴板，正在跳转WX中", Toast.LENGTH_LONG).show();
+                Toast.makeText(ManpinWXActivity.this, text + "已经复制到粘贴板，正在跳转微信中", Toast.LENGTH_LONG).show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

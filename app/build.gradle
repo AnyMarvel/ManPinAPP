@@ -101,7 +101,6 @@ dependencies {
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.0
     implementation 'com.alibaba:fastjson:1.1.70.android'
 
-    implementation project(':UMLibrary')
     implementation files('libs/jcc-bate-0.7.3.jar')
 
     //https://github.com/xdrop/fuzzywuzzy

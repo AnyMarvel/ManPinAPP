@@ -19,7 +19,7 @@ import com.mp.android.apps.main.home.view.impl.MainFragment;
 import com.mp.android.apps.main.personal.PersonFragment;
 import com.mp.android.apps.main.home.view.MyImageTextView;
 import com.mp.android.apps.basemvplib.impl.BaseFragment;
-import com.umeng.socialize.UMShareAPI;
+//import com.umeng.socialize.UMShareAPI;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+//        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

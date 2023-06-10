@@ -18,11 +18,11 @@ import com.mp.android.apps.basemvplib.impl.BaseFragment;
 
 import com.mp.android.apps.book.view.impl.BookSourceActivity;
 import com.mp.android.apps.main.home.view.MyImageTextView;
-import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-
-import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.media.UMWeb;
+//import com.umeng.socialize.ShareAction;
+//import com.umeng.socialize.bean.SHARE_MEDIA;
+//
+//import com.umeng.socialize.media.UMImage;
+//import com.umeng.socialize.media.UMWeb;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -117,15 +117,15 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
                 startActivity(intent2);
                 break;
             case R.id.person_fenxiang_layout:
-                UMWeb weburl = new UMWeb("http://aimanpin.com");
-                weburl.setDescription("官方网址:\n \n http://aimanpin.com ");
-                weburl.setTitle("漫品官网");
-                weburl.setThumb(new UMImage(requireContext(), R.drawable.ic_launcher_share_background));
-                new ShareAction(requireActivity()).withMedia(weburl)
-                        .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE
-                                , SHARE_MEDIA.WEIXIN_FAVORITE, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE
-                                , SHARE_MEDIA.SINA
-                        ).open();
+//                UMWeb weburl = new UMWeb("http://aimanpin.com");
+//                weburl.setDescription("官方网址:\n \n http://aimanpin.com ");
+//                weburl.setTitle("漫品官网");
+//                weburl.setThumb(new UMImage(requireContext(), R.drawable.ic_launcher_share_background));
+//                new ShareAction(requireActivity()).withMedia(weburl)
+//                        .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE
+//                                , SHARE_MEDIA.WEIXIN_FAVORITE, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE
+//                                , SHARE_MEDIA.SINA
+//                        ).open();
                 break;
 
             case R.id.manpin_person_music_layout:

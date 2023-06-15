@@ -1,5 +1,5 @@
 
-package com.mp.android.apps.book.model.impl;
+package com.mp.android.apps.book.model.impl.deprecated;
 
 
 import com.mp.android.apps.utils.MD5Utils;
@@ -7,7 +7,6 @@ import com.mp.android.apps.book.base.MBaseModelImpl;
 import com.mp.android.apps.book.bean.SearchBookBean;
 import com.mp.android.apps.book.common.api.ITaduAPI;
 import com.mp.android.apps.book.model.IReaderBookModel;
-import com.mp.android.apps.book.model.ObtainBookInfoUtils;
 import com.mp.android.apps.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.readActivity.bean.ChapterInfoBean;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
@@ -35,7 +34,7 @@ import io.reactivex.functions.Function;
 /**
  * 塔读小说
  */
-
+@Deprecated
 public class ContentTaduImpl extends MBaseModelImpl implements IReaderBookModel {
     public static final String TAG = "https://www.tadu.com";
     public static final String ORIGIN = "tadu.com";
@@ -151,12 +150,6 @@ public class ContentTaduImpl extends MBaseModelImpl implements IReaderBookModel 
 
                 collBookBean.setShortIntro(contentEs);
                 collBookBean.setBookChapterUrl(collBookBean.get_id());
-                try {
-                    String kind = bookInfo.getElementsByClass("sortList").get(0).getElementsByTag("a").get(0).text();
-                    ObtainBookInfoUtils.getInstance().senMessageManpin(collBookBean, kind, lastchapter);
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
                 e.onNext(collBookBean);
                 e.onComplete();
             }

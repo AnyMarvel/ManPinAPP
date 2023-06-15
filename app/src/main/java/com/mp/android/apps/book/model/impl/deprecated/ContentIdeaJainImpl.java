@@ -1,13 +1,12 @@
 
-package com.mp.android.apps.book.model.impl;
+package com.mp.android.apps.book.model.impl.deprecated;
 
 
 import com.mp.android.apps.utils.MD5Utils;
 import com.mp.android.apps.book.base.MBaseModelImpl;
 import com.mp.android.apps.book.bean.SearchBookBean;
-import com.mp.android.apps.book.common.api.TXSAPI;
+import com.mp.android.apps.book.common.api.IIdeaJianAPI;
 import com.mp.android.apps.book.model.IReaderBookModel;
-import com.mp.android.apps.book.model.ObtainBookInfoUtils;
 import com.mp.android.apps.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.readActivity.bean.ChapterInfoBean;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
@@ -19,9 +18,7 @@ import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -31,45 +28,33 @@ import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
 import io.reactivex.SingleSource;
-
 import io.reactivex.functions.Function;
 
+/**
+ * 得间小说
+ */
+@Deprecated
+public class ContentIdeaJainImpl extends MBaseModelImpl implements IReaderBookModel {
+    public static final String TAG = "https://www.idejian.com";
+    public static final String ORIGIN = "idejian.com";
 
-public class TXSBookModelImpl extends MBaseModelImpl implements IReaderBookModel {
-    public static final String TAG = "https://www.9txs.org";
-    public static final String SEARCH_TAG = "https://so.9txs.org";
-
-    public static final String ORIGIN = "9txs.com";
-
-    public static TXSBookModelImpl getInstance() {
-        return new TXSBookModelImpl();
+    public static ContentIdeaJainImpl getInstance() {
+        return new ContentIdeaJainImpl();
     }
 
-    private TXSBookModelImpl() {
+    private ContentIdeaJainImpl() {
 
     }
-
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public Observable<List<SearchBookBean>> searchBook(String content, int page) {
-
-        try {
-            Map<String, String> requestDataMap = new HashMap<>();
-            requestDataMap.put("searchkey", content);
-            return getRetrofitObject(SEARCH_TAG).create(TXSAPI.class).searchBook(generateRequestBody(requestDataMap)).flatMap(new Function<String, ObservableSource<List<SearchBookBean>>>() {
-                @Override
-                public ObservableSource<List<SearchBookBean>> apply(String s) throws Exception {
-                    return analySearchBook(s);
-                }
-            });
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-
+        return getRetrofitObject(TAG).create(IIdeaJianAPI.class).searchBook(content).flatMap(new Function<String, ObservableSource<List<SearchBookBean>>>() {
+            @Override
+            public ObservableSource<List<SearchBookBean>> apply(String s) throws Exception {
+                return analySearchBook(s);
+            }
+        });
     }
 
     public Observable<List<SearchBookBean>> analySearchBook(final String s) {
@@ -78,24 +63,19 @@ public class TXSBookModelImpl extends MBaseModelImpl implements IReaderBookModel
             public void subscribe(ObservableEmitter<List<SearchBookBean>> e) throws Exception {
                 try {
                     Document doc = Jsoup.parse(s);
-                    Elements booksE = doc.getElementsByClass("library").get(0).getElementsByTag("li");
+                    Elements booksE = doc.getElementsByClass("rank_ullist").get(0).getElementsByTag("li");
                     if (null != booksE && booksE.size() > 1) {
                         List<SearchBookBean> books = new ArrayList<SearchBookBean>();
-                        for (int i = 0; i < booksE.size(); i++) {
+                        for (int i = 1; i < booksE.size(); i++) {
                             SearchBookBean item = new SearchBookBean();
                             item.setTag(TAG);
                             item.setAuthor(booksE.get(i).getElementsByClass("author").get(0).text());
-                            item.setKind("九桃小说");
+                            item.setKind("得间小说");
+//                            item.setState();
                             item.setOrigin(ORIGIN);
-                            item.setName(booksE.get(i).getElementsByClass("bookname").get(0).text());
-                            String href = booksE.get(i).getElementsByClass("bookname").get(0).attr("href");
-                            item.setNoteUrl(href);
-                            item.setCoverUrl(booksE.get(i).getElementsByClass("bookimg").get(0).getElementsByTag("img").get(0).attr("src"));
-                            item.setKind(booksE.get(i).getElementsByTag("p").get(0).getElementsByTag("a").get(1).text());
-                            item.setLastChapter(booksE.get(i).getElementsByClass("chapter").get(0).text().replace("最新章节：", ""));
-                            String contentEs = booksE.get(i).getElementsByClass("intro").get(0).text();
-                            item.setDesc(contentEs);
-
+                            item.setName(booksE.get(i).getElementsByClass("rank_bkname").get(0).getElementsByTag("a").get(0).text());
+                            item.setNoteUrl(TAG + booksE.get(i).getElementsByClass("rank_bkname").get(0).getElementsByTag("a").get(0).attr("href"));
+                            item.setCoverUrl(booksE.get(i).getElementsByClass("items_l").get(0).getElementsByTag("a").get(0).getElementsByTag("img").get(0).attr("src"));
                             books.add(item);
                         }
                         e.onNext(books);
@@ -115,7 +95,7 @@ public class TXSBookModelImpl extends MBaseModelImpl implements IReaderBookModel
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public Observable<CollBookBean> getBookInfo(CollBookBean collBookBean) {
-        return getRetrofitObject(TAG).create(TXSAPI.class).getBookInfo(collBookBean.get_id().replace(TAG, "")).flatMap(new Function<String, ObservableSource<CollBookBean>>() {
+        return getRetrofitObject(TAG).create(IIdeaJianAPI.class).getBookInfo(collBookBean.get_id().replace(TAG, "")).flatMap(new Function<String, ObservableSource<CollBookBean>>() {
             @Override
             public ObservableSource<CollBookBean> apply(String s) throws Exception {
                 return analyBookInfo(s, collBookBean);
@@ -130,27 +110,22 @@ public class TXSBookModelImpl extends MBaseModelImpl implements IReaderBookModel
             public void subscribe(ObservableEmitter<CollBookBean> e) throws Exception {
                 collBookBean.setBookTag(TAG);
                 Document doc = Jsoup.parse(s);
-                Element resultE = doc.getElementsByClass("detail").get(0);
 
-                collBookBean.setCover(resultE.getElementsByClass("bookimg").get(0).getElementsByTag("img").get(0).attr("src"));
+                Element bookInfo = doc.getElementsByClass("detail_bkinfo").get(0);
+                collBookBean.setCover(bookInfo.getElementsByClass("info_bookimg").get(0).getElementsByTag("img").attr("src"));
 
-                collBookBean.setTitle(resultE.getElementsByTag("h1").get(0).text());
-
-                String author = resultE.getElementsByTag("p").get(0).getElementsByTag("a").get(0).text().toString().trim();
-                author = author.replace(" ", "").replace("  ", "").replace("作者：", "");
+                collBookBean.setTitle(bookInfo.getElementsByClass("detail_bkname").get(0).getElementsByTag("a").get(0).text());
+                String author = bookInfo.getElementsByClass("detail_bkauthor").get(0).text().toString().trim();
+                author = author.replace(" ", "").replace("  ", "").replace("\"", "");
                 collBookBean.setAuthor(author);
+                Element bookPage = doc.getElementsByClass("book_page").get(0);
+                String updatedTime = bookPage.getElementsByTag("span").get(0).text().toString().trim();
+                updatedTime = updatedTime.replace(" ", "").replace("  ", "");
 
-                String updatedTime = resultE.getElementsByTag("p").get(3).getElementsByTag("span").get(0).text().toString().trim();
-                updatedTime = updatedTime.replace("(", "").replace(")", "");
                 collBookBean.setUpdated(updatedTime);
 
-                String lastChapter = resultE.getElementsByTag("p").get(3).getElementsByTag("a").text().toString().trim();
-                collBookBean.setLastChapter(lastChapter);
-
-                collBookBean.setBookChapterUrl(TAG + doc.getElementsByClass("more").get(0).attr("href"));
-
-
-                List<TextNode> contentEs = doc.getElementsByClass("intro").get(0).textNodes();
+                collBookBean.setLastChapter(bookPage.getElementsByClass("link_name").get(0).text().toString().trim());
+                List<TextNode> contentEs = doc.getElementsByClass("brief_con").get(0).textNodes();
                 StringBuilder content = new StringBuilder();
                 for (int i = 0; i < contentEs.size(); i++) {
                     String temp = contentEs.get(i).text().trim();
@@ -162,14 +137,9 @@ public class TXSBookModelImpl extends MBaseModelImpl implements IReaderBookModel
                         }
                     }
                 }
-                collBookBean.setShortIntro(content.toString());
 
-                try {
-                    String kind = resultE.getElementsByTag("p").get(0).getElementsByTag("a").get(1).text().toString().trim();
-                    ObtainBookInfoUtils.getInstance().senMessageManpin(collBookBean, kind, lastChapter);
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
+                collBookBean.setShortIntro(content.toString());
+                collBookBean.setBookChapterUrl(collBookBean.get_id());
                 e.onNext(collBookBean);
                 e.onComplete();
             }
@@ -179,7 +149,7 @@ public class TXSBookModelImpl extends MBaseModelImpl implements IReaderBookModel
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////    @Override
     public Single<List<BookChapterBean>> getBookChapters(CollBookBean collBookBean) {
-        return getRetrofitObject(TAG).create(TXSAPI.class).getChapterLists(collBookBean.getBookChapterUrl())
+        return getRetrofitObject(TAG).create(IIdeaJianAPI.class).getChapterLists(collBookBean.getBookChapterUrl())
                 .flatMap(new Function<String, Single<List<BookChapterBean>>>() {
 
                     @Override
@@ -196,7 +166,7 @@ public class TXSBookModelImpl extends MBaseModelImpl implements IReaderBookModel
 
     private List<BookChapterBean> analyChapterlist(String s, CollBookBean collBookBean) {
         Document doc = Jsoup.parse(s);
-        Elements chapterlist = doc.getElementsByClass("read").get(0).getElementsByTag("dd");
+        Elements chapterlist = doc.getElementsByClass("catelog_list").get(0).getElementsByTag("li");
         List<BookChapterBean> chapterBeans = new ArrayList<BookChapterBean>();
         for (int i = 0; i < chapterlist.size(); i++) {
             BookChapterBean temp = new BookChapterBean();
@@ -216,8 +186,8 @@ public class TXSBookModelImpl extends MBaseModelImpl implements IReaderBookModel
     //==================================获取章节内容(具体的阅读内容)
     @Override
     public Single<ChapterInfoBean> getChapterInfo(String url) {
-        return getRetrofitObject(TAG).create(TXSAPI.class).getChapterInfo(url)
-                .flatMap(new Function<String, SingleSource<? extends ChapterInfoBean>>() {
+
+        return getRetrofitObject(TAG).create(IIdeaJianAPI.class).getChapterInfo(url).flatMap(new Function<String, SingleSource<? extends ChapterInfoBean>>() {
             @Override
             public SingleSource<? extends ChapterInfoBean> apply(String s) throws Exception {
                 return Single.create(new SingleOnSubscribe<ChapterInfoBean>() {
@@ -239,10 +209,10 @@ public class TXSBookModelImpl extends MBaseModelImpl implements IReaderBookModel
         ChapterInfoBean chapterInfoBean = new ChapterInfoBean();
         try {
             Document doc = Jsoup.parse(s);
-            Elements contentEs = doc.getElementById("content").getElementsByTag("p");
+            List<Element> contentEs = doc.getElementsByClass("read_content").get(0).getElementsByClass("bodytext");
             StringBuilder content = new StringBuilder();
             for (int i = 0; i < contentEs.size(); i++) {
-                String temp = contentEs.get(i).text();
+                String temp = contentEs.get(i).text().trim();
                 temp = temp.replaceAll(" ", "").replaceAll(" ", "");
                 if (temp.length() > 0) {
                     content.append("\u3000\u3000" + temp);

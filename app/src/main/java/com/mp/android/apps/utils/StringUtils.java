@@ -7,6 +7,7 @@ import androidx.annotation.StringRes;
 
 import com.mp.android.apps.MyApplication;
 import com.mp.android.apps.readActivity.utils.SharedPreUtils;
+import com.umeng.commonsdk.debug.E;
 import com.zqc.opencc.android.lib.ChineseConverter;
 import com.zqc.opencc.android.lib.ConversionType;
 
@@ -183,6 +184,18 @@ public class StringUtils {
         }
 
         return (convertType != 0)? ChineseConverter.convert(input, currentConversionType, context):input;
+    }
+
+
+    public static int tryParseInt(String s){
+        if (s==null){
+            return 0;
+        }
+        try {
+            return Integer.parseInt(s);
+        }catch (Exception e){
+            return 0;
+        }
     }
 
 }

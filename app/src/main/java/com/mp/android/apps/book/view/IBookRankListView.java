@@ -6,6 +6,6 @@ import com.mp.android.apps.main.home.bean.SourceListContent;
 import java.util.List;
 
 public interface IBookRankListView extends IView {
-    void notifyRecyclerView(List<SourceListContent> contentList, boolean useCache,int PageNumber);
+    void notifyRecyclerView(List<SourceListContent> contentList,int PageNumber);
     void showError(int pageNumber);
 }

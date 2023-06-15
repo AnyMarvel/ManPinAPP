@@ -1,5 +1,6 @@
 package com.mp.android.apps.book.view.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ public class BookRankListAdapter extends RecyclerView.Adapter {
 
     private int pageNumber;
 
+    @SuppressLint("NotifyDataSetChanged")
     public void resetContentList(List<SourceListContent> mContentList){
         if (contentList!=null){
             contentList.clear();
@@ -37,7 +39,7 @@ public class BookRankListAdapter extends RecyclerView.Adapter {
             notifyDataSetChanged();
         }
     }
-
+    @SuppressLint("NotifyDataSetChanged")
     public void addContentList(List<SourceListContent> mContentList){
         if (contentList!=null){
             contentList.addAll(mContentList);
@@ -48,7 +50,7 @@ public class BookRankListAdapter extends RecyclerView.Adapter {
         this.context = context;
         this.contentList = contentList;
         this.listener = listener;
-        pageNumber=1;
+        pageNumber = 1;
     }
 
     @NonNull

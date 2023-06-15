@@ -5,6 +5,7 @@ import android.util.Log;
 import com.mp.android.apps.book.bean.DownloadTaskBean;
 import com.mp.android.apps.book.dao.BookChapterBeanDao;
 import com.mp.android.apps.book.dao.CollBookBeanDao;
+import com.mp.android.apps.book.dao.DownloadTaskBeanDao;
 import com.mp.android.apps.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.readActivity.bean.BookRecordBean;
 import com.mp.android.apps.readActivity.bean.ChapterInfoBean;
@@ -291,6 +292,17 @@ public class BookRepository {
         deleteBookChapter(bean.get_id());
         //删除阅读记录
         deleteBookRecord(bean.get_id());
+        //删除下载记录
+        deleteBookDownload(bean.get_id());
+    }
+
+    public void deleteBookDownload(String bookId) {
+        mSession.getDownloadTaskBeanDao()
+                .queryBuilder()
+                .where(DownloadTaskBeanDao.Properties.BookId.eq(bookId))
+                .buildDelete()
+                .executeDeleteWithoutDetachingEntities();
+
     }
 
 

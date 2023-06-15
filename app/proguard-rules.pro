@@ -330,3 +330,7 @@ public static java.lang.String TABLENAME;
     public static void dropTable(org.greenrobot.greendao.database.Database, boolean);
     public static void createTable(org.greenrobot.greendao.database.Database, boolean);
 }
+
+#更新框架不允许混淆
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Service

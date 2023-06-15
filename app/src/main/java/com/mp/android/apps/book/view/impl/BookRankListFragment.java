@@ -1,27 +1,33 @@
 package com.mp.android.apps.book.view.impl;
 
 import android.content.Intent;
-import android.os.Build;
+import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mp.android.apps.R;
 import com.mp.android.apps.basemvplib.impl.BaseFragment;
+import com.mp.android.apps.book.bean.RankListMenubean;
 import com.mp.android.apps.book.presenter.IBookRankListPresenter;
 import com.mp.android.apps.book.presenter.impl.BookRankListPresenterImpl;
 import com.mp.android.apps.book.view.IBookRankListView;
 import com.mp.android.apps.book.view.adapter.BookRankListAdapter;
+import com.mp.android.apps.book.view.adapter.BookRankMenuListAdapter;
 import com.mp.android.apps.main.home.adapter.OnHomeAdapterClickListener;
 import com.mp.android.apps.main.home.bean.SourceListContent;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
@@ -32,11 +38,11 @@ import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import com.victor.loading.rotate.RotateLoading;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
-public class BookRankListFragment extends BaseFragment<IBookRankListPresenter> implements IBookRankListView, OnHomeAdapterClickListener {
+public class BookRankListFragment extends BaseFragment<IBookRankListPresenter> implements IBookRankListView, OnHomeAdapterClickListener,BookRankMenuListAdapter.MenuItemClickListener {
     private RecyclerView recommendRecyclerView;
     private BookRankListAdapter bookRankListAdapter;
     private SmartRefreshLayout bookRrefreshLayout;
@@ -46,62 +52,39 @@ public class BookRankListFragment extends BaseFragment<IBookRankListPresenter> i
     private TextView title;
     private ImageView searchView;
 
+    private LinearLayout mp_book_rank_list_title_layout;
+    private DrawerLayout drawer;
+    private RecyclerView menu_recyclerView;
+
+    private List<RankListMenubean> sourceList;
+
     @Override
     protected IBookRankListPresenter initInjector() {
         return new BookRankListPresenterImpl();
     }
 
-    private void fitSystemWindows() {
-        //android 6.0以上适配沉浸式
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            getActivity().getWindow().setStatusBarColor(getResources().getColor(android.R.color.white));
-            getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
-    }
 
 
     @Override
     protected void firstRequest() {
         super.firstRequest();
-        setRankTitle();
+        initRequestBookRank(sourceList.get(0));
+    }
+
+    private void initRequestBookRank(RankListMenubean rankListMenubean){
+        if (rankListMenubean!=null){
+            bookRankUrl = rankListMenubean.urlPath;
+            title.setText(rankListMenubean.name);
+        }
         bookRankLoading.start();
         mPresenter.initBookRankListData(bookRankUrl);
     }
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container) {
-        fitSystemWindows();
         return inflater.inflate(R.layout.manpin_book_rank_list_layout, container, false);
     }
 
-    private void setRankTitle() {
-        if (bookRankUrl != null) {
-            switch (bookRankUrl) {
-                case RANKRECOM:
-                    title.setText("推荐排行榜");
-                    break;
-                case RANKVIPCOLLECT:
-                    title.setText("收藏排行榜");
-                    break;
-                case RANKWOMENRECOM:
-                    title.setText("女生排行榜");
-                    break;
-                case RANKWOMENCOLLECT:
-                    title.setText("女生收藏榜");
-                    break;
-                case RANKFANS:
-                    title.setText("粉丝推荐榜单");
-                    break;
-                case RANKREADINDEX:
-                    title.setText("月票排行榜");
-                    break;
-                default:
-                    title.setText("排行榜");
-            }
-        }
-    }
 
     @Override
     protected void bindView() {
@@ -109,8 +92,16 @@ public class BookRankListFragment extends BaseFragment<IBookRankListPresenter> i
         recommendRecyclerView = view.findViewById(R.id.mp_bookr_recommend_recyclerview);
         bookRrefreshLayout = view.findViewById(R.id.bookr_recommend_refreshLayout);
         bookRrefreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));
-        bookRrefreshLayout.setRefreshHeader(new ClassicsHeader(Objects.requireNonNull(getContext())));
+        bookRrefreshLayout.setRefreshHeader(new ClassicsHeader(getContext()));
+        mp_book_rank_list_title_layout = view.findViewById(R.id.mp_book_rank_list_title_layout);
         title = view.findViewById(R.id.mp_book_rank_list_title);
+        mp_book_rank_list_title_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.openDrawer(Gravity.LEFT);
+            }
+        });
+        drawer = view.findViewById(R.id.drawerlayout_recommend);
         searchView = view.findViewById(R.id.bookr_fragment_search);
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +120,10 @@ public class BookRankListFragment extends BaseFragment<IBookRankListPresenter> i
                 mPresenter.initBookRankListData(bookRankUrl);
             }
         });
+        menu_recyclerView = view.findViewById(R.id.menu_recyclerView);
+        menu_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        menu_recyclerView.setAdapter(new BookRankMenuListAdapter(sourceList,this));
+        menu_recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     @Override
@@ -158,60 +153,51 @@ public class BookRankListFragment extends BaseFragment<IBookRankListPresenter> i
     }
 
     public String bookRankUrl;
-    /**
-     * 推荐榜 /rank/recom
-     */
-    public static final String RANKRECOM = "/rank/recom";
-    /**
-     * Vip收藏榜 /rank/vipcollect
-     */
-    public static final String RANKVIPCOLLECT = "/rank/vipcollect";
-
-    /**
-     * 女士推荐榜
-     */
-    public static final String RANKWOMENRECOM = "/rank/mm/recom";
-
-    /**
-     * 女士收藏榜
-     */
-    public static final String RANKWOMENCOLLECT = "/rank/mm/collect";
-
-
-    /**
-     * 男生推荐页粉丝榜
-     */
-    public static final String RANKFANS = "/rank/newfans/";
-
-    /**
-     * 阅读榜
-     */
-    public static final String RANKREADINDEX = "/rank/readindex/";
 
     @Override
     protected void initData() {
-        Intent intent = getActivity().getIntent();
-        bookRankUrl = intent.getStringExtra("rankRouteUrl");
-        if (TextUtils.isEmpty(bookRankUrl)) {
-            bookRankUrl = RANKRECOM;
-        }
+        handleSourceList();
+    }
+
+
+    private void handleSourceList() {
+        sourceList = new ArrayList<>();
+        sourceList.add(new RankListMenubean("/rank/yuepiao/","月票榜"));
+        sourceList.add(new RankListMenubean("/rank/hotsales/","畅销榜"));
+        sourceList.add(new RankListMenubean("/rank/readindex/","阅读指数榜"));
+        sourceList.add(new RankListMenubean("/rank/newfans/","书友榜"));
+        sourceList.add(new RankListMenubean("/rank/recom/","推荐榜"));
+        sourceList.add(new RankListMenubean("/rank/collect/","收藏榜"));
+        sourceList.add(new RankListMenubean("/rank/vipup/","更新榜"));
+        sourceList.add(new RankListMenubean("/rank/vipcollect/","VIP收藏榜"));
+        sourceList.add(new RankListMenubean("/rank/signnewbook/","签约作者新书榜"));
+        sourceList.add(new RankListMenubean("/rank/pubnewbook/","公众作者新书榜"));
+        sourceList.add(new RankListMenubean("/rank/newsign/","新人签约新书榜"));
+        sourceList.add(new RankListMenubean("/rank/newauthor/","新人作者新书榜"));
     }
 
     @Override
-    public void notifyRecyclerView(List<SourceListContent> contentList, boolean useCache, int pageNumber) {
-        if (useCache || bookRankListAdapter == null) {
+    public void notifyRecyclerView(List<SourceListContent> contentList, int pageNumber) {
+        if (bookRankListAdapter == null) {
             bookRankListAdapter = new BookRankListAdapter(getContext(), contentList, this);
             recommendRecyclerView.setAdapter(bookRankListAdapter);
-            bookRankLoading.stop();
-        } else if (pageNumber == 1) {
-            bookRankListAdapter.resetContentList(contentList);
-            bookRrefreshLayout.finishRefresh();
-        } else {
-            bookRankListAdapter.addContentList(contentList);
-            bookRankListAdapter.setPageNumber(pageNumber);
-            bookRrefreshLayout.finishLoadMore();
+        }else {
+            if (pageNumber==1){
+                bookRankListAdapter.resetContentList(contentList);
+                if (bookRrefreshLayout.isRefreshing()){
+                    bookRrefreshLayout.finishRefresh();
+                }
+            }else {
+                bookRankListAdapter.addContentList(contentList);
+                if (bookRrefreshLayout.isLoading()){
+                    bookRrefreshLayout.finishLoadMore();
+                }
+            }
         }
-
+        if (bookRankLoading.isStart()){
+            bookRankLoading.stop();
+        }
+        bookRankListAdapter.setPageNumber(pageNumber);
     }
 
     @Override
@@ -235,9 +221,11 @@ public class BookRankListFragment extends BaseFragment<IBookRankListPresenter> i
         }
     }
 
+
     @Override
-    public void onContentChangeClickListener(int mContentPosition, String kinds) {
-
+    public void OnClick(RankListMenubean menubean) {
+        //抽屉布局Click事件回调
+        drawer.closeDrawer(Gravity.LEFT);
+        initRequestBookRank(menubean);
     }
-
 }

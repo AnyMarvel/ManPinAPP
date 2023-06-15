@@ -17,6 +17,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.X509TrustManager;
 
+import okhttp3.CertificatePinner;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
@@ -42,7 +43,7 @@ public abstract class MBaseModelImpl {
             .addInterceptor(loggingInterceptor);
 
 
-    final X509TrustManager trustManager = new X509TrustManager() {
+   public final X509TrustManager trustManager = new X509TrustManager() {
         @Override
         public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
         }
@@ -56,7 +57,10 @@ public abstract class MBaseModelImpl {
             return new X509Certificate[0];
         }
     };
+
+
     protected Retrofit getRetrofitObject(String url) {
+
         clientBuilder.hostnameVerifier(new HostnameVerifier() {
             @Override
             public boolean verify(String hostname, SSLSession session) {
@@ -98,7 +102,7 @@ public abstract class MBaseModelImpl {
     //比如可以这样生成Map<String, RequestBody> requestBodyMap
     //Map<String, String> requestDataMap这里面放置上传数据的键值对。
     //https://blog.csdn.net/weixin_41633457/article/details/105226728
-    protected Map<String, RequestBody> generateRequestBody(Map<String, String> requestDataMap) {
+    protected Map<String, RequestBody> generateFormRequestBody(Map<String, String> requestDataMap) {
         Map<String, RequestBody> requestBodyMap = new HashMap<>();
         for (String key : requestDataMap.keySet()) {
             RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),
@@ -109,9 +113,12 @@ public abstract class MBaseModelImpl {
     }
 
     // 创建json类型的requestBody
-    protected RequestBody generateRequestBody(Object object){
+    protected RequestBody generateJsonRequestBody(Object object){
         return RequestBody.create(MediaType.parse("Content-Type, application/json"), JSON.toJSONString(object));
     }
+
+
+
 
 
 }

@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+
 import com.mp.android.apps.R;
 import com.mp.android.apps.book.view.impl.BookRankListFragment;
 import com.mp.android.apps.book.view.impl.BookCollectionFragment;
@@ -19,6 +21,7 @@ import com.mp.android.apps.main.home.view.impl.MainFragment;
 import com.mp.android.apps.main.personal.PersonFragment;
 import com.mp.android.apps.main.home.view.MyImageTextView;
 import com.mp.android.apps.basemvplib.impl.BaseFragment;
+import com.umeng.analytics.MobclickAgent;
 //import com.umeng.socialize.UMShareAPI;
 
 
@@ -115,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.LENGTH_SHORT).show();
             exitTime = System.currentTimeMillis();
         } else {
+            MobclickAgent.onKillProcess(this);
             finishAffinity();
             //基于任务管理器 退出应用
             ActivityManager am = (ActivityManager)getSystemService (Context.ACTIVITY_SERVICE);
@@ -184,5 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+
 
 }

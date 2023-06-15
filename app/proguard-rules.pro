@@ -334,3 +334,21 @@ public static java.lang.String TABLENAME;
 #更新框架不允许混淆
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Service
+
+-keep class com.umeng.** {*;}
+
+-keep class org.repackage.** {*;}
+
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+
+-keep class com.uc.** { *; }
+
+-keep class com.efs.** { *; }

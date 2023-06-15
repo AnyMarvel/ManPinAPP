@@ -6,25 +6,20 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mp.android.apps.R;
-import com.mp.android.apps.SettingAboutActivity;
-import com.mp.android.apps.main.ManpinWXActivity;
 
 import com.mp.android.apps.basemvplib.IPresenter;
 import com.mp.android.apps.basemvplib.impl.BaseFragment;
 
 import com.mp.android.apps.book.view.impl.BookSourceActivity;
-import com.mp.android.apps.main.home.view.MyImageTextView;
-//import com.umeng.socialize.ShareAction;
-//import com.umeng.socialize.bean.SHARE_MEDIA;
-//
-//import com.umeng.socialize.media.UMImage;
-//import com.umeng.socialize.media.UMWeb;
+import com.mp.android.apps.downloadUtils.CheckUpdateUtils;
+import com.mp.android.apps.main.ManpinWXActivity;
+import com.mp.android.apps.utils.GeneralTools;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class PersonFragment extends BaseFragment implements View.OnClickListener {
@@ -39,119 +34,63 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
         return inflater.inflate(R.layout.person_fragment, container, false);
     }
 
-    CircleImageView mUserLogo;
-    MyImageTextView manpin_weixin_xiaobian_layout;
-    MyImageTextView booksource;
-    MyImageTextView guanyuwomen;
-    MyImageTextView fenxiang;
+    TextView versionTitle;
 
-
-    MyImageTextView musiclayout;
-    MyImageTextView travelLayout;
-    MyImageTextView wallpaperLayout;
-    MyImageTextView gamesLayout;
-
-    LinearLayout personExternalLoginLayout;
-    TextView personFragmentUsername;
 
     @Override
     protected void bindView() {
         super.bindView();
-
-
-        musiclayout=view.findViewById(R.id.manpin_person_music_layout);
-        musiclayout.setOnClickListener(this);
-
-        travelLayout=view.findViewById(R.id.manpin_person_travel);
-        travelLayout.setOnClickListener(this);
-
-        wallpaperLayout=view.findViewById(R.id.manpin_person_wallpaper);
-        wallpaperLayout.setOnClickListener(this);
-
-        gamesLayout=view.findViewById(R.id.manpin_person_games);
-        gamesLayout.setOnClickListener(this);
-
-        guanyuwomen = view.findViewById(R.id.guanyuwomen);
-        guanyuwomen.setOnClickListener(this);
-        mUserLogo = view.findViewById(R.id.mUserLogo);
-
-        manpin_weixin_xiaobian_layout = view.findViewById(R.id.manpin_weixin_xiaobian_layout);
-        manpin_weixin_xiaobian_layout.setOnClickListener(this);
-        fenxiang = view.findViewById(R.id.person_fenxiang_layout);
-        fenxiang.setOnClickListener(this);
-
-
-        booksource = view.findViewById(R.id.person_booksource_layout);
-        booksource.setOnClickListener(this);
-
-        personExternalLoginLayout = view.findViewById(R.id.person_external_login_layout);
-        personExternalLoginLayout.setVisibility(View.VISIBLE);
-
-        personFragmentUsername = view.findViewById(R.id.person_fragment_username);
-        personFragmentUsername.setVisibility(View.GONE);
-
-
+        versionTitle = view.findViewById(R.id.versionTips);
+        versionTitle.setText("当前版本: " + GeneralTools.APP_VERSION);
+        view.findViewById(R.id.kaiyuandizhi).setOnClickListener(this);
+        view.findViewById(R.id.shuyuanxuanze).setOnClickListener(this);
+        view.findViewById(R.id.jiarushequ).setOnClickListener(this);
+        view.findViewById(R.id.checkupdate).setOnClickListener(this);
+        view.findViewById(R.id.share_manpin).setOnClickListener(this);
     }
 
     @Override
     protected void firstRequest() {
         super.firstRequest();
-
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        String linkUrl;
         switch (id) {
-            case R.id.guanyuwomen:
-                Intent settingIntent = new Intent(getActivity(), SettingAboutActivity.class);
-                requireActivity().startActivity(settingIntent);
+            case R.id.jiarushequ:
+                //加入社区
+                Intent intent3 = new Intent(getActivity(), ManpinWXActivity.class);
+                startActivity(intent3);
                 break;
-            case R.id.manpin_weixin_xiaobian_layout:
-                Intent intent = new Intent(getActivity(), ManpinWXActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.person_booksource_layout:
+            case R.id.shuyuanxuanze:
+                //配置书源
                 Intent intent2 = new Intent(getActivity(), BookSourceActivity.class);
                 startActivity(intent2);
                 break;
-            case R.id.person_fenxiang_layout:
-//                UMWeb weburl = new UMWeb("http://aimanpin.com");
-//                weburl.setDescription("官方网址:\n \n http://aimanpin.com ");
-//                weburl.setTitle("漫品官网");
-//                weburl.setThumb(new UMImage(requireContext(), R.drawable.ic_launcher_share_background));
-//                new ShareAction(requireActivity()).withMedia(weburl)
-//                        .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE
-//                                , SHARE_MEDIA.WEIXIN_FAVORITE, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE
-//                                , SHARE_MEDIA.SINA
-//                        ).open();
+            case R.id.checkupdate:
+                //检查更新
+                CheckUpdateUtils.getInstance().checkUpdata(getActivity());
                 break;
-
-            case R.id.manpin_person_music_layout:
-                jumpLinkUrl("http://tool.liumingye.cn/music/?page=searchPage");
+            case R.id.kaiyuandizhi:
+                //开源地址
+                Intent intent1 = new Intent("android.intent.action.VIEW");
+                intent1.setData(Uri.parse("https://github.com/AnyMarvel/ManPinAPP"));
+                startActivity(intent1);
                 break;
-            case R.id.manpin_person_travel:
-                jumpLinkUrl("http://quanjingke.com/vmindex");
-                break;
-            case R.id.manpin_person_wallpaper:
-                jumpLinkUrl("https://www.logosc.cn/so/");
-                break;
-            case R.id.manpin_person_games:
-                jumpLinkUrl("https://www.yikm.net");
-                break;
-
-            default:
+            case R.id.share_manpin:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "https://www.pgyer.com/manpin");
+                sendIntent.setType("text/plain");
+                Intent shareIntent = Intent.createChooser(sendIntent, "漫品");
+                startActivity(shareIntent);
                 break;
         }
+
     }
-    private void jumpLinkUrl(String linkUrl){
-        Intent intentUrl= new Intent();
-        intentUrl.setAction("android.intent.action.VIEW");
-        Uri content_url = Uri.parse(linkUrl);
-        intentUrl.setData(content_url);
-        startActivity(intentUrl);
-    }
+
+
 
 
     @Override

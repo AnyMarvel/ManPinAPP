@@ -10,5 +10,4 @@ public interface OnHomeAdapterClickListener {
 
     void onLayoutClickListener(View view, SourceListContent sourceListContent);
 
-    void onContentChangeClickListener(int mContentPosition,String kinds);
 }

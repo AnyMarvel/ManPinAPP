@@ -229,18 +229,6 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
                 intent.putExtra("extra_coll_book", mPresenter.getCollBookBean());
                 intent.putExtra(ReadActivity.EXTRA_IS_COLLECTED, mPresenter.getInBookShelf());
                 startActivityByAnim(intent, android.R.anim.fade_in, android.R.anim.fade_out);
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    if (getStart_share_ele()) {
-                        finishAfterTransition();
-                    } else {
-                        finish();
-                        overridePendingTransition(0, android.R.anim.fade_out);
-                    }
-                } else {
-                    finish();
-                    overridePendingTransition(0, android.R.anim.fade_out);
-                }
             }
         });
     }

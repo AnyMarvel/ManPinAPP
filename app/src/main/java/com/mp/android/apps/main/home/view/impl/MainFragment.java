@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,14 +92,10 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
         int id = view.getId();
         switch (id) {
             case R.id.huojian:
-                Intent intent=new Intent(getActivity(), BookRankListFragment.class);
-                intent.putExtra("rankRouteUrl", BookRankListFragment.RANKRECOM);
-                startActivity(intent);
+                jumpLinkUrl("https://wwtv.lanzoum.com/b03eew4oh");
                 break;
             case R.id.jingxuan:
-                Intent intent1=new Intent(getActivity(), BookRankListFragment.class);
-                intent1.putExtra("rankRouteUrl", BookRankListFragment.RANKVIPCOLLECT);
-                startActivity(intent1);
+                jumpLinkUrl("https://wwtv.lanzoum.com/b03d0ts0j");
                 break;
             case R.id.xiaoshuo:
                 ((MainActivity) requireActivity()).showShujiaFragment();
@@ -119,7 +116,13 @@ public class MainFragment extends BaseFragment<MainFragmentPresenterImpl> implem
         }
 
     }
-
+    private void jumpLinkUrl(String linkUrl) {
+        Intent intentUrl = new Intent();
+        intentUrl.setAction("android.intent.action.VIEW");
+        Uri content_url = Uri.parse(linkUrl);
+        intentUrl.setData(content_url);
+        startActivity(intentUrl);
+    }
     @Override
     public void onLayoutClickListener( String name) {
         if ( !TextUtils.isEmpty(name)){

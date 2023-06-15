@@ -8,7 +8,6 @@ import com.mp.android.apps.book.base.MBaseModelImpl;
 import com.mp.android.apps.book.bean.SearchBookBean;
 import com.mp.android.apps.book.common.api.IBiQuGeAPI;
 import com.mp.android.apps.book.model.IReaderBookModel;
-import com.mp.android.apps.book.model.ObtainBookInfoUtils;
 import com.mp.android.apps.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.readActivity.bean.ChapterInfoBean;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
@@ -137,12 +136,6 @@ public class ContentXXBiQuGeModelImpl extends MBaseModelImpl implements IReaderB
                 String lastChapter=collBookBean.getLastChapter();
                 if (TextUtils.isEmpty(lastChapter)){
                     collBookBean.setLastChapter("暂无");
-                }
-
-                try {
-                    ObtainBookInfoUtils.getInstance().senMessageManpin(collBookBean, "", lastChapter);
-                } catch (Exception e1) {
-
                 }
 
                 e.onNext(collBookBean);

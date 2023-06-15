@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.mp.android.apps">
 
+
     <application
         android:name=".MyApplication"
         android:allowClearUserData="true"
@@ -30,7 +31,6 @@
             android:name=".main.MainActivity"
             android:launchMode="singleTask" />
 
-        <activity android:name=".SettingAboutActivity" />
 
         <activity android:name=".book.view.impl.MoreSettingActivity"/>
         <activity
@@ -60,26 +60,6 @@
 
             android:theme="@style/CAppTransparentTheme" />
 
-        <!--bugly使用的Activity-->
-
-        <activity
-            android:name="com.tencent.bugly.beta.ui.BetaActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|locale"
-            android:theme="@android:style/Theme.Translucent" />
-
-
-        <!--bugly使用的Activity-->
-        <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!--bugly使用的provider-->
-        <activity
-            android:name="com.umeng.socialize.media.WBShareCallBackActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:exported="false"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <service
             android:name=".book.service.DownloadService"
             android:exported="false"
@@ -102,39 +82,21 @@
 
     </application>
 
-    <!--    摄像头依赖生命-->
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature
-        android:name="android.hardware.camera.autofocus"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.camera.front"
-        android:required="false" />
-    <!--    opengl使用说明-->
-    <uses-feature
-        android:glEsVersion="0x00030000"
-        android:required="true" />
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission
         android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
 
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <!--    获取地理位置信息-->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
-    <queries>
-        <package android:name="com.tencent.mm" />
-    </queries>
 
 </manifest>

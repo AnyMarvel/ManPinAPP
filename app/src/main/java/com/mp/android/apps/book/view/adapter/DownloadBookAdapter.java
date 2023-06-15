@@ -22,11 +22,19 @@ public class DownloadBookAdapter extends RecyclerView.Adapter<DownloadBookAdapte
     private Context context;
 
     private List<DownloadTaskBean> downloadTaskBeanList;
+    private ItemClickListener itemClickListener;
 
-    public DownloadBookAdapter(Context context, List<DownloadTaskBean> downloadTaskBeanList) {
+    public DownloadBookAdapter(Context context, List<DownloadTaskBean> downloadTaskBeanList,ItemClickListener itemClickListener) {
         this.context = context;
         this.downloadTaskBeanList = downloadTaskBeanList;
+        this.itemClickListener=itemClickListener;
     }
+
+    public void removeDownloadBean(DownloadTaskBean downloadTaskBean){
+        downloadTaskBeanList.remove(downloadTaskBean);
+        notifyDataSetChanged();
+    }
+
 
     @NonNull
     @Override
@@ -54,7 +62,12 @@ public class DownloadBookAdapter extends RecyclerView.Adapter<DownloadBookAdapte
         String result = numberFormat.format((float) downloadTaskBean.getCurrentChapter() / (float) downloadTaskBean.getLastChapter() * 100) + "%";
         holder.tvProgresss.setText(result);
 
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                itemClickListener.onClick(downloadTaskBean);
+            }
+        });
     }
 
     @Override
@@ -77,6 +90,10 @@ public class DownloadBookAdapter extends RecyclerView.Adapter<DownloadBookAdapte
             tvProgresss = itemView.findViewById(R.id.tv_progresss);
 
         }
+    }
+
+    public interface ItemClickListener{
+      void  onClick(DownloadTaskBean downloadTaskBean);
     }
 
     public void downloadNotifyDataSetChanged() {

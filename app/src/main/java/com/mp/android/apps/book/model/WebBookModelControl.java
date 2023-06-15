@@ -5,15 +5,11 @@ import android.content.Context;
 import android.net.Uri;
 
 import com.mp.android.apps.book.bean.SearchBookBean;
-import com.mp.android.apps.book.model.impl.ContentAimanpinModeImpl;
 
-import com.mp.android.apps.book.model.impl.Content3040ModelImpl;
 import com.mp.android.apps.book.model.impl.ContentLingDianModelImpl;
 import com.mp.android.apps.book.model.impl.ContentSoDuModelImpl;
-import com.mp.android.apps.book.model.impl.ContentTaduImpl;
+import com.mp.android.apps.book.model.impl.ContentXSZJModelImpl;
 import com.mp.android.apps.book.model.impl.ContentXXBiQuGeModelImpl;
-import com.mp.android.apps.book.model.impl.ContentYb3ModelImpl;
-import com.mp.android.apps.book.model.impl.TXSBookModelImpl;
 import com.mp.android.apps.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.readActivity.bean.ChapterInfoBean;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
@@ -31,8 +27,6 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Single;
-import io.reactivex.SingleEmitter;
-import io.reactivex.SingleOnSubscribe;
 import io.reactivex.functions.Function;
 
 import static com.mp.android.apps.book.presenter.impl.SearchPresenterImpl.TAG_KEY;
@@ -72,15 +66,19 @@ public class WebBookModelControl {
      * 增加引擎
      */
     private void initModels() {
-//        models.add(ContentAimanpinModeImpl.getInstance());
         //只具有搜索功能的下发服务器,为用户点击的上报数据
+        models.add(ContentXSZJModelImpl.getInstance());
         models.add(ContentSoDuModelImpl.getInstance());
         models.add(ContentXXBiQuGeModelImpl.getInstance());
-        models.add(Content3040ModelImpl.getInstance());
-        models.add(TXSBookModelImpl.getInstance());
-        models.add(ContentYb3ModelImpl.getInstance());
-        models.add(ContentTaduImpl.getInstance());
         models.add(ContentLingDianModelImpl.getInstance());
+
+
+        //以下源为废弃源
+//        models.add(Content3040ModelImpl.getInstance());
+//        models.add(TXSBookModelImpl.getInstance());
+//        models.add(ContentYb3ModelImpl.getInstance());
+//        models.add(ContentTaduImpl.getInstance());
+
 
 
     }
@@ -195,7 +193,7 @@ public class WebBookModelControl {
 
         //搜索引擎初始化
         for (IReaderBookModel model : models) {
-            if ((Boolean) SharedPreferenceUtil.get(context, model.getTAG(), false)) {
+            if ((Boolean) SharedPreferenceUtil.get(context, model.getTAG(), true)) {
                 newSearchEngine(searchEngine, model.getTAG());
             }
         }

@@ -1,3 +1,7 @@
+2.0.0 版本
+页面重构，去除服务器依赖，客户端纯爬虫，基于字符串相似度排序算法进行排序
+
+
 1.9.9 (当前版本 发布)
 1. 修复 Okhttp跳过https验证 http://jianboge.com/d436237
 2. 增加6种排行榜，实时获取全网小说排行
@@ -37,3 +41,6 @@
 4. 仿真,覆盖,无三种模式,默认开启音量键翻页
 5. 增加单线程缓存章节策略,可用户缓存当前书记内容
 6. 基于无翻页模式增加左手滑动模式(基于屏幕两侧(左侧下一页,右侧上一页)(滑动操作与右手模式操作相同,左滑上一页,右滑下一页))
+
+<!-- --exclude排除在目录之前 -->
+tar -zcvf manpin.tar.gz  --exclude=ManPinAPP/.git  --exclude=ManPinAPP/.gradle --exclude=ManPinAPP/.idea --exclude=ManPinAPP/app/build  --exclude=ManPinAPP/UMLibrary/build ManPinAPP

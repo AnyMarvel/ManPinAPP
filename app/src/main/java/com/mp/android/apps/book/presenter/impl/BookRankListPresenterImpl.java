@@ -82,7 +82,7 @@ public class BookRankListPresenterImpl extends BasePresenterImpl<IBookRankListVi
                     sourceListContent.setBookdesc(bookNodeInfo.getElementsByClass("intro").get(0).text());
                     contentList.add(sourceListContent);
                 }
-                mView.notifyRecyclerView(contentList,false,pageNumber);
+                mView.notifyRecyclerView(contentList,pageNumber);
 
             }
 

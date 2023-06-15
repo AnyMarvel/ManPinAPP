@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center"
                     android:isIndicator="true"
-                    android:rating="4.5"
+                    android:rating="5"
                     android:stepSize="0.01"
                     android:theme="@style/RatingBar_CustomColor" />
             </FrameLayout>

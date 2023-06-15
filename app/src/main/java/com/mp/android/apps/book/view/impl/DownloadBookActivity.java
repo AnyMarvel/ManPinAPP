@@ -1,10 +1,12 @@
 package com.mp.android.apps.book.view.impl;
 
+import android.content.Intent;
 import android.database.ContentObserver;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -19,6 +21,8 @@ import com.mp.android.apps.book.presenter.IDownloadBookPresenter;
 import com.mp.android.apps.book.presenter.impl.DownloadBookPresenterImpl;
 import com.mp.android.apps.book.view.IDownloadBookView;
 import com.mp.android.apps.book.view.adapter.DownloadBookAdapter;
+import com.mp.android.apps.readActivity.ReadActivity;
+import com.mp.android.apps.readActivity.bean.CollBookBean;
 import com.mp.android.apps.readActivity.local.BookRepository;
 
 import java.util.List;
@@ -65,7 +69,23 @@ public class DownloadBookActivity extends MBaseActivity<IDownloadBookPresenter> 
         downloadRecycle.setItemAnimator(new DefaultItemAnimator());
         downloadRecycle.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-        downloadBookAdapter = new DownloadBookAdapter(this, downloadTaskBeanList);
+        downloadBookAdapter = new DownloadBookAdapter(this, downloadTaskBeanList, new DownloadBookAdapter.ItemClickListener() {
+            @Override
+            public void onClick(DownloadTaskBean downloadTaskBean) {
+
+                CollBookBean collBookBean=BookRepository.getInstance().getCollBook(downloadTaskBean.getBookId());
+                if (collBookBean!=null){
+                    Intent intent = new Intent(DownloadBookActivity.this, ReadActivity.class);
+                    intent.putExtra("extra_coll_book", collBookBean);
+                    intent.putExtra(ReadActivity.EXTRA_IS_COLLECTED, true);
+                    startActivityByAnim(intent, android.R.anim.fade_in, android.R.anim.fade_out);
+                }else {
+                    Toast.makeText(DownloadBookActivity.this, "当前图书已从书架删除，请重新添加到书架", Toast.LENGTH_SHORT).show();
+                    BookRepository.getInstance().deleteBookDownload(downloadTaskBean.getBookId());
+                    downloadBookAdapter.removeDownloadBean(downloadTaskBean);
+                }
+            }
+        });
         downloadRecycle.setAdapter(downloadBookAdapter);
 
     }

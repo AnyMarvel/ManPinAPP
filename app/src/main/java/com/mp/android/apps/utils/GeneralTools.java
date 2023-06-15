@@ -7,23 +7,21 @@ import android.content.pm.PackageManager;
 
 public class GeneralTools {
     public static String APP_VERSION;
+    public static int APP_VERSIONCODE;
     /**
      * 获取版本号    需要在Activity 中使用
      *
-     * @return 当前应用的版本号
      */
 
-    public static String getVersion(Context context) {
-        String version = "";
+    public static void getVersion(Context context) {
         try {
             PackageManager manager = context.getPackageManager();
             PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
-            version = info.versionName;
+            APP_VERSION = info.versionName;
+            APP_VERSIONCODE = info.versionCode;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        APP_VERSION=version;
-        return version;
     }
 
     /**

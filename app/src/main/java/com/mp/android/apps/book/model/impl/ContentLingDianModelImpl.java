@@ -6,7 +6,6 @@ import com.mp.android.apps.book.base.MBaseModelImpl;
 import com.mp.android.apps.book.bean.SearchBookBean;
 import com.mp.android.apps.book.common.api.ILingDianAPI;
 import com.mp.android.apps.book.model.IReaderBookModel;
-import com.mp.android.apps.book.model.ObtainBookInfoUtils;
 import com.mp.android.apps.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.readActivity.bean.ChapterInfoBean;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
@@ -132,11 +131,6 @@ public class ContentLingDianModelImpl extends MBaseModelImpl implements IReaderB
 
                 collBookBean.setUpdated(resultE.getElementsByClass("fix").get(0).getElementsByTag("p").get(4).text().toString().trim());
                 collBookBean.setBookChapterUrl(collBookBean.get_id());
-                try {
-                    ObtainBookInfoUtils.getInstance().senMessageManpin(collBookBean, "", collBookBean.getLastChapter());
-                } catch (Exception e1) {
-
-                }
                 e.onNext(collBookBean);
                 e.onComplete();
             }

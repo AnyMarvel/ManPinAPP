@@ -33,6 +33,7 @@ import com.mp.android.apps.book.view.impl.ImportBookActivity;
 import com.mp.android.apps.book.widget.refreshview.OnRefreshWithProgressListener;
 import com.mp.android.apps.book.widget.refreshview.RefreshRecyclerView;
 import com.mp.android.apps.main.MainActivity;
+import com.mp.android.apps.main.config.AppConfigUtils;
 import com.mp.android.apps.readActivity.ReadActivity;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
 import com.victor.loading.rotate.RotateLoading;
@@ -50,8 +51,6 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
     private ImageButton ibDownload;
     private RefreshRecyclerView rfRvShelf;
     private BookShelfAdapter bookShelfAdapter;
-    private FrameLayout flWarn;
-    private ImageView ivWarnClose;
     private RotateLoading rlLoading;
 
 
@@ -86,9 +85,17 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
 
         rfRvShelf.setRefreshRecyclerViewAdapter(bookShelfAdapter, new LinearLayoutManager(getContext()));
 
-        flWarn = (FrameLayout) view.findViewById(R.id.fl_warn);
-        ivWarnClose = (ImageView) view.findViewById(R.id.iv_warn_close);
         rlLoading = (RotateLoading) view.findViewById(R.id.rl_loading);
+
+        if (AppConfigUtils.business){
+            ibSettings.setVisibility(View.GONE);
+            ibLibrary.setVisibility(View.GONE);
+            ibDownload.setVisibility(View.GONE);
+        }else {
+            ibSettings.setVisibility(View.VISIBLE);
+            ibLibrary.setVisibility(View.VISIBLE);
+            ibDownload.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -113,8 +120,10 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
             public void onClick(View v) {
                 if (mPresenter.bookSourceSwitch())
                     ((MainActivity) requireActivity()).showBookStore();
-                else
+                else{
                     startActivityByAnim(new Intent(getActivity(), BookSourceGuideActivity.class), 0, 0);
+                }
+
             }
         });
         ibAdd.setOnClickListener(new View.OnClickListener() {
@@ -127,13 +136,19 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
         bookShelfAdapter.setItemClickListener(new BookShelfAdapter.OnItemClickListener() {
             @Override
             public void toSearch() {
-                //点击去选书
-                if (mPresenter.bookSourceSwitch()){
-                    ((MainActivity) requireActivity()).showBookStore();
+                if (AppConfigUtils.business){
+                    startActivityByAnim(new Intent(getActivity(), ImportBookActivity.class), 0, 0);
+                }else {
+                    //点击去选书
+                    if (mPresenter.bookSourceSwitch()){
+                        ((MainActivity) requireActivity()).showBookStore();
+                    }
+                    else{
+                        startActivityByAnim(new Intent(getActivity(), BookSourceGuideActivity.class), 0, 0);
+                    }
                 }
-                else{
-                    startActivityByAnim(new Intent(getActivity(), BookSourceGuideActivity.class), 0, 0);
-                }
+
+
 
             }
 
@@ -157,12 +172,6 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
             }
         });
 
-        ivWarnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                flWarn.setVisibility(View.GONE);
-            }
-        });
     }
 
     private void bindRvShelfEvent() {

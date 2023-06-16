@@ -1,7 +1,10 @@
 package com.mp.android.apps.book.presenter.impl;
 
+import android.os.Environment;
+
 import com.mp.android.apps.basemvplib.impl.BaseActivity;
 import com.mp.android.apps.basemvplib.impl.BasePresenterImpl;
+import com.mp.android.apps.book.base.observer.SimpleObserver;
 import com.mp.android.apps.book.presenter.IImportBookPresenter;
 import com.mp.android.apps.book.utils.media.MediaStoreHelper;
 import com.mp.android.apps.book.view.IImportBookView;
@@ -9,12 +12,22 @@ import com.mp.android.apps.readActivity.bean.CollBookBean;
 import com.mp.android.apps.readActivity.local.BookRepository;
 import com.mp.android.apps.readActivity.utils.Constant;
 import com.mp.android.apps.readActivity.utils.StringUtils;
+import com.mp.android.apps.utils.MD5Utils;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Vector;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class ImportBookPresenterImpl extends BasePresenterImpl<IImportBookView> implements IImportBookPresenter {
 
@@ -25,15 +38,60 @@ public class ImportBookPresenterImpl extends BasePresenterImpl<IImportBookView> 
 
     @Override
     public void searchLocationBook() {
-        MediaStoreHelper.getAllBookFile((BaseActivity) mView, new MediaStoreHelper.MediaResultCallback() {
+        Observable.create(new ObservableOnSubscribe<ArrayList<File>>() {
             @Override
-            public void onResultCallback(List<File> files) {
-                orderByLength(files);
-                mView.setSystemBooks(files);
+            public void subscribe(ObservableEmitter<ArrayList<File>> emitter) throws Exception {
+                scanFile(getSDPath(), ".txt");
+                emitter.onNext(lists);
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleObserver<ArrayList<File>>() {
+            @Override
+            public void onNext(ArrayList<File> s) {
+                orderByLength(lists);
+                mView.setSystemBooks(lists);
                 mView.searchFinish();
             }
-        });
 
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    private ArrayList<File> lists = new ArrayList<File>();
+
+    public File getSDPath(){
+        File sdDir = null;
+        boolean sdCardExist = Environment.getExternalStorageState()
+                .equals(android.os.Environment.MEDIA_MOUNTED); //判断sd卡是否存在
+        if (sdCardExist)
+        {
+            sdDir = Environment.getExternalStorageDirectory();//获取跟目录
+        }
+        return sdDir;
+
+    }
+
+
+    public void scanFile(File rootPath, final String filterName) {
+
+        rootPath.listFiles(new FileFilter() {
+
+            @Override
+            public boolean accept(File pathname) {
+                if (((pathname + "").toLowerCase()).endsWith(filterName)) {
+                    lists.add(pathname);
+                    return true;
+                }
+                if (pathname.isDirectory()) {//如果是目录
+                    scanFile(pathname, filterName);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
     }
 
     /**
@@ -62,12 +120,16 @@ public class ImportBookPresenterImpl extends BasePresenterImpl<IImportBookView> 
 
     @Override
     public void importBooks(List<File> books) {
+        try {
+            //转换成CollBook,并存储
+            List<CollBookBean> collBooks = convertCollBook(books);
+            BookRepository.getInstance()
+                    .saveCollBooks(collBooks);
+            mView.addSuccess();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
-        //转换成CollBook,并存储
-        List<CollBookBean> collBooks = convertCollBook(books);
-        BookRepository.getInstance()
-                .saveCollBooks(collBooks);
-        mView.addSuccess();
     }
 
     @Override
@@ -88,7 +150,7 @@ public class ImportBookPresenterImpl extends BasePresenterImpl<IImportBookView> 
             if (!file.exists()) continue;
 
             CollBookBean collBook = new CollBookBean();
-//            collBook.set_id(MD5Utils.strToMd5By16(file.getAbsolutePath()));
+            collBook.set_id(MD5Utils.strToMd5By16(file.getAbsolutePath()));
             collBook.setTitle(file.getName().replace(".txt", ""));
             collBook.setAuthor("");
             collBook.setShortIntro("无");

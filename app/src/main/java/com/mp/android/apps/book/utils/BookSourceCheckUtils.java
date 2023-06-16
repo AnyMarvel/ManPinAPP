@@ -25,7 +25,7 @@ public class BookSourceCheckUtils {
         boolean sourceSwitch = false;
         if (sourceBeans != null && sourceBeans.size() > 0) {
             for (BookSourceBean sourceBean : sourceBeans) {
-                if ((boolean) SharedPreferenceUtil.get(context, sourceBean.getBookSourceAddress(), false)) {
+                if ((boolean) SharedPreferenceUtil.get(context, sourceBean.getBookSourceAddress(), true)) {
                     sourceSwitch = true;
                 }
             }

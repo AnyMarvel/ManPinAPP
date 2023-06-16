@@ -18,7 +18,7 @@ public class BookSourcePresenterImpl extends BasePresenterImpl<IBookSourceView> 
     @Override
     public List<BookSourceBean> handleSource(List<BookSourceBean> bookSource) {
         for (BookSourceBean bookSourceBean : bookSource) {
-            boolean sourceSwitch = (boolean) SharedPreferenceUtil.get(mView.getContext(), bookSourceBean.getBookSourceAddress(), false);
+            boolean sourceSwitch = (boolean) SharedPreferenceUtil.get(mView.getContext(), bookSourceBean.getBookSourceAddress(), true);
             if (sourceSwitch) {
                 bookSourceBean.setBookSourceSwitch(true);
             } else {

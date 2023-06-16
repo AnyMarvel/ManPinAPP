@@ -31,4 +31,5 @@ public class RxBusTag {
      * 书架界面隐藏loading动画
      */
     public final static String HIDE_COLLECTION_RLLODING = "rxbus_hide_collection_rlloding";
+
 }

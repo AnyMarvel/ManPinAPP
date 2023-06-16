@@ -36,7 +36,6 @@ public class BookSourceActivity extends BaseActivity<BookSourcePresenterImpl> im
     RecyclerView sourceRecyclerView;
 
     //    图书源数据源
-    private String localBookSource;
     private List<BookSourceBean> sourceBeans;
     private BookSourceAdapter bookSourceAdapter;
 
@@ -52,7 +51,7 @@ public class BookSourceActivity extends BaseActivity<BookSourcePresenterImpl> im
 
     @Override
     protected void initData() {
-        localBookSource = AssertFileUtils.getJson(this, "booksource.json");
+        String localBookSource = AssertFileUtils.getJson(this, "booksource.json");
         if (!TextUtils.isEmpty(localBookSource)) {
             sourceBeans = JSON.parseArray(localBookSource, BookSourceBean.class);
         }
@@ -107,7 +106,7 @@ public class BookSourceActivity extends BaseActivity<BookSourcePresenterImpl> im
     @Override
     protected void firstRequest() {
         super.firstRequest();
-        if (!TextUtils.isEmpty(localBookSource) && sourceBeans != null) {
+        if (sourceBeans != null) {
             bookSourceAdapter = new BookSourceAdapter(mPresenter.handleSource(sourceBeans));
             sourceRecyclerView.setAdapter(bookSourceAdapter);
         }

@@ -1,7 +1,5 @@
 package com.mp.android.apps.main;
 
-import android.app.ActivityManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
@@ -12,17 +10,15 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-
 import com.mp.android.apps.R;
 import com.mp.android.apps.book.view.impl.BookRankListFragment;
 import com.mp.android.apps.book.view.impl.BookCollectionFragment;
+import com.mp.android.apps.main.config.AppConfigUtils;
 import com.mp.android.apps.main.home.view.impl.MainFragment;
 import com.mp.android.apps.main.personal.PersonFragment;
 import com.mp.android.apps.main.home.view.MyImageTextView;
 import com.mp.android.apps.basemvplib.impl.BaseFragment;
 import com.umeng.analytics.MobclickAgent;
-//import com.umeng.socialize.UMShareAPI;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -75,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bookCollectionFragment = new BookCollectionFragment();
 
         mBookRankListFragment=new BookRankListFragment();
-        showFragment(mainFragment);
         initViews();
     }
 
@@ -88,16 +83,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         quanzi.setOnClickListener(this);
         wode = findViewById(R.id.gerenzhongxin);
         wode.setOnClickListener(this);
+
+        //底部转载服务提醒
         flWarn = findViewById(R.id.main_fl_warn);
         flWarnClose = findViewById(R.id.main_iv_warn_close);
-        flWarnClose.setOnClickListener(this);
         flWarnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 flWarn.setVisibility(View.GONE);
             }
         });
+        zhuye.setVisibility(View.VISIBLE);
+        quanzi.setVisibility(View.VISIBLE);
+        flWarn.setVisibility(View.VISIBLE);
+        showMainFragment();
+        configView();
     }
+
+    private void configView(){
+        new AppConfigUtils().getManPinAppConfig(new AppConfigUtils.IAppConfig() {
+            @Override
+            public void callback(boolean business) {
+                if (business){
+                    zhuye.setVisibility(View.GONE);
+                    quanzi.setVisibility(View.GONE);
+                    flWarn.setVisibility(View.GONE);
+                    showShujiaFragment();
+                }else {
+                    zhuye.setVisibility(View.VISIBLE);
+                    quanzi.setVisibility(View.VISIBLE);
+                    flWarn.setVisibility(View.VISIBLE);
+                    showMainFragment();
+
+                }
+            }
+        });
+
+    }
+
+
 
     private static final int EXPLORESQUARE_LOGIN = 1005;
 
@@ -120,10 +144,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             MobclickAgent.onKillProcess(this);
             finishAffinity();
-            //基于任务管理器 退出应用
-            ActivityManager am = (ActivityManager)getSystemService (Context.ACTIVITY_SERVICE);
-            am.killBackgroundProcesses(getPackageName());
-            System.exit(0);
         }
     }
 
@@ -139,8 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = v.getId();
         switch (id) {
             case R.id.zhuye:
-                changeNavImages(R.id.zhuye);
-                showFragment(mainFragment);
+               showMainFragment();
                 break;
             case R.id.shujia:
                 showShujiaFragment();
@@ -156,6 +175,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+    public void showMainFragment(){
+        changeNavImages(R.id.zhuye);
+        showFragment(mainFragment);
+    }
+
 
     public void showShujiaFragment() {
         changeNavImages(R.id.shujia);

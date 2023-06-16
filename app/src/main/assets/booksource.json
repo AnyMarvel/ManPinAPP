@@ -1,44 +1,27 @@
 [
   {
-    "bookTitle": "九桃小说网",
+    "bookTitle": "Sodu",
     "bookSourceScore": "5",
-    "bookSourceAddress": "https://www.9txs.org",
-    "bookSourceSwitch": false
-  }, {
-  "bookTitle": "Sodu",
-  "bookSourceScore": "5",
-  "bookSourceAddress": "http://www.soduzw.com",
-  "bookSourceSwitch": false
-},
-  {
-    "bookTitle": "ABC小说",
-    "bookSourceScore": "4",
-    "bookSourceAddress": "https://www.yb3.cc",
-    "bookSourceSwitch": false
-  },
-  {
-    "bookTitle": "塔读文学",
-    "bookSourceScore": "3",
-    "bookSourceAddress": "https://www.tadu.com",
-    "bookSourceSwitch": false
+    "bookSourceAddress": "http://www.soduzw.com",
+    "bookSourceSwitch": true
   },
   {
     "bookTitle": "笔趣阁",
     "bookSourceScore": "5",
     "bookSourceAddress": "https://www.xxbiqudu.com",
-    "bookSourceSwitch": false
-  },
-  {
-    "bookTitle": "3040文学",
-    "bookSourceScore": "5",
-    "bookSourceAddress": "https://www.130140.com",
-    "bookSourceSwitch": false
+    "bookSourceSwitch": true
   },
   {
     "bookTitle": "零点看书",
     "bookSourceScore": "5",
     "bookSourceAddress": "https://www.soudu.org",
-    "bookSourceSwitch": false
+    "bookSourceSwitch": true
+  },
+  {
+    "bookTitle": "小说之家",
+    "bookSourceScore": "5",
+    "bookSourceAddress": "https://xszj.org",
+    "bookSourceSwitch": true
   }
 ]
 

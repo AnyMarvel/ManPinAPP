@@ -98,26 +98,27 @@ public class CheckUpdateUtils extends MBaseModelImpl {
 //                                "apkMd5":"21436cd2c7240f8d111fa066ac06298c",
 //                                "ApkSize":"12M"
 //                        }
-                        String test="{\n" +
-                                "    \"apkName\":\"manpin.apk\",\n" +
-                                "    \"versionCode\":60,\n" +
-                                "    \"apkDescription\":\"1、修复实效源，增加红牛专线  2、优化搜索算法，加快查找速度  3、异常UI修复\",\n" +
-                                "    \"lanzouDownloadUrl\":\"https://wwtv.lanzoum.com/iGJCE0y3s10h\",\n" +
-                                "    \"versionName\":\"2.0.3\",\n" +
-                                "    \"apkMd5\":\"21436cd2c7240f8d111fa066ac06298c\",\n" +
-                                "    \"ApkSize\":\"12M\"\n" +
-                                "}";
-                        checkUpdateBean = JSONObject.parseObject(test,CheckUpdateBean.class);
-                        if (checkUpdateBean!=null && GeneralTools.APP_VERSIONCODE < checkUpdateBean.getVersionCode()){
-                            Uri uri=Uri.parse(checkUpdateBean.getLanzouDownloadUrl());
-                            String host=uri.getHost();
-                            String scheme=uri.getScheme();
-                            String path=uri.getPath();
-                            return getRetrofitObject(scheme+"://"+host).create(DownloadInterface.class).lanzouSpider(path);
-                        }else {
-                            Toast.makeText(activityWeakReference.get(), "当前已是最新版本", Toast.LENGTH_SHORT).show();
-                            return null;
+//                        String test="{\n" +
+//                                "    \"apkName\":\"manpin.apk\",\n" +
+//                                "    \"versionCode\":60,\n" +
+//                                "    \"apkDescription\":\"1、修复实效源，增加红牛专线  2、优化搜索算法，加快查找速度  3、异常UI修复\",\n" +
+//                                "    \"lanzouDownloadUrl\":\"https://wwtv.lanzoum.com/iGJCE0y3s10h\",\n" +
+//                                "    \"versionName\":\"2.0.3\",\n" +
+//                                "    \"apkMd5\":\"21436cd2c7240f8d111fa066ac06298c\",\n" +
+//                                "    \"ApkSize\":\"12M\"\n" +
+//                                "}";
+                        if (value != null) {
+                            checkUpdateBean = JSONObject.parseObject(value, CheckUpdateBean.class);
+                            if (checkUpdateBean != null && GeneralTools.APP_VERSIONCODE < checkUpdateBean.getVersionCode()) {
+                                Uri uri = Uri.parse(checkUpdateBean.getLanzouDownloadUrl());
+                                String host = uri.getHost();
+                                String scheme = uri.getScheme();
+                                String path = uri.getPath();
+                                return getRetrofitObject(scheme + "://" + host).create(DownloadInterface.class).lanzouSpider(path);
+                            }
                         }
+                        Toast.makeText(activityWeakReference.get(), "当前已是最新版本", Toast.LENGTH_SHORT).show();
+                        return null;
                     }
                 }).flatMap(new Function<String, ObservableSource<String>>() {
                     @Override
@@ -298,7 +299,7 @@ public class CheckUpdateUtils extends MBaseModelImpl {
 
 
 public interface DownloadInterface{
-    @GET("/dssljt/hgsdist/raw/master/update.json")
+    @GET("/dssljt/hgsdist/raw/master/manpinupdate.json")
     @Headers({"Accept:text/html,application/xhtml+xml,application/xml",
             "User-Agent:Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3",
             "Accept-Charset:UTF-8",

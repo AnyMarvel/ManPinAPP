@@ -31,16 +31,28 @@
             android:textColor="#343434"
             android:gravity="center|left"/>
         <TextView
-            android:id="@+id/tv_addshelf"
+            android:id="@+id/scan_tv_addshelf_local"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="添加书籍"
-            android:padding="15dp"
+            android:text="手动添加"
+            android:layout_marginRight="15dp"
             android:layout_gravity="center_vertical"
             android:background="@drawable/bg_ib_pre"
             android:textColor="#767676"
             android:textSize="14sp"
-            android:visibility="invisible"/>
+            android:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/scan_tv_addshelf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="导入"
+            android:layout_marginRight="15dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/bg_ib_pre"
+            android:textColor="#767676"
+            android:textSize="14sp"
+            android:visibility="gone"/>
     </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"

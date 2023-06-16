@@ -38,7 +38,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * 3040文学
+ * 小说之家
  */
 public class ContentXSZJModelImpl extends MBaseModelImpl implements IReaderBookModel {
     public static final String TAG = "https://xszj.org";

@@ -1,17 +1,18 @@
 
 package com.mp.android.apps.book.view.adapter;
 
+import android.content.Context;
 import android.os.Environment;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mp.android.apps.R;
 import com.mp.android.apps.book.widget.checkbox.SmoothCheckBox;
@@ -24,50 +25,29 @@ import java.util.List;
 public class ImportBookAdapter extends RecyclerView.Adapter {
     private List<File> datas;
     private List<File> selectDatas;
+    private Context context;
 
     public interface OnCheckBookListener {
         void checkBook(int count);
-        void manualClick();
     }
 
     private OnCheckBookListener checkBookListener;
 
-    public ImportBookAdapter(@NonNull OnCheckBookListener checkBookListener) {
+    public ImportBookAdapter(@NonNull OnCheckBookListener checkBookListener,Context context) {
         datas = new ArrayList<>();
         selectDatas = new ArrayList<>();
+        this.context=context;
         this.checkBookListener = checkBookListener;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == MANUAL_VIEW_TYPE){
-            return new ManualHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_adapter_importbook_manual, parent, false));
-        }else {
             return new Viewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_adapter_importbook, parent, false));
-        }
     }
 
-    private final int NORMAL_VIEW_TYPE=1;
-    private final int MANUAL_VIEW_TYPE=2;
-    @Override
-    public int getItemViewType(int position) {
-        if (position == datas.size()){
-            return MANUAL_VIEW_TYPE;
-        }else {
-            return NORMAL_VIEW_TYPE;
-        }
-    }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        if (holder instanceof ManualHolder){
-            ((ManualHolder)holder).tv_scan.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    checkBookListener.manualClick();
-                }
-            });
-        }else {
             ((Viewholder)holder).tvNmae.setText(datas.get(position).getName());
             ((Viewholder)holder).tvSize.setText(convertByte(datas.get(position).length()));
             ((Viewholder)holder).tvLoc.setText(datas.get(position).getAbsolutePath().replace(Environment.getExternalStorageDirectory().getAbsolutePath(), "存储空间"));
@@ -94,15 +74,19 @@ public class ImportBookAdapter extends RecyclerView.Adapter {
         } else {
             ((Viewholder)holder).scbSelect.setVisibility(View.INVISIBLE);
             ((Viewholder)holder).llContent.setOnClickListener(null);
-        }}
+        }
     }
 
     public void addData(File newItem) {
-        datas.add(newItem);
-        notifyDataSetChanged();
+        if (datas.contains(newItem)){
+            Toast.makeText(context, "此图书已存在", Toast.LENGTH_SHORT).show();
+        }else {
+            datas.add(0,newItem);
+            notifyItemChanged(0);
+        }
     }
 
-    public void setSystemFiles(List<File> files) {
+    public void addAllDatas(List<File> files) {
         datas.addAll(files);
         notifyDataSetChanged();
     }
@@ -116,7 +100,7 @@ public class ImportBookAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return datas.size()+1;
+        return datas.size();
     }
 
     class Viewholder extends RecyclerView.ViewHolder {
@@ -136,14 +120,7 @@ public class ImportBookAdapter extends RecyclerView.Adapter {
         }
     }
 
-    class ManualHolder extends RecyclerView.ViewHolder{
-        TextView tv_scan;
-        public ManualHolder(@NonNull View itemView) {
-            super(itemView);
-            tv_scan = (TextView) itemView.findViewById(R.id.tv_scan);
-        }
 
-    }
     public static String convertByte(long size) {
         DecimalFormat df = new DecimalFormat("###.#");
         float f;

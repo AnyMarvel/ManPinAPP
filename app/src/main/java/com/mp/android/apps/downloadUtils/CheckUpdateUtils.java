@@ -81,32 +81,25 @@ public class CheckUpdateUtils extends MBaseModelImpl {
     }
     public static CheckUpdateBean checkUpdateBean;
 
-    public void checkUpdata(Activity activity){
-        WeakReference<Activity> activityWeakReference=new WeakReference<>(activity);
-        Toast.makeText(activityWeakReference.get(), "新版本检测中...", Toast.LENGTH_SHORT).show();
+    public void checkUpdata(Activity activity,boolean showToast){
+        if (showToast){
+            Toast.makeText(activity, "新版本检测中...", Toast.LENGTH_SHORT).show();
+        }
         getRetrofitObject("https://gitee.com").
                 create(DownloadInterface.class).
                 checkUpdate()
                .flatMap(new Function<String, ObservableSource<String>>() {
                     @Override
                     public ObservableSource<String> apply(String value) throws Exception {
-//                        {
-//                            "apkName":"manpin.apk",
-//                                "versionCode":21,
-//                                "apkDescription":"1、修复实效源，增加红牛专线  2、优化搜索算法，加快查找速度  3、异常UI修复",
-//                                "lanzouDownloadUrl":"https://wwtv.lanzoum.com/iGJCE0y3s10h",
-//                                "apkMd5":"21436cd2c7240f8d111fa066ac06298c",
-//                                "ApkSize":"12M"
-//                        }
-//                        String test="{\n" +
-//                                "    \"apkName\":\"manpin.apk\",\n" +
-//                                "    \"versionCode\":60,\n" +
-//                                "    \"apkDescription\":\"1、修复实效源，增加红牛专线  2、优化搜索算法，加快查找速度  3、异常UI修复\",\n" +
-//                                "    \"lanzouDownloadUrl\":\"https://wwtv.lanzoum.com/iGJCE0y3s10h\",\n" +
-//                                "    \"versionName\":\"2.0.3\",\n" +
-//                                "    \"apkMd5\":\"21436cd2c7240f8d111fa066ac06298c\",\n" +
-//                                "    \"ApkSize\":\"12M\"\n" +
-//                                "}";
+                    //    {
+                    //        "apkName":"manpin.apk",
+                    //            "versionCode":21,
+                    //            "versionName":"2.0.3",
+                    //            "apkDescription":"1、修复实效源，增加红牛专线  2、优化搜索算法，加快查找速度  3、异常UI修复",
+                    //            "lanzouDownloadUrl":"https://wwtv.lanzoum.com/iGJCE0y3s10h",
+                    //            "apkMd5":"21436cd2c7240f8d111fa066ac06298c",
+                    //            "ApkSize":"12M"
+                    //    }
                         if (value != null) {
                             checkUpdateBean = JSONObject.parseObject(value, CheckUpdateBean.class);
                             if (checkUpdateBean != null && GeneralTools.APP_VERSIONCODE < checkUpdateBean.getVersionCode()) {
@@ -117,7 +110,9 @@ public class CheckUpdateUtils extends MBaseModelImpl {
                                 return getRetrofitObject(scheme + "://" + host).create(DownloadInterface.class).lanzouSpider(path);
                             }
                         }
-                        Toast.makeText(activityWeakReference.get(), "当前已是最新版本", Toast.LENGTH_SHORT).show();
+                        if (showToast){
+                            Toast.makeText(activity, "当前已是最新版本", Toast.LENGTH_SHORT).show();
+                        }
                         return null;
                     }
                 }).flatMap(new Function<String, ObservableSource<String>>() {
@@ -222,8 +217,8 @@ public class CheckUpdateUtils extends MBaseModelImpl {
                 .subscribe(new SimpleObserver<String>() {
                     @Override
                     public void onNext(String value) {
-                        if (value != null && activityWeakReference.get() != null){
-                            showDownloadTips(activityWeakReference.get(),value);
+                        if (value != null && activity != null){
+                            showDownloadTips(activity,value);
                         }
                     }
 

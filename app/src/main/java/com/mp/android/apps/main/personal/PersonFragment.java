@@ -82,7 +82,11 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.checkupdate:
                 //检查更新
-                CheckUpdateUtils.getInstance().checkUpdata(getActivity());
+                try {
+                    CheckUpdateUtils.getInstance().checkUpdata(getActivity(),true);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 break;
             case R.id.kaiyuandizhi:
                 //开源地址

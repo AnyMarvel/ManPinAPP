@@ -9,12 +9,12 @@ bugly {
 android {
     compileSdkVersion 33
     ndkVersion "22.1.7171670"
-    defaultConfig {
+    defaultConfig { 
         applicationId "com.mp.android.apps"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 50
-        versionName "3.0.0"
+        versionCode 51
+        versionName "3.0.1"
         multiDexEnabled true
         multiDexKeepProguard file("multidexKeep.pro")
     }
@@ -44,8 +44,8 @@ android {
             signingConfig signingConfigs.debug
         }
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            // shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }

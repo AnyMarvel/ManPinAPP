@@ -352,3 +352,4 @@ public static java.lang.String TABLENAME;
 -keep class com.uc.** { *; }
 
 -keep class com.efs.** { *; }
+-keep class com.mp.android.apps.downloadUtils.CheckUpdateUtils

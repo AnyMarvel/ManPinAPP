@@ -42,6 +42,7 @@ import com.mp.android.apps.main.ManpinWXActivity;
 import com.mp.android.apps.book.bean.DownloadTaskBean;
 import com.mp.android.apps.book.contentprovider.MyContentProvider;
 import com.mp.android.apps.book.dao.DownloadTaskBeanDao;
+import com.mp.android.apps.main.config.AppConfigUtils;
 import com.mp.android.apps.readActivity.base.BaseMVPActivity;
 import com.mp.android.apps.readActivity.bean.BookChapterBean;
 import com.mp.android.apps.readActivity.bean.CollBookBean;
@@ -276,6 +277,13 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
             mPvPage.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
 
+        if (AppConfigUtils.business){
+            mTvBrief.setVisibility(GONE);
+            readBookCacheDownload.setVisibility(GONE);
+        }else {
+            readBookCacheDownload.setVisibility(VISIBLE);
+            mTvBrief.setVisibility(VISIBLE);
+        }
         //获取页面加载器
         mPageLoader = mPvPage.getPageLoader(mCollBook);
         //禁止滑动展示DrawerLayout

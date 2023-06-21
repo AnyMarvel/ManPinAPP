@@ -1,10 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'bugly'
 apply plugin: 'org.greenrobot.greendao'
-bugly {
-    appId = '097fb8e660' // 注册时分配的App ID
-    appKey = '3206cd01-02bd-44f7-8abd-14b9fb2fbf85' // 注册时分配的App Key
-}
 
 android {
     compileSdkVersion 33
@@ -12,7 +7,9 @@ android {
     defaultConfig { 
         applicationId "com.mp.android.apps"
         minSdkVersion 21
-        targetSdkVersion 33
+        //Android 11 高版本 出现外部存储无法访问的问题
+        //https://blog.csdn.net/shellcodelw/article/details/122718045
+        targetSdkVersion 28
         versionCode 51
         versionName "3.0.1"
         multiDexEnabled true
@@ -21,16 +18,16 @@ android {
 
     signingConfigs {
         debug {
-            storeFile rootProject.file('AnyMarvel.jks')
-            storePassword SiginPassword
-            keyAlias SiginkeyAlias
-            keyPassword SiginkeyPassword
-//            storeFile rootProject.file('debug.keystore')
-//            storePassword 'android'
-//            keyAlias 'androiddebugkey'
-//            keyPassword 'android'
+            v1SigningEnabled true
+            v2SigningEnabled true
+            storeFile rootProject.file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
         }
         release {
+            v1SigningEnabled true
+            v2SigningEnabled true
             storeFile rootProject.file('AnyMarvel.jks')
             storePassword SiginPassword
             keyAlias SiginkeyAlias
@@ -44,8 +41,8 @@ android {
             signingConfig signingConfigs.debug
         }
         release {
-            minifyEnabled false
-            // shrinkResources true
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }

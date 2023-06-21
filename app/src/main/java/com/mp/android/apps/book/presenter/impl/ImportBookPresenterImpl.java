@@ -76,7 +76,7 @@ public class ImportBookPresenterImpl extends BasePresenterImpl<IImportBookView> 
 
     public void scanFile(File rootPath, final String filterName) {
 
-        rootPath.listFiles(new FileFilter() {
+     File[] files =   rootPath.listFiles(new FileFilter() {
 
             @Override
             public boolean accept(File pathname) {

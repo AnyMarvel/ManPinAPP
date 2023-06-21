@@ -152,7 +152,7 @@ public class ImportBookActivity extends MBaseActivity<IImportBookPresenter> impl
             @Override
             public void onClick(View v) {
                 Acp.getInstance(ImportBookActivity.this).request(new AcpOptions.Builder()
-                        .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE).build(), new AcpListener() {
+                        .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE).build(), new AcpListener() {
                     @Override
                     public void onGranted() {
                         manualSearch=false;

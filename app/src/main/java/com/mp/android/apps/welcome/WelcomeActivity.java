@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 
+import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextPaint;
@@ -17,24 +18,24 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.mp.android.apps.R;
 import com.mp.android.apps.main.MainActivity;
 import com.mp.android.apps.basemvplib.IPresenter;
 import com.mp.android.apps.book.base.MBaseActivity;
 import com.mp.android.apps.utils.SharedPreferenceUtil;
 
-public class WelcomeActivity extends MBaseActivity {
+public class WelcomeActivity extends AppCompatActivity {
 
     private String SP_PRIVACY = "sp_privacy";
 
 
-    @Override
-    protected IPresenter initInjector() {
-        return null;
-    }
 
     @Override
-    protected void onCreateActivity() {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
         if ((boolean) SharedPreferenceUtil.get(WelcomeActivity.this, SP_PRIVACY, false)) {
@@ -43,12 +44,6 @@ public class WelcomeActivity extends MBaseActivity {
             showPrivacy();
         }
     }
-
-    @Override
-    protected void initData() {
-
-    }
-
 
     private void showPrivacy() {
         final PrivacyDialog dialog = new PrivacyDialog(WelcomeActivity.this);
@@ -136,7 +131,6 @@ public class WelcomeActivity extends MBaseActivity {
      * 启动主界面Activity
      */
     private void startMainActivity() {
-        startActivityByAnim(new Intent(WelcomeActivity.this, MainActivity.class), 1, 0);
-
+        startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
     }
 }

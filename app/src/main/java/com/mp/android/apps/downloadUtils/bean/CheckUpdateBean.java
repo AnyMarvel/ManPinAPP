@@ -1,4 +1,4 @@
-package com.mp.android.apps.downloadUtils;
+package com.mp.android.apps.downloadUtils.bean;
 
 public class CheckUpdateBean {
 

@@ -1,45 +1,26 @@
 package com.mp.android.apps.downloadUtils;
 
-import android.accounts.NetworkErrorException;
 import android.app.Activity;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 
 import com.alibaba.fastjson.JSONObject;
 import com.azhon.appupdate.manager.DownloadManager;
 import com.mp.android.apps.R;
 import com.mp.android.apps.book.base.MBaseModelImpl;
 import com.mp.android.apps.book.base.observer.SimpleObserver;
+import com.mp.android.apps.downloadUtils.bean.CheckUpdateBean;
 import com.mp.android.apps.utils.GeneralTools;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Handler;
-import java.util.regex.Pattern;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -48,16 +29,7 @@ import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.CacheControl;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.CertificatePinner;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.Headers;
@@ -67,6 +39,7 @@ import retrofit2.http.PartMap;
 import retrofit2.http.Url;
 
 public class CheckUpdateUtils extends MBaseModelImpl {
+    public static final String TAG=CheckUpdateUtils.class.getSimpleName();
     private static CheckUpdateUtils downloadUtils;
     private CheckUpdateUtils(){}
     public static CheckUpdateUtils getInstance(){
@@ -82,6 +55,7 @@ public class CheckUpdateUtils extends MBaseModelImpl {
     public static CheckUpdateBean checkUpdateBean;
 
     public void checkUpdata(Activity activity,boolean showToast){
+        Log.e(TAG," initUpdate sssssss");
         if (showToast){
             Toast.makeText(activity, "新版本检测中...", Toast.LENGTH_SHORT).show();
         }
@@ -100,6 +74,7 @@ public class CheckUpdateUtils extends MBaseModelImpl {
                     //            "apkMd5":"21436cd2c7240f8d111fa066ac06298c",
                     //            "ApkSize":"12M"
                     //    }
+                        Log.e(TAG," initUpdate sssssss");
                         if (value != null) {
                             checkUpdateBean = JSONObject.parseObject(value, CheckUpdateBean.class);
                             if (checkUpdateBean != null && GeneralTools.APP_VERSIONCODE < checkUpdateBean.getVersionCode()) {
@@ -107,6 +82,7 @@ public class CheckUpdateUtils extends MBaseModelImpl {
                                 String host = uri.getHost();
                                 String scheme = uri.getScheme();
                                 String path = uri.getPath();
+                                Log.e(TAG,scheme + "://" + host);
                                 return getRetrofitObject(scheme + "://" + host).create(DownloadInterface.class).lanzouSpider(path);
                             }
                         }
@@ -124,6 +100,7 @@ public class CheckUpdateUtils extends MBaseModelImpl {
                                 String downloadUrl = doc.getElementsByClass("n_downlink").get(0).attr("src");
                                 if (downloadUrl!=null){
                                     checkUpdateBean.setLanzouSignUrl(downloadUrl);
+                                    Log.e(TAG,"lanzouSpider");
                                     return getRetrofitObject("https://www.lanzoum.com").create(DownloadInterface.class).lanzouSpider(downloadUrl);
                                 }
                             }
@@ -186,6 +163,7 @@ public class CheckUpdateUtils extends MBaseModelImpl {
                             headers.put("X-Requested-With", "XMLHttpRequest");
 
                             Map<String, RequestBody> requestBodyMap=generateFormRequestBody(bodyMap);
+                            Log.e(TAG,"lanzouSignPostFormData");
                             return getRetrofitObject("https://lanzoux.com").create(DownloadInterface.class).lanzouSignPostFormData(headers,requestBodyMap);
 
                         } catch (Exception e) {
@@ -205,6 +183,7 @@ public class CheckUpdateUtils extends MBaseModelImpl {
                             return Observable.create(new ObservableOnSubscribe<String>() {
                                 @Override
                                 public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+                                    Log.e(TAG,"downloadUrl");
                                     emitter.onNext(downloadUrl);
                                 }
                             });
@@ -218,6 +197,7 @@ public class CheckUpdateUtils extends MBaseModelImpl {
                     @Override
                     public void onNext(String value) {
                         if (value != null && activity != null){
+                            Log.e(TAG,"showDownloadTips");
                             showDownloadTips(activity,value);
                         }
                     }
@@ -266,10 +246,9 @@ public class CheckUpdateUtils extends MBaseModelImpl {
 
             location = mConnection.getHeaderField("location");
 
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG,e.getMessage());
         }
         return location;
     }

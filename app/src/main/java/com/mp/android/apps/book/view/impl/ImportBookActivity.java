@@ -30,6 +30,7 @@ import com.mp.android.apps.book.utils.FileUtil;
 import com.mp.android.apps.book.view.IImportBookView;
 import com.mp.android.apps.book.view.adapter.ImportBookAdapter;
 import com.mp.android.apps.book.widget.modialog.MoProgressHUD;
+import com.mp.android.apps.readActivity.utils.ToastUtils;
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
@@ -140,6 +141,8 @@ public class ImportBookActivity extends MBaseActivity<IImportBookPresenter> impl
                         importBookAdapter.addData(file);
 
                         searchFinish();
+                    }else {
+                        ToastUtils.showToastCenter(getContext(),"当前文件路径获取失败，请使用智能扫描或到使用绝对路径添加");
                     }
                 }
             }
@@ -204,8 +207,21 @@ public class ImportBookActivity extends MBaseActivity<IImportBookPresenter> impl
         scan_tv_addshelf_local.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                chooseFile();
-                manualSearch=true;
+                Acp.getInstance(ImportBookActivity.this).request(new AcpOptions.Builder()
+                        .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE).build(), new AcpListener() {
+                    @Override
+                    public void onGranted() {
+                        chooseFile();
+                        manualSearch=true;
+                    }
+
+                    @Override
+                    public void onDenied(List<String> permissions) {
+                        Toast.makeText(ImportBookActivity.this, "读写权限被权限被拒绝,请到设置界面允许被拒绝权限", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+
             }
         });
     }

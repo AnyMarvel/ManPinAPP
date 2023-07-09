@@ -44,7 +44,7 @@
         </activity>
 
         <activity android:name=".main.MainActivity"
-            android:launchMode="singleInstance"/>
+            />
 
         <activity android:name=".book.view.impl.MoreSettingActivity"/>
         <activity

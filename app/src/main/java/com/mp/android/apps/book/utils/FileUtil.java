@@ -159,7 +159,9 @@ public class FileUtil {
                 final int column_index = cursor.getColumnIndexOrThrow(column);
                 return cursor.getString(column_index);
             }
-        } finally {
+        }catch (Exception e){
+            return null;
+        }finally {
             if (cursor != null)
                 cursor.close();
         }

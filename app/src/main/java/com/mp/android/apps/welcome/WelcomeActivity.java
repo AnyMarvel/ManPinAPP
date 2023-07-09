@@ -45,38 +45,23 @@ public class WelcomeActivity extends AppCompatActivity {
         }
     }
 
-    private void showPrivacy() {
-        final PrivacyDialog dialog = new PrivacyDialog(WelcomeActivity.this);
-        TextView tv_privacy_tips = dialog.findViewById(R.id.tv_privacy_tips);
-        TextView btn_exit = dialog.findViewById(R.id.btn_exit);
-        TextView btn_enter = dialog.findViewById(R.id.btn_enter);
-        dialog.show();
-
-        String string = getResources().getString(R.string.privacy_tips);
-        String key1 = getResources().getString(R.string.privacy_tips_key1);
-        String key2 = getResources().getString(R.string.privacy_tips_key2);
+    private void handleSpannableString(String key1,String string,SpannableString spannedString){
         int index1 = string.indexOf(key1);
-        int index2 = string.indexOf(key2);
-
-        //需要显示的字串
-        SpannableString spannedString = new SpannableString(string);
         //设置点击字体颜色
         ForegroundColorSpan colorSpan1 = new ForegroundColorSpan(getResources().getColor(R.color.colorBlue));
         spannedString.setSpan(colorSpan1, index1, index1 + key1.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-        ForegroundColorSpan colorSpan2 = new ForegroundColorSpan(getResources().getColor(R.color.colorBlue));
-        spannedString.setSpan(colorSpan2, index2, index2 + key2.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+
         //设置点击字体大小
         AbsoluteSizeSpan sizeSpan1 = new AbsoluteSizeSpan(18, true);
         spannedString.setSpan(sizeSpan1, index1, index1 + key1.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-        AbsoluteSizeSpan sizeSpan2 = new AbsoluteSizeSpan(18, true);
-        spannedString.setSpan(sizeSpan2, index2, index2 + key2.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+
         //设置点击事件
         ClickableSpan clickableSpan1 = new ClickableSpan() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
-                Uri content_url = Uri.parse("http://www.aimanpin.com/app/privacy");//此处填链接
+                Uri content_url = Uri.parse("https://huaguoshanapp.github.io/manpinagree.html");//此处填链接
                 intent.setData(content_url);
                 startActivity(intent);
             }
@@ -89,7 +74,22 @@ public class WelcomeActivity extends AppCompatActivity {
         };
         spannedString.setSpan(clickableSpan1, index1, index1 + key1.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 
-        spannedString.setSpan(clickableSpan1, index2, index2 + key2.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+    }
+
+    private void showPrivacy() {
+        final PrivacyDialog dialog = new PrivacyDialog(WelcomeActivity.this);
+        TextView tv_privacy_tips = dialog.findViewById(R.id.tv_privacy_tips);
+        TextView btn_exit = dialog.findViewById(R.id.btn_exit);
+        TextView btn_enter = dialog.findViewById(R.id.btn_enter);
+        dialog.show();
+
+        String string = getResources().getString(R.string.privacy_tips);
+        String key1 = getResources().getString(R.string.privacy_tips_key1);
+        String key2 = getResources().getString(R.string.privacy_tips_key2);
+        SpannableString spannedString = new SpannableString(string);
+
+        handleSpannableString(key1,string,spannedString);
+        handleSpannableString(key2,string,spannedString);
 
         //设置点击后的颜色为透明，否则会一直出现高亮
         tv_privacy_tips.setHighlightColor(Color.TRANSPARENT);
@@ -97,7 +97,6 @@ public class WelcomeActivity extends AppCompatActivity {
         tv_privacy_tips.setMovementMethod(LinkMovementMethod.getInstance());
 
         tv_privacy_tips.setText(spannedString);
-
         //设置弹框宽度占屏幕的80%
         WindowManager m = getWindowManager();
         Display defaultDisplay = m.getDefaultDisplay();

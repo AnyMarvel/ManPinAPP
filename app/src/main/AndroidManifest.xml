@@ -34,7 +34,7 @@
         tools:targetApi="m">
 
         <activity
-            android:name=".main.MainActivity"
+            android:name=".welcome.WelcomeActivity"
             android:theme="@style/APPTheme.FULL"
             android:exported="true">
             <intent-filter>
@@ -43,6 +43,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".main.MainActivity"
+            android:launchMode="singleInstance"/>
 
         <activity android:name=".book.view.impl.MoreSettingActivity"/>
         <activity

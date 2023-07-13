@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 transaction.add(R.id.main_contain, fragment).show(fragment);
             }
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
         }
 
     }

@@ -15,6 +15,9 @@ import com.umeng.commonsdk.UMConfigure;
 import java.io.File;
 import java.util.Arrays;
 
+import io.reactivex.functions.Consumer;
+import io.reactivex.plugins.RxJavaPlugins;
+
 public class MyApplication extends Application {
 
     private static MyApplication instance;
@@ -50,6 +53,13 @@ public class MyApplication extends Application {
         startDownloadService();
 
         GeneralTools.getVersion(this);
+        RxJavaPlugins.setErrorHandler(new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                //rxjava异常统一兜底
+                throwable.printStackTrace();
+            }
+        });
     }
 
     private void startDownloadService() {

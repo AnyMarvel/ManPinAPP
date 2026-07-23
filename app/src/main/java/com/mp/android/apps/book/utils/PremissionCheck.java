@@ -29,7 +29,7 @@ public class PremissionCheck {
                     context.getPackageName(), 0);
             version = info.applicationInfo.targetSdkVersion;
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            android.util.Log.e("PremissionCheck", "getTargetSdkVersion failed", e);
         }
         return version;
     }
@@ -47,7 +47,7 @@ public class PremissionCheck {
             }
             from.startActivity(localIntent);
         } catch (Exception e) {
-            e.printStackTrace();
+            android.util.Log.e("PremissionCheck", "requestPermissionSetting failed", e);
         }
     }
 

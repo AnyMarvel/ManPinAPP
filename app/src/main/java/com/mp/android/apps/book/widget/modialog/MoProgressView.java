@@ -122,7 +122,7 @@ public class MoProgressView extends LinearLayout {
                             edtStart.setSelection(edtStart.getText().length());
                         }
                     }catch (Exception e){
-                        e.printStackTrace();
+                        android.util.Log.e("MoProgressView", "parse number failed", e);
                     }
                 }
             }
@@ -152,7 +152,7 @@ public class MoProgressView extends LinearLayout {
                             edtEnd.setSelection(edtEnd.getText().length());
                         }
                     }catch (Exception e){
-                        e.printStackTrace();
+                        android.util.Log.e("MoProgressView", "parse number failed", e);
                     }
                 }
             }

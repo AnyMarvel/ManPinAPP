@@ -207,4 +207,24 @@ public class SearchBookBean implements Parcelable {
     public void setDesc(String desc) {
         this.desc = desc;
     }
+
+    /**
+     * 以图书详情页地址 noteUrl 作为唯一标识，用于多书源结果的去重
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof SearchBookBean)) {
+            return false;
+        }
+        SearchBookBean that = (SearchBookBean) o;
+        return noteUrl != null ? noteUrl.equals(that.noteUrl) : that.noteUrl == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return noteUrl != null ? noteUrl.hashCode() : 0;
+    }
 }

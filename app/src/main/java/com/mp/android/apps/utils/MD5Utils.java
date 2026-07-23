@@ -29,7 +29,7 @@ public class MD5Utils {
         if (!file.isFile()) {
             return null;
         }
-        MessageDigest digest = null;
+        MessageDigest digest;
         FileInputStream in = null;
         byte buffer[] = new byte[1024];
         int len;
@@ -39,10 +39,17 @@ public class MD5Utils {
             while ((len = in.read(buffer, 0, 1024)) != -1) {
                 digest.update(buffer, 0, len);
             }
-            in.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            android.util.Log.e("MD5Utils", "getFileMD5 failed: " + file.getPath(), e);
             return null;
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (Exception e) {
+                    android.util.Log.e("MD5Utils", "close stream failed", e);
+                }
+            }
         }
         BigInteger bigInt = new BigInteger(1, digest.digest());
         return bigInt.toString(16);
@@ -62,6 +69,9 @@ public class MD5Utils {
         Map<String, String> map = new HashMap<String, String>();
         String md5;
         File files[] = file.listFiles();
+        if (files == null) {
+            return map;
+        }
         for (int i = 0; i < files.length; i++) {
             File f = files[i];
             if (f.isDirectory() && listChild) {
@@ -100,7 +110,7 @@ public class MD5Utils {
             }
             reStr = stringBuffer.toString();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            android.util.Log.e("MD5Utils", "strToMd5By32 failed", e);
         }
         return reStr;
     }

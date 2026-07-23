@@ -1,3 +1,74 @@
+# ================================
+# 优化的ProGuard配置 - 2024
+# ================================
+
+# 保留源文件名和行号信息，便于调试crash
+-keepattributes SourceFile,LineNumberTable
+-renamesourcefileattribute SourceFile
+
+# 保留注解
+-keepattributes *Annotation*,Signature,InnerClasses,EnclosingMethod
+
+# 保留泛型信息
+-keepattributes Signature
+
+# 保留异常信息
+-keepattributes Exceptions
+
+# ================================
+# Android基础组件保护
+# ================================
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+-keep public class * extends android.app.Fragment
+-keep public class * extends androidx.fragment.app.Fragment
+
+# 保留自定义View
+-keep public class * extends android.view.View {
+    public <init>(android.content.Context);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+    public void set*(***);
+    *** get*();
+}
+
+# 保留Parcelable实现类
+-keep class * implements android.os.Parcelable {
+    public static final android.os.Parcelable$Creator *;
+}
+
+# 保留Serializable实现类
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}
+
+# ================================
+# 项目特定保护
+# ================================
+# 保留所有Bean类
+-keep class com.mp.android.apps.**.bean.** { *; }
+-keep class com.mp.android.apps.**.model.** { *; }
+
+# 保留数据库相关类
+-keep class com.mp.android.apps.**.dao.** { *; }
+
+# 保留网络请求相关类
+-keep class com.mp.android.apps.networkutils.** { *; }
+-keep class com.mp.android.apps.basemvplib.** { *; }
+
+# ================================
+# 第三方库保护（已有配置保持不变）
+# ================================
+
+
 # Add project specific ProGuard rules here.
 # You can control the set of applied configuration files using the
 # proguardFiles setting in build.gradle.

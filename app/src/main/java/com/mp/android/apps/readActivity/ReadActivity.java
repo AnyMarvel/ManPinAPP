@@ -182,8 +182,8 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
         @Override
         public void onChange(boolean selfChange, Uri uri) {
             super.onChange(selfChange);
-            //下载provider时间监听
-            if (uri.equals(MyContentProvider.CONTENT_URI)) {
+            //下载provider时间监听（uri 可能为 null，用常量在前避免空指针）
+            if (MyContentProvider.CONTENT_URI.equals(uri)) {
                 Logger.d(TAG, "图书下载中---");
                 //解决由于Session造成的数据获取不及时问题
                 BookRepository.getInstance().getSession().getDownloadTaskBeanDao().detachAll();
@@ -206,6 +206,10 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
                     }else if (downloadTaskBean.getStatus()==DownloadTaskBean.STATUS_FINISH){
                         readBookCacheDownload.setText("已下载");
                     }
+                }
+                //下载进度变化时刷新目录，及时显示章节的"已下载"标记
+                if (mCategoryAdapter != null) {
+                    mCategoryAdapter.notifyDataSetChanged();
                 }
             }
             // 判断当前是否跟随屏幕亮度，如果不是则返回
@@ -712,7 +716,7 @@ public class ReadActivity extends BaseMVPActivity<ReadContract.Presenter>
                 mPresenter.loadCategory(mCollBook);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            android.util.Log.e("ReadActivity", "book parse error", e);
             Toast.makeText(this, "图书解析错误,请联系管理员", Toast.LENGTH_LONG).show();
         }
 

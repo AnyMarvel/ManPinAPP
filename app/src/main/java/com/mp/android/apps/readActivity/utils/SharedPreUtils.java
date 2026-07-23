@@ -35,17 +35,17 @@ public class SharedPreUtils {
 
     public void putString(String key, String value) {
         sharedWritable.putString(key, value);
-        sharedWritable.commit();
+        sharedWritable.apply(); // 使用apply()替代commit()，避免阻塞主线程
     }
 
     public void putInt(String key, int value) {
         sharedWritable.putInt(key, value);
-        sharedWritable.commit();
+        sharedWritable.apply(); // 使用apply()替代commit()，避免阻塞主线程
     }
 
     public void putBoolean(String key, boolean value) {
         sharedWritable.putBoolean(key, value);
-        sharedWritable.commit();
+        sharedWritable.apply(); // 使用apply()替代commit()，避免阻塞主线程
     }
 
     public int getInt(String key, int def) {

@@ -69,7 +69,7 @@ public class BookShelUtils {
                                     BookRepository.getInstance().saveCollBookWithAsync(collBookBean);
                                     emitter.onNext(true);
                                 } catch (Exception e) {
-                                    e.printStackTrace();
+                                    android.util.Log.e("BookShelUtils", "collect book failed", e);
                                     emitter.onNext(false);
                                 }
 
@@ -93,7 +93,7 @@ public class BookShelUtils {
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        android.util.Log.e("BookShelUtils", "collect book failed", e);
                         RxBus.get().post(RxBusTag.HIDE_COLLECTION_RLLODING,new Object());
                         Toast.makeText(MyApplication.getInstance(), collBookBean.getTitle()+"放入书架失败!", Toast.LENGTH_SHORT).show();
                     }

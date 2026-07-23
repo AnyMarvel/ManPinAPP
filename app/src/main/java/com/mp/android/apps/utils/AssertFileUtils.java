@@ -18,19 +18,24 @@ public class AssertFileUtils {
         // TODO Auto-generated method stub
         StringBuilder sb = new StringBuilder();
         AssetManager am = mContext.getAssets();
+        BufferedReader br = null;
         try {
-            InputStreamReader inputStreamReader = new InputStreamReader(am.open(fileName));
-            BufferedReader br = new BufferedReader(inputStreamReader);
-            String next = "";
+            br = new BufferedReader(new InputStreamReader(am.open(fileName)));
+            String next;
             while (null != (next = br.readLine())) {
                 sb.append(next);
             }
-            br.close();
-            inputStreamReader.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            android.util.Log.e("AssertFileUtils", "getJson failed: " + fileName, e);
             sb.delete(0, sb.length());
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    android.util.Log.e("AssertFileUtils", "close reader failed", e);
+                }
+            }
         }
         return sb.toString().trim();
     }

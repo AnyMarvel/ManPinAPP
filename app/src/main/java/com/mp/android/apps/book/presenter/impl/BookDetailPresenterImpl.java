@@ -168,7 +168,7 @@ public class BookDetailPresenterImpl extends BasePresenterImpl<IBookDetailView> 
 
                         @Override
                         public void onError(Throwable e) {
-                            e.printStackTrace();
+                            android.util.Log.e("BookDetailPresenter", "remove from shelf failed", e);
                             Toast.makeText(MyApplication.getInstance(), "移出书架失败!", Toast.LENGTH_SHORT).show();
                         }
                     });

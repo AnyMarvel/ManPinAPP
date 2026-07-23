@@ -41,7 +41,7 @@ public class AppConfigUtils  extends MBaseModelImpl {
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        android.util.Log.e("AppConfigUtils", "config request error", e);
                         appConfig.callback(business);
                     }
                 });

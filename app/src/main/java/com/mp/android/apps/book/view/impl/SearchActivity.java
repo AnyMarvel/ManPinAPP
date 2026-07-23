@@ -427,13 +427,17 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
 
     private void closeKeyBoard() {
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(edtContent.getWindowToken(), 0);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(edtContent.getWindowToken(), 0);
+        }
     }
 
     private void openKeyBoard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         edtContent.requestFocus();
-        imm.showSoftInput(edtContent, InputMethodManager.RESULT_UNCHANGED_SHOWN);
+        if (imm != null) {
+            imm.showSoftInput(edtContent, InputMethodManager.RESULT_UNCHANGED_SHOWN);
+        }
     }
 
     @Override
@@ -504,19 +508,32 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
 
     @Override
     public void updateSearchItem(int index) {
-        if (index < searchBookAdapter.getItemcount()) {
-            int startIndex = ((LinearLayoutManager)
-                    rfRvSearchBooks.getRecyclerView().getLayoutManager()).findFirstVisibleItemPosition();
-            TextView tvAddShelf = (TextView) ((ViewGroup) rfRvSearchBooks.getRecyclerView()).getChildAt(index -
-                    startIndex).findViewById(R.id.tv_addshelf);
-            if (tvAddShelf != null) {
-                if (searchBookAdapter.getSearchBooks().get(index).getAdd()) {
-                    tvAddShelf.setText("已添加");
-                    tvAddShelf.setEnabled(false);
-                } else {
-                    tvAddShelf.setText("+添加");
-                    tvAddShelf.setEnabled(true);
-                }
+        if (index < 0 || index >= searchBookAdapter.getItemcount()) {
+            return;
+        }
+        LinearLayoutManager layoutManager = (LinearLayoutManager)
+                rfRvSearchBooks.getRecyclerView().getLayoutManager();
+        if (layoutManager == null) {
+            searchBookAdapter.notifyDataSetChanged();
+            return;
+        }
+        int startIndex = layoutManager.findFirstVisibleItemPosition();
+        int childIndex = index - startIndex;
+        ViewGroup recyclerView = (ViewGroup) rfRvSearchBooks.getRecyclerView();
+        // 目标项不在当前可见区域时，getChildAt 会越界返回 null，改由适配器整体刷新
+        if (childIndex < 0 || childIndex >= recyclerView.getChildCount()) {
+            searchBookAdapter.notifyDataSetChanged();
+            return;
+        }
+        View child = recyclerView.getChildAt(childIndex);
+        TextView tvAddShelf = child == null ? null : (TextView) child.findViewById(R.id.tv_addshelf);
+        if (tvAddShelf != null) {
+            if (searchBookAdapter.getSearchBooks().get(index).getAdd()) {
+                tvAddShelf.setText("已添加");
+                tvAddShelf.setEnabled(false);
+            } else {
+                tvAddShelf.setText("+添加");
+                tvAddShelf.setEnabled(true);
             }
         }
     }

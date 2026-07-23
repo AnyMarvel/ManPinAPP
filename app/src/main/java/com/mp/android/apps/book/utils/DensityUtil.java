@@ -75,7 +75,7 @@ public class DensityUtil {
             method.invoke(display, displayMetrics);
             return new Point(displayMetrics.widthPixels ,displayMetrics.heightPixels );
         }catch(Exception e){
-            e.printStackTrace();
+            android.util.Log.e("DensityUtil", "getRealMetrics reflection failed", e);
         }
         DisplayMetrics dm = new DisplayMetrics();
         ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(dm);

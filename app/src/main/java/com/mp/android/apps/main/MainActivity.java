@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         try {
             CheckUpdateUtils.getInstance().checkUpdata(this,false);
         }catch (Exception e){
-            e.printStackTrace();
+            android.util.Log.e("MainActivity", "checkUpdate failed", e);
         }
     }
 

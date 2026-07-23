@@ -56,10 +56,36 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
     private Boolean isInput = false;
 
     public SearchPresenterImpl() {
-        List<CollBookBean> temp = DaoDbHelper.getInstance().getSession().getCollBookBeanDao().queryBuilder().list();
-        if (temp != null && temp.size() > 0) {
-            collBookBeans.addAll(temp);
-        }
+        // 书架数据改到 attachView 中异步加载，避免在主线程（onCreate）查询数据库造成卡顿
+    }
+
+    /**
+     * 异步加载本地书架，用于标记搜索结果是否已加入书架。
+     * 放在 IO 线程执行，结果回到主线程更新，避免阻塞 UI。
+     */
+    private void loadCollBooks() {
+        Observable.create(new ObservableOnSubscribe<List<CollBookBean>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<CollBookBean>> e) throws Exception {
+                List<CollBookBean> temp = DaoDbHelper.getInstance().getSession()
+                        .getCollBookBeanDao().queryBuilder().list();
+                e.onNext(temp != null ? temp : new ArrayList<CollBookBean>());
+                e.onComplete();
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SimpleObserver<List<CollBookBean>>() {
+                    @Override
+                    public void onNext(List<CollBookBean> value) {
+                        collBookBeans.clear();
+                        collBookBeans.addAll(value);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        android.util.Log.e("SearchPresenter", "load coll books failed", e);
+                    }
+                });
     }
 
 
@@ -106,7 +132,7 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        android.util.Log.e("SearchPresenter", "request error", e);
                     }
                 });
     }
@@ -133,7 +159,7 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        android.util.Log.e("SearchPresenter", "request error", e);
                     }
                 });
     }
@@ -191,37 +217,55 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
     private AtomicInteger callBackNumber;
 
     private void searchBook(final String content, final long searchTime, Boolean fromError){
-            callBackNumber=new AtomicInteger();
+            if (searchEngine == null || searchEngine.isEmpty()) {
+                mView.refreshFinish(false);
+                return;
+            }
+            // 每次搜索使用独立的计数器，避免快速连续搜索时旧回调串扰计数
+            final AtomicInteger callBack = new AtomicInteger();
+            callBackNumber = callBack;
+            final int engineSize = searchEngine.size();
 
-            for (int i = 0; i < searchEngine.size(); i++) {
+            for (int i = 0; i < engineSize; i++) {
                 WebBookModelControl.getInstance().searchOtherBook(content, page, (String) searchEngine.get(i).get(TAG_KEY))
                         .subscribeOn(Schedulers.io())
+                        // 绑定 Activity 生命周期，页面销毁后自动取消，避免回调已销毁视图导致崩溃
+                        .compose(((BaseActivity) mView.getContext()).<List<SearchBookBean>>bindUntilEvent(ActivityEvent.DESTROY))
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new SimpleObserver<List<SearchBookBean>>() {
                             @Override
                             public void onNext(List<SearchBookBean> value) {
-
-                                // 判断当前搜索图书是否已经加入本地
-                                for (SearchBookBean temp : value) {
-                                    for (CollBookBean CollBookBean : collBookBeans) {
-                                        if (temp.getNoteUrl().equals(CollBookBean.get_id())) {
-                                            temp.setAdd(true);
-                                            break;
+                                // 丢弃过期搜索（用户已发起新的搜索）的回调
+                                if (searchTime != startThisSearchTime) {
+                                    return;
+                                }
+                                if (value != null) {
+                                    // 判断当前搜索图书是否已经加入本地
+                                    for (SearchBookBean temp : value) {
+                                        if (temp == null || temp.getNoteUrl() == null) {
+                                            continue;
+                                        }
+                                        for (CollBookBean collBookBean : collBookBeans) {
+                                            if (temp.getNoteUrl().equals(collBookBean.get_id())) {
+                                                temp.setAdd(true);
+                                                break;
+                                            }
                                         }
                                     }
+                                    mView.loadMoreSearchBook(content, value);
                                 }
-                                mView.loadMoreSearchBook(content,value);
-                                int number= callBackNumber.incrementAndGet();
-                                if (number == searchEngine.size()){
+                                if (callBack.incrementAndGet() == engineSize) {
                                     mView.refreshFinish(false);
                                 }
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                e.printStackTrace();
-                                int number= callBackNumber.incrementAndGet();
-                                if (number==searchEngine.size()){
+                                android.util.Log.e("SearchPresenter", "search error", e);
+                                if (searchTime != startThisSearchTime) {
+                                    return;
+                                }
+                                if (callBack.incrementAndGet() == engineSize) {
                                     mView.refreshFinish(false);
                                 }
                             }
@@ -269,6 +313,8 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
         WebBookModelControl.getInstance().registerSearchEngine(searchEngine, mView.getContext());
         //注册 eventBus
         RxBus.get().register(this);
+        //异步加载本地书架
+        loadCollBooks();
     }
 
     @Override
@@ -286,11 +332,18 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
      * rxbus发送消息进行接受
      */
     public void hadAddBook(CollBookBean collBookBean) {
+        if (collBookBean == null || collBookBean.get_id() == null) {
+            return;
+        }
         collBookBeans.add(collBookBean);
         List<SearchBookBean> datas = mView.getSearchBookAdapter().getSearchBooks();
+        if (datas == null) {
+            return;
+        }
         for (int i = 0; i < datas.size(); i++) {
-            if (datas.get(i).getNoteUrl().equals(collBookBean.get_id())) {
-                datas.get(i).setAdd(true);
+            SearchBookBean bean = datas.get(i);
+            if (bean != null && collBookBean.get_id().equals(bean.getNoteUrl())) {
+                bean.setAdd(true);
                 mView.updateSearchItem(i);
                 break;
             }
@@ -304,18 +357,26 @@ public class SearchPresenterImpl extends BasePresenterImpl<ISearchView> implemen
             }
     )
     public void hadRemoveBook(CollBookBean collBookBean) {
+        if (collBookBean == null || collBookBean.get_id() == null) {
+            return;
+        }
         if (collBookBeans != null) {
             for (int i = 0; i < collBookBeans.size(); i++) {
-                if (collBookBeans.get(i).get_id().equals(collBookBean.get_id())) {
+                CollBookBean coll = collBookBeans.get(i);
+                if (coll != null && collBookBean.get_id().equals(coll.get_id())) {
                     collBookBeans.remove(i);
                     break;
                 }
             }
         }
         List<SearchBookBean> datas = mView.getSearchBookAdapter().getSearchBooks();
+        if (datas == null) {
+            return;
+        }
         for (int i = 0; i < datas.size(); i++) {
-            if (datas.get(i).getNoteUrl().equals(collBookBean.get_id())) {
-                datas.get(i).setAdd(false);
+            SearchBookBean bean = datas.get(i);
+            if (bean != null && collBookBean.get_id().equals(bean.getNoteUrl())) {
+                bean.setAdd(false);
                 mView.updateSearchItem(i);
                 break;
             }

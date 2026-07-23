@@ -19,7 +19,7 @@ public class BrightnessUtils {
             isAuto = Settings.System.getInt(activity.getContentResolver(),
                     Settings.System.SCREEN_BRIGHTNESS_MODE) == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
         } catch (Settings.SettingNotFoundException e){
-            e.printStackTrace();
+            Log.e(TAG, "isAutoBrightness failed", e);
         }
         return isAuto;
     }
@@ -46,7 +46,7 @@ public class BrightnessUtils {
         try {
             nowBrightnessValue = Settings.System.getInt(resolver, Settings.System.SCREEN_BRIGHTNESS);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "getManualScreenBrightness failed", e);
         }
         return nowBrightnessValue;
     }
@@ -64,7 +64,7 @@ public class BrightnessUtils {
             nowBrightnessValue = Settings.System.getFloat(resolver, Settings.System.SCREEN_BRIGHTNESS);
             Log.d(TAG, "getAutoScreenBrightness: " + nowBrightnessValue);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "getAutoScreenBrightness failed", e);
         }
         //转换范围为 (0~255)
         float fValue = nowBrightnessValue * 225.0f;
@@ -84,7 +84,7 @@ public class BrightnessUtils {
             Log.d(TAG, "lp.screenBrightness == " + lp.screenBrightness);
             activity.getWindow().setAttributes(lp);
         }catch(Exception ex){
-            ex.printStackTrace();
+            Log.e(TAG, "setBrightness failed", ex);
         }
     }
 
@@ -98,7 +98,7 @@ public class BrightnessUtils {
             lp.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
             activity.getWindow().setAttributes(lp);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.e(TAG, "setDefaultBrightness failed", ex);
         }
     }
 }

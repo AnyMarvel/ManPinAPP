@@ -86,7 +86,7 @@ public class ContentXSZJModelImpl extends MBaseModelImpl implements IReaderBookM
                         e.onNext(new ArrayList<SearchBookBean>());
                     }
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    android.util.Log.e("ContentXSZJ", "search parse failed", ex);
                     e.onNext(new ArrayList<SearchBookBean>());
                 }
                 e.onComplete();
@@ -256,8 +256,7 @@ public class ContentXSZJModelImpl extends MBaseModelImpl implements IReaderBookM
             }
             chapterInfoBean.setBody(content.toString());
         } catch (Exception ex) {
-            ex.printStackTrace();
-
+            android.util.Log.e("ContentXSZJ", "chapter parse failed", ex);
             content.append("部分章节解析失败，请翻页尝试，或到我的界面。联系管理员");
         }
         return  content.toString();

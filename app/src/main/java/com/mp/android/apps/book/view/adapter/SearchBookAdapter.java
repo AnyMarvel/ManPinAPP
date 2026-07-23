@@ -18,7 +18,7 @@ import com.mp.android.apps.book.widget.refreshview.RefreshRecyclerViewAdapter;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 public class SearchBookAdapter extends RefreshRecyclerViewAdapter {
@@ -156,32 +156,17 @@ public class SearchBookAdapter extends RefreshRecyclerViewAdapter {
         this.itemClickListener = itemClickListener;
     }
 
-    public void addAll(List<SearchBookBean> newDatas,String content) {
-        if(newDatas!=null && newDatas.size()>0){
-
-            searchBooks.addAll(newDatas);
-
-            removeDuplicationByHashSet(searchBooks);
-
-            searchBooks = SearchSortUtils.filerSearchTools(searchBooks,content);
-
-            notifyDataSetChanged();
+    public void addAll(List<SearchBookBean> newDatas, String content) {
+        if (newDatas == null || newDatas.isEmpty()) {
+            return;
         }
-    }
-
-
-
-    /**使用HashSet实现List去重(无序)
-     *
-     * @param list
-     * */
-    public  List<SearchBookBean> removeDuplicationByHashSet(List<SearchBookBean> list) {
-        HashSet<SearchBookBean> set = new HashSet<SearchBookBean>(list);
-        //把List集合所有元素清空
-        list.clear();
-        //把HashSet对象添加至List集合
-        list.addAll(set);
-        return list;
+        searchBooks.addAll(newDatas);
+        // 按 noteUrl 去重（SearchBookBean 已按 noteUrl 实现 equals/hashCode）；
+        // 用 LinkedHashSet 保留插入顺序，避免去重打乱结果
+        searchBooks = new ArrayList<>(new LinkedHashSet<>(searchBooks));
+        // 按与搜索关键词的相似度排序
+        searchBooks = SearchSortUtils.filerSearchTools(searchBooks, content);
+        notifyDataSetChanged();
     }
 
     public void replaceAll(List<SearchBookBean> newData) {

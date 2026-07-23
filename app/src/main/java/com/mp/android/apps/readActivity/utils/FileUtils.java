@@ -9,7 +9,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -49,7 +48,7 @@ public class FileUtils {
                 file.createNewFile();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            android.util.Log.e("FileUtils", "getFile failed: " + filePath, e);
         }
         return file;
     }
@@ -74,6 +73,9 @@ public class FileUtils {
             //如果是目录则递归计算其内容的总大小
             if (file.isDirectory()) {
                 File[] children = file.listFiles();
+                if (children == null) {
+                    return 0;
+                }
                 long size = 0;
                 for (File f : children)
                     size += getDirSize(f);
@@ -117,11 +119,9 @@ public class FileUtils {
                     sb.append("    "+str+"\n");
                 }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
-        }finally {
+            android.util.Log.e("FileUtils", "getFileContent failed", e);
+        } finally {
             IOUtils.close(reader);
         }
         return sb.toString();
@@ -142,9 +142,10 @@ public class FileUtils {
 
         if (file.isDirectory()){
             File[] files = file.listFiles();
-            for (File subFile : files){
-                String path = subFile.getPath();
-                deleteFile(path);
+            if (files != null) {
+                for (File subFile : files) {
+                    deleteFile(subFile.getPath());
+                }
             }
         }
         //删除文件
@@ -180,9 +181,11 @@ public class FileUtils {
                 }
         );
         //遍历文件夹
-        for (File dir : dirs){
-            //递归遍历txt文件
-            txtFiles.addAll(getTxtFiles(dir.getPath(),layer + 1));
+        if (dirs != null) {
+            for (File dir : dirs) {
+                //递归遍历txt文件
+                txtFiles.addAll(getTxtFiles(dir.getPath(), layer + 1));
+            }
         }
         return txtFiles;
     }
@@ -258,7 +261,7 @@ public class FileUtils {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            android.util.Log.e("FileUtils", "getCharset failed: " + fileName, e);
         } finally {
             IOUtils.close(bis);
         }

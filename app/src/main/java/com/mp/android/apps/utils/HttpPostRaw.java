@@ -39,8 +39,15 @@ public class HttpPostRaw {
      * @param postData    请求字段
      * @throws IOException
      */
-    public HttpPostRaw(String requestURL, String charset, Map<String, String> headers, String postData){
-        try{
+    public HttpPostRaw(String requestURL, String charset, Map<String, String> headers, String postData) throws IOException {
+        if (requestURL == null || requestURL.trim().isEmpty()) {
+            throw new IllegalArgumentException("Request URL cannot be null or empty");
+        }
+        if (charset == null || charset.trim().isEmpty()) {
+            throw new IllegalArgumentException("Charset cannot be null or empty");
+        }
+        
+        try {
             this.charset = charset;
             this.postData = postData;
             URL url = new URL(requestURL);
@@ -51,20 +58,21 @@ public class HttpPostRaw {
             httpConn.setUseCaches(false);
             httpConn.setDoOutput(true);    // 表明是post请求
             httpConn.setDoInput(true);
-            httpConn.setRequestProperty("Content-Type", "text/plain");
+            httpConn.setRequestProperty("Content-Type", "text/plain; charset=" + charset);
             if (headers != null && headers.size() > 0) {
-                Iterator<String> it = headers.keySet().iterator();
-                while (it.hasNext()) {
-                    String key = it.next();
-                    String value = headers.get(key);
-                    httpConn.setRequestProperty(key, value);
+                for (Map.Entry<String, String> entry : headers.entrySet()) {
+                    String key = entry.getKey();
+                    String value = entry.getValue();
+                    if (key != null && value != null) {
+                        httpConn.setRequestProperty(key, value);
+                    }
                 }
             }
-        }catch (Exception e){
-
+        } catch (NoSuchAlgorithmException | KeyManagementException e) {
+            throw new IOException("Failed to setup SSL connection", e);
+        } catch (Exception e) {
+            throw new IOException("Failed to initialize HTTP connection", e);
         }
-
-
     }
 
     public HttpPostRaw(String requestURL, String charset, Map<String, String> headers) throws IOException {
@@ -82,7 +90,9 @@ public class HttpPostRaw {
      * @param value
      */
     public void addHeader(String key, String value) {
-        httpConn.setRequestProperty(key, value);
+        if (httpConn != null && key != null && value != null) {
+            httpConn.setRequestProperty(key, value);
+        }
     }
 
     /**
@@ -103,7 +113,7 @@ public class HttpPostRaw {
         try {
             result = this.postData.toString().getBytes("UTF-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            android.util.Log.e("HttpPostRaw", "getParamsByte failed", e);
         }
         return result;
     }
@@ -119,7 +129,7 @@ public class HttpPostRaw {
         try {
             result = URLEncoder.encode(data, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            android.util.Log.e("HttpPostRaw", "encodeParam failed", e);
         }
         return result;
     }
@@ -131,24 +141,48 @@ public class HttpPostRaw {
      * @throws IOException
      */
     public String finish() throws IOException {
-        String response = "";
-        byte[] postDataBytes = this.getParamsByte();
-        httpConn.getOutputStream().write(postDataBytes);
-        // 检查服务器返回状态
-        int status = httpConn.getResponseCode();
-        if (status == HttpURLConnection.HTTP_OK) {
-            ByteArrayOutputStream result = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = httpConn.getInputStream().read(buffer)) != -1) {
-                result.write(buffer, 0, length);
-            }
-            response = result.toString(this.charset);
-            httpConn.disconnect();
-        } else {
-            throw new IOException("Server returned non-OK status: " + status);
+        if (httpConn == null) {
+            throw new IOException("HttpURLConnection is not initialized");
         }
-        return response;
+
+        ByteArrayOutputStream result = null;
+        try {
+            byte[] postDataBytes = this.getParamsByte();
+            if (postDataBytes != null && postDataBytes.length > 0) {
+                httpConn.getOutputStream().write(postDataBytes);
+                httpConn.getOutputStream().flush();
+            }
+
+            // 检查服务器返回状态
+            int status = httpConn.getResponseCode();
+            if (status == HttpURLConnection.HTTP_OK) {
+                result = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = httpConn.getInputStream().read(buffer)) != -1) {
+                    result.write(buffer, 0, length);
+                }
+                return result.toString(this.charset);
+            } else {
+                throw new IOException("Server returned non-OK status: " + status);
+            }
+        } finally {
+            // 确保资源被正确关闭
+            if (result != null) {
+                try {
+                    result.close();
+                } catch (IOException e) {
+                    android.util.Log.e("HttpPostRaw", "Error closing ByteArrayOutputStream", e);
+                }
+            }
+            if (httpConn != null) {
+                try {
+                    httpConn.disconnect();
+                } catch (Exception e) {
+                    android.util.Log.e("HttpPostRaw", "Error disconnecting HttpURLConnection", e);
+                }
+            }
+        }
     }
 
     private static void trustAllHttpsCertificates() throws NoSuchAlgorithmException, KeyManagementException {

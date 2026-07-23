@@ -68,3 +68,7 @@ Android开发内容总结,主要针对Android技术,界面,底层,性能优化�
 更多技术细节,请参考如下技术总结
 
 [https://androidsummary.gitbook.io/androidsummary/](https://androidsummary.gitbook.io/androidsummary/)
+
+
+www.hashuocan.com
+http://www.shuhai.com

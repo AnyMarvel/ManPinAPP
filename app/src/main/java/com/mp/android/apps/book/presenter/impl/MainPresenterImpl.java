@@ -63,7 +63,7 @@ public class MainPresenterImpl extends BasePresenterImpl<IMainView> implements I
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        android.util.Log.e("MainPresenter", "request error", e);
                         mView.refreshError(NetworkUtil.getErrorTip(NetworkUtil.ERROR_CODE_ANALY));
                     }
                 });
@@ -110,7 +110,7 @@ public class MainPresenterImpl extends BasePresenterImpl<IMainView> implements I
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        android.util.Log.e("MainPresenter", "request error", e);
                         mView.refreshError(NetworkUtil.getErrorTip(NetworkUtil.ERROR_CODE_NONET));
                     }
                 });

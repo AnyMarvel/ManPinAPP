@@ -77,7 +77,7 @@ public abstract class MBaseModelImpl {
             clientBuilder.sslSocketFactory(sslContext.getSocketFactory(),trustManager);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            android.util.Log.e("MBaseModelImpl", "init ssl socket factory failed", e);
         }
 
         return new Retrofit.Builder().baseUrl(url)
@@ -104,17 +104,35 @@ public abstract class MBaseModelImpl {
     //https://blog.csdn.net/weixin_41633457/article/details/105226728
     protected Map<String, RequestBody> generateFormRequestBody(Map<String, String> requestDataMap) {
         Map<String, RequestBody> requestBodyMap = new HashMap<>();
-        for (String key : requestDataMap.keySet()) {
-            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),
-                    requestDataMap.get(key) == null ? "" : Objects.requireNonNull(requestDataMap.get(key)));
-            requestBodyMap.put(key, requestBody);
+        if (requestDataMap == null || requestDataMap.isEmpty()) {
+            return requestBodyMap;
+        }
+        
+        for (Map.Entry<String, String> entry : requestDataMap.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            if (key != null) {
+                RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),
+                        value == null ? "" : value);
+                requestBodyMap.put(key, requestBody);
+            }
         }
         return requestBodyMap;
     }
 
     // 创建json类型的requestBody
     protected RequestBody generateJsonRequestBody(Object object){
-        return RequestBody.create(MediaType.parse("Content-Type, application/json"), JSON.toJSONString(object));
+        if (object == null) {
+            return RequestBody.create(MediaType.parse("Content-Type, application/json"), "{}");
+        }
+        try {
+            String jsonString = JSON.toJSONString(object);
+            return RequestBody.create(MediaType.parse("Content-Type, application/json"), 
+                    jsonString != null ? jsonString : "{}");
+        } catch (Exception e) {
+            android.util.Log.e("MBaseModelImpl", "Error converting object to JSON", e);
+            return RequestBody.create(MediaType.parse("Content-Type, application/json"), "{}");
+        }
     }
 
 

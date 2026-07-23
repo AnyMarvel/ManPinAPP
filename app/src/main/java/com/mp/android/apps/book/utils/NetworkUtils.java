@@ -19,7 +19,7 @@ public class NetworkUtils {
         ConnectivityManager cm = (ConnectivityManager) MyApplication.getInstance()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        return cm.getActiveNetworkInfo();
+        return cm == null ? null : cm.getActiveNetworkInfo();
     }
 
     /**
@@ -53,8 +53,11 @@ public class NetworkUtils {
     public static boolean isWifiConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm != null && cm.getActiveNetworkInfo() != null
-                && cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI;
+        if (cm == null) {
+            return false;
+        }
+        NetworkInfo info = cm.getActiveNetworkInfo();
+        return info != null && info.getType() == ConnectivityManager.TYPE_WIFI;
     }
 
 

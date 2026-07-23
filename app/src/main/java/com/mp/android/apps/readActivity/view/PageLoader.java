@@ -1121,7 +1121,7 @@ public abstract class PageLoader {
                 mStatus = STATUS_LOADING;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            android.util.Log.e("PageLoader", "load/read chapter failed", e);
 
             mCurPageList = null;
             mStatus = STATUS_ERROR;
@@ -1345,9 +1345,9 @@ public abstract class PageLoader {
                 lines.clear();
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            android.util.Log.e("PageLoader", "load/read chapter failed", e);
         } catch (IOException e) {
-            e.printStackTrace();
+            android.util.Log.e("PageLoader", "load/read chapter failed", e);
         } finally {
             IOUtils.close(br);
         }

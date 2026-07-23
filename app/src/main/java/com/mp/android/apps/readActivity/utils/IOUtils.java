@@ -11,8 +11,7 @@ public class IOUtils {
         try {
             closeable.close();
         } catch (IOException e) {
-            e.printStackTrace();
-            //close error
+            android.util.Log.e("IOUtils", "close error", e);
         }
     }
 }

@@ -90,7 +90,7 @@ public class ContentSoDuModelImpl extends MBaseModelImpl implements IReaderBookM
                         e.onNext(new ArrayList<SearchBookBean>());
                     }
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    android.util.Log.e("ContentSoDuModel", "search parse failed", ex);
                     e.onNext(new ArrayList<SearchBookBean>());
                 }
                 e.onComplete();
@@ -226,7 +226,8 @@ public class ContentSoDuModelImpl extends MBaseModelImpl implements IReaderBookM
                         object.wait();
 
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        android.util.Log.e("ContentSoDuModel", "wait interrupted", e);
+                        Thread.currentThread().interrupt();
                     }
                 }
         List<BookChapterBean> chapterBeans = new ArrayList<BookChapterBean>();
@@ -309,7 +310,7 @@ public class ContentSoDuModelImpl extends MBaseModelImpl implements IReaderBookM
             chapterInfoBean.setBody(content.toString());
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            android.util.Log.e("ContentSoDuModel", "chapter parse failed", ex);
             chapterInfoBean.setBody("章节解析失败，请翻页尝试，或到我的界面。联系管理员");
         }
         return chapterInfoBean;

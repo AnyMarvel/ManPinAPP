@@ -171,7 +171,7 @@ public class ReadBookControl {
         this.textKindIndex = textKindIndex;
         SharedPreferences.Editor editor = preference.edit();
         editor.putInt("textKindIndex", textKindIndex);
-        editor.commit();
+        editor.apply(); // 使用apply()替代commit()，避免阻塞主线程
         this.textSize = textKind.get(textKindIndex).get("textSize");
         this.textExtra = textKind.get(textKindIndex).get("textExtra");
     }
@@ -184,7 +184,7 @@ public class ReadBookControl {
         this.textDrawableIndex = textDrawableIndex;
         SharedPreferences.Editor editor = preference.edit();
         editor.putInt("textDrawableIndex", textDrawableIndex);
-        editor.commit();
+        editor.apply(); // 使用apply()替代commit()，避免阻塞主线程
         this.textColor = textDrawable.get(textDrawableIndex).get("textColor");
         this.textBackground = textDrawable.get(textDrawableIndex).get("textBackground");
     }
@@ -205,7 +205,7 @@ public class ReadBookControl {
         this.canKeyTurn = canKeyTurn;
         SharedPreferences.Editor editor = preference.edit();
         editor.putBoolean("canKeyTurn", canKeyTurn);
-        editor.commit();
+        editor.apply(); // 使用apply()替代commit()，避免阻塞主线程
     }
 
     public Boolean getCanClickTurn() {
@@ -216,7 +216,7 @@ public class ReadBookControl {
         this.canClickTurn = canClickTurn;
         SharedPreferences.Editor editor = preference.edit();
         editor.putBoolean("canClickTurn", canClickTurn);
-        editor.commit();
+        editor.apply(); // 使用apply()替代commit()，避免阻塞主线程
     }
 
     public int getDayColorIndex() {

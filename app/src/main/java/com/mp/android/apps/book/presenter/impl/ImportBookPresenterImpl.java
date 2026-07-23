@@ -127,7 +127,7 @@ public class ImportBookPresenterImpl extends BasePresenterImpl<IImportBookView> 
                     .saveCollBooks(collBooks);
             mView.addSuccess();
         }catch (Exception e){
-            e.printStackTrace();
+            android.util.Log.e("ImportBookPresenter", "import failed", e);
         }
 
     }

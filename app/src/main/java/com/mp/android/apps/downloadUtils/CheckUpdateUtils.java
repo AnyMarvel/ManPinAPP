@@ -204,7 +204,7 @@ public class CheckUpdateUtils extends MBaseModelImpl {
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        Log.e(TAG, "checkUpdate request error", e);
                     }
                 });
     }
@@ -247,8 +247,7 @@ public class CheckUpdateUtils extends MBaseModelImpl {
             location = mConnection.getHeaderField("location");
 
         } catch (Exception e) {
-            e.printStackTrace();
-            Log.e(TAG,e.getMessage());
+            Log.e(TAG, "getResponseLocation failed", e);
         }
         return location;
     }

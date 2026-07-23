@@ -5,7 +5,6 @@ import com.mp.android.apps.book.bean.SearchBookBean;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import me.xdrop.fuzzywuzzy.FuzzySearch;
 import me.xdrop.fuzzywuzzy.ToStringFunction;
@@ -13,38 +12,29 @@ import me.xdrop.fuzzywuzzy.model.BoundExtractedResult;
 
 
 public class SearchSortUtils {
-    public static List<SearchBookBean> filerSearchTools(List<SearchBookBean> searchBookBeans,String filter){
-        List<SearchBookBean> newList=new ArrayList<>();
-        for (SearchBookBean searchTemp:searchBookBeans) {
-            if (specifyStringFiltering(filter,searchTemp.getName())){
-                newList.add(searchTemp);
-            }
+    public static List<SearchBookBean> filerSearchTools(List<SearchBookBean> searchBookBeans, String filter) {
+        if (searchBookBeans == null || searchBookBeans.isEmpty()) {
+            return new ArrayList<>();
         }
-        return searchSort(searchBookBeans,filter);
-
+        // filter 为用户输入，作为模糊匹配的关键字，null 时按空串处理
+        return searchSort(searchBookBeans, filter == null ? "" : filter);
     }
 
 
-    static boolean specifyStringFiltering(String filter,String target) {
-        return Pattern.matches(".*("+filter+").*", target);
-    }
-
-
-    static List<SearchBookBean> searchSort(List<SearchBookBean> searchBookBeans,String filter){
-        List<BoundExtractedResult<SearchBookBean>>  list= FuzzySearch.extractSorted(filter, searchBookBeans, new ToStringFunction<SearchBookBean>() {
+    static List<SearchBookBean> searchSort(List<SearchBookBean> searchBookBeans, String filter) {
+        List<BoundExtractedResult<SearchBookBean>> list = FuzzySearch.extractSorted(filter, searchBookBeans, new ToStringFunction<SearchBookBean>() {
             @Override
             public String apply(SearchBookBean item) {
-                return item.getName();
+                // 书名可能为空，避免模糊匹配时空指针
+                return item == null || item.getName() == null ? "" : item.getName();
             }
         });
-        List<SearchBookBean> newList=new ArrayList<>();
-
+        List<SearchBookBean> newList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             newList.add(list.get(i).getReferent());
         }
         return newList;
     }
-
 
 
 }

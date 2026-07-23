@@ -69,8 +69,11 @@ public class WebBookModelControl {
         //只具有搜索功能的下发服务器,为用户点击的上报数据
         models.add(ContentXSZJModelImpl.getInstance());
         models.add(ContentSoDuModelImpl.getInstance());
-        models.add(ContentXXBiQuGeModelImpl.getInstance());
-        models.add(ContentLingDianModelImpl.getInstance());
+
+
+        //以下源已失效（域名出售/无法访问），停用避免每次搜索空转拖慢速度
+//        models.add(ContentXXBiQuGeModelImpl.getInstance()); //xxbiqudu.com 域名已出售
+//        models.add(ContentLingDianModelImpl.getInstance()); //soudu.org 已失效
 
 
         //以下源为废弃源

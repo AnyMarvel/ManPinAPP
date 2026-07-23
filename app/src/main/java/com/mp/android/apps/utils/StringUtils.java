@@ -81,7 +81,7 @@ public class StringUtils {
                 return value;
             }
         } catch (ParseException e) {
-            e.printStackTrace();
+            android.util.Log.e("StringUtils", "dateConvert failed: " + source, e);
         }
         return "";
     }

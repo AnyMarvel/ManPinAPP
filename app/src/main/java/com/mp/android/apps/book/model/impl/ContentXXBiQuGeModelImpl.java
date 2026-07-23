@@ -81,7 +81,7 @@ public class ContentXXBiQuGeModelImpl extends MBaseModelImpl implements IReaderB
                         e.onNext(new ArrayList<SearchBookBean>());
                     }
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    android.util.Log.e("ContentXXBiQuGe", "search parse failed", ex);
                     e.onNext(new ArrayList<SearchBookBean>());
                 }
                 e.onComplete();
@@ -218,7 +218,7 @@ public class ContentXXBiQuGeModelImpl extends MBaseModelImpl implements IReaderB
             chapterInfoBean.setBody(content.toString());
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            android.util.Log.e("ContentXXBiQuGe", "chapter parse failed", ex);
             chapterInfoBean.setBody("章节解析失败，请翻页尝试，或到我的界面。联系管理员");
         }
         return chapterInfoBean;

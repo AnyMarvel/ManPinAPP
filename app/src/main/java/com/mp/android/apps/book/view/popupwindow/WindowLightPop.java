@@ -125,7 +125,7 @@ public class WindowLightPop extends PopupWindow {
         try {
             value = Settings.System.getInt(cr, Settings.System.SCREEN_BRIGHTNESS);
         } catch (Settings.SettingNotFoundException e) {
-            e.printStackTrace();
+            android.util.Log.e("WindowLightPop", "get brightness failed", e);
         }
         return value;
     }
@@ -135,7 +135,7 @@ public class WindowLightPop extends PopupWindow {
         SharedPreferences.Editor editor = preference.edit();
         editor.putInt("light", light);
         editor.putBoolean("isfollowsys", isFollowSys);
-        editor.commit();
+        editor.apply(); // 使用apply()替代commit()，避免阻塞主线程
     }
 
     private int getLight() {

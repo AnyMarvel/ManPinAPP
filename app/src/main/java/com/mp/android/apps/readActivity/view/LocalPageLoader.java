@@ -92,6 +92,7 @@ public class LocalPageLoader extends PageLoader {
         List<TxtChapter> chapters = new ArrayList<>();
         //获取文件流
         RandomAccessFile bookStream = new RandomAccessFile(mBookFile, "r");
+        try {
         //寻找匹配文章标题的正则表达式，判断是否存在章节名
         boolean hasChapter = checkChapterType(bookStream);
         //加载章节
@@ -255,7 +256,9 @@ public class LocalPageLoader extends PageLoader {
         }
 
         mChapterList = chapters;
-        IOUtils.close(bookStream);
+        } finally {
+            IOUtils.close(bookStream);
+        }
 
         System.gc();
         System.runFinalization();
@@ -277,9 +280,9 @@ public class LocalPageLoader extends PageLoader {
             bookStream.read(content, 0, extent);
             return content;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            android.util.Log.e("LocalPageLoader", "read chapter failed", e);
         } catch (IOException e) {
-            e.printStackTrace();
+            android.util.Log.e("LocalPageLoader", "read chapter failed", e);
         } finally {
             IOUtils.close(bookStream);
         }

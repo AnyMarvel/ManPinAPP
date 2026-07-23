@@ -21,9 +21,9 @@ public class ACache {
 		try{
 			SharedPreferences.Editor editor = preference.edit();
 			editor.putString(key, value);
-			editor.commit();
+			editor.apply(); // 使用apply()替代commit()，避免阻塞主线程
 		}catch (Exception e){
-
+			android.util.Log.e("ACache", "Error putting value for key: " + key, e);
 		}
 	}
 
@@ -37,6 +37,7 @@ public class ACache {
 		try{
 			return preference.getString(key,null);
 		}catch (Exception e){
+			android.util.Log.e("ACache", "Error getting value for key: " + key, e);
 			return null;
 		}
 	}

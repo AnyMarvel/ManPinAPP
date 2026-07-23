@@ -327,7 +327,7 @@ public class ScrollPageAnim extends PageAnimation {
                     mVelocity.recycle(); // if velocityTracker won't be used should be recycled
                     mVelocity = null;
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    android.util.Log.e("ScrollPageAnim", "velocity compute failed", e);
                 }
                 break;
         }

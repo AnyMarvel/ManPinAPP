@@ -46,7 +46,7 @@ public class StringUtils {
             Date temp = format.parse(time);
             return temp;
         } catch (ParseException e) {
-            e.printStackTrace();
+            android.util.Log.e("StringUtils", "convertData failed: " + time, e);
         }
         return null;
     }
@@ -94,7 +94,7 @@ public class StringUtils {
                 return value;
             }
         } catch (ParseException e) {
-            e.printStackTrace();
+            android.util.Log.e("StringUtils", "dateConvert failed: " + source, e);
         }
         return "";
     }

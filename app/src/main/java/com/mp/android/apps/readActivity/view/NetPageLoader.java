@@ -219,7 +219,7 @@ public class NetPageLoader extends PageLoader {
                 BookRepository.getInstance()
                         .saveCollBook(mCollBook);
             }catch (Exception e){
-                e.printStackTrace();
+                android.util.Log.e("NetPageLoader", "save book failed", e);
             }
 
         }

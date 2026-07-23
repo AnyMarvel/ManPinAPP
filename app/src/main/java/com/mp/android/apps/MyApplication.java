@@ -57,7 +57,7 @@ public class MyApplication extends Application {
             @Override
             public void accept(Throwable throwable) throws Exception {
                 //rxjava异常统一兜底
-                throwable.printStackTrace();
+                android.util.Log.e("MyApplication", "rxjava uncaught error", throwable);
             }
         });
     }

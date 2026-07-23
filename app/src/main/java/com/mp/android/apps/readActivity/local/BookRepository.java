@@ -75,7 +75,7 @@ public class BookRepository {
                             try {
                                 mCollBookDao.insertOrReplace(bean);
                             } catch (Exception e) {
-                                e.printStackTrace();
+                                android.util.Log.e("BookRepository", "io error", e);
                             }
 
                         }
@@ -146,7 +146,8 @@ public class BookRepository {
             writer.write(content);
             writer.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            android.util.Log.e("BookRepository", "io error", e);
+        } finally {
             IOUtils.close(writer);
         }
     }
@@ -211,9 +212,9 @@ public class BookRepository {
                 sb.append(str);
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            android.util.Log.e("BookRepository", "io error", e);
         } catch (IOException e) {
-            e.printStackTrace();
+            android.util.Log.e("BookRepository", "io error", e);
         } finally {
             IOUtils.close(reader);
         }
@@ -273,7 +274,7 @@ public class BookRepository {
 
                     e.onSuccess(new Void());
                 } catch (Exception e1) {
-                    e1.printStackTrace();
+                    android.util.Log.e("BookRepository", "delete book failed", e1);
                 }
 
             }

@@ -34,17 +34,33 @@ public class SharedPreferenceUtil {
      * @return String   加密后的String
      */
     private static String Object2String(Object object) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        if (object == null) {
+            return null;
+        }
+        
+        ByteArrayOutputStream byteArrayOutputStream = null;
         ObjectOutputStream objectOutputStream = null;
         try {
+            byteArrayOutputStream = new ByteArrayOutputStream();
             objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
             objectOutputStream.writeObject(object);
+            objectOutputStream.flush();
             String string = new String(Base64.encode(byteArrayOutputStream.toByteArray(), Base64.DEFAULT));
-            objectOutputStream.close();
             return string;
         } catch (IOException e) {
-            e.printStackTrace();
+            android.util.Log.e("SharedPreferenceUtil", "Error converting object to string", e);
             return null;
+        } finally {
+            try {
+                if (objectOutputStream != null) {
+                    objectOutputStream.close();
+                }
+                if (byteArrayOutputStream != null) {
+                    byteArrayOutputStream.close();
+                }
+            } catch (IOException e) {
+                android.util.Log.e("SharedPreferenceUtil", "Error closing streams", e);
+            }
         }
     }
 
@@ -55,19 +71,33 @@ public class SharedPreferenceUtil {
      * @return object      解密后的object
      */
     private static Object String2Object(String objectString) {
-        byte[] mobileBytes = Base64.decode(objectString.getBytes(), Base64.DEFAULT);
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(mobileBytes);
-        ObjectInputStream objectInputStream = null;
-        try {
-            objectInputStream = new ObjectInputStream(byteArrayInputStream);
-            Object object = objectInputStream.readObject();
-            objectInputStream.close();
-            return object;
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (objectString == null || objectString.trim().isEmpty()) {
             return null;
         }
-
+        
+        ByteArrayInputStream byteArrayInputStream = null;
+        ObjectInputStream objectInputStream = null;
+        try {
+            byte[] mobileBytes = Base64.decode(objectString.getBytes(), Base64.DEFAULT);
+            byteArrayInputStream = new ByteArrayInputStream(mobileBytes);
+            objectInputStream = new ObjectInputStream(byteArrayInputStream);
+            Object object = objectInputStream.readObject();
+            return object;
+        } catch (Exception e) {
+            android.util.Log.e("SharedPreferenceUtil", "Error converting string to object", e);
+            return null;
+        } finally {
+            try {
+                if (objectInputStream != null) {
+                    objectInputStream.close();
+                }
+                if (byteArrayInputStream != null) {
+                    byteArrayInputStream.close();
+                }
+            } catch (IOException e) {
+                android.util.Log.e("SharedPreferenceUtil", "Error closing streams", e);
+            }
+        }
     }
 
     /**
@@ -77,10 +107,15 @@ public class SharedPreferenceUtil {
      * @param saveObject 储存的对象
      */
     public static void saveObject(String key, Object saveObject, SharedPreferences sharedPreferences) {
+        if (key == null || sharedPreferences == null) {
+            return;
+        }
         SharedPreferences.Editor editor = sharedPreferences.edit();
         String string = Object2String(saveObject);
-        editor.putString(key, string);
-        editor.commit();
+        if (string != null) {
+            editor.putString(key, string);
+        }
+        editor.apply(); // 使用apply()替代commit()，避免阻塞主线程
     }
 
     /**

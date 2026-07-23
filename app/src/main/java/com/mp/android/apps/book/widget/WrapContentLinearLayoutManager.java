@@ -25,7 +25,7 @@ public class WrapContentLinearLayoutManager extends LinearLayoutManager {
         try {
             super.onLayoutChildren(recycler, state);
         } catch (IndexOutOfBoundsException e) {
-            e.printStackTrace();
+            android.util.Log.e("WrapContentLLM", "onLayoutChildren IOOBE", e);
         }
     }
 }

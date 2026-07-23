@@ -85,7 +85,7 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
                 try {
                     CheckUpdateUtils.getInstance().checkUpdata(getActivity(),true);
                 }catch (Exception e){
-                    e.printStackTrace();
+                    android.util.Log.e("PersonFragment", "checkUpdate failed", e);
                 }
                 break;
             case R.id.kaiyuandizhi:

@@ -90,7 +90,7 @@ public class DownloadCacheDialog extends Dialog {
                     try {
                         downloadBookInterface.addTask(translateCollBooBean(collBookBean));
                     } catch (RemoteException e) {
-                        e.printStackTrace();
+                        android.util.Log.e("DownloadCacheDialog", "add download task failed", e);
                     }
                     Toast.makeText(context, "正在离线缓存,可边到书架页面查看缓存进度或取消", Toast.LENGTH_LONG).show();
 

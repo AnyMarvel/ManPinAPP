@@ -20,7 +20,7 @@ public class GeneralTools {
             APP_VERSION = info.versionName;
             APP_VERSIONCODE = info.versionCode;
         } catch (Exception e) {
-            e.printStackTrace();
+            android.util.Log.e("GeneralTools", "getVersion failed", e);
         }
     }
 

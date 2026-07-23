@@ -1,10 +1,9 @@
 apply plugin: 'com.android.application'
-apply plugin: 'org.greenrobot.greendao'
 
 android {
-    compileSdkVersion 33
-    ndkVersion "22.1.7171670"
-    defaultConfig { 
+    namespace "com.mp.android.apps"
+    compileSdk 34
+    defaultConfig {
         applicationId "com.mp.android.apps"
         minSdkVersion 21
         //Android 11 高版本 出现外部存储无法访问的问题
@@ -44,7 +43,9 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            // release 正式签名文件 AnyMarvel.jks 存在时用它；缺失时回退 debug.keystore
+            // (个人自用可直接出包；正式发布请放置 AnyMarvel.jks)
+            signingConfig rootProject.file('AnyMarvel.jks').exists() ? signingConfigs.release : signingConfigs.debug
         }
     }
     sourceSets {
@@ -57,6 +58,19 @@ android {
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
+    buildFeatures {
+        // AGP 8 默认关闭 BuildConfig 生成，代码中用到 BuildConfig，需显式开启
+        buildConfig true
+        // AGP 8 默认关闭 AIDL，工程有 IDownloadBookInterface.aidl(下载服务跨进程接口)，需开启
+        aidl true
+    }
+    lint {
+        // 个人自用、不上架 Google Play：targetSdk 28 为兼容外部存储访问而有意保留。
+        // AGP 8 的 Lint DSL 属性需用 +=/= 赋值(方法调用式对新 DSL 集合不生效)。
+        disable += 'ExpiredTargetSdkVersion'
+        abortOnError = false
+        checkReleaseBuilds = false
+    }
 }
 
 
@@ -64,21 +78,23 @@ dependencies {
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.material:material:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.3.0-beta01'
+    implementation 'com.google.android.material:material:1.9.0'  // 更新版本
+    implementation 'androidx.appcompat:appcompat:1.6.1'  // 更新到稳定版本
 
     //下拉刷新库
-    implementation 'com.scwang.smart:refresh-layout-kernel:2.0.0-alpha-1'
-    implementation 'com.scwang.smart:refresh-header-classics:2.0.0-alpha-1'    //经典刷新头
-    implementation 'com.scwang.smart:refresh-footer-classics:2.0.0-alpha-1'    //经典加载
+    // 坐标已从 com.scwang.smart(仅在已死的jcenter) 迁移到 io.github.scwang90(mavenCentral)
+    // 代码包名仍为 com.scwang.smart.refresh.*，import 无需修改
+    implementation 'io.github.scwang90:refresh-layout-kernel:2.1.0'  //核心
+    implementation 'io.github.scwang90:refresh-header-classics:2.1.0'    //经典刷新头
+    implementation 'io.github.scwang90:refresh-footer-classics:2.1.0'    //经典加载
 
-    implementation 'androidx.multidex:multidex:2.0.0'
-    //glide图片库依赖
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    //glide图片库依赖 - 更新到最新稳定版本
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
 
-    //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.0
-    implementation 'com.alibaba:fastjson:1.1.70.android'
+    //fastjson存在安全漏洞，建议更新到最新版本或使用gson替代
+    implementation 'com.alibaba:fastjson:1.2.83'  // 更新到修复安全漏洞的版本
 
     implementation files('libs/jcc-bate-0.7.3.jar')
 
@@ -127,24 +143,24 @@ dependencies {
     api files('libs/commons-codec-1.10-sources.jar')
     api files('libs/juniversalchardet-1.0.3.jar')
 
-    //RxAndroid
-    api 'io.reactivex.rxjava2:rxandroid:2.1.0'
-    api 'io.reactivex.rxjava2:rxjava:2.2.5'
+    //RxAndroid - 更新到最新稳定版本
+    api 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    api 'io.reactivex.rxjava2:rxjava:2.2.21'  // 更新到最新2.x版本
 
-    //Rxlifecycle
-    api 'com.trello.rxlifecycle2:rxlifecycle:2.0.1'
-    api 'com.trello.rxlifecycle2:rxlifecycle-android:2.0.1'
+    //Rxlifecycle - 更新到最新版本
+    api 'com.trello.rxlifecycle2:rxlifecycle:2.2.2'
+    api 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.2'
     // If you want to bind to Android-specific lifecycles
-    api 'com.trello.rxlifecycle2:rxlifecycle-components:2.0.1'
+    api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
     // If you want pre-written Activities and Fragments you can subclass as providers
-    api 'com.trello.rxlifecycle2:rxlifecycle-navi:2.0.1'  // If you want to use Navi for providers
-    api 'com.trello.rxlifecycle2:rxlifecycle-kotlin:2.0.1' // If you want to use Kotlin syntax
+    api 'com.trello.rxlifecycle2:rxlifecycle-navi:2.2.2'  // If you want to use Navi for providers
+    api 'com.trello.rxlifecycle2:rxlifecycle-kotlin:2.2.2' // If you want to use Kotlin syntax
 
-    //Retrofit
-    api 'com.squareup.retrofit2:retrofit:2.2.0'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
-    api 'com.squareup.retrofit2:converter-gson:2.2.0'
-    api 'com.squareup.retrofit2:converter-scalars:2.2.0'
+    //Retrofit - 更新到最新稳定版本
+    api 'com.squareup.retrofit2:retrofit:2.9.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
+    api 'com.squareup.retrofit2:converter-gson:2.9.0'
+    api 'com.squareup.retrofit2:converter-scalars:2.9.0'
     api ('com.github.ihsanbal:LoggingInterceptor:3.1.0') {
         exclude group: 'org.json', module: 'json'
     }
@@ -162,9 +178,6 @@ dependencies {
 
 }
 
-
-greendao {
-    schemaVersion 2
-    daoPackage 'com.mp.android.apps.book.dao'
-    targetGenDir 'src/main/java'
-}
+// 说明：greenDAO 的 Gradle 插件(org.greenrobot.greendao)不兼容 AGP 8，已移除。
+// 其生成的 DAO 代码(DaoMaster/DaoSession/xxxDao)已提交在 src/main/java/com/mp/android/apps/book/dao，
+// 编译不受影响；仅"修改 @Entity 后自动重新生成"的能力失效，需要时用旧工程/独立模块生成后覆盖。

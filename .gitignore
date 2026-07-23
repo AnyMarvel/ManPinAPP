@@ -31,3 +31,4 @@ release/
 local.properties
 infer-out/
 AnyMarvel.jks
+.claude

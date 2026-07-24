@@ -30,7 +30,7 @@ import com.mp.android.apps.book.utils.FileUtil;
 import com.mp.android.apps.book.view.IImportBookView;
 import com.mp.android.apps.book.view.adapter.ImportBookAdapter;
 import com.mp.android.apps.book.widget.modialog.MoProgressHUD;
-import com.mp.android.apps.readActivity.utils.ToastUtils;
+import com.mp.android.apps.read.utils.ToastUtils;
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
@@ -69,6 +69,7 @@ public class ImportBookActivity extends MBaseActivity<IImportBookPresenter> impl
 
     @Override
     protected void onCreateActivity() {
+        com.mp.android.apps.utils.ImmersiveUtils.setLightStatusBar(this);
         setContentView(R.layout.activity_importbook);
     }
     @Override
@@ -123,30 +124,57 @@ public class ImportBookActivity extends MBaseActivity<IImportBookPresenter> impl
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_FILE) {
-            if (data != null) {
-                Uri uri = data.getData();
-                if (uri != null) {
-                    String path;
-                    if ("file".equalsIgnoreCase(uri.getScheme())) {//使用第三方应用打开
-                        path = uri.getPath();
-                    } else {
-                        //4.4以后
-                        path = FileUtil.getPath(this, uri);
-                    }
-
-                    if (!TextUtils.isEmpty(path)) {
-                        File file = new File(path);
-
-                        importBookAdapter.addData(file);
-
-                        searchFinish();
-                    }else {
-                        ToastUtils.showToastCenter(getContext(),"当前文件路径获取失败，请使用智能扫描或到使用绝对路径添加");
-                    }
-                }
-            }
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_FILE
+                && data != null && data.getData() != null) {
+            resolveAndAddFile(data.getData());
         }
+    }
+
+    /**
+     * 从选中的 Uri 解析出可读文件并加入列表。
+     * 优先复用直接路径；分区存储下路径不可用时，把内容复制到 App 专属目录。
+     * 复制可能耗时，放到子线程执行。
+     */
+    private void resolveAndAddFile(final Uri uri) {
+        String directPath;
+        if ("file".equalsIgnoreCase(uri.getScheme())) {//使用第三方应用打开
+            directPath = uri.getPath();
+        } else {
+            directPath = FileUtil.getPath(this, uri);
+        }
+
+        // 直接路径可读则无需复制
+        if (!TextUtils.isEmpty(directPath) && new File(directPath).canRead()) {
+            addFileToList(new File(directPath));
+            return;
+        }
+
+        // 回退：复制到 App 目录（子线程）
+        moProgressHUD.showLoading("正在导入...");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final String localPath = FileUtil.copyUriToLocal(getApplicationContext(), uri);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isFinishing()) return;
+                        moProgressHUD.dismiss();
+                        if (TextUtils.isEmpty(localPath)) {
+                            ToastUtils.showToastCenter(getContext(),
+                                    "文件读取失败，请换用智能扫描或其他文件");
+                        } else {
+                            addFileToList(new File(localPath));
+                        }
+                    }
+                });
+            }
+        }).start();
+    }
+
+    private void addFileToList(File file) {
+        importBookAdapter.addData(file);
+        searchFinish();
     }
 
     @Override
@@ -261,6 +289,17 @@ public class ImportBookActivity extends MBaseActivity<IImportBookPresenter> impl
         tvScan.setVisibility(View.GONE);
         scanContentLayout.setVisibility(View.GONE);
 
+        if (importBookAdapter.getItemCount() == 0) {
+            ToastUtils.showToastCenter(getContext(), "未扫描到 txt 书籍");
+        }
+    }
+
+    @Override
+    public void searchError(String msg) {
+        rlLoading.stop();
+        rlLoading.setVisibility(View.INVISIBLE);
+        tvScan.setVisibility(View.VISIBLE);
+        ToastUtils.showToastCenter(getContext(), TextUtils.isEmpty(msg) ? "扫描失败，请重试" : msg);
     }
 
     @Override

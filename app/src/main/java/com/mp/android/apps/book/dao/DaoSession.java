@@ -10,9 +10,9 @@ import org.greenrobot.greendao.internal.DaoConfig;
 
 import com.mp.android.apps.book.bean.DownloadTaskBean;
 import com.mp.android.apps.book.bean.SearchHistoryBean;
-import com.mp.android.apps.readActivity.bean.BookChapterBean;
-import com.mp.android.apps.readActivity.bean.BookRecordBean;
-import com.mp.android.apps.readActivity.bean.CollBookBean;
+import com.mp.android.apps.read.bean.BookChapterBean;
+import com.mp.android.apps.read.bean.BookRecordBean;
+import com.mp.android.apps.read.bean.CollBookBean;
 
 import com.mp.android.apps.book.dao.DownloadTaskBeanDao;
 import com.mp.android.apps.book.dao.SearchHistoryBeanDao;

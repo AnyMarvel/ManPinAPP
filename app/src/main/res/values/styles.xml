@@ -103,4 +103,10 @@
     <style name="APPTheme.FULL" parent="Theme.Design.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_icon</item>
     </style>
+
+    <!-- 阅读设置底部弹窗滑入/滑出动画 -->
+    <style name="ReadSettingDialogAnim" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/dialog_slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/dialog_slide_out_bottom</item>
+    </style>
 </resources>

@@ -20,16 +20,35 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:background="@color/nb.read.menu.bg"
+    android:background="@drawable/bg_read_setting_sheet"
     android:clickable="true"
     android:orientation="vertical"
-    android:paddingLeft="12dp"
-    android:paddingRight="12dp">
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="20dp">
+
+    <!-- 顶部拖动指示条 -->
+    <View
+        android:layout_width="36dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/bg_sheet_handle" />
+
+    <!-- 亮度 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="亮度"
+        android:textColor="#8A8A8A"
+        android:textSize="12sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -56,13 +75,13 @@
             android:id="@+id/read_setting_iv_brightness_plus"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="16dp"
             android:scaleType="center"
             android:src="@drawable/ic_brightness_plus" />
 
         <CheckBox
             android:id="@+id/read_setting_cb_brightness_auto"
-            android:layout_width="40dp"
+            android:layout_width="44dp"
             android:layout_height="35dp"
             android:background="@drawable/selector_btn_read_setting"
             android:button="@null"
@@ -72,10 +91,19 @@
             android:textSize="12dp" />
     </LinearLayout>
 
+    <!-- 字号 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="字号"
+        android:textColor="#8A8A8A"
+        android:textSize="12sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -103,7 +131,7 @@
             android:id="@+id/read_setting_tv_font_plus"
             android:layout_width="100dp"
             android:layout_height="35dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="16dp"
             android:background="@drawable/shape_btn_read_setting_normal"
             android:gravity="center"
             android:padding="5dp"
@@ -113,7 +141,7 @@
 
         <CheckBox
             android:id="@+id/read_setting_cb_font_default"
-            android:layout_width="40dp"
+            android:layout_width="44dp"
             android:layout_height="35dp"
             android:background="@drawable/selector_btn_read_setting"
             android:button="@null"
@@ -123,11 +151,20 @@
             android:textSize="12dp" />
     </LinearLayout>
 
+    <!-- 行距 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="行距"
+        android:textColor="#8A8A8A"
+        android:textSize="12sp" />
+
     <RadioGroup
         android:id="@+id/read_setting_line_spacing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
         <RadioButton
@@ -167,11 +204,20 @@
 
     </RadioGroup>
 
+    <!-- 翻页方式 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="翻页方式"
+        android:textColor="#8A8A8A"
+        android:textSize="12sp" />
+
     <RadioGroup
         android:id="@+id/read_setting_rg_page_mode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
         <RadioButton
@@ -184,7 +230,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="仿真"
-            android:textColor="#CBCBCB"
+            android:textColor="@color/selector_btn_read_setting"
             android:textSize="14dp" />
 
         <RadioButton
@@ -198,7 +244,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="覆盖"
-            android:textColor="#CBCBCB"
+            android:textColor="@color/selector_btn_read_setting"
             android:textSize="14dp" />
 
         <RadioButton
@@ -211,7 +257,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="滑动"
-            android:textColor="#CBCBCB"
+            android:textColor="@color/selector_btn_read_setting"
             android:textSize="14dp"
             android:visibility="gone" />
 
@@ -225,7 +271,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="滚动"
-            android:textColor="#CBCBCB"
+            android:textColor="@color/selector_btn_read_setting"
             android:textSize="14dp" />
 
         <RadioButton
@@ -237,7 +283,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="无"
-            android:textColor="#CBCBCB"
+            android:textColor="@color/selector_btn_read_setting"
             android:textSize="14dp" />
 
         <RadioButton
@@ -250,27 +296,44 @@
             android:button="@null"
             android:gravity="center"
             android:text="左手"
-            android:textColor="#CBCBCB"
+            android:textColor="@color/selector_btn_read_setting"
             android:textSize="14dp" />
 
     </RadioGroup>
+
+    <!-- 背景 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="背景"
+        android:textColor="#8A8A8A"
+        android:textSize="12sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/read_setting_rv_bg"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:layout_marginRight="5dp"
         android:scrollbars="none" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="18dp"
+        android:background="#2E2E2E" />
 
     <TextView
         android:id="@+id/read_setting_tv_more"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        android:paddingTop="12dp"
+        android:paddingBottom="6dp"
         android:text="更多设置 >>"
         android:textColor="#CBCBCB"
-        />
+        android:textSize="14sp" />
 </LinearLayout>

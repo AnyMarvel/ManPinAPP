@@ -7,19 +7,6 @@
     android:orientation="horizontal">
 
     <com.mp.android.apps.main.home.view.MyImageTextView
-        android:id="@+id/zhuye"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_weight="1"
-        imageText:image="@drawable/zhuye_selected"
-        imageText:text="主页"
-        imageText:textColor="@color/colorGray" />
-
-    <com.mp.android.apps.main.home.view.MyImageTextView
         android:id="@+id/shujia"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

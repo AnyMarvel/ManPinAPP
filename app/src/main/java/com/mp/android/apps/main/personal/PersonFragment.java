@@ -11,13 +11,10 @@ import android.widget.TextView;
 
 import com.mp.android.apps.R;
 
-import com.mp.android.apps.basemvplib.IPresenter;
-import com.mp.android.apps.basemvplib.impl.BaseFragment;
+import com.mp.android.apps.base.IPresenter;
+import com.mp.android.apps.base.impl.BaseFragment;
 
-import com.mp.android.apps.book.view.impl.BookSourceActivity;
-import com.mp.android.apps.downloadUtils.CheckUpdateUtils;
 import com.mp.android.apps.main.ManpinWXActivity;
-import com.mp.android.apps.main.config.AppConfigUtils;
 import com.mp.android.apps.utils.GeneralTools;
 
 import java.util.ArrayList;
@@ -45,19 +42,10 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
         versionTitle = view.findViewById(R.id.versionTips);
         versionTitle.setText("当前版本: " + GeneralTools.APP_VERSION);
         view.findViewById(R.id.kaiyuandizhi).setOnClickListener(this);
-        RelativeLayout shuyuan = view.findViewById(R.id.shuyuanxuanze);
-        shuyuan.setOnClickListener(this);
         RelativeLayout shequ = view.findViewById(R.id.jiarushequ);
         shequ.setOnClickListener(this);
-        if (AppConfigUtils.business) {
-            shuyuan.setVisibility(View.GONE);
-            shequ.setVisibility(View.GONE);
-        } else {
-            shuyuan.setVisibility(View.VISIBLE);
-            shequ.setVisibility(View.VISIBLE);
-        }
+        shequ.setVisibility(View.VISIBLE);
 
-        view.findViewById(R.id.checkupdate).setOnClickListener(this);
         view.findViewById(R.id.share_manpin).setOnClickListener(this);
     }
 
@@ -74,19 +62,6 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
                 //加入社区
                 Intent intent3 = new Intent(getActivity(), ManpinWXActivity.class);
                 startActivity(intent3);
-                break;
-            case R.id.shuyuanxuanze:
-                //配置书源
-                Intent intent2 = new Intent(getActivity(), BookSourceActivity.class);
-                startActivity(intent2);
-                break;
-            case R.id.checkupdate:
-                //检查更新
-                try {
-                    CheckUpdateUtils.getInstance().checkUpdata(getActivity(),true);
-                }catch (Exception e){
-                    android.util.Log.e("PersonFragment", "checkUpdate failed", e);
-                }
                 break;
             case R.id.kaiyuandizhi:
                 //开源地址

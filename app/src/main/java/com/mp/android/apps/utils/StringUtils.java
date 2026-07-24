@@ -6,8 +6,7 @@ import androidx.annotation.StringRes;
 
 
 import com.mp.android.apps.MyApplication;
-import com.mp.android.apps.readActivity.utils.SharedPreUtils;
-import com.umeng.commonsdk.debug.E;
+import com.mp.android.apps.read.utils.SharedPreUtils;
 import com.zqc.opencc.android.lib.ChineseConverter;
 import com.zqc.opencc.android.lib.ConversionType;
 
@@ -18,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import static com.mp.android.apps.readActivity.local.ReadSettingManager.SHARED_READ_CONVERT_TYPE;
+import static com.mp.android.apps.read.local.ReadSettingManager.SHARED_READ_CONVERT_TYPE;
 
 public class StringUtils {
     private static final String TAG = "StringUtils";

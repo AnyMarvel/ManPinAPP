@@ -10,9 +10,9 @@ import com.mp.android.apps.book.base.MBaseModelImpl;
 import com.mp.android.apps.book.bean.SearchBookBean;
 import com.mp.android.apps.book.common.api.ISoduApi;
 import com.mp.android.apps.book.model.IReaderBookModel;
-import com.mp.android.apps.readActivity.bean.BookChapterBean;
-import com.mp.android.apps.readActivity.bean.ChapterInfoBean;
-import com.mp.android.apps.readActivity.bean.CollBookBean;
+import com.mp.android.apps.read.bean.BookChapterBean;
+import com.mp.android.apps.read.bean.ChapterInfoBean;
+import com.mp.android.apps.read.bean.CollBookBean;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -42,7 +42,9 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class ContentSoDuModelImpl extends MBaseModelImpl implements IReaderBookModel {
-    public static final String TAG = "http://www.soduzw.com";
+    // soduzw.com 已 301 迁移到 soduzw.org；SoDu 搜索是 POST，遇 301 会被降级为 GET 并丢失搜索参数，
+    // 故直接指向新域名规避跳转。(若新域名仍不可用，此源可整体停用)
+    public static final String TAG = "http://www.soduzw.org";
     private final String Origin = "soduzw.com";
 
     public static ContentSoDuModelImpl getInstance() {
@@ -68,8 +70,11 @@ public class ContentSoDuModelImpl extends MBaseModelImpl implements IReaderBookM
             @Override
             public void subscribe(ObservableEmitter<List<SearchBookBean>> e) throws Exception {
                 try {
+                    android.util.Log.d("ContentSoDuModel", "search resp length=" + (s == null ? 0 : s.length()));
                     Document doc = Jsoup.parse(s);
-                    Elements booksE = doc.getElementsByClass("Look").get(0).getElementsByClass("Search");
+                    Elements look = doc.getElementsByClass("Look");
+                    Elements booksE = look.size() > 0 ? look.get(0).getElementsByClass("Search") : new Elements();
+                    android.util.Log.d("ContentSoDuModel", "parsed 'Look'=" + look.size() + " items=" + booksE.size());
                     if (null != booksE && booksE.size() > 0) {
                         List<SearchBookBean> books = new ArrayList<SearchBookBean>();
                         for (int i = 0; i < booksE.size(); i++) {

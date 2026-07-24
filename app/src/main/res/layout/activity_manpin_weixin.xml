@@ -2,162 +2,81 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/bg_library"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar_edit_profile" />
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginLeft="20dp"
-        android:text="反馈途径"
-        android:textColor="@color/black"
-        android:textSize="20dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:text="请添加小编微信，点击复制并跳转添加小编微信"
-        android:textColor="@color/colorGray"
-        android:textSize="12dp" />
-
+    <!-- 作者微信卡片 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
-        android:gravity="center"
-        >
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/bg_person_card"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingTop="24dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="24dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="微信01:"
-            android:textSize="16dp"
-            android:textColor="@color/black"
-            />
+            android:text="添加作者微信"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
         <TextView
-            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="微信号"
+            android:textColor="@color/colorGray"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_wechat_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="maxianer01"
-            android:textSize="16dp"
-            android:gravity="center"
+            android:textColor="@color/colorBlack"
             android:textIsSelectable="true"
-            android:textColor="@color/black"
-            />
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <!-- 在线状态提示 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="作者不是随时在线，添加后请耐心等待通过～"
+            android:textColor="@color/colorGray"
+            android:textSize="12sp" />
+
         <Button
             android:id="@+id/btn_weixin01"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="复制并跳转" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
-        android:gravity="center"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="微信02:"
-            android:textSize="16dp"
-            android:textColor="@color/black"
-            />
-        <TextView
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="kongkong7119"
-            android:textSize="16dp"
-            android:gravity="center"
-            android:textIsSelectable="true"
-            android:textColor="@color/black"
-            />
-        <Button
-            android:id="@+id/btn_weixin02"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="复制并跳转" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
-        android:gravity="center"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="公众号:"
-            android:textSize="16dp"
-            android:textColor="@color/black"
-            />
-        <TextView
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="码仙儿"
-            android:textSize="16dp"
-            android:gravity="center"
-            android:textIsSelectable="true"
-            android:textColor="@color/black"
-            />
-        <Button
-            android:id="@+id/btn_gongzhonghao"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="复制并跳转" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
-        android:gravity="center"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="邮箱:"
-            android:textSize="16dp"
-            android:textColor="@color/black"
-            />
-        <TextView
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ljtdss5233@gmail.com"
-            android:textSize="16dp"
-            android:gravity="center"
-            android:textIsSelectable="true"
-            android:textColor="@color/black"
-            />
-        <Button
-            android:id="@+id/btn_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="复制" />
-    </LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_wechat_btn"
+            android:text="复制微信号并跳转微信"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="跳转后请在微信「添加朋友」中粘贴微信号搜索"
+            android:textColor="@color/colorGray"
+            android:textSize="11sp" />
 
-
+    </LinearLayout>
 
 </LinearLayout>

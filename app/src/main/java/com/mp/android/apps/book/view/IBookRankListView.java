@@ -1,6 +1,6 @@
 package com.mp.android.apps.book.view;
 
-import com.mp.android.apps.basemvplib.IView;
+import com.mp.android.apps.base.IView;
 import com.mp.android.apps.main.home.bean.SourceListContent;
 
 import java.util.List;

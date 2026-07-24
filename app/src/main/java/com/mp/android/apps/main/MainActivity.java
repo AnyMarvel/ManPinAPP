@@ -13,21 +13,16 @@ import android.widget.Toast;
 import com.mp.android.apps.R;
 import com.mp.android.apps.book.view.impl.BookRankListFragment;
 import com.mp.android.apps.book.view.impl.BookCollectionFragment;
-import com.mp.android.apps.downloadUtils.CheckUpdateUtils;
-import com.mp.android.apps.main.config.AppConfigUtils;
-import com.mp.android.apps.main.home.view.impl.MainFragment;
+import com.mp.android.apps.download.CheckUpdateUtils;
 import com.mp.android.apps.main.personal.PersonFragment;
 import com.mp.android.apps.main.home.view.MyImageTextView;
-import com.mp.android.apps.basemvplib.impl.BaseFragment;
-import com.umeng.analytics.MobclickAgent;
+import com.mp.android.apps.base.impl.BaseFragment;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    MainFragment mainFragment;
     PersonFragment personFragment;
     BookCollectionFragment bookCollectionFragment;
     BookRankListFragment mBookRankListFragment;
-    MyImageTextView zhuye;
     MyImageTextView shujia;
     MyImageTextView quanzi;
     MyImageTextView wode;
@@ -35,9 +30,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView flWarnClose;
 
     private void hidenFragment(FragmentTransaction transaction) {
-        if (mainFragment != null) {
-            transaction.hide(mainFragment);
-        }
         if (personFragment != null) {
             transaction.hide(personFragment);
         }
@@ -50,24 +42,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showFragment(BaseFragment fragment) {
+        if (fragment == null) {
+            return;
+        }
+        //状态已保存时不再提交，避免 onSaveInstanceState 之后提交崩溃
+        if (getSupportFragmentManager().isStateSaved()) {
+            return;
+        }
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         hidenFragment(transaction);
-        if (fragment != null) {
-            if (fragment.isAdded()) {
-                transaction.show(fragment);
-            } else {
-                transaction.add(R.id.main_contain, fragment).show(fragment);
-            }
-            transaction.commitAllowingStateLoss();
+        if (fragment.isAdded()) {
+            transaction.show(fragment);
+        } else {
+            transaction.add(R.id.main_contain, fragment).show(fragment);
         }
-
+        //同步提交：确保 isAdded() 立即生效，避免快速连点导致对同一 Fragment 重复 add 而崩溃
+        transaction.commitNowAllowingStateLoss();
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setImmersiveStatusBar();
         setContentView(R.layout.main_layout);
-        mainFragment = new MainFragment();
         personFragment = new PersonFragment();
         bookCollectionFragment = new BookCollectionFragment();
 
@@ -83,9 +80,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
+    /**
+     * 沉浸式状态栏：状态栏透明、内容延伸到状态栏下方(main_layout 根布局 fitsSystemWindows=true
+     * 会自动为内容让出状态栏高度，故不会被遮挡)；因页面为浅色底，用 LIGHT_STATUS_BAR 让状态栏图标变深色可见。
+     */
+    private void setImmersiveStatusBar() {
+        android.view.Window window = getWindow();
+        window.clearFlags(android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+        }
+        window.getDecorView().setSystemUiVisibility(flags);
+        window.setStatusBarColor(android.graphics.Color.TRANSPARENT);
+    }
+
     private void initViews() {
-        zhuye = findViewById(R.id.zhuye);
-        zhuye.setOnClickListener(this);
         shujia = findViewById(R.id.shujia);
         shujia.setOnClickListener(this);
         quanzi = findViewById(R.id.quanzi);
@@ -102,32 +113,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 flWarn.setVisibility(View.GONE);
             }
         });
-        zhuye.setVisibility(View.VISIBLE);
         quanzi.setVisibility(View.VISIBLE);
         flWarn.setVisibility(View.VISIBLE);
-        showMainFragment();
-        configView();
-    }
-
-    private void configView(){
-        new AppConfigUtils().getManPinAppConfig(new AppConfigUtils.IAppConfig() {
-            @Override
-            public void callback(boolean business) {
-                if (business){
-                    zhuye.setVisibility(View.GONE);
-                    quanzi.setVisibility(View.GONE);
-                    flWarn.setVisibility(View.GONE);
-                    showShujiaFragment();
-                }else {
-                    zhuye.setVisibility(View.VISIBLE);
-                    quanzi.setVisibility(View.VISIBLE);
-                    flWarn.setVisibility(View.VISIBLE);
-                    showMainFragment();
-
-                }
-            }
-        });
-
+        //首页已移除，默认落在书架
+        showShujiaFragment();
     }
 
 
@@ -151,7 +140,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.LENGTH_SHORT).show();
             exitTime = System.currentTimeMillis();
         } else {
-            MobclickAgent.onKillProcess(this);
             finishAffinity();
         }
     }
@@ -167,9 +155,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.zhuye:
-               showMainFragment();
-                break;
             case R.id.shujia:
                 showShujiaFragment();
                 break;
@@ -185,12 +170,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void showMainFragment(){
-        changeNavImages(R.id.zhuye);
-        showFragment(mainFragment);
-    }
-
-
     public void showShujiaFragment() {
         changeNavImages(R.id.shujia);
         showFragment(bookCollectionFragment);
@@ -201,14 +180,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         showFragment(mBookRankListFragment);
     }
     private void changeNavImages(int id) {
-        zhuye.setImgResource(R.drawable.zhuye);
         shujia.setImgResource(R.drawable.shujia);
         quanzi.setImgResource(R.drawable.quanzi);
         wode.setImgResource(R.drawable.gerenzhongxin);
         switch (id) {
-            case R.id.zhuye:
-                zhuye.setImgResource(R.drawable.zhuye_selected);
-                break;
             case R.id.shujia:
                 shujia.setImgResource(R.drawable.shujia_selected);
                 break;

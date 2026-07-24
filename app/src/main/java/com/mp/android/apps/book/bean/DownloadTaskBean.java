@@ -3,7 +3,7 @@ package com.mp.android.apps.book.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.mp.android.apps.readActivity.bean.BookChapterBean;
+import com.mp.android.apps.read.bean.BookChapterBean;
 
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;

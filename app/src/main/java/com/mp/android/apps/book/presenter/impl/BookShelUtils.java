@@ -5,17 +5,17 @@ import android.widget.Toast;
 
 import com.hwangjr.rxbus.RxBus;
 import com.mp.android.apps.MyApplication;
-import com.mp.android.apps.basemvplib.IView;
-import com.mp.android.apps.basemvplib.impl.BaseActivity;
+import com.mp.android.apps.base.IView;
+import com.mp.android.apps.base.impl.BaseActivity;
 import com.mp.android.apps.book.base.observer.SimpleObserver;
 import com.mp.android.apps.book.common.RxBusTag;
 import com.mp.android.apps.book.model.WebBookModelControl;
-import com.mp.android.apps.readActivity.bean.BookChapterBean;
-import com.mp.android.apps.readActivity.bean.CollBookBean;
-import com.mp.android.apps.readActivity.local.BookRepository;
-import com.mp.android.apps.readActivity.local.DaoDbHelper;
-import com.mp.android.apps.readActivity.utils.Constant;
-import com.mp.android.apps.readActivity.utils.StringUtils;
+import com.mp.android.apps.read.bean.BookChapterBean;
+import com.mp.android.apps.read.bean.CollBookBean;
+import com.mp.android.apps.read.local.BookRepository;
+import com.mp.android.apps.read.local.DaoDbHelper;
+import com.mp.android.apps.read.utils.Constant;
+import com.mp.android.apps.read.utils.StringUtils;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.List;
@@ -50,6 +50,8 @@ public class BookShelUtils {
      * @param collBookBean
      */
     public void addToBookShelfUtils(CollBookBean collBookBean) {
+        //乐观更新：立即通知搜索页/书架"已添加"，不必等待章节目录的网络请求(否则列表刷新很慢)
+        RxBus.get().post(RxBusTag.HAD_ADD_BOOK, collBookBean);
         WebBookModelControl.getInstance().getBookChapters(collBookBean)
                 .toObservable()
                 .flatMap(new Function<List<BookChapterBean>, ObservableSource<Boolean>>() {
@@ -83,10 +85,10 @@ public class BookShelUtils {
                 .subscribe(new SimpleObserver<Boolean>() {
                     @Override
                     public void onNext(Boolean value) {
-                        if (value) {
-                            RxBus.get().post(RxBusTag.HAD_ADD_BOOK, collBookBean);
-                            RxBus.get().post(RxBusTag.HIDE_COLLECTION_RLLODING,new Object());
-                        } else {
+                        RxBus.get().post(RxBusTag.HIDE_COLLECTION_RLLODING, new Object());
+                        if (!value) {
+                            //入库失败，回滚之前的乐观"已添加"状态
+                            RxBus.get().post(RxBusTag.HAD_REMOVE_BOOK, collBookBean);
                             Toast.makeText(MyApplication.getInstance(), collBookBean.getTitle()+"放入书架失败!", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -95,6 +97,8 @@ public class BookShelUtils {
                     public void onError(Throwable e) {
                         android.util.Log.e("BookShelUtils", "collect book failed", e);
                         RxBus.get().post(RxBusTag.HIDE_COLLECTION_RLLODING,new Object());
+                        //失败回滚乐观"已添加"状态
+                        RxBus.get().post(RxBusTag.HAD_REMOVE_BOOK, collBookBean);
                         Toast.makeText(MyApplication.getInstance(), collBookBean.getTitle()+"放入书架失败!", Toast.LENGTH_SHORT).show();
                     }
                 });

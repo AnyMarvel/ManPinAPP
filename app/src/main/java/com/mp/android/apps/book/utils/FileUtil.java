@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.text.TextUtils;
 
 import androidx.annotation.RequiresApi;
@@ -16,6 +17,9 @@ import androidx.core.content.FileProvider;
 import com.mp.android.apps.BuildConfig;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.DecimalFormat;
 
 /**
@@ -171,6 +175,69 @@ public class FileUtil {
 
     public static String getRealPathFromURI(Context context, Uri contentUri) {
         return getDataColumn(context, contentUri, null, null);
+    }
+
+    /**
+     * 将 content Uri 指向的文件复制到 App 专属目录，返回可读的绝对路径。
+     * 适配 Android 10+ 分区存储：无法反推原始路径 / 反推路径无读权限时使用。
+     *
+     * @return 复制后的文件绝对路径，失败返回 null
+     */
+    public static String copyUriToLocal(Context context, Uri uri) {
+        if (context == null || uri == null) return null;
+
+        File dir = context.getExternalFilesDir("localBook");
+        if (dir == null) dir = new File(context.getFilesDir(), "localBook");
+        if (!dir.exists() && !dir.mkdirs()) return null;
+
+        String fileName = queryDisplayName(context, uri);
+        if (TextUtils.isEmpty(fileName)) {
+            fileName = "book_" + Math.abs(uri.toString().hashCode()) + ".txt";
+        }
+        fileName = sanitizeFileName(fileName);
+        if (!fileName.toLowerCase().endsWith(".txt")) {
+            fileName = fileName + ".txt";
+        }
+
+        File dest = new File(dir, fileName);
+        try (InputStream in = context.getContentResolver().openInputStream(uri);
+             OutputStream out = new FileOutputStream(dest)) {
+            if (in == null) return null;
+            byte[] buffer = new byte[8192];
+            int len;
+            while ((len = in.read(buffer)) != -1) {
+                out.write(buffer, 0, len);
+            }
+            out.flush();
+            return dest.getAbsolutePath();
+        } catch (Exception e) {
+            android.util.Log.e("FileUtil", "copyUriToLocal failed", e);
+            if (dest.exists()) dest.delete();
+            return null;
+        }
+    }
+
+    /** 从 content Uri 查询显示文件名 */
+    private static String queryDisplayName(Context context, Uri uri) {
+        Cursor cursor = null;
+        try {
+            cursor = context.getContentResolver().query(uri,
+                    new String[]{OpenableColumns.DISPLAY_NAME}, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                int idx = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                if (idx >= 0) return cursor.getString(idx);
+            }
+        } catch (Exception e) {
+            android.util.Log.e("FileUtil", "queryDisplayName failed", e);
+        } finally {
+            if (cursor != null) cursor.close();
+        }
+        return null;
+    }
+
+    /** 过滤文件名中的非法字符，避免路径穿越 */
+    private static String sanitizeFileName(String name) {
+        return name.replaceAll("[\\\\/:*?\"<>|]", "_").trim();
     }
 
     /**

@@ -18,13 +18,13 @@ import com.mp.android.apps.book.dao.BookChapterBeanDao;
 import com.mp.android.apps.book.dao.DownloadTaskBeanDao;
 import com.mp.android.apps.book.model.WebBookModelControl;
 import com.mp.android.apps.book.utils.NetworkUtils;
-import com.mp.android.apps.readActivity.base.BaseService;
-import com.mp.android.apps.readActivity.bean.BookChapterBean;
-import com.mp.android.apps.readActivity.bean.ChapterInfoBean;
-import com.mp.android.apps.readActivity.bean.CollBookBean;
-import com.mp.android.apps.readActivity.local.BookRepository;
-import com.mp.android.apps.readActivity.local.DaoDbHelper;
-import com.mp.android.apps.readActivity.utils.BookManager;
+import com.mp.android.apps.read.base.BaseService;
+import com.mp.android.apps.read.bean.BookChapterBean;
+import com.mp.android.apps.read.bean.ChapterInfoBean;
+import com.mp.android.apps.read.bean.CollBookBean;
+import com.mp.android.apps.read.local.BookRepository;
+import com.mp.android.apps.read.local.DaoDbHelper;
+import com.mp.android.apps.read.utils.BookManager;
 import com.mp.android.apps.utils.Logger;
 
 
@@ -36,6 +36,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -60,6 +62,9 @@ public class DownloadService extends BaseService {
     //线程池
     private final ExecutorService mCachedExecutor = Executors.newCachedThreadPool();
 
+    //单本书下载时的并发章节数上限：有界并发既提速又避免瞬间上千请求打挂书源
+    private static final int DOWNLOAD_CONCURRENCY = 5;
+
     //加载队列 //目前无用
     private final List<DownloadTaskBean> mDownloadTaskQueue = Collections.synchronizedList(new ArrayList<>());
 
@@ -67,58 +72,55 @@ public class DownloadService extends BaseService {
     public void onCreate() {
         super.onCreate();
         Logger.d("======onCreate 同步本地数据,同步书架数据");
+        //放到单个后台线程顺序执行，避免一次性并发所有书架书的联网请求
+        mCachedExecutor.execute(this::syncShelfBooksUpdate);
+    }
+
+    /**
+     * 逐本检查书架书籍是否有更新(网络章节数 > 本地章节数则标记)。
+     * 顺序执行、单本独立 try/catch：某本书源失效也不会中断其余书的检查。
+     */
+    private void syncShelfBooksUpdate() {
         try {
             List<CollBookBean> collBookBeanList = BookRepository.getInstance().getCollBooks();
-            if (collBookBeanList != null && collBookBeanList.size() > 0) {
-                for (CollBookBean collBookBean : collBookBeanList) {
-                    Logger.d("====== 同步本地数据:"+collBookBean.getTitle());
-                    WebBookModelControl.getInstance().getBookChapters(collBookBean).toObservable()
-                            .flatMap(new Function<List<BookChapterBean>, Observable<?>>() {
-                                @Override
-                                public Observable<?> apply(@NonNull List<BookChapterBean> bookChapterBeans) throws Exception {
-                                    return Observable.create(new ObservableOnSubscribe<Boolean>() {
+            if (collBookBeanList == null) {
+                return;
+            }
+            for (CollBookBean collBookBean : collBookBeanList) {
+                try {
+                    //本地书无需联网检查更新
+                    if (collBookBean.isLocal()) {
+                        continue;
+                    }
+                    io.reactivex.Single<List<BookChapterBean>> single =
+                            WebBookModelControl.getInstance().getBookChapters(collBookBean);
+                    //书源已失效(无匹配 model)时返回 null，跳过而不是让整个循环 NPE 中断
+                    if (single == null) {
+                        continue;
+                    }
+                    List<BookChapterBean> netChapters = single.blockingGet();
 
-                                        @Override
-                                        public void subscribe(@NonNull ObservableEmitter<Boolean> emitter) throws Exception {
-                                            collBookBean.__setDaoSession(BookRepository.getInstance().getSession());
+                    collBookBean.__setDaoSession(BookRepository.getInstance().getSession());
+                    List<BookChapterBean> localChapters = BookRepository.getInstance().getSession()
+                            .getBookChapterBeanDao()
+                            .queryBuilder()
+                            .where(BookChapterBeanDao.Properties.BookId.eq(collBookBean.get_id()))
+                            .list();
 
-                                            List<BookChapterBean> taskChapters = BookRepository.getInstance().getSession()
-                                                    .getBookChapterBeanDao()
-                                                    .queryBuilder()
-                                                    .where(BookChapterBeanDao.Properties.BookId.eq(collBookBean.get_id()))
-                                                    .list();
-
-                                            if (taskChapters==null || bookChapterBeans==null){
-                                                return;
-                                            }
-                                            Log.d("taskChapters======size:", "localSize:"+String.valueOf(taskChapters.size())+"netSize:"+String.valueOf(bookChapterBeans.size()));
-
-                                            if (bookChapterBeans.size() > taskChapters.size()) {
-                                                //标记图书已更新
-                                                if (!collBookBean.isLocal()){
-                                                    collBookBean.setUpdate(true);
-                                                    collBookBean.update();
-                                                }
-                                                emitter.onNext(true);
-                                            } else {
-                                                emitter.onNext(false);
-                                            }
-                                            emitter.onComplete();
-                                        }
-                                    });
-                                }
-                            })
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(value -> { }, throwable ->
-                                    android.util.Log.e("DownloadService", "sync book chapters failed", throwable));
+                    if (netChapters != null && localChapters != null
+                            && netChapters.size() > localChapters.size()) {
+                        //标记图书已更新
+                        collBookBean.setUpdate(true);
+                        collBookBean.update();
+                    }
+                } catch (Exception e) {
+                    android.util.Log.e("DownloadService",
+                            "sync update check failed: " + collBookBean.getTitle(), e);
                 }
-
             }
         } catch (Exception e) {
             android.util.Log.e("DownloadService", "onCreate sync shelf books failed", e);
         }
-
     }
 
     @Nullable
@@ -164,45 +166,62 @@ public class DownloadService extends BaseService {
 
                 List<BookChapterBean> bookChapterBeans = downloadTaskBean.getBookChapters();
                 int totalBookChapterSize = bookChapterBeans.size();
-                int currentDownload = 0;
-                boolean interrupted = false;
 
-                //逐章顺序下载：避免一次性并发上千请求把书源打挂，逻辑上也无需 wait/notify
+                final DownloadTaskBean taskBeanRef = downloadTaskBean;
+                final String bookId = downloadTaskBean.getBookId();
+                final AtomicInteger currentDownload = new AtomicInteger(0);
+                //networkLost：网络中断 → 停止调度剩余章节(等价原串行版的 break)
+                //anyFailed：单章下载失败 → 只标记任务未完成，但仍继续下其余章节(对齐原串行语义)
+                final AtomicBoolean networkLost = new AtomicBoolean(false);
+                final AtomicBoolean anyFailed = new AtomicBoolean(false);
+
+                //有界并发下载：固定 DOWNLOAD_CONCURRENCY 个线程同时下载，其余章节在池队列排队。
+                //同时在飞的请求数被限定在小范围，既比串行快数倍，又不会回到早期
+                //"一次性并发上千请求把书源打挂"的并发风暴。HTTP 下载与文件写都在池线程并发进行，
+                //只有进度更新(共享 greenDAO session 写)通过 onChapterProcessed 串行化。
+                ExecutorService downloadPool = Executors.newFixedThreadPool(DOWNLOAD_CONCURRENCY);
                 for (int i = 0; i < totalBookChapterSize; ++i) {
-                    BookChapterBean bookChapterBean = bookChapterBeans.get(i);
-
-                    //已缓存的章节直接跳过
-                    if (BookManager.isChapterCached(downloadTaskBean.getBookId(), bookChapterBean.getTitle())) {
-                        downloadTaskBean.setCurrentChapter(++currentDownload);
-                        continue;
-                    }
-
-                    //网络不可用则暂停整个任务
-                    if (!NetworkUtils.isAvailable()) {
-                        downloadTaskBean.setStatus(DownloadTaskBean.STATUS_PAUSE);
-                        interrupted = true;
-                        break;
-                    }
-
-                    Logger.d("======= 开始下载" + bookChapterBean.getTitle());
-                    boolean ok = downloadChapter(downloadTaskBean.getBookId(), bookChapterBean);
-                    if (!ok) {
-                        interrupted = true;
-                    }
-                    downloadTaskBean.setCurrentChapter(++currentDownload);
-                    downloadTaskBean.update();
-                    getContentResolver().notifyChange(MyContentProvider.CONTENT_URI, null);
+                    final BookChapterBean bookChapterBean = bookChapterBeans.get(i);
+                    downloadPool.execute(() -> {
+                        //网络已断，不再发起新的下载
+                        if (networkLost.get()) {
+                            return;
+                        }
+                        //已缓存的章节直接跳过并计入进度
+                        if (BookManager.isChapterCached(bookId, bookChapterBean.getTitle())) {
+                            onChapterProcessed(taskBeanRef, currentDownload);
+                            return;
+                        }
+                        //网络不可用则暂停整个任务
+                        if (!NetworkUtils.isAvailable()) {
+                            networkLost.set(true);
+                            return;
+                        }
+                        Logger.d("======= 开始下载" + bookChapterBean.getTitle());
+                        boolean ok = downloadChapter(bookId, bookChapterBean);
+                        if (!ok) {
+                            anyFailed.set(true);
+                        }
+                        onChapterProcessed(taskBeanRef, currentDownload);
+                    });
+                }
+                //不再接受新任务，等待已提交的全部章节处理完毕
+                downloadPool.shutdown();
+                try {
+                    downloadPool.awaitTermination(7, TimeUnit.DAYS);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    networkLost.set(true);
+                    downloadPool.shutdownNow();
                 }
 
                 //存储 DownloadTask 的最终状态：任何章节失败/网络中断都视为未完成(暂停)
-                if (interrupted) {
-                    if (downloadTaskBean.getStatus() != DownloadTaskBean.STATUS_PAUSE) {
-                        downloadTaskBean.setStatus(DownloadTaskBean.STATUS_PAUSE);
-                    }
+                if (networkLost.get() || anyFailed.get()) {
+                    downloadTaskBean.setStatus(DownloadTaskBean.STATUS_PAUSE);
                 } else {
                     downloadTaskBean.setStatus(DownloadTaskBean.STATUS_FINISH);
                 }
-                downloadTaskBean.setCurrentChapter(currentDownload);
+                downloadTaskBean.setCurrentChapter(currentDownload.get());
                 downloadTaskBean.setSize(BookManager.getBookSize(downloadTaskBean.getBookId()));
                 //Entity is detached from DAO context
                 downloadTaskBean.__setDaoSession(DaoDbHelper.getInstance().getSession());
@@ -217,8 +236,27 @@ public class DownloadService extends BaseService {
 
 
     /**
-     * 顺序下载单个章节，最多重试 3 次。
-     * 运行在后台线程，使用 blockingGet 同步获取，逻辑清晰，无需 wait/notify。
+     * 单章处理(下载成功/已缓存/失败)完成后回调：累加进度并按节流刷新 UI。
+     * synchronized：并发下载线程会同时调用，需串行化对共享 downloadTaskBean / greenDAO
+     * session 的写入(update)，避免 session 竞态；下载与文件写已在锁外并发完成，此处很轻量。
+     */
+    private synchronized void onChapterProcessed(DownloadTaskBean taskBean, AtomicInteger counter) {
+        int done = counter.incrementAndGet();
+        taskBean.setCurrentChapter(done);
+        try {
+            taskBean.update();
+        } catch (Exception e) {
+            android.util.Log.e("DownloadService", "update progress failed", e);
+        }
+        //节流：每 5 章通知一次刷新，避免每章都触发主线程查库+目录全量重绑造成卡顿
+        //(下载循环结束后仍会再通知一次，保证最终进度/已下载标记及时刷新)
+        if (done % 5 == 0) {
+            getContentResolver().notifyChange(MyContentProvider.CONTENT_URI, null);
+        }
+    }
+
+    /**
+     * 下载单个章节，最多重试 3 次。运行在并发下载线程池中，使用 blockingGet 同步获取。
      *
      * @return 是否下载成功
      */
@@ -243,6 +281,15 @@ public class DownloadService extends BaseService {
             } catch (Exception e) {
                 android.util.Log.e("DownloadService",
                         "download chapter failed (" + attempt + "/3): " + bean.getTitle(), e);
+            }
+            //重试前退避(400ms、800ms)，避免失败后连续快速请求打压书源
+            if (attempt < 3) {
+                try {
+                    Thread.sleep(400L * attempt);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    return false;
+                }
             }
         }
         return false;

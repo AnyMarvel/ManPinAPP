@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alibaba.fastjson.JSON;
 import com.mp.android.apps.R;
 import com.mp.android.apps.utils.SpacesItemDecoration;
-import com.mp.android.apps.basemvplib.impl.BaseActivity;
+import com.mp.android.apps.base.impl.BaseActivity;
 import com.mp.android.apps.book.bean.BookSourceBean;
 import com.mp.android.apps.book.presenter.impl.BookSourcePresenterImpl;
 import com.mp.android.apps.book.view.IBookSourceView;
@@ -46,6 +46,7 @@ public class BookSourceActivity extends BaseActivity<BookSourcePresenterImpl> im
 
     @Override
     protected void onCreateActivity() {
+        com.mp.android.apps.utils.ImmersiveUtils.setLightStatusBar(this);
         setContentView(R.layout.mp_book_source);
     }
 

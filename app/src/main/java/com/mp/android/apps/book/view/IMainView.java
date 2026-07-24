@@ -1,8 +1,8 @@
 
 package com.mp.android.apps.book.view;
 
-import com.mp.android.apps.basemvplib.IView;
-import com.mp.android.apps.readActivity.bean.CollBookBean;
+import com.mp.android.apps.base.IView;
+import com.mp.android.apps.read.bean.CollBookBean;
 
 import java.util.List;
 

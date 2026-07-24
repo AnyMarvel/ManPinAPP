@@ -1,9 +1,9 @@
 
 package com.mp.android.apps.book.presenter;
 
-import com.mp.android.apps.basemvplib.IPresenter;
+import com.mp.android.apps.base.IPresenter;
 import com.mp.android.apps.book.bean.SearchBookBean;
-import com.mp.android.apps.readActivity.bean.CollBookBean;
+import com.mp.android.apps.read.bean.CollBookBean;
 
 public interface IBookDetailPresenter extends IPresenter {
 

@@ -21,7 +21,7 @@ import com.mp.android.apps.book.presenter.IBookDetailPresenter;
 import com.mp.android.apps.book.presenter.impl.BookDetailPresenterImpl;
 import com.mp.android.apps.book.utils.BlurTransformation;
 import com.mp.android.apps.book.view.IBookDetailView;
-import com.mp.android.apps.readActivity.ReadActivity;
+import com.mp.android.apps.read.ReadActivity;
 
 
 public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> implements IBookDetailView {
@@ -113,8 +113,9 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
                 tvShelf.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //放入书架
+                        //放入书架（异步执行，加入结果由 RxBus 通知搜索页刷新），点击后立即关闭弹窗
                         mPresenter.addToBookShelf();
+                        finish();
                     }
                 });
             }
@@ -229,6 +230,8 @@ public class BookDetailActivity extends MBaseActivity<IBookDetailPresenter> impl
                 intent.putExtra("extra_coll_book", mPresenter.getCollBookBean());
                 intent.putExtra(ReadActivity.EXTRA_IS_COLLECTED, mPresenter.getInBookShelf());
                 startActivityByAnim(intent, android.R.anim.fade_in, android.R.anim.fade_out);
+                //跳转阅读页后关闭详情弹窗
+                finish();
             }
         });
     }

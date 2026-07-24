@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mp.android.apps.R;
+import com.mp.android.apps.utils.ImmersiveUtils;
 
 
 
@@ -22,6 +23,7 @@ public class BookSourceGuideActivity extends AppCompatActivity implements View.O
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ImmersiveUtils.setLightStatusBar(this);
         setContentView(R.layout.book_source_guide_layout);
         ivBack = findViewById(R.id.iv_back);
         ivBack.setOnClickListener(this);

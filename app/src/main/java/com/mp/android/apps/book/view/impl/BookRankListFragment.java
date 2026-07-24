@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mp.android.apps.R;
-import com.mp.android.apps.basemvplib.impl.BaseFragment;
+import com.mp.android.apps.base.impl.BaseFragment;
 import com.mp.android.apps.book.bean.RankListMenubean;
 import com.mp.android.apps.book.presenter.IBookRankListPresenter;
 import com.mp.android.apps.book.presenter.impl.BookRankListPresenterImpl;
@@ -50,7 +50,8 @@ public class BookRankListFragment extends BaseFragment<IBookRankListPresenter> i
     private Button errorButton;
     private RotateLoading bookRankLoading;
     private TextView title;
-    private ImageView searchView;
+    //搜索入口由角落小图标改为整条搜索栏容器，类型放宽为 View
+    private View searchView;
 
     private LinearLayout mp_book_rank_list_title_layout;
     private DrawerLayout drawer;
@@ -161,19 +162,17 @@ public class BookRankListFragment extends BaseFragment<IBookRankListPresenter> i
 
 
     private void handleSourceList() {
+        //起点移动站 majax JSON 接口(实测可用、支持分页)；路径即 /majax/rank/{type}list
         sourceList = new ArrayList<>();
-        sourceList.add(new RankListMenubean("/rank/yuepiao/","月票榜"));
-        sourceList.add(new RankListMenubean("/rank/hotsales/","畅销榜"));
-        sourceList.add(new RankListMenubean("/rank/readindex/","阅读指数榜"));
-        sourceList.add(new RankListMenubean("/rank/newfans/","书友榜"));
-        sourceList.add(new RankListMenubean("/rank/recom/","推荐榜"));
-        sourceList.add(new RankListMenubean("/rank/collect/","收藏榜"));
-        sourceList.add(new RankListMenubean("/rank/vipup/","更新榜"));
-        sourceList.add(new RankListMenubean("/rank/vipcollect/","VIP收藏榜"));
-        sourceList.add(new RankListMenubean("/rank/signnewbook/","签约作者新书榜"));
-        sourceList.add(new RankListMenubean("/rank/pubnewbook/","公众作者新书榜"));
-        sourceList.add(new RankListMenubean("/rank/newsign/","新人签约新书榜"));
-        sourceList.add(new RankListMenubean("/rank/newauthor/","新人作者新书榜"));
+        sourceList.add(new RankListMenubean("/majax/rank/yuepiaolist","月票榜"));
+        sourceList.add(new RankListMenubean("/majax/rank/hotsaleslist","畅销榜"));
+        sourceList.add(new RankListMenubean("/majax/rank/readindexlist","阅读指数榜"));
+        sourceList.add(new RankListMenubean("/majax/rank/newfanslist","书友榜"));
+        sourceList.add(new RankListMenubean("/majax/rank/newbooklist","新书榜"));
+        sourceList.add(new RankListMenubean("/majax/rank/updatelist","更新榜"));
+        sourceList.add(new RankListMenubean("/majax/rank/collectlist","收藏榜"));
+        sourceList.add(new RankListMenubean("/majax/rank/signlist","签约榜"));
+        sourceList.add(new RankListMenubean("/majax/rank/newauthorlist","新人作者新书榜"));
     }
 
     @Override
@@ -202,6 +201,17 @@ public class BookRankListFragment extends BaseFragment<IBookRankListPresenter> i
 
     @Override
     public void showError(int pageNumber) {
+        //无论首页还是翻页失败，都要停掉 loading 转圈并结束下拉/上拉刷新，
+        //否则请求失败(网络/解析)时会一直转圈(原 bug：loading 只在成功时才 stop)
+        if (bookRankLoading.isStart()) {
+            bookRankLoading.stop();
+        }
+        if (bookRrefreshLayout.isRefreshing()) {
+            bookRrefreshLayout.finishRefresh(false);
+        }
+        if (bookRrefreshLayout.isLoading()) {
+            bookRrefreshLayout.finishLoadMore(false);
+        }
         if (pageNumber == 1) {
             errorButton.setVisibility(View.VISIBLE);
         }

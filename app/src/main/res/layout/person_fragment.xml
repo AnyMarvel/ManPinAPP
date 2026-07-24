@@ -1,220 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:imageText="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_gravity="center_horizontal"
-    android:background="#fff3f5f9">
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    android:background="#F3F5F9"
+    android:orientation="vertical">
 
-        <com.mp.android.apps.main.home.view.CarouselLayout
-            android:layout_width="match_parent"
-            android:layout_height="230dp">
+    <!-- 头部卡片：浅色底 + 应用图标 + 名称 + 版本，配合深色状态栏图标(不再用突兀的深色大图) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/bg_person_card"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="30dp"
+        android:paddingBottom="28dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp">
 
             <ImageView
+                android:id="@+id/iconImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/person_background"
-                android:scaleType="centerCrop" />
-        </com.mp.android.apps.main.home.view.CarouselLayout>
-        <ImageView
-            android:id="@+id/iconImage"
-            android:layout_width="30.0dip"
-            android:layout_height="30.0dip"
-            android:layout_gravity="end|top"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/launch" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/launch" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="漫品"
+            android:textColor="@color/home_title"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/versionTips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="版本：2.0.0"
-            android:textColor="@color/white"
-            android:textSize="16dp"
-            />
-    </FrameLayout>
+            android:layout_marginTop="6dp"
+            android:text="版本"
+            android:textColor="@color/home_hint"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <!-- 菜单卡片 -->
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="#ffffffff"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/bg_person_card"
         android:orientation="vertical">
+
         <RelativeLayout
             android:id="@+id/jiarushequ"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingLeft="10.0dip"
-            android:paddingTop="16.0dip"
-            android:paddingRight="10.0dip"
-            android:paddingBottom="16.0dip">
+            android:paddingLeft="16dp"
+            android:paddingTop="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="加入社区"
-                android:textColor="@color/mtrl_chip_ripple_color" />
+                android:layout_centerVertical="true"
+                android:text="联系作者"
+                android:textColor="@color/home_title"
+                android:textSize="15sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_gravity="center"
                 android:src="@drawable/entry_arrow" />
         </RelativeLayout>
 
         <View
-            android:layout_width="fill_parent"
-            android:layout_height="1.0dip"
-            android:background="#fff3f5f9" />
-        <RelativeLayout
-            android:id="@+id/shuyuanxuanze"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingLeft="10.0dip"
-            android:paddingTop="16.0dip"
-            android:paddingRight="10.0dip"
-            android:paddingBottom="16.0dip">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="配置书源"
-                android:textColor="@color/mtrl_chip_ripple_color" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:src="@drawable/entry_arrow" />
-        </RelativeLayout>
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1.0dip"
-            android:background="#fff3f5f9" />
-
-        <RelativeLayout
-            android:id="@+id/checkupdate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingLeft="10.0dip"
-            android:paddingTop="16.0dip"
-            android:paddingRight="10.0dip"
-            android:paddingBottom="16.0dip">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="检查更新"
-                android:textColor="@color/mtrl_chip_ripple_color" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:src="@drawable/entry_arrow" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1.0dip"
-            android:background="#fff3f5f9" />
-
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/home_divider" />
 
         <RelativeLayout
             android:id="@+id/kaiyuandizhi"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingLeft="10.0dip"
-            android:paddingTop="16.0dip"
-            android:paddingRight="10.0dip"
-            android:paddingBottom="16.0dip">
+            android:paddingLeft="16dp"
+            android:paddingTop="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:gravity="center"
-                android:singleLine="true"
+                android:layout_centerVertical="true"
                 android:text="开源地址"
-                android:textColor="@color/mtrl_chip_ripple_color" />
+                android:textColor="@color/home_title"
+                android:textSize="15sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_gravity="center"
                 android:src="@drawable/entry_arrow" />
         </RelativeLayout>
+
         <View
-            android:layout_width="fill_parent"
-            android:layout_height="1.0dip"
-            android:background="#fff3f5f9" />
-
-
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/home_divider" />
 
         <RelativeLayout
             android:id="@+id/share_manpin"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingLeft="10.0dip"
-            android:paddingTop="16.0dip"
-            android:paddingRight="10.0dip"
-            android:paddingBottom="16.0dip">
+            android:paddingLeft="16dp"
+            android:paddingTop="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:gravity="center"
-                android:singleLine="true"
+                android:layout_centerVertical="true"
                 android:text="分享漫品"
-                android:textColor="@color/mtrl_chip_ripple_color" />
+                android:textColor="@color/home_title"
+                android:textSize="15sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_gravity="center"
                 android:src="@drawable/entry_arrow" />
         </RelativeLayout>
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1.0dip"
-            android:background="#fff3f5f9" />
-
     </LinearLayout>
 
 </LinearLayout>

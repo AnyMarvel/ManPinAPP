@@ -14,58 +14,80 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <FrameLayout
+        <!-- 书城顶部：搜索栏在最上(与 SearchActivity 搜索框位置对齐，避免点击时跳变) + 下方榜单标题 -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="18dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:layout_marginRight="18dp">
+            android:background="@color/colorWhite"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingTop="12dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="10dp">
 
+            <!-- 醒目胶囊搜索栏：置顶、整条可点，跳转 SearchActivity -->
+            <FrameLayout
+                android:id="@+id/bookr_fragment_search"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="@drawable/bg_home_search_bar"
+                android:clickable="true"
+                android:focusable="true">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_search_gray" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:text="搜索书名、作者，找你想读的书"
+                        android:textColor="@color/home_hint"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- 当前榜单标题，带列表图标提示可点按打开榜单抽屉 -->
             <LinearLayout
                 android:id="@+id/mp_book_rank_list_title_layout"
                 android:layout_width="wrap_content"
-                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="right"
-                    android:background="@drawable/baseline_list_black_48"
-                    android:gravity="center"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
+                android:paddingTop="14dp"
+                android:paddingBottom="2dp">
 
                 <TextView
                     android:id="@+id/mp_book_rank_list_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:text="推荐排行榜"
-                    android:textColor="@color/black"
-                    android:textSize="20dp"
+                    android:textColor="@color/home_title"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:background="@drawable/baseline_list_black_48" />
             </LinearLayout>
-
-
-            <ImageView
-                android:id="@+id/bookr_fragment_search"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="right"
-                android:background="@drawable/im_search_gray"
-                android:gravity="center"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_gravity="bottom"
-                android:background="@color/dim_foreground_material_dark" />
-        </FrameLayout>
+        </LinearLayout>
 
         <FrameLayout
             android:layout_width="match_parent"

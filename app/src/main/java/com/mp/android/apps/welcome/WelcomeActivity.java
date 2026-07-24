@@ -23,7 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.mp.android.apps.R;
 import com.mp.android.apps.main.MainActivity;
-import com.mp.android.apps.basemvplib.IPresenter;
+import com.mp.android.apps.base.IPresenter;
 import com.mp.android.apps.book.base.MBaseActivity;
 import com.mp.android.apps.utils.SharedPreferenceUtil;
 

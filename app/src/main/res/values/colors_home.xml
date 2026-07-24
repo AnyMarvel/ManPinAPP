@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 首页极简黑白灰配色 -->
+    <color name="home_search_bg">#F2F3F5</color>   <!-- 搜索栏浅灰底 -->
+    <color name="home_hint">#9E9E9E</color>        <!-- 占位/次要文字 -->
+    <color name="home_entry_text">#5F6368</color>  <!-- 入口文字深灰 -->
+    <color name="home_title">#1F1F1F</color>       <!-- 标题近黑 -->
+    <color name="home_divider">#EFEFEF</color>     <!-- 极浅分隔线 -->
+</resources>

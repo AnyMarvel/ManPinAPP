@@ -48,32 +48,40 @@ public class ImportBookAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-            ((Viewholder)holder).tvNmae.setText(datas.get(position).getName());
-            ((Viewholder)holder).tvSize.setText(convertByte(datas.get(position).length()));
-            ((Viewholder)holder).tvLoc.setText(datas.get(position).getAbsolutePath().replace(Environment.getExternalStorageDirectory().getAbsolutePath(), "存储空间"));
+        final Viewholder vh = (Viewholder) holder;
+        final File file = datas.get(position);
+        vh.tvNmae.setText(file.getName());
+        vh.tvSize.setText(convertByte(file.length()));
+        vh.tvLoc.setText(file.getAbsolutePath().replace(Environment.getExternalStorageDirectory().getAbsolutePath(), "存储空间"));
 
-            ((Viewholder)holder).scbSelect.setOnCheckedChangeListener(new SmoothCheckBox.OnCheckedChangeListener() {
+        // 复用时恢复勾选态：先摘掉监听避免误触发，再按选中集合还原
+        vh.scbSelect.setOnCheckedChangeListener(null);
+        vh.scbSelect.setChecked(selectDatas.contains(file), false);
+        vh.scbSelect.setOnCheckedChangeListener(new SmoothCheckBox.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SmoothCheckBox checkBox, boolean isChecked) {
+                int pos = vh.getAdapterPosition();
+                if (pos == RecyclerView.NO_POSITION) return;
+                File item = datas.get(pos);
                 if (isChecked) {
-                    selectDatas.add(datas.get(position));
+                    if (!selectDatas.contains(item)) selectDatas.add(item);
                 } else {
-                    selectDatas.remove(datas.get(position));
+                    selectDatas.remove(item);
                 }
                 checkBookListener.checkBook(selectDatas.size());
             }
         });
         if (canCheck) {
-            ((Viewholder)holder).scbSelect.setVisibility(View.VISIBLE);
-            ((Viewholder)holder).llContent.setOnClickListener(new View.OnClickListener() {
+            vh.scbSelect.setVisibility(View.VISIBLE);
+            vh.llContent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((Viewholder)holder).scbSelect.setChecked(!((Viewholder)holder).scbSelect.isChecked(), true);
+                    vh.scbSelect.setChecked(!vh.scbSelect.isChecked(), true);
                 }
             });
         } else {
-            ((Viewholder)holder).scbSelect.setVisibility(View.INVISIBLE);
-            ((Viewholder)holder).llContent.setOnClickListener(null);
+            vh.scbSelect.setVisibility(View.INVISIBLE);
+            vh.llContent.setOnClickListener(null);
         }
     }
 
@@ -82,7 +90,7 @@ public class ImportBookAdapter extends RecyclerView.Adapter {
             Toast.makeText(context, "此图书已存在", Toast.LENGTH_SHORT).show();
         }else {
             datas.add(0,newItem);
-            notifyItemChanged(0);
+            notifyItemInserted(0);
         }
     }
 
@@ -123,19 +131,14 @@ public class ImportBookAdapter extends RecyclerView.Adapter {
 
     public static String convertByte(long size) {
         DecimalFormat df = new DecimalFormat("###.#");
-        float f;
         if (size < 1024) {
-            f = size / 1.0f;
-            return (df.format(new Float(f).doubleValue()) + "B");
+            return df.format((double) size) + "B";
         } else if (size < 1024 * 1024) {
-            f = (float) ((float) size / (float) 1024);
-            return (df.format(new Float(f).doubleValue()) + "KB");
+            return df.format(size / 1024.0) + "KB";
         } else if (size < 1024 * 1024 * 1024) {
-            f = (float) ((float) size / (float) (1024 * 1024));
-            return (df.format(new Float(f).doubleValue()) + "MB");
+            return df.format(size / (1024.0 * 1024)) + "MB";
         } else {
-            f = (float) ((float) size / (float) (1024 * 1024 * 1024));
-            return (df.format(new Float(f).doubleValue()) + "GB");
+            return df.format(size / (1024.0 * 1024 * 1024)) + "GB";
         }
     }
 

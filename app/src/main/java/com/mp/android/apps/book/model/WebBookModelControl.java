@@ -6,13 +6,11 @@ import android.net.Uri;
 
 import com.mp.android.apps.book.bean.SearchBookBean;
 
-import com.mp.android.apps.book.model.impl.ContentLingDianModelImpl;
+import com.mp.android.apps.book.model.impl.Content99wxModelImpl;
 import com.mp.android.apps.book.model.impl.ContentSoDuModelImpl;
-import com.mp.android.apps.book.model.impl.ContentXSZJModelImpl;
-import com.mp.android.apps.book.model.impl.ContentXXBiQuGeModelImpl;
-import com.mp.android.apps.readActivity.bean.BookChapterBean;
-import com.mp.android.apps.readActivity.bean.ChapterInfoBean;
-import com.mp.android.apps.readActivity.bean.CollBookBean;
+import com.mp.android.apps.read.bean.BookChapterBean;
+import com.mp.android.apps.read.bean.ChapterInfoBean;
+import com.mp.android.apps.read.bean.CollBookBean;
 import com.mp.android.apps.utils.Logger;
 import com.mp.android.apps.utils.SharedPreferenceUtil;
 
@@ -66,24 +64,10 @@ public class WebBookModelControl {
      * 增加引擎
      */
     private void initModels() {
-        //只具有搜索功能的下发服务器,为用户点击的上报数据
-        models.add(ContentXSZJModelImpl.getInstance());
+        //书源列表（多源并存，搜索聚合）
         models.add(ContentSoDuModelImpl.getInstance());
-
-
-        //以下源已失效（域名出售/无法访问），停用避免每次搜索空转拖慢速度
-//        models.add(ContentXXBiQuGeModelImpl.getInstance()); //xxbiqudu.com 域名已出售
-//        models.add(ContentLingDianModelImpl.getInstance()); //soudu.org 已失效
-
-
-        //以下源为废弃源
-//        models.add(Content3040ModelImpl.getInstance());
-//        models.add(TXSBookModelImpl.getInstance());
-//        models.add(ContentYb3ModelImpl.getInstance());
-//        models.add(ContentTaduImpl.getInstance());
-
-
-
+        //鸟书网 99wx：全 GET、无验证码、无转码接口
+        models.add(Content99wxModelImpl.getInstance());
     }
 
 

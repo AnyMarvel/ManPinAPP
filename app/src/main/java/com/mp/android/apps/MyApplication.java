@@ -10,10 +10,9 @@ import androidx.multidex.MultiDex;
 import com.mp.android.apps.book.service.DownloadService;
 import com.mp.android.apps.utils.GeneralTools;
 import com.mp.android.apps.utils.Logger;
-import com.umeng.commonsdk.UMConfigure;
+import com.mp.android.apps.utils.crash.CrashHandler;
 
 import java.io.File;
-import java.util.Arrays;
 
 import io.reactivex.functions.Consumer;
 import io.reactivex.plugins.RxJavaPlugins;
@@ -42,10 +41,10 @@ public class MyApplication extends Application {
             }
         }
 
-        UMConfigure.init(this, "6489183fa1a164591b31cc4f"
-                , "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
+        //全局崩溃捕获：将崩溃现场写入本地文件，供"设置 → 崩溃日志"查看与分享
+        CrashHandler.getInstance().init(this);
+
         if (BuildConfig.DEBUG) {
-            UMConfigure.setLogEnabled(true);
             Logger.setDebug(true);
         }
         instance = this;
@@ -65,17 +64,12 @@ public class MyApplication extends Application {
     private void startDownloadService() {
         Intent serviceIntent = new Intent(this, DownloadService.class);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            try {
-                startService(serviceIntent);
-            } catch (Exception e) {
-                Logger.d("startDownloadService", Arrays.toString(e.getStackTrace()));
-                Intent activityIntent = new Intent(this, TranslucentActivity.class);
-                activityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(activityIntent);
-            }
-        } else {
+        //离线下载服务非必需在启动时拉起(下载时由 bindService 按需创建)；
+        //Android 8+ 后台启动服务/活动均受限，失败一律忽略，避免启动崩溃
+        try {
             startService(serviceIntent);
+        } catch (Exception e) {
+            android.util.Log.w("MyApplication", "startDownloadService skipped: " + e.getMessage());
         }
     }
 

@@ -1,7 +1,7 @@
 
 package com.mp.android.apps.book.presenter;
 
-import com.mp.android.apps.basemvplib.IPresenter;
+import com.mp.android.apps.base.IPresenter;
 
 import java.io.File;
 import java.util.List;

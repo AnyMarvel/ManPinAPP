@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- App 专属外部目录下的崩溃日志 -->
+    <external-files-path name="crash" path="crash/" />
+    <!-- App 专属外部目录（兜底分享其它本地文件） -->
+    <external-files-path name="files" path="." />
+    <!-- 内部存储兜底（外部不可用时崩溃日志会落到这里） -->
+    <files-path name="internal_crash" path="crash/" />
+</paths>

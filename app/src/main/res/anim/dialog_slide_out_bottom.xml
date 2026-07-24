@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 底部弹窗滑出 -->
+<translate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="220"
+    android:fromYDelta="0"
+    android:interpolator="@android:anim/accelerate_interpolator"
+    android:toYDelta="100%" />

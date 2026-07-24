@@ -1,9 +1,9 @@
 package com.mp.android.apps.book.model;
 
 import com.mp.android.apps.book.bean.SearchBookBean;
-import com.mp.android.apps.readActivity.bean.BookChapterBean;
-import com.mp.android.apps.readActivity.bean.ChapterInfoBean;
-import com.mp.android.apps.readActivity.bean.CollBookBean;
+import com.mp.android.apps.read.bean.BookChapterBean;
+import com.mp.android.apps.read.bean.ChapterInfoBean;
+import com.mp.android.apps.read.bean.CollBookBean;
 
 import java.util.List;
 

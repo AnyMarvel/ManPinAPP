@@ -424,3 +424,17 @@ public static java.lang.String TABLENAME;
 
 -keep class com.efs.** { *; }
 -keep class com.mp.android.apps.downloadUtils.bean.**{*;}
+
+# ---- R8 缺失类告警抑制 ----
+# fastjson 的可选集成点(Spring/JAX-RS/Joda/Moneta/AWT/Jersey/SpringFox)在 Android 上从不使用；
+# AutoValue 为 trello navi2 的编译期注解。以下均为编译期缺失、运行期不触及，安全忽略。
+-dontwarn com.google.auto.value.**
+-dontwarn java.awt.**
+-dontwarn javax.money.**
+-dontwarn javax.servlet.**
+-dontwarn javax.ws.rs.**
+-dontwarn org.glassfish.jersey.**
+-dontwarn org.javamoney.**
+-dontwarn org.joda.time.**
+-dontwarn org.springframework.**
+-dontwarn springfox.documentation.**

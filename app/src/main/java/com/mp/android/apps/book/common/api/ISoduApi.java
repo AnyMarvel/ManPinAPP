@@ -17,7 +17,7 @@ public interface ISoduApi {
     @FormUrlEncoded
     @POST("/search.html")
     @Headers({"Accept:text/html,application/xhtml+xml,application/xml",
-            "User-Agent:Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3",
+            "User-Agent:Mozilla/5.0 (Linux; Android 12; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36",
             "Accept-Charset:UTF-8",
             "Connection:close",
             "Cache-Control:no-cache"})
@@ -26,7 +26,7 @@ public interface ISoduApi {
 
     @GET
     @Headers({"Accept:text/html,application/xhtml+xml,application/xml",
-            "User-Agent:Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3",
+            "User-Agent:Mozilla/5.0 (Linux; Android 12; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36",
             "Accept-Charset:UTF-8",
             "Connection:close",
             "Cache-Control:no-cache"})
@@ -35,7 +35,7 @@ public interface ISoduApi {
     //新版本使用
     @GET
     @Headers({"Accept:text/html,application/xhtml+xml,application/xml",
-            "User-Agent:Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3",
+            "User-Agent:Mozilla/5.0 (Linux; Android 12; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36",
             "Accept-Charset:UTF-8",
             "Connection:close",
             "Cache-Control:no-cache"})
@@ -44,7 +44,7 @@ public interface ISoduApi {
     @FormUrlEncoded
     @POST("/novelsearch/chapter/transcode.html")
     @Headers({"Accept:text/html,application/xhtml+xml,application/xml",
-            "User-Agent:Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3",
+            "User-Agent:Mozilla/5.0 (Linux; Android 12; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36",
             "Accept-Charset:UTF-8",
             "Connection:close",
             "Cache-Control:no-cache"})

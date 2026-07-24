@@ -495,6 +495,17 @@ public class SearchActivity extends MBaseActivity<ISearchPresenter> implements I
     }
 
     @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        //搜索页顶部为白色，状态栏图标需为深色才可见（ImmerseLinearLayout 只透明化，不管图标明暗）
+        if (hasFocus && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decor = getWindow().getDecorView();
+            decor.setSystemUiVisibility(
+                    decor.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+    }
+
+    @Override
     public EditText getEdtContent() {
         return edtContent;
     }

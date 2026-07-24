@@ -9,7 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,9 +20,10 @@ import com.mp.android.apps.book.presenter.IDownloadBookPresenter;
 import com.mp.android.apps.book.presenter.impl.DownloadBookPresenterImpl;
 import com.mp.android.apps.book.view.IDownloadBookView;
 import com.mp.android.apps.book.view.adapter.DownloadBookAdapter;
-import com.mp.android.apps.readActivity.ReadActivity;
-import com.mp.android.apps.readActivity.bean.CollBookBean;
-import com.mp.android.apps.readActivity.local.BookRepository;
+import com.mp.android.apps.read.ReadActivity;
+import com.mp.android.apps.read.bean.CollBookBean;
+import com.mp.android.apps.read.local.BookRepository;
+import com.mp.android.apps.utils.ImmersiveUtils;
 
 import java.util.List;
 
@@ -49,6 +49,7 @@ public class DownloadBookActivity extends MBaseActivity<IDownloadBookPresenter> 
 
     @Override
     protected void onCreateActivity() {
+        ImmersiveUtils.setLightStatusBar(this);
         setContentView(R.layout.mp_book_download_book_activity);
     }
 
@@ -67,7 +68,7 @@ public class DownloadBookActivity extends MBaseActivity<IDownloadBookPresenter> 
 
         downloadRecycle.setLayoutManager(layoutManager);
         downloadRecycle.setItemAnimator(new DefaultItemAnimator());
-        downloadRecycle.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        // 列表项布局自带底部分割线，无需再叠加 DividerItemDecoration，避免双线
 
         downloadBookAdapter = new DownloadBookAdapter(this, downloadTaskBeanList, new DownloadBookAdapter.ItemClickListener() {
             @Override

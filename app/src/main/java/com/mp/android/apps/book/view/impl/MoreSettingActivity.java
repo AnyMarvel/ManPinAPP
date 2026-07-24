@@ -14,11 +14,11 @@ import com.mp.android.apps.book.presenter.impl.MoreSettingPresenterImpl;
 import com.mp.android.apps.book.view.IMoreSettingView;
 import com.mp.android.apps.book.view.adapter.MoreSettingAdapter;
 import com.mp.android.apps.utils.SpacesItemDecoration;
-import com.mp.android.apps.readActivity.local.ReadSettingManager;
+import com.mp.android.apps.read.local.ReadSettingManager;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
-import static com.mp.android.apps.readActivity.local.ReadSettingManager.SHARED_READ_VOLUME_TURN_PAGE;
+import static com.mp.android.apps.read.local.ReadSettingManager.SHARED_READ_VOLUME_TURN_PAGE;
 
 public class MoreSettingActivity extends MBaseActivity<IMoreSettingPresenter> implements IMoreSettingView, MoreSettingAdapter.IMoreSettingClickListener {
 
@@ -40,6 +40,7 @@ public class MoreSettingActivity extends MBaseActivity<IMoreSettingPresenter> im
 
     @Override
     protected void onCreateActivity() {
+        com.mp.android.apps.utils.ImmersiveUtils.setLightStatusBar(this);
         setContentView(R.layout.mp_book_more_setting_layout);
     }
 

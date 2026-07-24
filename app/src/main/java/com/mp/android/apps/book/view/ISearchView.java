@@ -3,7 +3,7 @@ package com.mp.android.apps.book.view;
 
 import android.widget.EditText;
 
-import com.mp.android.apps.basemvplib.IView;
+import com.mp.android.apps.base.IView;
 import com.mp.android.apps.book.bean.SearchBookBean;
 import com.mp.android.apps.book.bean.SearchHistoryBean;
 import com.mp.android.apps.book.view.adapter.SearchBookAdapter;

@@ -2,7 +2,9 @@
 package com.mp.android.apps.book.view.impl;
 
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +19,7 @@ import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.mp.android.apps.R;
-import com.mp.android.apps.basemvplib.impl.BaseFragment;
+import com.mp.android.apps.base.impl.BaseFragment;
 import com.mp.android.apps.book.BitIntentDataManager;
 import com.mp.android.apps.book.common.RxBusTag;
 import com.mp.android.apps.book.presenter.IMainPresenter;
@@ -33,14 +35,13 @@ import com.mp.android.apps.book.view.impl.ImportBookActivity;
 import com.mp.android.apps.book.widget.refreshview.OnRefreshWithProgressListener;
 import com.mp.android.apps.book.widget.refreshview.RefreshRecyclerView;
 import com.mp.android.apps.main.MainActivity;
-import com.mp.android.apps.main.config.AppConfigUtils;
-import com.mp.android.apps.readActivity.ReadActivity;
-import com.mp.android.apps.readActivity.bean.CollBookBean;
+import com.mp.android.apps.read.ReadActivity;
+import com.mp.android.apps.read.bean.CollBookBean;
 import com.victor.loading.rotate.RotateLoading;
 
 import java.util.List;
 
-import static com.mp.android.apps.basemvplib.impl.BaseActivity.start_share_ele;
+import static com.mp.android.apps.base.impl.BaseActivity.start_share_ele;
 
 public class BookCollectionFragment extends BaseFragment<IMainPresenter> implements IMainView {
 
@@ -87,15 +88,9 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
 
         rlLoading = (RotateLoading) view.findViewById(R.id.rl_loading);
 
-        if (AppConfigUtils.business){
-            ibSettings.setVisibility(View.GONE);
-            ibLibrary.setVisibility(View.GONE);
-            ibDownload.setVisibility(View.GONE);
-        }else {
-            ibSettings.setVisibility(View.VISIBLE);
-            ibLibrary.setVisibility(View.VISIBLE);
-            ibDownload.setVisibility(View.VISIBLE);
-        }
+        ibSettings.setVisibility(View.VISIBLE);
+        ibLibrary.setVisibility(View.VISIBLE);
+        ibDownload.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -105,7 +100,7 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
         ibSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"sssssss",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getActivity(), CrashLogActivity.class));
             }
         });
         ibDownload.setOnClickListener(new View.OnClickListener() {
@@ -136,20 +131,13 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
         bookShelfAdapter.setItemClickListener(new BookShelfAdapter.OnItemClickListener() {
             @Override
             public void toSearch() {
-                if (AppConfigUtils.business){
-                    startActivityByAnim(new Intent(getActivity(), ImportBookActivity.class), 0, 0);
-                }else {
-                    //点击去选书
-                    if (mPresenter.bookSourceSwitch()){
-                        ((MainActivity) requireActivity()).showBookStore();
-                    }
-                    else{
-                        startActivityByAnim(new Intent(getActivity(), BookSourceGuideActivity.class), 0, 0);
-                    }
+                //点击去选书
+                if (mPresenter.bookSourceSwitch()){
+                    ((MainActivity) requireActivity()).showBookStore();
                 }
-
-
-
+                else{
+                    startActivityByAnim(new Intent(getActivity(), BookSourceGuideActivity.class), 0, 0);
+                }
             }
 
             @Override
@@ -183,14 +171,47 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
 
             @Override
             public void startRefresh() {
+                //手动下拉刷新：联网检查更新，并记录检查时间(用于首次进入的自动检查节流)
+                markUpdateChecked();
                 mPresenter.queryBookShelf(true);
             }
         });
     }
 
+    /** 自动检查更新的节流间隔：距上次检查超过该时长，进入书架才自动联网检查一次 */
+    private static final long AUTO_CHECK_INTERVAL = 6 * 60 * 60 * 1000L; // 6小时
+    private static final String SP_SHELF = "shelf_pref";
+    private static final String KEY_LAST_CHECK = "last_shelf_update_check";
+
     @Override
     protected void firstRequest() {
-        mPresenter.queryBookShelf(false);
+        //首次进入书架：距上次检查超过节流间隔则自动联网检查一次，否则仅读本地
+        if (shouldAutoCheckUpdate()) {
+            mPresenter.queryBookShelf(true);
+        } else {
+            mPresenter.queryBookShelf(false);
+        }
+    }
+
+    /** 若距上次检查已超过节流间隔，则记录本次时间并返回 true（表示可自动检查） */
+    private boolean shouldAutoCheckUpdate() {
+        Context ctx = getContext();
+        if (ctx == null) return false;
+        SharedPreferences sp = ctx.getSharedPreferences(SP_SHELF, Context.MODE_PRIVATE);
+        long last = sp.getLong(KEY_LAST_CHECK, 0L);
+        if (System.currentTimeMillis() - last >= AUTO_CHECK_INTERVAL) {
+            markUpdateChecked();
+            return true;
+        }
+        return false;
+    }
+
+    /** 记录一次"检查更新"的时间 */
+    private void markUpdateChecked() {
+        Context ctx = getContext();
+        if (ctx == null) return;
+        ctx.getSharedPreferences(SP_SHELF, Context.MODE_PRIVATE)
+                .edit().putLong(KEY_LAST_CHECK, System.currentTimeMillis()).apply();
     }
 
 
@@ -208,8 +229,9 @@ public class BookCollectionFragment extends BaseFragment<IMainPresenter> impleme
     @Override
     public void onResume() {
         super.onResume();
-        //onresume查询当前书架状态
-        mPresenter.queryBookShelf(true);
+        //onResume 仅从本地重载书架(不联网)，避免每次返回都对全部书发起更新检查；
+        //联网检查更新只在用户主动下拉刷新时触发
+        mPresenter.queryBookShelf(false);
     }
 
     @Override

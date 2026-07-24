@@ -5,175 +5,164 @@
     android:background="#ffffff">
 
     <FrameLayout
+        android:id="@+id/fl_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_ib_pre2"
-        android:clickable="true"
-        android:paddingLeft="10dp"
-        android:id="@+id/fl_content">
+        android:clickable="true">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp"
+            android:paddingTop="12dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="12dp">
 
             <ImageView
                 android:id="@+id/iv_cover"
-                android:layout_width="60dp"
-                android:layout_height="match_parent"
-                android:scaleType="fitCenter"
+                android:layout_width="58dp"
+                android:layout_height="78dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/img_cover_default"
                 android:transitionName="img_cover" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:ellipsize="end"
-                    android:lines="1"
-                    android:text="斗破苍穹"
-                    android:textColor="#767676"
+                    android:singleLine="true"
+                    android:text="书名"
+                    android:textColor="#333333"
                     android:textSize="16sp"
-                    android:layout_marginBottom="3dp"/>
+                    android:textStyle="bold" />
 
+                <!-- 作者 + 来源 -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"/>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginBottom="3dp">
-
-                            <TextView
-                                android:id="@+id/tv_author"
-                                android:layout_width="wrap_content"
-                                android:maxWidth="90dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:lines="1"
-                                android:ellipsize="end"
-                                android:text="柳下惠"
-                                android:textColor="#aaaaaa"
-                                android:textSize="12sp" />
-                            <TextView
-                                android:id="@+id/tv_origin"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="5dp"
-                                android:lines="1"
-                                android:ellipsize="end"
-                                android:textColor="#aaaaaa"
-                                android:textSize="10sp" />
-                        </LinearLayout>
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"/>
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-                            <TextView
-                                android:id="@+id/tv_state"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:background="@drawable/shape_search_history_roundrect"
-                                android:paddingBottom="0.4dp"
-                                android:layout_marginRight="5dp"
-                                android:paddingLeft="2dp"
-                                android:paddingRight="2dp"
-                                android:paddingTop="0.4dp"
-                                android:text="连载"
-                                android:textColor="#ffffff"
-                                android:textSize="12sp" />
-                            <TextView
-                                android:id="@+id/tv_kind"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginRight="5dp"
-                                android:background="@drawable/shape_search_history_roundrect"
-                                android:lines="1"
-                                android:paddingBottom="0.4dp"
-                                android:paddingLeft="2dp"
-                                android:paddingRight="2dp"
-                                android:paddingTop="0.4dp"
-                                android:text="现代都市"
-                                android:textColor="#ffffff"
-                                android:textSize="12sp" />
-                            <TextView
-                                android:id="@+id/tv_words"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:background="@drawable/shape_search_history_roundrect"
-                                android:lines="1"
-                                android:paddingBottom="0.4dp"
-                                android:paddingLeft="2dp"
-                                android:paddingRight="2dp"
-                                android:paddingTop="0.4dp"
-                                android:text="1.2万字"
-                                android:textColor="#ffffff"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"/>
-                        <TextView
-                            android:id="@+id/tv_lastest"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:lines="1"
-                            android:text="最新章节:121章 成神"
-                            android:textColor="#767676"
-                            android:textSize="14sp" />
-                    </LinearLayout>
                     <TextView
-                        android:id="@+id/tv_addshelf"
-                        android:layout_width="60dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="top"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/selector_tv_addshelf"
-                        android:gravity="center"
-                        android:lines="1"
-                        android:text="+书架"
-                        android:textColor="@drawable/selector_tv_addshelf_text"
-                        android:textSize="14sp" />
+                        android:id="@+id/tv_author"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxWidth="150dp"
+                        android:singleLine="true"
+                        android:text="作者"
+                        android:textColor="#999999"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_origin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textColor="#bbbbbb"
+                        android:textSize="11sp" />
                 </LinearLayout>
+
+                <!-- 标签行：连载/分类/字数，均为可选，空则 GONE，自适应不挤压 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_state"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="6dp"
+                        android:background="@drawable/shape_search_history_roundrect"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="1dp"
+                        android:paddingRight="5dp"
+                        android:paddingBottom="1dp"
+                        android:singleLine="true"
+                        android:text="连载"
+                        android:textColor="#ffffff"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/tv_kind"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="6dp"
+                        android:background="@drawable/shape_search_history_roundrect"
+                        android:ellipsize="end"
+                        android:maxWidth="120dp"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="1dp"
+                        android:paddingRight="5dp"
+                        android:paddingBottom="1dp"
+                        android:singleLine="true"
+                        android:text="分类"
+                        android:textColor="#ffffff"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/tv_words"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_search_history_roundrect"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="1dp"
+                        android:paddingRight="5dp"
+                        android:paddingBottom="1dp"
+                        android:singleLine="true"
+                        android:text="字数"
+                        android:textColor="#ffffff"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_lastest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="最新章节"
+                    android:textColor="#666666"
+                    android:textSize="13sp" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_addshelf"
+                android:layout_width="62dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/selector_tv_addshelf"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="+添加"
+                android:textColor="@drawable/selector_tv_addshelf_text"
+                android:textSize="14sp" />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_gravity="bottom"
-            android:background="#c1c1c1" />
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="#EEEEEE" />
     </FrameLayout>
 
 </FrameLayout>

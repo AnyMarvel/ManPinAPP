@@ -1,113 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="#f1f1f1"
-    android:id="@+id/ll_content">
+    android:background="@color/bg_library"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <!-- 顶部栏 -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="52dp"
         android:background="#ffffff"
-        android:orientation="horizontal">
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingRight="12dp">
+
         <ImageButton
             android:id="@+id/iv_return"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/selector_icon_return"
             android:background="@drawable/bg_ib_pre"
             android:clickable="true"
-            android:layout_gravity="center_vertical"/>
+            android:src="@drawable/selector_icon_return" />
+
         <TextView
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="45dp"
+            android:layout_marginLeft="4dp"
             android:singleLine="true"
-            android:textSize="16sp"
             android:text="本地文件"
-            android:textColor="#343434"
-            android:gravity="center|left"/>
+            android:textColor="#333333"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/scan_tv_addshelf_local"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="34dp"
+            android:background="@drawable/bg_dialog_btn_secondary"
+            android:gravity="center"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp"
             android:text="手动添加"
-            android:layout_marginRight="15dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/bg_ib_pre"
-            android:textColor="#767676"
-            android:textSize="14sp"
-            android:visibility="visible"/>
+            android:textColor="#666666"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/scan_tv_addshelf"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="34dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/bg_dialog_btn_primary"
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:text="导入"
-            android:layout_marginRight="15dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/bg_ib_pre"
-            android:textColor="#767676"
+            android:textColor="#ffffff"
             android:textSize="14sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#EEEEEE" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcv_books"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
-            android:scrollbarStyle="outsideOverlay"/>
+            android:scrollbarStyle="outsideOverlay" />
+
         <View
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@drawable/bg_shadow"
-            android:layout_gravity="top"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@drawable/bg_shadow2"
-            android:layout_gravity="bottom"/>
+            android:layout_height="16dp"
+            android:layout_gravity="top"
+            android:background="@drawable/bg_shadow" />
     </FrameLayout>
+
+    <!-- 底部智能扫描栏 -->
     <FrameLayout
         android:id="@+id/scan_content_layout"
         android:layout_width="match_parent"
-        android:layout_height="48dp">
+        android:layout_height="50dp">
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#ffffff">
+
             <com.victor.loading.rotate.RotateLoading
                 android:id="@+id/rl_loading"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                app:loading_width="2dp"
-                app:loading_color="@color/tv_text_addshelf_pre"
+                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
-                android:layout_gravity="center_vertical"/>
+                app:loading_color="@color/tv_text_addshelf_pre"
+                app:loading_width="2dp" />
+
             <TextView
                 android:id="@+id/tv_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textColor="@color/tv_text_addshelf_pre"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
         </FrameLayout>
+
         <TextView
             android:id="@+id/tv_scan"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/selector_importbook_btn_bg"
             android:clickable="true"
-            android:textColor="#ffffff"
-            android:textSize="16sp"
+            android:gravity="center"
             android:text="智能扫描"
-            android:gravity="center"/>
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
     </FrameLayout>
 </LinearLayout>

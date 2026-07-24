@@ -47,7 +47,7 @@
 
         <activity android:name=".book.view.impl.MoreSettingActivity"/>
         <activity
-            android:name=".readActivity.ReadActivity"
+            android:name=".read.ReadActivity"
             android:resizeableActivity="true"
             tools:targetApi="n" />
 
@@ -56,6 +56,7 @@
 
 
         <activity android:name=".book.view.impl.DownloadBookActivity" />
+        <activity android:name=".book.view.impl.CrashLogActivity" />
         <activity android:name=".TranslucentActivity" />
         <activity
             android:name=".book.view.impl.SearchActivity"
@@ -91,6 +92,17 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
+        </provider>
+
+        <!-- 用于分享崩溃日志等本地文件 -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
         </provider>
 
     </application>

@@ -1,66 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="81dp"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical">
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@color/white"
-        android:orientation="horizontal">
-
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
 
         <ImageView
             android:id="@+id/iv_cover"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp"
+            android:layout_width="52dp"
+            android:layout_height="70dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/img_cover_default" />
 
         <LinearLayout
-            android:layout_width="213dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="小说名称设置"
+                android:text="小说名称"
                 android:textColor="@color/tv_btn_black"
-                android:textSize="13sp" />
-
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/tv_chapter_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="6dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="第一千二百章，内容测试"
+                android:text="章节名称"
                 android:textColor="@color/tv_btn_normal_black"
-                android:textSize="11sp" />
-
+                android:textSize="12sp" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/tv_progresss"
-            android:layout_width="70dp"
+            android:layout_width="64dp"
             android:layout_height="30dp"
-            android:layout_gravity="right|center"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/selector_bg_download_cancel"
             android:clickable="false"
             android:gravity="center"
@@ -72,11 +66,9 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="#C8C8C8" />
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:background="#EEEEEE" />
 
 </LinearLayout>
-
-

@@ -9,8 +9,8 @@ android {
         //Android 11 高版本 出现外部存储无法访问的问题
         //https://blog.csdn.net/shellcodelw/article/details/122718045
         targetSdkVersion 28
-        versionCode 51
-        versionName "3.0.1"
+        versionCode 52
+        versionName "4.0.0"
         multiDexEnabled true
         multiDexKeepProguard file("multidexKeep.pro")
     }
